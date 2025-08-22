@@ -1,50 +1,48 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-08-22T01:47:27.893Z",
+  "createdAt": "2025-08-22T12:03:43.704Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 0.8260869565217391,
+    "recall": 0.9047619047619048,
+    "precision": 0.9047619047619048
   },
   "counts": {
-    "gold": 20,
-    "pred": 20,
-    "intersection": 15,
-    "union": 25,
-    "both": 15,
-    "predOnly": 5,
-    "goldOnly": 5
+    "gold": 21,
+    "pred": 21,
+    "intersection": 19,
+    "union": 23,
+    "both": 19,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "modelType=cox",
       "stratified=true",
       "useCovariates=false",
       "inversePtWeighting=false",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
-      "firstExposureOnly=true",
-      "censorAtNewRiskWindow=true",
       "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
-      "firstExposureOnly=false",
-      "censorAtNewRiskWindow=false",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "studyPeriods:{studyEndDate=20151130|studyStartDate=20010101}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ]
@@ -89,6 +87,10 @@
     },
     "propensityScoreAdjustment": {
       "psSettings": [
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
         {
           "matchOnPsArgs": {
             "maxRatio": 1,
@@ -170,11 +172,7 @@
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Sentinel 31 covariates"
-        },
-        {
-          "id": null,
-          "name": "Recent dementia diagnosis"
+          "name": ""
         }
       ],
       "conceptsToExclude": [
@@ -188,6 +186,10 @@
       "studyPeriods": [
         {
           "studyStartDate": "20010101",
+          "studyEndDate": "20171231"
+        },
+        {
+          "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
       ],
@@ -195,15 +197,15 @@
     },
     "createStudyPopArgs": {
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (start day after cohort entry until treatment discontinuation/switch, outcome, end of enrollment, or end of study)",
+          "description": "On-treatment",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -220,7 +222,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication (1:1 matching on PS from Sentinel 31 covariates)",
+          "description": "Sentinel PS 1:1 matching (caliper 0.05 on PS scale)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -229,7 +231,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted large-scale regularized PS (LASSO) with 1:10 variable ratio matching",
+          "description": "Adapted PS 1:10 matching (0.2 SD of logit PS caliper)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

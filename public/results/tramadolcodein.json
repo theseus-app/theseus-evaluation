@@ -1,28 +1,30 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-08-22T01:49:09.024Z",
+  "createdAt": "2025-08-22T12:08:00.438Z",
   "metrics": {
-    "jaccard": 0.5652173913043478,
-    "recall": 0.7222222222222222,
-    "precision": 0.7222222222222222
+    "jaccard": 0.7142857142857143,
+    "recall": 0.8333333333333334,
+    "precision": 0.8333333333333334
   },
   "counts": {
     "gold": 18,
     "pred": 18,
-    "intersection": 13,
-    "union": 23,
-    "both": 13,
-    "predOnly": 5,
-    "goldOnly": 5
+    "intersection": 15,
+    "union": 21,
+    "both": 15,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=365",
       "modelType=cox",
       "useCovariates=false",
       "inversePtWeighting=false",
@@ -33,16 +35,12 @@
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
-      "firstExposureOnly=true",
-      "washoutPeriod=365",
-      "censorAtNewRiskWindow=true",
+      "priorOutcomeLookBack=99999",
       "stratified=true",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=0|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=0|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "firstExposureOnly=false",
-      "washoutPeriod=0",
-      "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=365",
       "stratified=false",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=9999|riskWindowStart=0|startAnchor=cohort start}"
     ]
@@ -130,7 +128,7 @@
     }
   },
   "predJson": {
-    "name": "Target vs Comparator - OT and ITT, 365d washout",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -180,15 +178,15 @@
     },
     "createStudyPopArgs": {
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
-      "washoutPeriod": 365,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 365,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (OT): from index to end of treatment (based on days' supply), allowing up to 30-day gaps; censored at death, DB exit, age 89, 365 days from index, or exposure to the other opioid of interest",
+          "description": "On-treatment (OT)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -196,10 +194,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat (ITT): from index until death, DB exit, or outcome (up to 365 days)",
+          "description": "Intent-to-treat (ITT)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -208,7 +206,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 greedy matching, caliper 0.2 SD (logit PS)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

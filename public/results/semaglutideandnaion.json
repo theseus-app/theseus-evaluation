@@ -1,31 +1,33 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-08-22T01:46:35.739Z",
+  "createdAt": "2025-08-22T12:02:21.310Z",
   "metrics": {
-    "jaccard": 0.5416666666666666,
-    "recall": 0.6842105263157895,
-    "precision": 0.7222222222222222
+    "jaccard": 0.6818181818181818,
+    "recall": 0.7894736842105263,
+    "precision": 0.8333333333333334
   },
   "counts": {
     "gold": 19,
     "pred": 18,
-    "intersection": 13,
-    "union": 24,
-    "both": 13,
-    "predOnly": 5,
-    "goldOnly": 6
+    "intersection": 15,
+    "union": 22,
+    "both": 15,
+    "predOnly": 3,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
-      "washoutPeriod=365",
+      "firstExposureOnly=false",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "modelType=cox",
+      "stratified=false",
+      "useCovariates=false",
       "inversePtWeighting=false",
       "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
@@ -33,16 +35,12 @@
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
-      "firstExposureOnly=true",
-      "stratified=false",
-      "useCovariates=false",
+      "washoutPeriod=0",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
-      "firstExposureOnly=false",
-      "stratified=true",
-      "useCovariates=true",
+      "washoutPeriod=365",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":false,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=false|maxCohortSizeForFitting=250000}"
@@ -52,7 +50,7 @@
     "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": false,
-    "fitOutcomeModelArgs": false
+    "fitOutcomeModelArgs": true
   },
   "goldJson": {
     "getDbCohortMethodDataArgs": {
@@ -120,8 +118,8 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
-      "useCovariates": true,
+      "stratified": false,
+      "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {
         "priorType": "laplace",
@@ -139,20 +137,20 @@
     }
   },
   "predJson": {
-    "name": "Effect of T2D medication initiators on NAION (new-user, PS-matched)",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Initiators of target T2D medication (e.g., semaglutide)"
+        "name": "Semaglutide new users with T2D (>=18)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Initiators of comparator T2D medication (e.g., dulaglutide)"
+        "name": "Dulaglutide new users with T2D (>=18)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION (non-arteritic anterior ischemic optic neuropathy)"
+          "name": "Non-arteritic anterior ischemic optic neuropathy (NAION)"
         }
       ]
     },
@@ -161,8 +159,18 @@
       "name": ""
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -175,15 +183,15 @@
     },
     "createStudyPopArgs": {
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
-      "washoutPeriod": 365,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: from initiation until end of continuous exposure (gap > 30 days) or end of observation",
+          "description": "On-treatment: cohort start (initiation) to cohort end (end of continuous exposure)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -195,7 +203,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching",
+          "description": "PS 1",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

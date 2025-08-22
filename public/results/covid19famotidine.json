@@ -1,7 +1,7 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2025-08-22T01:44:59.604Z",
+  "createdAt": "2025-08-22T11:56:48.312Z",
   "metrics": {
     "jaccard": 0.9,
     "recall": 0.9473684210526315,
@@ -25,7 +25,6 @@
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=30",
       "modelType=cox",
       "stratified=true",
       "useCovariates=false",
@@ -34,20 +33,21 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}",
       "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
-      "createPsArgs:{Control={\"cvRepetitions\":1,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+      "priorOutcomeLookBack=99999"
     ],
     "goldJsonOnly": [
-      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+      "priorOutcomeLookBack=30"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "fitOutcomeModelArgs": true
   },
   "goldJson": {
@@ -135,7 +135,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation (Feb-May 2020)",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -166,7 +166,7 @@
       "conceptsToExclude": [
         {
           "id": null,
-          "name": "Intensive services (mechanical ventilation, tracheostomy, extracorporeal membrane oxygenation)"
+          "name": ""
         }
       ]
     },
@@ -186,10 +186,10 @@
       "removeDuplicateSubjects": "keep all",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 30,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Intention-to-treat: 1 to 30 days after admission",
+          "description": "ITT: 1 to 30 days after admission",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
@@ -201,7 +201,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS stratification (5 strata)",
+          "description": "Main: 5-strata PS",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -209,7 +209,7 @@
           }
         },
         {
-          "description": "PS matching (1:1) sensitivity",
+          "description": "Sensitivity: 1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -229,7 +229,7 @@
           "tolerance": 2e-7,
           "cvType": "auto",
           "fold": 10,
-          "cvRepetitions": 1,
+          "cvRepetitions": 10,
           "noiseLevel": "silent",
           "resetCoefficients": true,
           "startingVariance": 0.01

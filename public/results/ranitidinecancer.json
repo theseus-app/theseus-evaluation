@@ -1,53 +1,56 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-08-22T01:45:46.958Z",
+  "createdAt": "2025-08-22T11:59:11.849Z",
   "metrics": {
-    "jaccard": 0.7894736842105263,
-    "recall": 0.8823529411764706,
-    "precision": 0.8823529411764706
+    "jaccard": 0.5454545454545454,
+    "recall": 0.7058823529411765,
+    "precision": 0.7058823529411765
   },
   "counts": {
     "gold": 17,
     "pred": 17,
-    "intersection": 15,
-    "union": 19,
-    "both": 15,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 12,
+    "union": 22,
+    "both": 12,
+    "predOnly": 5,
+    "goldOnly": 5
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
       "firstExposureOnly=false",
-      "washoutPeriod=365",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "modelType=cox",
-      "stratified=false",
       "useCovariates=false",
       "inversePtWeighting=false",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
-      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}",
       "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
+      "washoutPeriod=0",
       "priorOutcomeLookBack=99999",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
+      "stratified=true",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
+      "createPsArgs:{Control={\"cvRepetitions\":1,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
+      "washoutPeriod=365",
       "priorOutcomeLookBack=365",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=9999|riskWindowStart=365|startAnchor=cohort start}"
+      "stratified=false",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=9999|riskWindowStart=365|startAnchor=cohort start}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": null,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": true,
-    "fitOutcomeModelArgs": true
+    "propensityScoreAdjustment": false,
+    "fitOutcomeModelArgs": false
   },
   "goldJson": {
     "maxCohortSize": 0,
@@ -119,15 +122,15 @@
     }
   },
   "predJson": {
-    "name": "Ranitidine population-level study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ranitidine users >30 days, age >=20, 365d prior observation, exclude prior cancer and other H2RA exposure within 365d"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort (PS-matched 1:1)"
+        "name": ""
       },
       "outcomeCohort": [
         {
@@ -150,11 +153,7 @@
       "conceptsToExclude": [
         {
           "id": null,
-          "name": "History of cancer"
-        },
-        {
-          "id": null,
-          "name": "Other H2RA exposure within 365 days prior to cohort entry"
+          "name": ""
         }
       ]
     },
@@ -170,7 +169,7 @@
     "createStudyPopArgs": {
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 365,
+      "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
@@ -189,7 +188,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching (caliper 0.2 SD, standardized logit)",
+          "description": "1:1 PS matching, caliper 0.2 SDs of logit(PS)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -209,7 +208,7 @@
           "tolerance": 2e-7,
           "cvType": "auto",
           "fold": 10,
-          "cvRepetitions": 10,
+          "cvRepetitions": 1,
           "noiseLevel": "silent",
           "resetCoefficients": true,
           "startingVariance": 0.01
@@ -218,7 +217,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

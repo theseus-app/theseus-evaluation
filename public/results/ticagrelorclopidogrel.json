@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-08-22T01:48:16.074Z",
+  "createdAt": "2025-08-22T12:05:17.276Z",
   "metrics": {
     "jaccard": 0.7692307692307693,
     "recall": 0.8695652173913043,
@@ -19,8 +19,8 @@
   "details": {
     "bothJson": [
       "maxCohortSize=0",
+      "restrictToCommonPeriod=false",
       "firstExposureOnly=false",
-      "washoutPeriod=365",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
@@ -40,12 +40,12 @@
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
-      "restrictToCommonPeriod=true",
+      "washoutPeriod=0",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "restrictToCommonPeriod=false",
+      "washoutPeriod=365",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=0|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=0|startAnchor=cohort start}"
     ]
@@ -216,16 +216,16 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "restrictToCommonPeriod": true,
+      "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 365,
+      "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-year (primary) - from 1 day after index to 365 days",
+          "description": "1-year ITT",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -233,7 +233,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "5-year - from 1 day after index to 1825 days",
+          "description": "5-year ITT",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -241,7 +241,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment (allowing 7-day gap) - from 1 day after index until end of persistent exposure",
+          "description": "On-treatment (1 day after index to end of exposure; 7-day gap allowed)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -253,7 +253,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 greedy propensity score matching",
+          "description": "1:1 greedy PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -262,7 +262,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Variable-ratio propensity score matching (maximum ratio 10)",
+          "description": "Variable-ratio PS matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -271,7 +271,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Propensity score stratification (deciles)",
+          "description": "PS stratification (deciles)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,
