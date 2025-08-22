@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import OpenAI from "openai";
 
-const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
-const OPENAI_API_KEY = 'your api key'
+const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "CreateStrategusAnalysisSpecification_template.R");
+const OPENAI_API_KEY = 'your_api_key'
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 /** Remove code fences (```lang ... ```) from LLM outputs. */
 export function stripCodeFences(text: string): string {

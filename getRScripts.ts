@@ -108,12 +108,16 @@ export async function getRScripts(): Promise<{
     const results: PerCase[] = [];
     for (const p of pairs) {
         const caseSlug = slugify(p.name);
+
         const outName = `${caseSlug}.R`;
         const outPath = path.join(RS_DIR, outName);
 
         try {
             // 2) defaultDTO로 채워서 StudyDTO 만들기
             const dto: StudyDTO = fillWithDefaults<StudyDTO>(defaultDTO, p.goldJson);
+
+            //이름 지정
+            dto.name = caseSlug
 
             // 3) json2strategus로 R 스크립트 생성
             const script = await json2strategus(JSON.stringify(dto, null, 2));
