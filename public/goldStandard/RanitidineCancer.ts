@@ -1,9 +1,5 @@
 export const TEXTRanitidineCancer =
     `
-The study included adult patients aged 20 years or older who used ranitidine for more than 30 days with at least 1 year of exposure-free observation period prior to cohort entry.
-
-Patients with a history of cancer, exposure to other H2RAs for up to 1 year prior to cohort entry (for the target cohort), were excluded.
-
 The predefined setting for primary analysis was 1:1 PS matching with ITT and a 1-year lag.
 
 Comparator cohorts were constructed by performing 1:1 PS matching with a caliper of 0.2 SDs of the logic of the PS. 

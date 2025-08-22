@@ -2,8 +2,6 @@ export const TEXTSemaglutideandNAION =
     `
 Adults 18 years and older with T2D taking semaglutide (GLP-1RA), dulaglutide (GLP-1RA), exenatide (GLP-1RA), empagliflozin (sodium-glucose cotransporter 2 [SGLT2] inhibitor), sitagliptin (dipeptidyl peptidase 4 [DPP4] inhibitor), or glipizide (sulfonylurea) during the study period (December 1, 2017-December 31, 2023) were included.
 
-In brief, adults with T2D taking metformin monotherapy were included if they had at least 1 year of prior observation, initiated treatment with one of the medications of interest, had no prior exposure to a comparator diabetes medication, and had at most 30 days of prior insulin use.
-
 The time-at-risk period began with medication initiation until the end of continuous drug exposure, defined as a gap in exposure of more than 30 days or the end of the continuous observation period.
 
 Patients in each target and comparator exposure comparison (eg, semaglutide vs dulaglutide) were matched 1:1 using propensity scores
@@ -76,13 +74,13 @@ export const JSONSemaglutideandNAION =
             }
         }
     },
-    fitOutcomeModelArgs: {
+    fitOutcomeModelArgs: { //default except modelType
         modelType: "cox",
-        stratified: true,
-        useCovariates: true,
+        stratified: false, 
+        useCovariates: false,
         inversePtWeighting: false,
-        prior: { priorType: "laplace", useCrossValidation: true }, //default
-        control: { //default
+        prior: { priorType: "laplace", useCrossValidation: true },
+        control: {
             tolerance: 2e-7,
             cvType: "auto",
             fold: 10,

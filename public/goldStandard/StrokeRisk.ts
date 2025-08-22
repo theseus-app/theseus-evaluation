@@ -47,6 +47,10 @@ export const JSONStrokeRisk = {
   propensityScoreAdjustment: {
     psSettings: [
       {
+        matchOnPsArgs: null,
+        stratifyByPsArgs: null
+      },
+      {
         matchOnPsArgs: {
           maxRatio: 1,
           caliper: 0.05,
