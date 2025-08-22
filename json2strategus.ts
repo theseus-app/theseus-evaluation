@@ -2,7 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import OpenAI from "openai";
 
-const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "CreateStrategusAnalysisSpecification_template.R");
+const TEMPLATE_PATH = path.resolve(
+    process.cwd(),
+    "public",
+    "templates",
+    "CreateStrategusAnalysisSpecification_template.R"
+);
 const OPENAI_API_KEY = 'your_api_key'
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 /** Remove code fences (```lang ... ```) from LLM outputs. */
@@ -20,7 +25,6 @@ async function readTextFile(abs: string) {
  * ATLAS JSON -> Strategus R script
  */
 
-
 export async function json2strategus(
     analysisSpecifications: string,
     opts?: { origin?: string; cache?: RequestCache }
@@ -30,6 +34,7 @@ export async function json2strategus(
     const prompt = `<Instruction>
 Refer to settings in <Analysis Specifications> and use the OHDSI Strategus package to write CreateStrategusAnalysisSpecification.R script. 
 Refer to <Template> to write the script.
+No name auto-correct: use EXACT names from <Template>/<Analysis Specifications>
 Output only the R script without any additional text.
 Include detailed annotations within the script to help users understand how the settings are applied.
 </Instruction>
@@ -44,7 +49,7 @@ ${template}
 
     const completion = await openai.chat.completions.create({
         // TODO: replace with an actually available model in your account
-        model: "gpt-5-mini-2025-08-07",
+        model: "gpt-5-2025-08-07",
         messages: [{ role: "user", content: prompt }],
     });
 
