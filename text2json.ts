@@ -4,7 +4,7 @@ import { OpenAI } from "openai";
 import { StudyDTO } from "./flatten";
 
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
-const MODEL_NAME = "gpt-5-mini-2025-08-07";
+const MODEL_NAME = "gpt-5-2025-08-07";
 const OPENAI_API_KEY = 'your_api_key'
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
