@@ -1,5 +1,5 @@
-export const TEXTSemaglutideandNAION = 
-`
+export const TEXTSemaglutideandNAION =
+    `
 Adults 18 years and older with T2D taking semaglutide (GLP-1RA), dulaglutide (GLP-1RA), exenatide (GLP-1RA), empagliflozin (sodium-glucose cotransporter 2 [SGLT2] inhibitor), sitagliptin (dipeptidyl peptidase 4 [DPP4] inhibitor), or glipizide (sulfonylurea) during the study period (December 1, 2017-December 31, 2023) were included.
 
 In brief, adults with T2D taking metformin monotherapy were included if they had at least 1 year of prior observation, initiated treatment with one of the medications of interest, had no prior exposure to a comparator diabetes medication, and had at most 30 days of prior insulin use.
@@ -19,16 +19,24 @@ export const JSONSemaglutideandNAION =
                 studyStartDate: 20171201,
                 studyEndDate: 20231231
             }
-        ]
+        ],
+        maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default
+        firstExposureOnly: false, //default
         washoutPeriod: 365,
+        removeDuplicateSubjects: "keep all", //default
+        censorAtNewRiskWindow: false, //default
+        removeSubjectsWithPriorOutcome: true, //default
+        priorOutcomeLookBack: 99999, //default
         timeAtRisks: [
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
-                endAnchor: "cohort end"
+                endAnchor: "cohort end",
+                minDaysAtRisk: 1, //default로 설정
             }
         ]
     },
@@ -37,25 +45,34 @@ export const JSONSemaglutideandNAION =
             {
                 matchOnPsArgs: {
                     maxRatio: 1,
+                    caliper: 0.2, //default로 설정
                     caliperScale: "propensity score"
-                }
+                },
+                stratifyByPsArgs: null
             },
             {
+                matchOnPsArgs: null,
                 stratifyByPsArgs: {
+                    numberOfStrata: 5, //default로 설정
                     baseSelection: "all"
                 }
             }
         ],
         createPsArgs: {
+            maxCohortSizeForFitting: 250000, //default로 설정
             errorOnHighCorrelation: false,
             prior: {
                 priorType: "laplace",
                 useCrossValidation: true
             },
             control: {
+                tolerance: 2e-7, //default로 설정
                 cvType: "auto",
+                fold: 10, // default로 설정
+                cvRepetitions: 10, //default로 설정
                 noiseLevel: "quiet",
-                resetCoefficients: false
+                resetCoefficients: false,
+                startingVariance: 0.01, //default로 설정
             }
         }
     },
@@ -63,6 +80,16 @@ export const JSONSemaglutideandNAION =
         modelType: "cox",
         stratified: true,
         useCovariates: true,
-        inversePtWeighting: false
+        inversePtWeighting: false,
+        prior: { priorType: "laplace", useCrossValidation: true }, //default
+        control: { //default
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     }
 }

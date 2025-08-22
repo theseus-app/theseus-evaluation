@@ -1,5 +1,5 @@
-export const TEXTCOVID19Famotidine = 
-`
+export const TEXTCOVID19Famotidine =
+    `
 The study period started February 1, 2020, and ended May 30, 2020,
 
 Patients with evidence of intensive services (i.e., mechanical ventilation, tracheostomy, or extracorporeal membrane oxygenation) at or within 30 days before admission were excluded.
@@ -17,8 +17,14 @@ export const JSONCOVID19Famotidine = {
                 studyEndDate: "20200530",
             },
         ],
+        maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default
+        firstExposureOnly: false, //default
+        washoutPeriod: 0, //default
+        removeDuplicateSubjects: "keep all", //default
+        censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 30,
         timeAtRisks: [
@@ -27,34 +33,60 @@ export const JSONCOVID19Famotidine = {
                 startAnchor: "cohort start",
                 riskWindowEnd: 30,
                 endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default 설정
             },
         ],
     },
     propensityScoreAdjustment: {
         psSettings: [
             {
+                matchOnPsArgs: null,
                 stratifyByPsArgs: {
                     numberOfStrata: 5,
-                },
+                    baseSelection: "all" //default 설정
+                }
             },
             {
                 matchOnPsArgs: {
                     maxRatio: 1,
+                    caliper: 0.2, //default 설정
+                    caliperScale: "standardized logit" //default 설정
                 },
+                stratifyByPsArgs: null
             },
         ],
         createPsArgs: {
+            maxCohortSizeForFitting: 250000, //default 설정
+            errorOnHighCorrelation: true, //default 설정
             prior: {
                 priorType: "laplace",
                 useCrossValidation: true,
             },
             control: {
+                tolerance: 2e-7, //default 설정
+                cvType: "auto", //default 설정
                 fold: 10,
+                cvRepetitions: 10, //default 설정
+                noiseLevel: "silent", //default 설정
+                resetCoefficients: true, //default 설정
+                startingVariance: 0.01, //default 설정
             },
         },
     },
     fitOutcomeModelArgs: {
         modelType: "cox",
         stratified: true,
+        useCovariates: false, //default
+        inversePtWeighting: false, //default
+        prior: { priorType: "laplace", useCrossValidation: true }, //default
+        control: { //default
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     },
 };

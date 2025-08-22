@@ -1,5 +1,5 @@
-export const TEXTUveitisSafety = 
-`
+export const TEXTUveitisSafety =
+    `
 The target cohort population was limited to index exposures after the earliest date of approval by the FDA for the drugs included in the comparator cohort.
 
 Within each study population we compared new users of a target exposure to new users of comparator exposures, that we refer to as the target and comparator cohorts.
@@ -17,10 +17,12 @@ The PS was calculated for each patient as the predicted probability of target ex
 
 export const JSONUveitisSafety =
 {
+    maxCohortSize: 0, //default
     createStudyPopArgs: {
         restrictToCommonPeriod: true,
         firstExposureOnly: true,
         washoutPeriod: 365,
+        removeDuplicateSubjects: "keep all", //default
         censorAtNewRiskWindow: true,
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
@@ -29,7 +31,8 @@ export const JSONUveitisSafety =
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
-                endAnchor: "cohort end"
+                endAnchor: "cohort end",
+                minDaysAtRisk: 1, //default로 설정
             }
         ]
     },
@@ -40,24 +43,42 @@ export const JSONUveitisSafety =
                     maxRatio: 10,
                     caliper: 0.2,
                     caliperScale: "standardized logit"
-                }
+                },
+                stratifyByPsArgs: null,
             }
         ],
         createPsArgs: {
+            maxCohortSizeForFitting: 250000, //default로 설정
+            errorOnHighCorrelation: true, //default로 설정
             prior: {
                 priorType: "laplace",
                 useCrossValidation: true
             },
             control: {
-                tolerance: 0.0000002,
+                tolerance: 2e-7,
                 cvType: "auto",
                 fold: 10,
+                cvRepetitions: 10, //default로 설정
+                noiseLevel: "silent", //default로 설정
+                resetCoefficients: true, //default로 설정
                 startingVariance: 0.01
             }
         }
     },
     fitOutcomeModelArgs: {
         modelType: "cox",
-        stratified: true
+        stratified: true,
+        useCovariates: false, //default
+        inversePtWeighting: false, //default
+        prior: { priorType: "laplace", useCrossValidation: true }, //default
+        control: { //default
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     }
 }

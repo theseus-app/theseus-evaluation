@@ -1,8 +1,8 @@
-export const TEXTRanitidineCancer = 
-`
+export const TEXTRanitidineCancer =
+    `
 The study included adult patients aged 20 years or older who used ranitidine for more than 30 days with at least 1 year of exposure-free observation period prior to cohort entry.
 
-Patients with a history of cancer, exposure to other H2RAs for up to 1 year prior to cohort entry (for the target cohort), or ranitidine use for up to 1 year prior to cohort entry (for the comparator cohort) were excluded.
+Patients with a history of cancer, exposure to other H2RAs for up to 1 year prior to cohort entry (for the target cohort), were excluded.
 
 The predefined setting for primary analysis was 1:1 PS matching with ITT and a 1-year lag.
 
@@ -15,8 +15,13 @@ Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) a
 
 export const JSONRanitidineCancer =
 {
+    maxCohortSize: 0, //default
     createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default
+        firstExposureOnly: false, //default
         washoutPeriod: 365,
+        removeDuplicateSubjects: "keep all", //default
+        censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 365,
         timeAtRisks: [
@@ -25,6 +30,7 @@ export const JSONRanitidineCancer =
                 startAnchor: "cohort start",
                 riskWindowEnd: 9999,
                 endAnchor: "cohort start",
+                minDaysAtRisk: 1 //default로 설정
             },
         ],
     },
@@ -36,19 +42,41 @@ export const JSONRanitidineCancer =
                     caliper: 0.2,
                     caliperScale: "standardized logit",
                 },
+                stratifyByPsArgs: null, //default로 설정
             },
         ],
         createPsArgs: {
+            maxCohortSizeForFitting: 250000, //default로 설정
+            errorOnHighCorrelation: true, //default로 설정
             prior: {
                 priorType: "laplace",
                 useCrossValidation: true,
             },
             control: {
+                tolerance: 2e-7, //default로 설정
+                cvType: "auto", //default로 설정
                 fold: 10,
+                cvRepetitions: 10, //default로 설정
+                noiseLevel: "silent", //default로 설정
+                resetCoefficients: true, //default로 설정
+                startingVariance: 0.01, //default로 설정
             },
         },
     },
-    fitOutcomeModelArgs: {
+    fitOutcomeModelArgs: { //modelType 제외 default 설정
         modelType: "cox",
+        stratified: false,
+        useCovariates: false,
+        inversePtWeighting: false,
+        prior: { priorType: "laplace", useCrossValidation: true },
+        control: {
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     }
 }

@@ -1,11 +1,11 @@
-export const TEXTTicagrelorClopidogrel = 
-`
+export const TEXTTicagrelorClopidogrel =
+    `
 from November 2011 to March 2019.
 we conducted an additional analysis to apply an identical study period to all databases, namely March 2013 and December2016,b
 
 To avoid left censoring, we excluded patients who had been enrolled in the database for less than 1 year before the index date.
 
-The other exclusion criteria were a history of ischemic stroke, hemorrhagic stroke, or gastrointestinal bleeding anytime before the index date; and a prescription of prasugrel, clopidogrel (for the ticagrelor group), or ticagrelor (for the clopidogrel group) during the 30 days preceding the index date.
+The other exclusion criteria were a history of ischemic stroke, hemorrhagic stroke, or gastrointestinal bleeding anytime before the index date;
 
 Patients were censored when they were no longer observed in the database, while they remained in the primary analysis if they discontinued the allocated drug or switched the drug within the first year.
 2 more time-at-risk windows were applied—a 5-year period and an on-treatment period. The on-treatment period was defined as the time from 1 day after the index date until the end of persistent exposure to the drug, allowing a 7-day gap or the end of a patient’s record.
@@ -29,29 +29,37 @@ export const JSONTicagrelorClopidogrel = {
                 studyEndDate: "20161231",
             },
         ],
+        maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default
+        firstExposureOnly: false, //default
         washoutPeriod: 365,
+        removeDuplicateSubjects: "keep all", //default
+        censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
-        priorOutcomeLookBack: 30,
+        priorOutcomeLookBack: 99999,
         timeAtRisks: [
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
-                riskWindowEnd: 9999,
+                riskWindowEnd: 365,
                 endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
                 riskWindowEnd: 1825,
                 endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
                 endAnchor: "cohort end",
+                minDaysAtRisk: 1, //default로 설정
             },
         ],
     },
@@ -60,21 +68,56 @@ export const JSONTicagrelorClopidogrel = {
             {
                 matchOnPsArgs: {
                     maxRatio: 1,
+                    caliper: 0.2, //default로 설정
+                    caliperScale: "standardized logit" //default로 설정
                 },
+                stratifyByPsArgs: null,
             },
             {
                 matchOnPsArgs: {
                     maxRatio: 10,
+                    caliper: 0.2, //default로 설정
+                    caliperScale: "standardized logit" //default로 설정
                 },
+                stratifyByPsArgs: null,
             },
             {
+                matchOnPsArgs: null,
                 stratifyByPsArgs: {
                     numberOfStrata: 10,
+                    baseSelection: "all" //default로 설정
                 },
             },
         ],
+        createPsArgs: { //default
+            maxCohortSizeForFitting: 250000,
+            errorOnHighCorrelation: true,
+            prior: { priorType: "laplace", useCrossValidation: true },
+            control: {
+                tolerance: 2e-7,
+                cvType: "auto",
+                fold: 10,
+                cvRepetitions: 10,
+                noiseLevel: "silent",
+                resetCoefficients: true,
+                startingVariance: 0.01,
+            },
+        },
     },
-    fitOutcomeModelArgs: {
+    fitOutcomeModelArgs: { //default except modelType
         modelType: "cox",
+        stratified: false,
+        useCovariates: false,
+        inversePtWeighting: false,
+        prior: { priorType: "laplace", useCrossValidation: true },
+        control: {
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     },
 };

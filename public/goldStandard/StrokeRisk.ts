@@ -1,5 +1,5 @@
-export const TEXTStrokeRisk = 
-`
+export const TEXTStrokeRisk =
+  `
 Included data available from January 1, 2001 through December 31, 2017
 
 We conducted a post-hoc analysis where the study end-date was redefined as September 30, 2015.
@@ -24,8 +24,16 @@ export const JSONStrokeRisk = {
         studyEndDate: "20151130",
       },
     ],
+    maxCohortSize: 0, //default
   },
   createStudyPopArgs: {
+    restrictToCommonPeriod: false, //default
+    firstExposureOnly: false, //default
+    washoutPeriod: 0, //default
+    removeDuplicateSubjects: "keep all", //default
+    censorAtNewRiskWindow: false, //default
+    removeSubjectsWithPriorOutcome: true, //default
+    priorOutcomeLookBack: 99999, //default
     timeAtRisks: [
       {
         riskWindowStart: 1,
@@ -44,6 +52,7 @@ export const JSONStrokeRisk = {
           caliper: 0.05,
           caliperScale: "propensity score",
         },
+        stratifyByPsArgs: null
       },
       {
         matchOnPsArgs: {
@@ -51,16 +60,41 @@ export const JSONStrokeRisk = {
           caliper: 0.2,
           caliperScale: "standardized logit",
         },
+        stratifyByPsArgs: null
       },
     ],
     createPsArgs: {
+      maxCohortSizeForFitting: 250000, //default로 설정
+      errorOnHighCorrelation: true, //default로 설정
       prior: {
         priorType: "laplace",
+        useCrossValidation: true // default로 설정
+      },
+      control: { //control 전부 default로 설정
+        tolerance: 2e-7,
+        cvType: "auto",
+        fold: 10,
+        cvRepetitions: 10,
+        noiseLevel: "quiet",
+        resetCoefficients: true,
+        startingVariance: 0.01,
       },
     },
   },
   fitOutcomeModelArgs: {
     modelType: "cox",
     stratified: true,
+    useCovariates: false, //default
+    inversePtWeighting: false, //default
+    prior: { priorType: "laplace", useCrossValidation: true }, //default 
+    control: { //default
+      tolerance: 2e-7,
+      cvType: "auto",
+      fold: 10,
+      cvRepetitions: 10,
+      noiseLevel: "quiet",
+      resetCoefficients: true,
+      startingVariance: 0.01,
+    },
   },
 };

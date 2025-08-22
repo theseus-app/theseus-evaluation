@@ -1,5 +1,5 @@
-export const TEXTAntiVEGFKidney = 
-`
+export const TEXTAntiVEGFKidney =
+  `
 If patients switched anti-VEGF medications, only the first exposure was included in the analysis, after which the patients were right-censored from the cohort
 
 Adult patients aged ≥ 18 years who were newly treated with monthly intravitreal anti-VEGF medications (ranibizumab, aflibercept, or bevacizumab) for ≥ 3 months for a blinding disease with ≥ 365 days of prior observation were included in the study.
@@ -16,9 +16,13 @@ Cox proportional hazards models were used to estimate the risk of kidney failure
 `
 
 export const JSONAntiVEGFKidney = {
+  maxCohortSize: 0, //default로 설정
   createStudyPopArgs: {
+    restrictToCommonPeriod: false, //default로 설정
     firstExposureOnly: true,
     washoutPeriod: 365,
+    removeDuplicateSubjects: "keep all", //default로 설정
+    censorAtNewRiskWindow: false, //default로 설정
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
     timeAtRisks: [
@@ -27,6 +31,7 @@ export const JSONAntiVEGFKidney = {
         startAnchor: "cohort start",
         riskWindowEnd: 0,
         endAnchor: "cohort end",
+        minDaysAtRisk: 1 //default 설정
       },
     ],
   },
@@ -34,17 +39,42 @@ export const JSONAntiVEGFKidney = {
     psSettings: [
       {
         matchOnPsArgs: {
-          maxRatio: 1
-        }
+          maxRatio: 1,
+          caliper: 0.2, //default 설정
+          caliperScale: "standardized logit" //default 설정
+        },
+        stratifyByPsArgs: null
       },
     ],
-    createPsArgs: {
-      prior: {
-        priorType: "laplace",
+    createPsArgs: { //laplace 제외하고 전부 default 설정
+      maxCohortSizeForFitting: 250000,
+      errorOnHighCorrelation: true,
+      prior: { priorType: "laplace", useCrossValidation: true },
+      control: {
+        tolerance: 2e-7,
+        cvType: "auto",
+        fold: 10,
+        cvRepetitions: 10,
+        noiseLevel: "silent",
+        resetCoefficients: true,
+        startingVariance: 0.01,
       }
     }
   },
-  fitOutcomeModelArgs: {
-    modelType: "cox"
+  fitOutcomeModelArgs: { //modelType제외 default 설정
+    modelType: "cox",
+    stratified: false,
+    useCovariates: false,
+    inversePtWeighting: false,
+    prior: { priorType: "laplace", useCrossValidation: true },
+    control: {
+      tolerance: 2e-7,
+      cvType: "auto",
+      fold: 10,
+      cvRepetitions: 10,
+      noiseLevel: "quiet",
+      resetCoefficients: true,
+      startingVariance: 0.01,
+    },
   }
 }

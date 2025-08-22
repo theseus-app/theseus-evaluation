@@ -1,5 +1,5 @@
-export const TEXTRapidCycleJanssen = 
-`
+export const TEXTRapidCycleJanssen =
+    `
 Individuals were included in these COVID-19 vaccine exposure cohorts if they had at least 365 days of observation before and at least one day of observation after this first COVID-19 vaccination starting on or after January 1st, 2021.
 
 This estimation involves separate comparisons of the first dose of Janssen vaccination (target exposure) to the first doses of the Moderna and the Pfizer Covid-19 vaccines, which serve as two separate comparator exposure cohorts.
@@ -23,12 +23,15 @@ export const JSONRapidCycleJanssen =
                 studyStartDate: 20210101,
                 studyEndDate: null
             }
-        ]
+        ],
+        maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default 설정
         firstExposureOnly: true,
         washoutPeriod: 365,
         removeDuplicateSubjects: "remove all",
+        censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
         timeAtRisks: [
@@ -36,31 +39,36 @@ export const JSONRapidCycleJanssen =
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 14,
-                endAnchor: "cohort start"
+                endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 28,
-                endAnchor: "cohort start"
+                endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 42,
-                endAnchor: "cohort start"
+                endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 90,
-                endAnchor: "cohort start"
+                endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             },
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
                 riskWindowEnd: 2,
-                endAnchor: "cohort start"
+                endAnchor: "cohort start",
+                minDaysAtRisk: 1, //default로 설정
             }
         ]
     },
@@ -69,12 +77,41 @@ export const JSONRapidCycleJanssen =
             {
                 matchOnPsArgs: {
                     maxRatio: 0,
+                    caliper: 0.2, //default로 설정
                     caliperScale: "propensity score"
-                }
+                },
+                stratifyByPsArgs: null,
             }
-        ]
+        ],
+        createPsArgs: { //default
+            maxCohortSizeForFitting: 250000,
+            errorOnHighCorrelation: true,
+            prior: { priorType: "laplace", useCrossValidation: true },
+            control: {
+                tolerance: 2e-7,
+                cvType: "auto",
+                fold: 10,
+                cvRepetitions: 10,
+                noiseLevel: "silent",
+                resetCoefficients: true,
+                startingVariance: 0.01,
+            },
+        },
     },
-    fitOutcomeModelArgs: {
-        modelType: "cox"
-    }
+    fitOutcomeModelArgs: { //default except modelType
+        modelType: "cox",
+        stratified: false,
+        useCovariates: false,
+        inversePtWeighting: false,
+        prior: { priorType: "laplace", useCrossValidation: true },
+        control: {
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
+    },
 }

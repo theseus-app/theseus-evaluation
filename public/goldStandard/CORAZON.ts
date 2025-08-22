@@ -1,5 +1,5 @@
-export const TEXTCORAZON = 
-`
+export const TEXTCORAZON =
+    `
 between 1 January 2010 (2012 for  Longitudinal Patients Database France) and 31 December 2019.
 
 Patients were followed from the index date  until the occurrence of the study outcome, treatment  discontinuation (allowing for 90-day gaps between consecutive prescriptions, with the date of treatment discontinuation being the end date of the last prescription [the “on-treatment” approach]), switching from the index medication to another oral anticoagulant (apixaban, dabigatran, edoxaban, rivaroxaban, or warfarin), death, or the end of the study period (31 December 2019), whichever came first.
@@ -24,39 +24,80 @@ export const JSONCORAZON = {
                 studyEndDate: "20191231",
             },
         ],
+        maxCohortSize: 0, //default로 추가 
     },
-    createStudyPopArgs: {
+    createStudyPopArgs: { //timeAtRisks 제외 default 추가 
+        restrictToCommonPeriod: false,
+        firstExposureOnly: false,
+        washoutPeriod: 0,
+        removeDuplicateSubjects: "keep all",
+        censorAtNewRiskWindow: false,
+        removeSubjectsWithPriorOutcome: true,
+        priorOutcomeLookBack: 99999,
         timeAtRisks: [
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
                 endAnchor: "cohort end",
+                minDaysAtRisk: 1 //default 추가
             },
             {
                 riskWindowStart: 0,
                 startAnchor: "cohort start",
                 riskWindowEnd: 9999,
                 endAnchor: "cohort start",
+                minDaysAtRisk: 1 //default 추가
             },
         ],
     },
     propensityScoreAdjustment: {
         psSettings: [
             {
+                matchOnPsArgs: null,
                 stratifyByPsArgs: {
                     numberOfStrata: 5,
+                    baseSelection: "all" //default 설정
                 },
             },
             {
                 matchOnPsArgs: {
                     maxRatio: 0,
+                    caliper: 0.2, //default 설정
+                    caliperScale: "standardized logit" //default 설정
                 },
+                stratifyByPsArgs: null
             },
         ],
+        createPsArgs: { //createPsArgs default로 추가 
+            maxCohortSizeForFitting: 250000,
+            errorOnHighCorrelation: true,
+            prior: { priorType: "laplace", useCrossValidation: true },
+            control: {
+                tolerance: 2e-7,
+                cvType: "auto",
+                fold: 10,
+                cvRepetitions: 10,
+                noiseLevel: "silent",
+                resetCoefficients: true,
+                startingVariance: 0.01,
+            },
+        },
     },
     fitOutcomeModelArgs: {
         modelType: "cox",
         stratified: true,
+        useCovariates: false, //default
+        inversePtWeighting: false, //default
+        prior: { priorType: "laplace", useCrossValidation: true }, //default
+        control: { //default
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
     },
 };
