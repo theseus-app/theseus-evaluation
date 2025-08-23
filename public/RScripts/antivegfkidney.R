@@ -44,7 +44,7 @@ baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 #   2345678, # Comparator
 #   3456789  # Outcome
 # )
-cohortIds <- c()
+cohortIds <- c(1794126, 1794132, 1794131)
 
 if (length(cohortIds) > 0) {
   cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(

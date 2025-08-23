@@ -21,17 +21,17 @@ baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   baseUrl = baseUrl,
   cohortIds = c(
-    0000000, # Target: replace with your ATLAS ID
-    1111111, # Comparator: replace with your ATLAS ID
-    2222222  # Outcome: replace with your ATLAS ID
+    1794126, # Target: replace with your ATLAS ID
+    1794132, # Comparator: replace with your ATLAS ID
+    1794131  # Outcome: replace with your ATLAS ID
   ),
   generateStats = TRUE
 )
 
 # Re-number cohorts to internal IDs (1=target, 2=comparator, 3=outcome)
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 0000000, ]$cohortId <- 1
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 1111111, ]$cohortId <- 2
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 2222222, ]$cohortId <- 3
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126, ]$cohortId <- 1
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132, ]$cohortId <- 2
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131, ]$cohortId <- 3
 
 # Negative control outcomes:
 # Replace conceptSetId with your negative control concept set ID from ATLAS.
@@ -39,7 +39,7 @@ cohortDefinitionSet[cohortDefinitionSet$cohortId == 2222222, ]$cohortId <- 3
 # to resolve a concept set into outcomeConceptIds that will be used as negative
 # control outcomes in CohortMethod.
 negativeControlOutcomeCohortSet <- ROhdsiWebApi::getConceptSetDefinition(
-  conceptSetId = 1234567, # TODO: replace with your concept set ID
+  conceptSetId = 1888110, # TODO: replace with your concept set ID
   baseUrl = baseUrl
 ) %>%
   ROhdsiWebApi::resolveConceptSet(

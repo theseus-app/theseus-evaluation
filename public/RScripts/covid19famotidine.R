@@ -23,17 +23,17 @@ baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   baseUrl = baseUrl,
   cohortIds = c(
-    0000000, # Target: 
-    1111111, # Comparator: 
-    2222222  # Outcome: 
+    1794126, # Target: 
+    1794132, # Comparator: 
+    1794131  # Outcome: 
   ),
   generateStats = TRUE
 )
 
 # Re-number cohorts (local IDs used by modules)
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 0000000, ]$cohortId <- 1
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 1111111, ]$cohortId <- 2
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 2222222, ]$cohortId <- 3
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126, ]$cohortId <- 1
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132, ]$cohortId <- 2
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131, ]$cohortId <- 3
 
 # Negative control outcomes ----------------------------------------------------
 # Analysis Specifications indicate null negative control concept set ID; therefore,

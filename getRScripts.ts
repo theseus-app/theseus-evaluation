@@ -1,7 +1,3 @@
-// scripts/getRScripts.tsx
-// 실행: npx ts-node scripts/getRScripts.tsx
-// 또는 package.json에 "rgen": "ts-node scripts/getRScripts.tsx" 추가 후 `pnpm run rgen`
-
 import path from "node:path";
 import fs from "node:fs/promises";
 
@@ -118,6 +114,14 @@ export async function getRScripts(): Promise<{
 
             //이름 지정
             dto.name = caseSlug
+            //예시 지정
+            dto.cohortDefinitions = {
+                targetCohort: { id: 1794126, name: "target1" },
+                comparatorCohort: { id: 1794132, name: "comparator1" },
+                outcomeCohort: [{ id: 1794131, name: "outcome1" }]
+            }
+            //예시 지정
+            dto.negativeControlConceptSet = { id: 1888110, name: "negative" }
 
             // 3) json2strategus로 R 스크립트 생성
             const script = await json2strategus(JSON.stringify(dto, null, 2));

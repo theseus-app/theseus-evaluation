@@ -41,17 +41,17 @@ baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   baseUrl = baseUrl,
   cohortIds = c(
-    0000000, # Target:
-    1111111, # Comparator:
-    2222222  # Outcome:
+    1794126, # Target:
+    1794132, # Comparator:
+    1794131  # Outcome:
   ),
   generateStats = TRUE
 )
 
 # Re-number cohorts locally to simplified IDs (1=Target, 2=Comparator, 3=Outcome)
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 0000000, ]$cohortId <- 1
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 1111111, ]$cohortId <- 2
-cohortDefinitionSet[cohortDefinitionSet$cohortId == 2222222, ]$cohortId <- 3
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126, ]$cohortId <- 1
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132, ]$cohortId <- 2
+cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131, ]$cohortId <- 3
 
 # Negative control outcomes ----------------------------------------------------
 # IMPORTANT:
@@ -60,7 +60,7 @@ cohortDefinitionSet[cohortDefinitionSet$cohortId == 2222222, ]$cohortId <- 3
 # - The concept set is resolved (includes descendants) and then converted into
 #   a list of negative control "cohorts" (concept-based outcomes) with new IDs.
 negativeControlOutcomeCohortSet <- ROhdsiWebApi::getConceptSetDefinition(
-  conceptSetId = 1234567,
+  conceptSetId = 1888110,
   baseUrl = baseUrl
 ) %>%
   ROhdsiWebApi::resolveConceptSet(
