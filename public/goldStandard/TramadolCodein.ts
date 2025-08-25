@@ -71,7 +71,7 @@ export const JSONTramadolCodein = {
     },
     fitOutcomeModelArgs: { //default except modelType
         modelType: "cox",
-        stratified: false,
+        stratified: true,
         useCovariates: false,
         inversePtWeighting: false,
         prior: { priorType: "laplace", useCrossValidation: true },

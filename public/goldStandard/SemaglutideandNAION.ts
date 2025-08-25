@@ -44,7 +44,7 @@ export const JSONSemaglutideandNAION =
                 matchOnPsArgs: {
                     maxRatio: 1,
                     caliper: 0.2, //default로 설정
-                    caliperScale: "propensity score"
+                    caliperScale: "standardized logit"
                 },
                 stratifyByPsArgs: null
             },

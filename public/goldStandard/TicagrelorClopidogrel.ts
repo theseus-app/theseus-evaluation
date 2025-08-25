@@ -37,14 +37,14 @@ export const JSONTicagrelorClopidogrel = {
         priorOutcomeLookBack: 99999,
         timeAtRisks: [
             {
-                riskWindowStart: 0,
+                riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 365,
                 endAnchor: "cohort start",
                 minDaysAtRisk: 1, //default로 설정
             },
             {
-                riskWindowStart: 0,
+                riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 1825,
                 endAnchor: "cohort start",
