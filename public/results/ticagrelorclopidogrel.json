@@ -1,20 +1,20 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-08-25T06:51:41.698Z",
+  "createdAt": "2025-08-25T08:04:40.001Z",
   "metrics": {
-    "jaccard": 0.7692307692307693,
-    "recall": 0.8695652173913043,
-    "precision": 0.8695652173913043
+    "jaccard": 0.76,
+    "recall": 0.8260869565217391,
+    "precision": 0.9047619047619048
   },
   "counts": {
     "gold": 23,
-    "pred": 23,
-    "intersection": 20,
-    "union": 26,
-    "both": 20,
-    "predOnly": 3,
-    "goldOnly": 3
+    "pred": 21,
+    "intersection": 19,
+    "union": 25,
+    "both": 19,
+    "predOnly": 2,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -29,7 +29,6 @@
       "stratified=false",
       "useCovariates=false",
       "inversePtWeighting=false",
-      "studyPeriods:{studyEndDate=20190331|studyStartDate=20111101}",
       "studyPeriods:{studyEndDate=20161231|studyStartDate=20130301}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
@@ -41,17 +40,17 @@
     ],
     "predJsonOnly": [
       "washoutPeriod=0",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=0|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=0|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1826|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "washoutPeriod=365",
+      "studyPeriods:{studyEndDate=20190331|studyStartDate=20111101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "fitOutcomeModelArgs": true
@@ -205,10 +204,6 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20111101",
-          "studyEndDate": "20190331"
-        },
-        {
           "studyStartDate": "20130301",
           "studyEndDate": "20161231"
         }
@@ -225,23 +220,15 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary 1-year (ITT)",
-          "riskWindowStart": 0,
+          "description": "5-year period",
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
+          "riskWindowEnd": 1826,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "5-year (ITT)",
-          "riskWindowStart": 0,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 1825,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "On-treatment",
+          "description": "On-treatment period (7-day gap allowed)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -253,7 +240,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1-to-1 greedy matching",
+          "description": "One-to-one greedy matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -262,7 +249,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: variable-ratio matching (max 10)",
+          "description": "Variable-ratio matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -271,7 +258,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 3: stratification by deciles",
+          "description": "PS stratification (deciles)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

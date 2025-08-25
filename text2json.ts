@@ -1,12 +1,16 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { OpenAI } from "openai";
+import { GoogleGenAI } from "@google/genai";
+import { OpenAI } from "openai/client.js";
 import { StudyDTO } from "./flatten";
 
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
-const MODEL_NAME = "gpt-5-2025-08-07";
-const OPENAI_API_KEY = 'your_api_key'
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const MODEL_NAME = "gpt-4.1-2025-04-14";
+// const GOOGLE_API_KEY = 'google_api_key'
+const OPENAI_API_KEY = 'openai_api_key'
+// const googleAI = new GoogleGenAI({ apiKey: OPENAI_API_KEY });
+const openAI = new OpenAI({ apiKey: OPENAI_API_KEY })
+
 
 async function readTextFile(abs: string) {
     return fs.readFile(abs, "utf8");
@@ -128,9 +132,10 @@ analysis specifications
 Description
 </Output Style>`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await openAI.chat.completions.create({
         model: MODEL_NAME,
         messages: [{ role: "user", content: prompt }],
+        temperature: 0
     });
 
     const content = completion.choices[0]?.message?.content?.trim() ?? "";
