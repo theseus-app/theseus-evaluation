@@ -1,20 +1,20 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-08-22T12:02:21.310Z",
+  "createdAt": "2025-08-25T06:46:39.349Z",
   "metrics": {
-    "jaccard": 0.6818181818181818,
-    "recall": 0.7894736842105263,
-    "precision": 0.8333333333333334
+    "jaccard": 0.7619047619047619,
+    "recall": 0.8421052631578947,
+    "precision": 0.8888888888888888
   },
   "counts": {
     "gold": 19,
     "pred": 18,
-    "intersection": 15,
-    "union": 22,
-    "both": 15,
-    "predOnly": 3,
-    "goldOnly": 4
+    "intersection": 16,
+    "union": 21,
+    "both": 16,
+    "predOnly": 2,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -31,17 +31,16 @@
       "inversePtWeighting=false",
       "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
       "washoutPeriod=0",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
       "washoutPeriod=365",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":false,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=false|maxCohortSizeForFitting=250000}"
     ]
@@ -86,7 +85,7 @@
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
-            "caliperScale": "propensity score"
+            "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
         },
@@ -137,15 +136,15 @@
     }
   },
   "predJson": {
-    "name": "",
+    "name": "Risk of NAION with T2D medications: Semaglutide vs Dulaglutide (2017-2023)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide new users with T2D (>=18)"
+        "name": "Semaglutide (GLP-1RA) new users with T2D, age >=18"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dulaglutide new users with T2D (>=18)"
+        "name": "Dulaglutide (GLP-1RA) new users with T2D, age >=18"
       },
       "outcomeCohort": [
         {
@@ -191,7 +190,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: cohort start (initiation) to cohort end (end of continuous exposure)",
+          "description": "On-treatment: index date to end of continuous drug exposure",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -203,7 +202,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

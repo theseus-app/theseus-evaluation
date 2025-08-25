@@ -1,20 +1,20 @@
 {
   "name": "CEEAMOS",
   "fileName": "ceeamos.json",
-  "createdAt": "2025-08-22T11:54:16.662Z",
+  "createdAt": "2025-08-25T06:41:30.403Z",
   "metrics": {
-    "jaccard": 0.7,
-    "recall": 0.8235294117647058,
-    "precision": 0.8235294117647058
+    "jaccard": 0.6190476190476191,
+    "recall": 0.7647058823529411,
+    "precision": 0.7647058823529411
   },
   "counts": {
     "gold": 17,
     "pred": 17,
-    "intersection": 14,
-    "union": 20,
-    "both": 14,
-    "predOnly": 3,
-    "goldOnly": 3
+    "intersection": 13,
+    "union": 21,
+    "both": 13,
+    "predOnly": 4,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -24,7 +24,6 @@
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "modelType=cox",
-      "stratified=false",
       "useCovariates=false",
       "inversePtWeighting=false",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
@@ -36,19 +35,21 @@
     "predJsonOnly": [
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
-      "priorOutcomeLookBack=99999"
+      "priorOutcomeLookBack=99999",
+      "stratified=true"
     ],
     "goldJsonOnly": [
       "washoutPeriod=365",
       "removeDuplicateSubjects=remove all",
-      "priorOutcomeLookBack=365"
+      "priorOutcomeLookBack=365",
+      "stratified=false"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": null,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true,
-    "fitOutcomeModelArgs": true
+    "fitOutcomeModelArgs": false
   },
   "goldJson": {
     "maxCohortSize": 0,
@@ -186,7 +187,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "Variable-ratio PS matching (max 10; caliper=0.2)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -215,7 +216,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

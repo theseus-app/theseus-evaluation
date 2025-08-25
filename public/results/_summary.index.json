@@ -1,5 +1,5 @@
 {
-  "createdAt": "2025-08-22T12:08:36.541Z",
+  "createdAt": "2025-08-25T06:54:38.316Z",
   "totalCases": 11,
   "jaccardPerfect": {
     "count": 0,
@@ -14,28 +14,28 @@
     },
     "timeAtRisks": {
       "evaluated": 11,
-      "trueCount": 7,
-      "falseCount": 4,
-      "accuracy": 0.6363636363636364
+      "trueCount": 6,
+      "falseCount": 5,
+      "accuracy": 0.5454545454545454
     },
     "propensityScoreAdjustment": {
       "evaluated": 11,
-      "trueCount": 7,
-      "falseCount": 4,
-      "accuracy": 0.6363636363636364
+      "trueCount": 9,
+      "falseCount": 2,
+      "accuracy": 0.8181818181818182
     },
     "fitOutcomeModelArgs": {
       "evaluated": 11,
-      "trueCount": 8,
-      "falseCount": 3,
-      "accuracy": 0.7272727272727273
+      "trueCount": 9,
+      "falseCount": 2,
+      "accuracy": 0.8181818181818182
     }
   },
   "results": [
     {
       "name": "AntiVEGFKidney",
       "fileName": "antivegfkidney.json",
-      "createdAt": "2025-08-22T11:53:19.753Z",
+      "createdAt": "2025-08-25T06:39:52.459Z",
       "metrics": {
         "jaccard": 0.7,
         "recall": 0.8235294117647058,
@@ -59,9 +59,9 @@
           "removeSubjectsWithPriorOutcome=true",
           "priorOutcomeLookBack=99999",
           "modelType=cox",
+          "stratified=false",
           "useCovariates=false",
           "inversePtWeighting=false",
-          "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
           "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}",
           "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
@@ -70,19 +70,19 @@
         "predJsonOnly": [
           "firstExposureOnly=false",
           "washoutPeriod=0",
-          "stratified=true"
+          "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
         ],
         "goldJsonOnly": [
           "firstExposureOnly=true",
           "washoutPeriod=365",
-          "stratified=false"
+          "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}"
         ]
       },
       "sectionAccuracy": {
         "studyPeriods": null,
-        "timeAtRisks": true,
+        "timeAtRisks": false,
         "propensityScoreAdjustment": true,
-        "fitOutcomeModelArgs": false
+        "fitOutcomeModelArgs": true
       },
       "goldJson": {
         "maxCohortSize": 0,
@@ -154,7 +154,7 @@
         }
       },
       "predJson": {
-        "name": "",
+        "name": "Kidney failure risk after third anti-VEGF exposure (on-treatment)",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -192,8 +192,8 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "studyStartDate": null,
-              "studyEndDate": null
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "maxCohortSize": 0
@@ -208,8 +208,8 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "On treatment: from cohort start (3rd anti-VEGF exposure) to cohort end (end of continuous exposure or study end)",
-              "riskWindowStart": 0,
+              "description": "On-treatment: after 3rd exposure to cohort end",
+              "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end",
@@ -220,7 +220,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "1:1 PS matching",
+              "description": "PS 1",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -249,7 +249,7 @@
         },
         "fitOutcomeModelArgs": {
           "modelType": "cox",
-          "stratified": true,
+          "stratified": false,
           "useCovariates": false,
           "inversePtWeighting": false,
           "prior": {
@@ -271,20 +271,20 @@
     {
       "name": "CEEAMOS",
       "fileName": "ceeamos.json",
-      "createdAt": "2025-08-22T11:54:16.662Z",
+      "createdAt": "2025-08-25T06:41:30.403Z",
       "metrics": {
-        "jaccard": 0.7,
-        "recall": 0.8235294117647058,
-        "precision": 0.8235294117647058
+        "jaccard": 0.6190476190476191,
+        "recall": 0.7647058823529411,
+        "precision": 0.7647058823529411
       },
       "counts": {
         "gold": 17,
         "pred": 17,
-        "intersection": 14,
-        "union": 20,
-        "both": 14,
-        "predOnly": 3,
-        "goldOnly": 3
+        "intersection": 13,
+        "union": 21,
+        "both": 13,
+        "predOnly": 4,
+        "goldOnly": 4
       },
       "details": {
         "bothJson": [
@@ -294,7 +294,6 @@
           "censorAtNewRiskWindow=false",
           "removeSubjectsWithPriorOutcome=true",
           "modelType=cox",
-          "stratified=false",
           "useCovariates=false",
           "inversePtWeighting=false",
           "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
@@ -306,19 +305,21 @@
         "predJsonOnly": [
           "washoutPeriod=0",
           "removeDuplicateSubjects=keep all",
-          "priorOutcomeLookBack=99999"
+          "priorOutcomeLookBack=99999",
+          "stratified=true"
         ],
         "goldJsonOnly": [
           "washoutPeriod=365",
           "removeDuplicateSubjects=remove all",
-          "priorOutcomeLookBack=365"
+          "priorOutcomeLookBack=365",
+          "stratified=false"
         ]
       },
       "sectionAccuracy": {
         "studyPeriods": null,
         "timeAtRisks": true,
         "propensityScoreAdjustment": true,
-        "fitOutcomeModelArgs": true
+        "fitOutcomeModelArgs": false
       },
       "goldJson": {
         "maxCohortSize": 0,
@@ -456,7 +457,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "PS 1",
+              "description": "Variable-ratio PS matching (max 10; caliper=0.2)",
               "matchOnPsArgs": {
                 "maxRatio": 10,
                 "caliper": 0.2,
@@ -485,7 +486,7 @@
         },
         "fitOutcomeModelArgs": {
           "modelType": "cox",
-          "stratified": false,
+          "stratified": true,
           "useCovariates": false,
           "inversePtWeighting": false,
           "prior": {
@@ -507,7 +508,7 @@
     {
       "name": "CORAZON",
       "fileName": "corazon.json",
-      "createdAt": "2025-08-22T11:55:42.374Z",
+      "createdAt": "2025-08-25T06:42:55.501Z",
       "metrics": {
         "jaccard": 0.8636363636363636,
         "recall": 0.9047619047619048,
@@ -716,7 +717,7 @@
               "minDaysAtRisk": 1
             },
             {
-              "description": "Intention-to-treat",
+              "description": "Intention-to-treat (sensitivity)",
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 99999,
@@ -736,7 +737,7 @@
               }
             },
             {
-              "description": "PS matching (ATT)",
+              "description": "PS matching (ATT sensitivity)",
               "matchOnPsArgs": {
                 "maxRatio": 0,
                 "caliper": 0.2,
@@ -787,7 +788,7 @@
     {
       "name": "COVID19Famotidine",
       "fileName": "covid19famotidine.json",
-      "createdAt": "2025-08-22T11:56:48.312Z",
+      "createdAt": "2025-08-25T06:43:54.687Z",
       "metrics": {
         "jaccard": 0.9,
         "recall": 0.9473684210526315,
@@ -975,7 +976,7 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "ITT: 1 to 30 days after admission",
+              "description": "ITT: day 1 to day 30 after admission",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 30,
@@ -987,7 +988,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "Main: 5-strata PS",
+              "description": "PS Stratification (primary)",
               "matchOnPsArgs": null,
               "stratifyByPsArgs": {
                 "numberOfStrata": 5,
@@ -995,7 +996,7 @@
               }
             },
             {
-              "description": "Sensitivity: 1:1 PS matching",
+              "description": "PS Matching (1:1 sensitivity)",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -1046,20 +1047,20 @@
     {
       "name": "RanitidineCancer",
       "fileName": "ranitidinecancer.json",
-      "createdAt": "2025-08-22T11:59:11.849Z",
+      "createdAt": "2025-08-25T06:44:29.262Z",
       "metrics": {
-        "jaccard": 0.5454545454545454,
-        "recall": 0.7058823529411765,
-        "precision": 0.7058823529411765
+        "jaccard": 0.7,
+        "recall": 0.8235294117647058,
+        "precision": 0.8235294117647058
       },
       "counts": {
         "gold": 17,
         "pred": 17,
-        "intersection": 12,
-        "union": 22,
-        "both": 12,
-        "predOnly": 5,
-        "goldOnly": 5
+        "intersection": 14,
+        "union": 20,
+        "both": 14,
+        "predOnly": 3,
+        "goldOnly": 3
       },
       "details": {
         "bothJson": [
@@ -1070,32 +1071,30 @@
           "censorAtNewRiskWindow=false",
           "removeSubjectsWithPriorOutcome=true",
           "modelType=cox",
+          "stratified=false",
           "useCovariates=false",
           "inversePtWeighting=false",
           "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+          "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}",
           "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
           "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
         ],
         "predJsonOnly": [
           "washoutPeriod=0",
           "priorOutcomeLookBack=99999",
-          "stratified=true",
-          "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
-          "createPsArgs:{Control={\"cvRepetitions\":1,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+          "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
         ],
         "goldJsonOnly": [
           "washoutPeriod=365",
           "priorOutcomeLookBack=365",
-          "stratified=false",
-          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=9999|riskWindowStart=365|startAnchor=cohort start}",
-          "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=9999|riskWindowStart=365|startAnchor=cohort start}"
         ]
       },
       "sectionAccuracy": {
         "studyPeriods": null,
         "timeAtRisks": false,
-        "propensityScoreAdjustment": false,
-        "fitOutcomeModelArgs": false
+        "propensityScoreAdjustment": true,
+        "fitOutcomeModelArgs": true
       },
       "goldJson": {
         "maxCohortSize": 0,
@@ -1167,7 +1166,7 @@
         }
       },
       "predJson": {
-        "name": "",
+        "name": "Primary analysis: 1:1 PS matching, ITT, 1-year lag",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -1221,7 +1220,7 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "ITT with 1-year lag",
+              "description": "Primary ITT with 1-year lag",
               "riskWindowStart": 365,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
@@ -1233,7 +1232,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "1:1 PS matching, caliper 0.2 SDs of logit(PS)",
+              "description": "PS 1",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -1253,7 +1252,7 @@
               "tolerance": 2e-7,
               "cvType": "auto",
               "fold": 10,
-              "cvRepetitions": 1,
+              "cvRepetitions": 10,
               "noiseLevel": "silent",
               "resetCoefficients": true,
               "startingVariance": 0.01
@@ -1262,7 +1261,7 @@
         },
         "fitOutcomeModelArgs": {
           "modelType": "cox",
-          "stratified": true,
+          "stratified": false,
           "useCovariates": false,
           "inversePtWeighting": false,
           "prior": {
@@ -1284,20 +1283,20 @@
     {
       "name": "RapidCycleJanssen",
       "fileName": "rapidcyclejanssen.json",
-      "createdAt": "2025-08-22T12:00:57.520Z",
+      "createdAt": "2025-08-25T06:45:52.033Z",
       "metrics": {
-        "jaccard": 0.8333333333333334,
-        "recall": 0.9090909090909091,
-        "precision": 0.9090909090909091
+        "jaccard": 0.9130434782608695,
+        "recall": 0.9545454545454546,
+        "precision": 0.9545454545454546
       },
       "counts": {
         "gold": 22,
         "pred": 22,
-        "intersection": 20,
-        "union": 24,
-        "both": 20,
-        "predOnly": 2,
-        "goldOnly": 2
+        "intersection": 21,
+        "union": 23,
+        "both": 21,
+        "predOnly": 1,
+        "goldOnly": 1
       },
       "details": {
         "bothJson": [
@@ -1318,23 +1317,22 @@
           "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
           "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
           "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=0|startAnchor=cohort start}",
+          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}",
           "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
           "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
         ],
         "predJsonOnly": [
-          "removeDuplicateSubjects=keep all",
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+          "removeDuplicateSubjects=keep all"
         ],
         "goldJsonOnly": [
-          "removeDuplicateSubjects=remove all",
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=propensity score|maxRatio=0|numberOfStrata=null}"
+          "removeDuplicateSubjects=remove all"
         ]
       },
       "sectionAccuracy": {
         "studyPeriods": true,
         "timeAtRisks": true,
-        "propensityScoreAdjustment": false,
+        "propensityScoreAdjustment": true,
         "fitOutcomeModelArgs": true
       },
       "goldJson": {
@@ -1399,7 +1397,7 @@
               "matchOnPsArgs": {
                 "maxRatio": 0,
                 "caliper": 0.2,
-                "caliperScale": "propensity score"
+                "caliperScale": "standardized logit"
               },
               "stratifyByPsArgs": null
             }
@@ -1497,7 +1495,7 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "Days 1-14 post index",
+              "description": "Days 1-14 post-vaccination",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 14,
@@ -1505,7 +1503,7 @@
               "minDaysAtRisk": 1
             },
             {
-              "description": "Days 1-28 post index",
+              "description": "Days 1-28 post-vaccination",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 28,
@@ -1513,7 +1511,7 @@
               "minDaysAtRisk": 1
             },
             {
-              "description": "Days 1-42 post index",
+              "description": "Days 1-42 post-vaccination",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 42,
@@ -1521,7 +1519,7 @@
               "minDaysAtRisk": 1
             },
             {
-              "description": "Days 1-90 post index",
+              "description": "Days 1-90 post-vaccination",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 90,
@@ -1529,7 +1527,7 @@
               "minDaysAtRisk": 1
             },
             {
-              "description": "Anaphylaxis Days 0-2 post index",
+              "description": "Anaphylaxis: Days 0-2 post-vaccination",
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 2,
@@ -1592,20 +1590,20 @@
     {
       "name": "SemaglutideandNAION",
       "fileName": "semaglutideandnaion.json",
-      "createdAt": "2025-08-22T12:02:21.310Z",
+      "createdAt": "2025-08-25T06:46:39.349Z",
       "metrics": {
-        "jaccard": 0.6818181818181818,
-        "recall": 0.7894736842105263,
-        "precision": 0.8333333333333334
+        "jaccard": 0.7619047619047619,
+        "recall": 0.8421052631578947,
+        "precision": 0.8888888888888888
       },
       "counts": {
         "gold": 19,
         "pred": 18,
-        "intersection": 15,
-        "union": 22,
-        "both": 15,
-        "predOnly": 3,
-        "goldOnly": 4
+        "intersection": 16,
+        "union": 21,
+        "both": 16,
+        "predOnly": 2,
+        "goldOnly": 3
       },
       "details": {
         "bothJson": [
@@ -1622,17 +1620,16 @@
           "inversePtWeighting=false",
           "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
           "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
+          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
           "fitOutcomeModel.Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}",
           "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
         ],
         "predJsonOnly": [
           "washoutPeriod=0",
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
         ],
         "goldJsonOnly": [
           "washoutPeriod=365",
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
           "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":false,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=false|maxCohortSizeForFitting=250000}"
         ]
@@ -1677,7 +1674,7 @@
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
-                "caliperScale": "propensity score"
+                "caliperScale": "standardized logit"
               },
               "stratifyByPsArgs": null
             },
@@ -1728,15 +1725,15 @@
         }
       },
       "predJson": {
-        "name": "",
+        "name": "Risk of NAION with T2D medications: Semaglutide vs Dulaglutide (2017-2023)",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Semaglutide new users with T2D (>=18)"
+            "name": "Semaglutide (GLP-1RA) new users with T2D, age >=18"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Dulaglutide new users with T2D (>=18)"
+            "name": "Dulaglutide (GLP-1RA) new users with T2D, age >=18"
           },
           "outcomeCohort": [
             {
@@ -1782,7 +1779,7 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment: cohort start (initiation) to cohort end (end of continuous exposure)",
+              "description": "On-treatment: index date to end of continuous drug exposure",
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
@@ -1794,7 +1791,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "PS 1",
+              "description": "1:1 PS matching",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -1845,28 +1842,26 @@
     {
       "name": "StrokeRisk",
       "fileName": "strokerisk.json",
-      "createdAt": "2025-08-22T12:03:43.704Z",
+      "createdAt": "2025-08-25T06:49:26.867Z",
       "metrics": {
-        "jaccard": 0.8260869565217391,
-        "recall": 0.9047619047619048,
-        "precision": 0.9047619047619048
+        "jaccard": 0.64,
+        "recall": 0.7619047619047619,
+        "precision": 0.8
       },
       "counts": {
         "gold": 21,
-        "pred": 21,
-        "intersection": 19,
-        "union": 23,
-        "both": 19,
-        "predOnly": 2,
-        "goldOnly": 2
+        "pred": 20,
+        "intersection": 16,
+        "union": 25,
+        "both": 16,
+        "predOnly": 4,
+        "goldOnly": 5
       },
       "details": {
         "bothJson": [
           "maxCohortSize=0",
           "restrictToCommonPeriod=false",
-          "firstExposureOnly=false",
           "washoutPeriod=0",
-          "removeDuplicateSubjects=keep all",
           "censorAtNewRiskWindow=false",
           "removeSubjectsWithPriorOutcome=true",
           "priorOutcomeLookBack=99999",
@@ -1874,7 +1869,6 @@
           "stratified=true",
           "useCovariates=false",
           "inversePtWeighting=false",
-          "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
           "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
           "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
           "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
@@ -1883,10 +1877,15 @@
           "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
         ],
         "predJsonOnly": [
+          "firstExposureOnly=true",
+          "removeDuplicateSubjects=keep first",
           "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
         ],
         "goldJsonOnly": [
+          "firstExposureOnly=false",
+          "removeDuplicateSubjects=keep all",
+          "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
           "studyPeriods:{studyEndDate=20151130|studyStartDate=20010101}",
           "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
         ]
@@ -2030,10 +2029,6 @@
           "studyPeriods": [
             {
               "studyStartDate": "20010101",
-              "studyEndDate": "20171231"
-            },
-            {
-              "studyStartDate": "20010101",
               "studyEndDate": "20150930"
             }
           ],
@@ -2041,9 +2036,9 @@
         },
         "createStudyPopArgs": {
           "restrictToCommonPeriod": false,
-          "firstExposureOnly": false,
+          "firstExposureOnly": true,
           "washoutPeriod": 0,
-          "removeDuplicateSubjects": "keep all",
+          "removeDuplicateSubjects": "keep first",
           "censorAtNewRiskWindow": false,
           "removeSubjectsWithPriorOutcome": true,
           "priorOutcomeLookBack": 99999,
@@ -2066,7 +2061,7 @@
               "stratifyByPsArgs": null
             },
             {
-              "description": "Sentinel PS 1:1 matching (caliper 0.05 on PS scale)",
+              "description": "Sentinel PS (1:1 matching, caliper 0.05 on PS scale)",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.05,
@@ -2075,7 +2070,7 @@
               "stratifyByPsArgs": null
             },
             {
-              "description": "Adapted PS 1:10 matching (0.2 SD of logit PS caliper)",
+              "description": "Adapted PS (variable ratio up to 1:10, caliper 0.2 on standardized logit)",
               "matchOnPsArgs": {
                 "maxRatio": 10,
                 "caliper": 0.2,
@@ -2126,7 +2121,7 @@
     {
       "name": "TicagrelorClopidogrel",
       "fileName": "ticagrelorclopidogrel.json",
-      "createdAt": "2025-08-22T12:05:17.276Z",
+      "createdAt": "2025-08-25T06:51:41.698Z",
       "metrics": {
         "jaccard": 0.7692307692307693,
         "recall": 0.8695652173913043,
@@ -2166,13 +2161,13 @@
         ],
         "predJsonOnly": [
           "washoutPeriod=0",
-          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
-          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}"
+          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=0|startAnchor=cohort start}",
+          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=0|startAnchor=cohort start}"
         ],
         "goldJsonOnly": [
           "washoutPeriod=365",
-          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=0|startAnchor=cohort start}",
-          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=0|startAnchor=cohort start}"
+          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
+          "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}"
         ]
       },
       "sectionAccuracy": {
@@ -2205,14 +2200,14 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "riskWindowStart": 0,
+              "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 365,
               "endAnchor": "cohort start",
               "minDaysAtRisk": 1
             },
             {
-              "riskWindowStart": 0,
+              "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 1825,
               "endAnchor": "cohort start",
@@ -2350,23 +2345,23 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "1-year ITT",
-              "riskWindowStart": 1,
+              "description": "Primary 1-year (ITT)",
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 365,
               "endAnchor": "cohort start",
               "minDaysAtRisk": 1
             },
             {
-              "description": "5-year ITT",
-              "riskWindowStart": 1,
+              "description": "5-year (ITT)",
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 1825,
               "endAnchor": "cohort start",
               "minDaysAtRisk": 1
             },
             {
-              "description": "On-treatment (1 day after index to end of exposure; 7-day gap allowed)",
+              "description": "On-treatment",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
@@ -2378,7 +2373,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "1:1 greedy PS matching",
+              "description": "PS 1: 1-to-1 greedy matching",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -2387,7 +2382,7 @@
               "stratifyByPsArgs": null
             },
             {
-              "description": "Variable-ratio PS matching (max 10)",
+              "description": "PS 2: variable-ratio matching (max 10)",
               "matchOnPsArgs": {
                 "maxRatio": 10,
                 "caliper": 0.2,
@@ -2396,7 +2391,7 @@
               "stratifyByPsArgs": null
             },
             {
-              "description": "PS stratification (deciles)",
+              "description": "PS 3: stratification by deciles",
               "matchOnPsArgs": null,
               "stratifyByPsArgs": {
                 "numberOfStrata": 10,
@@ -2446,7 +2441,7 @@
     {
       "name": "TramadolCodein",
       "fileName": "tramadolcodein.json",
-      "createdAt": "2025-08-22T12:08:00.438Z",
+      "createdAt": "2025-08-25T06:53:30.580Z",
       "metrics": {
         "jaccard": 0.7142857142857143,
         "recall": 0.8333333333333334,
@@ -2615,8 +2610,8 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "studyStartDate": null,
-              "studyEndDate": null
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "maxCohortSize": 0
@@ -2651,7 +2646,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "1:1 greedy matching, caliper 0.2 SD (logit PS)",
+              "description": "1:1 greedy matching, 0.2 SD logit caliper",
               "matchOnPsArgs": {
                 "maxRatio": 1,
                 "caliper": 0.2,
@@ -2702,7 +2697,7 @@
     {
       "name": "UveitisSafety",
       "fileName": "uveitissafety.json",
-      "createdAt": "2025-08-22T12:08:36.536Z",
+      "createdAt": "2025-08-25T06:54:38.312Z",
       "metrics": {
         "jaccard": 0.6190476190476191,
         "recall": 0.7647058823529411,
@@ -2826,7 +2821,7 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": ""
+            "name": "Remicade"
           },
           "comparatorCohort": {
             "id": null,
@@ -2835,7 +2830,7 @@
           "outcomeCohort": [
             {
               "id": null,
-              "name": ""
+              "name": "Non-infectious uveitis (NIU)"
             }
           ]
         },
@@ -2876,7 +2871,7 @@
           "priorOutcomeLookBack": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment: day after index to end of persistent exposure",
+              "description": "On-treatment: day after index to end of exposure",
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
@@ -2888,7 +2883,7 @@
         "propensityScoreAdjustment": {
           "psSettings": [
             {
-              "description": "PS 1",
+              "description": "PS matching: variable ratio up to 1:10 with 0.2 standardized logit caliper",
               "matchOnPsArgs": {
                 "maxRatio": 10,
                 "caliper": 0.2,

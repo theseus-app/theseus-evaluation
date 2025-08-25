@@ -1,28 +1,26 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-08-22T12:03:43.704Z",
+  "createdAt": "2025-08-25T06:49:26.867Z",
   "metrics": {
-    "jaccard": 0.8260869565217391,
-    "recall": 0.9047619047619048,
-    "precision": 0.9047619047619048
+    "jaccard": 0.64,
+    "recall": 0.7619047619047619,
+    "precision": 0.8
   },
   "counts": {
     "gold": 21,
-    "pred": 21,
-    "intersection": 19,
-    "union": 23,
-    "both": 19,
-    "predOnly": 2,
-    "goldOnly": 2
+    "pred": 20,
+    "intersection": 16,
+    "union": 25,
+    "both": 16,
+    "predOnly": 4,
+    "goldOnly": 5
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
-      "firstExposureOnly=false",
       "washoutPeriod=0",
-      "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
@@ -30,7 +28,6 @@
       "stratified=true",
       "useCovariates=false",
       "inversePtWeighting=false",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
@@ -39,10 +36,15 @@
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
+      "firstExposureOnly=true",
+      "removeDuplicateSubjects=keep first",
       "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
+      "firstExposureOnly=false",
+      "removeDuplicateSubjects=keep all",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "studyPeriods:{studyEndDate=20151130|studyStartDate=20010101}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ]
@@ -186,10 +188,6 @@
       "studyPeriods": [
         {
           "studyStartDate": "20010101",
-          "studyEndDate": "20171231"
-        },
-        {
-          "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
       ],
@@ -197,9 +195,9 @@
     },
     "createStudyPopArgs": {
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "keep first",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
@@ -222,7 +220,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS 1:1 matching (caliper 0.05 on PS scale)",
+          "description": "Sentinel PS (1:1 matching, caliper 0.05 on PS scale)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -231,7 +229,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted PS 1:10 matching (0.2 SD of logit PS caliper)",
+          "description": "Adapted PS (variable ratio up to 1:10, caliper 0.2 on standardized logit)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
