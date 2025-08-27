@@ -8,7 +8,8 @@ const TEMPLATE_PATH = path.resolve(
     "templates",
     "CreateStrategusAnalysisSpecification_template.R"
 );
-const OPENAI_API_KEY = 'your_api_key'
+const OPENAI_API_KEY = 'openai-api-key'
+const MODEL_NAME = "gpt-4.1-2025-04-14";
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 /** Remove code fences (```lang ... ```) from LLM outputs. */
 export function stripCodeFences(text: string): string {
@@ -49,8 +50,9 @@ ${template}
 
     const completion = await openai.chat.completions.create({
         // TODO: replace with an actually available model in your account
-        model: "gpt-5-2025-08-07",
+        model: MODEL_NAME,
         messages: [{ role: "user", content: prompt }],
+        temperature: 0
     });
 
     const content = completion.choices[0]?.message?.content?.trim() ?? "";
