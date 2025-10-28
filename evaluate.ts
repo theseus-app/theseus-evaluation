@@ -199,89 +199,150 @@ const isSpecifiedFitOutcome = (g: Flat) =>
 
 // gold 스코프 키만으로 Jaccard/Recall/Precision + 섹션별 정확도
 export const evaluateFlat = (A: Flat, B: Flat) => {
-    const AF = toFacts(A);
-    const BF = toFacts(B);
+  const AF = toFacts(A);
+  const BF = toFacts(B);
 
-    // gold에 존재하는 key만 스코프
-    const goldKeys = new Set<string>();
-    for (const f of AF) goldKeys.add(factKey(f));
+  // gold에 존재하는 key만 스코프
+  const goldKeys = new Set<string>();
+  for (const f of AF) goldKeys.add(factKey(f));
 
-    const BF_scoped = new Set<string>();
-    for (const f of BF) if (goldKeys.has(factKey(f))) BF_scoped.add(f);
+  const BF_scoped = new Set<string>();
+  for (const f of BF) if (goldKeys.has(factKey(f))) BF_scoped.add(f);
 
-    // 교집합/차집합
-    const inter = new Set<string>();
-    for (const f of AF) if (BF_scoped.has(f)) inter.add(f);
+  // 교집합/차집합
+  const inter = new Set<string>();
+  for (const f of AF) if (BF_scoped.has(f)) inter.add(f);
 
-    const union = new Set<string>(AF);
-    for (const f of BF_scoped) union.add(f);
+  const union = new Set<string>(AF);
+  for (const f of BF_scoped) union.add(f);
 
-    const TP = inter.size;
-    const FP = [...BF_scoped].filter((f) => !AF.has(f)).length; // pred만(스코프 내)
-    const FN = [...AF].filter((f) => !BF_scoped.has(f)).length; // gold만
+  const TP = inter.size;
+  const FP = [...BF_scoped].filter((f) => !AF.has(f)).length; // pred만(스코프 내)
+  const FN = [...AF].filter((f) => !BF_scoped.has(f)).length; // gold만
 
-    const jaccard = safeDiv(TP, union.size, 1);
-    const recall = safeDiv(TP, AF.size, 1);
-    const precision = safeDiv(TP, BF_scoped.size, 1);
+  const jaccard = safeDiv(TP, union.size, 1);
+  const recall = safeDiv(TP, AF.size, 1);
+  const precision = safeDiv(TP, BF_scoped.size, 1);
 
-    // --- 섹션별 정확도 계산 ---
+  // --- 공통 헬퍼: 섹션별 diff + metric ---
+  const diffMetrics = (
+    goldArr: any[] | undefined,
+    predArr: any[] | undefined,
+    canonizer: (x: any) => Set<string>
+  ) => {
+    const setA = canonizer(goldArr);
+    const setB = canonizer(predArr);
+    const both = [...setA].filter((x) => setB.has(x));
+    const predOnly = [...setB].filter((x) => !setA.has(x));
+    const goldOnly = [...setA].filter((x) => !setB.has(x));
 
-    // studyPeriods
-    const spSpecified = (A.studyPeriods?.length ?? 0) > 0;
-    const spAcc: boolean | null = spSpecified
-        ? setEq(canonStudyPeriods(A.studyPeriods), canonStudyPeriods(B.studyPeriods))
+    const TP = both.length;
+    const FP = predOnly.length;
+    const FN = goldOnly.length;
+
+    const precision = TP + FP > 0 ? TP / (TP + FP) : null;
+    const recall = TP + FN > 0 ? TP / (TP + FN) : null;
+    const f1 =
+      precision && recall && precision + recall > 0
+        ? (2 * precision * recall) / (precision + recall)
         : null;
 
-    // timeAtRisks
-    const tarSpecified = (A.timeAtRisks?.length ?? 0) > 0;
-    const tarAcc: boolean | null = tarSpecified
-        ? setEq(canonTimeAtRisks(A.timeAtRisks), canonTimeAtRisks(B.timeAtRisks))
-        : null;
-
-    // propensityScoreAdjustment
-    const psSpecified = (A.psSettings?.length ?? 0) > 0;
-    const cpsSpecified = isSpecifiedCreatePsArgs(A);
-    const psaSpecified = psSpecified || cpsSpecified;
-
-    const psEq = psSpecified
-        ? setEq(canonPsSettings(A.psSettings), canonPsSettings(B.psSettings))
-        : true;
-
-    const cpsEq = cpsSpecified
-        ? stableStringify(pickCreatePsArgs(A)) === stableStringify(pickCreatePsArgs(B))
-        : true;
-
-    const psaAcc: boolean | null = psaSpecified ? psEq && cpsEq : null;
-
-    // fitOutcomeModelArgs
-    const fitSpecified = isSpecifiedFitOutcome(A);
-    const fitAcc: boolean | null = fitSpecified
-        ? stableStringify(pickFitOutcome(A)) === stableStringify(pickFitOutcome(B))
-        : null;
+    const accuracy =
+      TP + FP + FN > 0 ? TP / (TP + FP + FN) : null;
 
     return {
-        jaccard,
-        recall,
-        precision,
-        counts: {
-            gold: AF.size,
-            pred: BF_scoped.size,
-            intersection: TP,
-            union: union.size,
-            both: TP,
-            predOnly: FP,
-            goldOnly: FN,
-        },
-        details: {
-            bothJson: [...inter], // TP
-            predJsonOnly: [...BF_scoped].filter((f) => !AF.has(f)), // FP
-            goldJsonOnly: [...AF].filter((f) => !BF_scoped.has(f)), // FN
-        },
-        sectionAccuracy: {
-            studyPeriods: spAcc,
-            timeAtRisks: tarAcc,
-            propensityScoreAdjustment: psaAcc,
-            fitOutcomeModelArgs: fitAcc,
-        },
+      bothCount: TP,
+      predOnlyCount: FP,
+      goldOnlyCount: FN,
+      precision,
+      recall,
+      f1,
+      accuracy,
     };
+  };
+
+  // --- 섹션별 정확도 및 메트릭 계산 ---
+
+  // studyPeriods
+  const spSpecified = (A.studyPeriods?.length ?? 0) > 0;
+  const spCounts = spSpecified
+    ? diffMetrics(A.studyPeriods, B.studyPeriods, (arr) => canonStudyPeriods(arr))
+    : null;
+  const spAcc: boolean | null = spSpecified
+    ? setEq(canonStudyPeriods(A.studyPeriods), canonStudyPeriods(B.studyPeriods))
+    : null;
+
+  // timeAtRisks
+  const tarSpecified = (A.timeAtRisks?.length ?? 0) > 0;
+  const tarCounts = tarSpecified
+    ? diffMetrics(A.timeAtRisks, B.timeAtRisks, (arr) => canonTimeAtRisks(arr))
+    : null;
+  const tarAcc: boolean | null = tarSpecified
+    ? setEq(canonTimeAtRisks(A.timeAtRisks), canonTimeAtRisks(B.timeAtRisks))
+    : null;
+
+  // propensityScoreAdjustment
+  const psSpecified = (A.psSettings?.length ?? 0) > 0;
+  const cpsSpecified = isSpecifiedCreatePsArgs(A);
+  const psaSpecified = psSpecified || cpsSpecified;
+
+  const psEq = psSpecified
+    ? setEq(canonPsSettings(A.psSettings), canonPsSettings(B.psSettings))
+    : true;
+
+  const cpsEq = cpsSpecified
+    ? stableStringify(pickCreatePsArgs(A)) === stableStringify(pickCreatePsArgs(B))
+    : true;
+
+  const psaAcc: boolean | null = psaSpecified ? psEq && cpsEq : null;
+  const psaCounts = psaSpecified
+    ? diffMetrics(A.psSettings, B.psSettings, (arr) => canonPsSettings(arr))
+    : null;
+
+  // fitOutcomeModelArgs
+  const fitSpecified = isSpecifiedFitOutcome(A);
+  const fitEq =
+    stableStringify(pickFitOutcome(A)) === stableStringify(pickFitOutcome(B));
+  const fitAcc: boolean | null = fitSpecified ? fitEq : null;
+
+  const fitCounts = fitSpecified
+    ? diffMetrics(
+        [pickFitOutcome(A)],
+        [pickFitOutcome(B)],
+        (arr) => new Set(arr.map((x:any) => stableStringify(x)))
+      )
+    : null;
+
+  // --- 결과 리턴 ---
+  return {
+    jaccard,
+    recall,
+    precision,
+    counts: {
+      gold: AF.size,
+      pred: BF_scoped.size,
+      intersection: TP,
+      union: union.size,
+      both: TP,
+      predOnly: FP,
+      goldOnly: FN,
+    },
+    details: {
+      bothJson: [...inter], // TP
+      predJsonOnly: [...BF_scoped].filter((f) => !AF.has(f)), // FP
+      goldJsonOnly: [...AF].filter((f) => !BF_scoped.has(f)), // FN
+    },
+    sectionAccuracy: {
+      studyPeriods: spAcc,
+      timeAtRisks: tarAcc,
+      propensityScoreAdjustment: psaAcc,
+      fitOutcomeModelArgs: fitAcc,
+    },
+    sectionCounts: {
+      studyPeriods: spCounts,
+      timeAtRisks: tarCounts,
+      propensityScoreAdjustment: psaCounts,
+      fitOutcomeModelArgs: fitCounts,
+    },
+  };
 };

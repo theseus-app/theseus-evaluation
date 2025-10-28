@@ -1,20 +1,20 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-08-25T08:04:15.750Z",
+  "createdAt": "2025-10-26T15:25:49.357Z",
   "metrics": {
-    "jaccard": 0.782608695652174,
-    "recall": 0.8571428571428571,
-    "precision": 0.9
+    "jaccard": 0.7083333333333334,
+    "recall": 0.8095238095238095,
+    "precision": 0.85
   },
   "counts": {
     "gold": 21,
     "pred": 20,
-    "intersection": 18,
-    "union": 23,
-    "both": 18,
-    "predOnly": 2,
-    "goldOnly": 3
+    "intersection": 17,
+    "union": 24,
+    "both": 17,
+    "predOnly": 3,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -22,7 +22,6 @@
       "restrictToCommonPeriod=false",
       "firstExposureOnly=false",
       "washoutPeriod=0",
-      "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
@@ -38,10 +37,12 @@
       "fitOutcomeModel.Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}"
     ],
     "predJsonOnly": [
+      "removeDuplicateSubjects=keep first",
       "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "goldJsonOnly": [
+      "removeDuplicateSubjects=keep all",
       "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "studyPeriods:{studyEndDate=20151130|studyStartDate=20010101}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"quiet\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
@@ -52,6 +53,44 @@
     "timeAtRisks": true,
     "propensityScoreAdjustment": false,
     "fitOutcomeModelArgs": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 2,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 3,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "fitOutcomeModelArgs": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
   },
   "goldJson": {
     "getDbCohortMethodDataArgs": {
@@ -195,13 +234,13 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
       "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "keep first",
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: from day after cohort entry until switch, outcome, >30d gap, disenrollment, or study end",
+          "description": "On-treatment: from day after cohort entry to earliest of switch, outcome, >30d gap, disenrollment, or study end",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -218,7 +257,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS strategy: 1:1 matching, caliper 0.05 on PS scale",
+          "description": "Sentinel PS strategy: 1:1 PS matching, 31 covariates, caliper 0.05 (PS scale)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -227,7 +266,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Large-scale regularized regression PS: 1:10 matching, caliper 0.2 on standardized logit",
+          "description": "Large-scale regularized regression PS: 1:10 variable ratio matching, caliper 0.2 (standardized logit)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

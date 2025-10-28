@@ -8,8 +8,32 @@ import { loadFile, ModulePair } from "./loadFile"
 import { StudyDTO, FlattenStudyDTO, flattenStudy } from "./flatten";
 import { evaluateFlat } from "./evaluate";
 import { text2json } from "./text2json";
-// 결과 저장 폴더
-const RESULTS_DIR = path.resolve(process.cwd(), "public", "results");
+
+// --- parse CLI args ---
+function parseArgs() {
+    const args = process.argv.slice(2);
+    const argMap: Record<string, string> = {};
+    for (const a of args) {
+        const [k, v] = a.split("=");
+        if (k && v) argMap[k.replace(/^--/, "").toLowerCase()] = v.toUpperCase();
+    }
+
+    const vendor = argMap["vendor"];
+    const size = argMap["size"];
+    if (!vendor || !size) {
+        console.error("❌ Usage: ts-node scripts/batchEvaluate.tsx --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE --size=FLAGSHIP|LIGHT");
+        process.exit(1);
+    }
+
+    const supportedVendors = ["OPENAI", "GEMINI", "DEEPSEEK", "CLAUDE"];
+    const supportedSizes = ["FLAGSHIP", "LIGHT"];
+    if (!supportedVendors.includes(vendor) || !supportedSizes.includes(size)) {
+        console.error(`❌ Invalid vendor/size. Supported vendors: ${supportedVendors.join(", ")} / sizes: ${supportedSizes.join(", ")}`);
+        process.exit(1);
+    }
+
+    return { vendor, size };
+}
 
 // 파일명용 slug
 function slugify(s: string) {
@@ -45,16 +69,22 @@ type PerCaseResult = {
         goldOnly: number;
     };
     details: {
-        bothJson: string[];       // 공통
-        predJsonOnly: string[];   // pred에만
-        goldJsonOnly: string[];   // gold에만
+        bothJson: string[];
+        predJsonOnly: string[];
+        goldJsonOnly: string[];
     };
     sectionAccuracy: {
-        studyPeriods: boolean | null,
-        timeAtRisks: boolean | null,
-        propensityScoreAdjustment: boolean | null,
-        fitOutcomeModelArgs: boolean | null,
-    },
+        studyPeriods: boolean | null;
+        timeAtRisks: boolean | null;
+        propensityScoreAdjustment: boolean | null;
+        fitOutcomeModelArgs: boolean | null;
+    };
+    sectionCounts?: {
+        studyPeriods?: any;
+        timeAtRisks?: any;
+        propensityScoreAdjustment?: any;
+        fitOutcomeModelArgs?: any;
+    };
     goldJson: StudyDTO | null;
     predJson: StudyDTO | null;
 };
@@ -64,12 +94,15 @@ export async function runBatchEvaluate(): Promise<{
     resultsDir: string;
     cases: PerCaseResult[];
 }> {
+    const { vendor, size } = parseArgs();
+
     // 1) goldJson + studyText 로드 (여러 케이스)
     const pairs: ModulePair[] = await loadFile();
 
     if (!pairs.length) {
         console.warn("[WARN] No pairs found. Check GOLD_DIR and exports (TEXT*, JSON*).");
     }
+    const RESULTS_DIR = path.resolve(process.cwd(), "public", `results_${vendor.toLowerCase()}_${size.toLowerCase()}`);
 
     await ensureDir(RESULTS_DIR);
 
@@ -83,11 +116,17 @@ export async function runBatchEvaluate(): Promise<{
 
         try {
             // 2-1) text2Json: predJson 생성
-            const { updatedSpec } = await text2json(p.studyText);
+            const { updatedSpec, rawResponse } = await text2json(
+                p.studyText,
+                vendor as "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
+                size as "FLAGSHIP" | "LIGHT"
+            );
+
             const predJson = updatedSpec as StudyDTO | null;
 
             // 방어: 모델 응답이 파싱 실패한 경우
             if (!predJson || typeof predJson !== "object") {
+
                 const bad: PerCaseResult = {
                     name: p.name,
                     fileName: outName,
@@ -99,9 +138,10 @@ export async function runBatchEvaluate(): Promise<{
                     goldJson: p.goldJson,
                     predJson: predJson
                 };
+
                 await fs.writeFile(outPath, JSON.stringify(bad, null, 2), "utf8");
                 summary.push(bad);
-                console.warn(`[WARN] ${p.name}: predJson parse failed. Saved zero-metrics result.`);
+                console.warn(`⚠️ [WARN] ${p.name}: JSON parse failed.`);
                 continue;
             }
 
@@ -125,23 +165,30 @@ export async function runBatchEvaluate(): Promise<{
                 counts: evalRes.counts,
                 details: evalRes.details,
                 sectionAccuracy: evalRes.sectionAccuracy,
-                goldJson: p.goldJson,   // 원본 gold
-                predJson: predJson      // 모델이 생성한 예측
+                sectionCounts: evalRes.sectionCounts,
+                goldJson: p.goldJson,
+                predJson: predJson,
             };
 
             await fs.writeFile(outPath, JSON.stringify(one, null, 2), "utf8");
             summary.push(one);
             console.log(`[OK] Saved: ${path.relative(process.cwd(), outPath)}  (J=${one.metrics.jaccard.toFixed(3)} / R=${one.metrics.recall.toFixed(3)} / P=${one.metrics.precision.toFixed(3)})`);
-        } catch (err) {
-            console.error(`[ERROR] ${p.name}:`, err);
-            // 에러도 파일로 남겨두면 디버깅 편함
-            const fail = {
+
+        } catch (err: any) {
+            console.error(`❌ [ERROR] ${p.name}:`, err);
+
+            // 실패 시 원문 응답을 따로 저장
+            const failOutPath = path.join(RESULTS_DIR, `${slugify(p.name)}_error.json`);
+            const errorData = {
                 name: p.name,
                 error: String(err instanceof Error ? err.message : err),
+                stack: err?.stack ?? null,
                 createdAt: new Date().toISOString(),
             };
-            await fs.writeFile(outPath, JSON.stringify(fail, null, 2), "utf8");
+            await fs.writeFile(failOutPath, JSON.stringify(errorData, null, 2), "utf8");
+            console.warn(`⚠️ Raw error info saved to ${failOutPath}`);
         }
+
     }
 
     // ... for 루프 종료 직후, 요약 파일 쓰기 전에 추가
@@ -179,6 +226,75 @@ export async function runBatchEvaluate(): Promise<{
         fitOutcomeModelArgs: sectionCounts("fitOutcomeModelArgs"),
     };
 
+    // 섹션별 macro/micro metrics 요약
+    function sectionMetricsSummaryAll(key: keyof NonNullable<PerCaseResult["sectionCounts"]>) {
+        // --- Macro (평균)
+        let macroCount = 0;
+        let precisionSum = 0;
+        let recallSum = 0;
+        let f1Sum = 0;
+
+        // --- Micro (전체 TP/FP/FN 합)
+        let TP = 0;
+        let FP = 0;
+        let FN = 0;
+
+        for (const c of summary) {
+            const s = c.sectionCounts?.[key];
+            if (!s) continue;
+
+            // Macro part
+            if (typeof s.precision === "number") {
+                precisionSum += s.precision;
+                recallSum += s.recall ?? 0;
+                f1Sum += s.f1 ?? 0;
+                macroCount++;
+            }
+
+            // Micro part
+            TP += s.bothCount ?? 0;
+            FP += s.predOnlyCount ?? 0;
+            FN += s.goldOnlyCount ?? 0;
+        }
+
+        // Macro average
+        const precisionMacro = macroCount ? precisionSum / macroCount : null;
+        const recallMacro = macroCount ? recallSum / macroCount : null;
+        const f1Macro = macroCount ? f1Sum / macroCount : null;
+
+        // Micro average (전체 집계)
+        const precisionMicro = TP + FP > 0 ? TP / (TP + FP) : null;
+        const recallMicro = TP + FN > 0 ? TP / (TP + FN) : null;
+        const f1Micro =
+            precisionMicro && recallMicro && precisionMicro + recallMicro > 0
+                ? (2 * precisionMicro * recallMicro) / (precisionMicro + recallMicro)
+                : null;
+
+        return {
+            macro: {
+                count: macroCount,
+                precision: precisionMacro,
+                recall: recallMacro,
+                f1: f1Macro,
+            },
+            micro: {
+                TP,
+                FP,
+                FN,
+                precision: precisionMicro,
+                recall: recallMicro,
+                f1: f1Micro,
+            },
+        };
+    }
+
+    const sectionMetricsSummaryCombined = {
+        studyPeriods: sectionMetricsSummaryAll("studyPeriods"),
+        timeAtRisks: sectionMetricsSummaryAll("timeAtRisks"),
+        propensityScoreAdjustment: sectionMetricsSummaryAll("propensityScoreAdjustment"),
+        fitOutcomeModelArgs: sectionMetricsSummaryAll("fitOutcomeModelArgs"),
+    };
+
 
     // 전체 요약 파일도 하나 남겨두기
     const indexPath = path.join(RESULTS_DIR, "_summary.index.json");
@@ -193,6 +309,7 @@ export async function runBatchEvaluate(): Promise<{
                     percent: totalCases ? jaccardPerfectCount / totalCases : null
                 },
                 sectionAccuracySummary,
+                sectionMetricsSummary: sectionMetricsSummaryCombined,
                 results: summary,
             },
             null,

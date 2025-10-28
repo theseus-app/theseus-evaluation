@@ -1,19 +1,19 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-08-25T08:04:40.001Z",
+  "createdAt": "2025-10-26T15:26:03.339Z",
   "metrics": {
-    "jaccard": 0.76,
+    "jaccard": 0.7307692307692307,
     "recall": 0.8260869565217391,
-    "precision": 0.9047619047619048
+    "precision": 0.8636363636363636
   },
   "counts": {
     "gold": 23,
-    "pred": 21,
+    "pred": 22,
     "intersection": 19,
-    "union": 25,
+    "union": 26,
     "both": 19,
-    "predOnly": 2,
+    "predOnly": 3,
     "goldOnly": 4
   },
   "details": {
@@ -40,7 +40,8 @@
     ],
     "predJsonOnly": [
       "washoutPeriod=0",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1826|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=0|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=0|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "washoutPeriod=365",
@@ -54,6 +55,44 @@
     "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "fitOutcomeModelArgs": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": 1,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0.3333333333333333,
+      "recall": 0.3333333333333333,
+      "f1": 0.3333333333333333,
+      "accuracy": 0.2
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 3,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "fitOutcomeModelArgs": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
   },
   "goldJson": {
     "getDbCohortMethodDataArgs": {
@@ -220,15 +259,23 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "5-year period",
-          "riskWindowStart": 1,
+          "description": "Intent-to-treat (up to observation end)",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 1826,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment period (7-day gap allowed)",
+          "description": "5-year time-at-risk",
+          "riskWindowStart": 0,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 1825,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "On-treatment (7-day gap allowed)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -240,7 +287,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "One-to-one greedy matching",
+          "description": "One-to-one PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -249,7 +296,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Variable-ratio matching (max 10)",
+          "description": "Variable-ratio PS matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

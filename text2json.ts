@@ -1,25 +1,74 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { GoogleGenAI } from "@google/genai";
 import { OpenAI } from "openai/client.js";
 import { StudyDTO } from "./flatten";
-
+import dotenv from "dotenv";
+dotenv.config();
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
-const MODEL_NAME = "gpt-4.1-2025-04-14";
-// const GOOGLE_API_KEY = 'google_api_key'
-const OPENAI_API_KEY = 'openai_api_key'
-// const googleAI = new GoogleGenAI({ apiKey: OPENAI_API_KEY });
-const openAI = new OpenAI({ apiKey: OPENAI_API_KEY })
 
+// --- 모델 맵 ---
+const MODEL_MAP = {
+    OPENAI: {
+        FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+    },
+    CLAUDE: {
+        FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        LIGHT: { name: "claude-haiku-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+    },
+    GEMINI: {
+        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+    },
+    DEEPSEEK: {
+        FLAGSHIP: { name: "deepseek-reasoner", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
+        LIGHT: { name: "deepseek-chat", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
+    },
+} as const;
 
 async function readTextFile(abs: string) {
     return fs.readFile(abs, "utf8");
 }
 
 export async function text2json(
-    text: string
-): Promise<{ updatedSpec: StudyDTO | null; description: string }> {
+    text: string,
+    vendor: "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
+    size: "FLAGSHIP" | "LIGHT"
+): Promise<{ updatedSpec: StudyDTO | null; rawResponse: string }> {
     const analysisSpecificationsTemplate = await readTextFile(TEMPLATE_PATH);
+    const selected = MODEL_MAP[vendor][size];
+
+    const json_fields_descriptions = `
+    ["name"] : We can give the analysis a unique name.
+["cohortDefinitions"] : We assume the cohorts have already been created in ATLAS.
+["negativeControlConceptSet"] : Negative control outcomes are outcomes that are not believed to be caused by either the target or the comparator. Here we assume the concept set has already been created.
+["covariateSelection"]["conceptsToInclude"] : When specifying covariates here, all other covariates (aside from those you specified) are left out. We usually want to include all baseline covariates, letting the regularized regression build a model that balances all covariates. The only reason we might want to specify particular covariates is to replicate an existing study that manually picked covariates.
+["covariateSelection"]["conceptsToExclude"] : Rather than specifying which concepts to include, we can instead specify concepts to exclude. When we submit a concept set in this field, we use every covariate except for those that we submitted.
+["getDbCohortMethodDataArgs"][studyPeriods"] : Study start and end dates can be used to limit the analyses to a specific period. The study end date also truncates risk windows, meaning no outcomes beyond the study end date will be considered. Leave blank to use all time.
+["createStudyPopArgs"]["restrictToCommonPeriod"] : Should the study be restricted to the period when both exposures are present? (E.g. when both drugs are on the market)
+["createStudyPopArgs"]["firstExposureOnly"] : Can be used to restrict to the first exposure per patient.
+["createStudyPopArgs"]["washoutPeriod"] : The minimum required continuous observation time prior to index date for a person to be included in the cohort.
+["createStudyPopArgs"]["removeDuplicateSubjects"] :  What happens when a subject is in both target and comparator cohorts. “Keep All” indicating to keep the subjects in both cohorts. With this option it might be possible to double-count subjects and outcomes. “Keep First” indicating to keep the subject in the first cohort that occurred. “Remove All” indicating to remove the subject from both cohorts.
+["createStudyPopArgs"]["censorAtNewRiskWindow"] : If the options “keep all” or “keep first” are selected, we may wish to censor the time when a person is in both cohorts.
+["createStudyPopArgs"]["removeSubjectsWithPriorOutcome"] : We can choose to remove subjects that have the outcome prior to the risk window start.
+["createStudyPopArgs"]["priorOutcomeLookBack"] : If we choose to remove people that had the outcome before, we can select how many days we should look back when identifying prior outcomes.
+["timeAtRisks"] : We can set the end of the time-at-risk to the cohort end, so when exposure stops, which can be referred to as an “on-treatment” design. We can choose to set the end of the time-at-risk to a fixed duration after cohort entry regardless of whether exposure continues, which can be referred to as an “intent-to-treat” design. In the extreme we could set the time-at-risk end to a large number of days (e.g. 99999) after cohort entry, meaning we will effectively follow up subjects until observation end. 
+["propensityScoreAdjustment"]["psSettings"] : We can choose to stratify or match on the propensity score. When stratifying we need to specify the number of strata and whether to select the strata based on the target, comparator, or entire study population. When matching we need to specify the maximum number of people from the comparator group to match to each person in the target group. Typical values are 1 for one-on-one matching, or a large number (e.g. 100) for variable-ratio matching. We also need to specify the caliper: the maximum allowed difference between propensity scores to allow a match. The caliper can be defined on difference caliper scales: the propensity score scale (the PS itself), the standardized scale (in standard deviations of the PS distributions), the standardized logit scale (in standard deviations of the PS distributions after the logit transformation to make the PS more normally distributed).
+["propensityScoreAdjustment"]["createPsArgs"]["maxCohortSizeForFitting"] : What is the maximum number of people to include in the propensity score model when fitting?
+["propensityScoreAdjustment"]["createPsArgs"]["errorOnHighCorrelation"] : If any covariate has an unusually high correlation (either positive or negative), this will throw an error.
+["fitOutcomeModelArgs"]["modelType"] : The statistical model we will use to estimate the relative risk of the outcome between target and comparator cohorts.
+["fitOutcomeModelArgs"]["stratified"] : Whether the regression should be conditioned on the strata. For one-to-one matching this is likely unnecessary and would just lose power. For stratification or variable-ratio matching it is required.
+["fitOutcomeModelArgs"]["useCovariates"] : We can also choose to add the covariates to the outcome model to adjust the analysis. We recommend keeping the outcome model as simple as possible and not include additional covariates.
+["fitOutcomeModelArgs"]["inversePtWeighting"] : Instead of stratifying or matching on the propensity score we can also choose to use inverse probability of treatment weighting (IPTW).
+["prior"]["priorType"] : Specify the prior distribution. 
+["prior"]["useCrossValidation"] : Perform cross-validation to determine prior-variance.
+["control"]["tolerance"] : Maximum relative change in convergence criterion from successive iterations.
+["control"]["cvType] : Cross validation search type.
+["control"]["fold"] : Number of random folds to employ in cross validation.
+["control"]["cvRepetitions"] : Number of repetitions of cross validation.
+["control"]["noiseLevel"] : Noise level for Cyclops screen output.
+["control"]["resetCoefficients"] : Reset all coefficients to 0 between model fits under cross-validation.
+["control"]["startingVariance"] : Starting variance for auto-search cross-validation (-1 mean use estimate based on data).`
 
 
     const currentAnalysisSpecifications = `
@@ -120,6 +169,10 @@ ${text}
 ${currentAnalysisSpecifications}
 </Current Analysis Specifications>
 
+<JSON Fields Descriptions>
+${json_fields_descriptions}
+</JSON Fields Descriptions>
+
 <Analysis Specifications Template>
 ${analysisSpecificationsTemplate}
 </Analysis Specifications Template>
@@ -132,18 +185,124 @@ analysis specifications
 Description
 </Output Style>`;
 
-    const completion = await openAI.chat.completions.create({
-        model: MODEL_NAME,
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0
-    });
+    const systemPrompt = `You are an expert assistant specialized in the OHDSI ecosystem, 
+particularly in Strategus and OMOP-CDM study specifications.
+You translate unstructured study descriptions into valid JSON 
+and R code following the Strategus template format.
+Do not invent new fields or change field names.
+Output strictly follows the given <Output Style> format.`
 
-    const content = completion.choices[0]?.message?.content?.trim() ?? "";
+    // --- vendor별 API 초기화 ---
+    let completionText = "";
+    if (vendor === "OPENAI") {
+        const openai = new OpenAI({ apiKey: selected.key });
+        const res = await openai.chat.completions.create({
+            model: selected.name,
+            messages: [
+                { role: "user", content: prompt }],
+        });
+        completionText = res.choices[0]?.message?.content ?? "";
+    } else if (vendor === "GEMINI") {
+        const resp = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                { text: `${prompt}` }
+                            ]
+                        }
+                    ],
+                    generationConfig: {
+                        maxOutputTokens: 8192
+                    }
+                }),
+            }
+        );
+
+        if (!resp.ok) {
+            const err = await resp.text();
+            console.error("Gemini API Error:", resp.status, err);
+            throw new Error(`Gemini API failed: ${resp.status} ${err}`);
+        }
+
+        const data = await resp.json();
+        // console.log("Gemini Response:", JSON.stringify(data, null, 2)); // 🔍 디버깅용
+        completionText = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    }
+    else if (vendor === "CLAUDE") {
+        const resp = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": selected.key,
+                "anthropic-version": "2023-06-01",
+            },
+            body: JSON.stringify({
+                model: selected.name,
+                max_tokens: 4000,
+                messages: [
+                    { role: "user", content: prompt }  // system 제거
+                ],
+            }),
+        });
+
+        // 에러 체크 추가
+        if (!resp.ok) {
+            const errorText = await resp.text();
+            console.error("Claude API Error:", resp.status, errorText);
+            throw new Error(`Claude API failed: ${resp.status} ${errorText}`);
+        }
+
+        const data = await resp.json();
+        // console.log("Claude Response:", JSON.stringify(data, null, 2));  // 디버깅용
+        completionText = data.content?.[0]?.text ?? "";
+
+    } else if (vendor === "DEEPSEEK") {
+        const resp = await fetch("https://api.deepseek.com/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${selected.key}`,
+            },
+            body: JSON.stringify({
+                model: selected.name,
+                messages: [
+                    { role: "user", content: prompt },
+                ],
+                stream: false,
+            }),
+        });
+
+        // 에러 체크 추가
+        if (!resp.ok) {
+            const errorText = await resp.text();
+            console.error("DeepSeek API Error:", resp.status, errorText);
+            throw new Error(`DeepSeek API failed: ${resp.status} ${errorText}`);
+        }
+
+        const data = await resp.json();
+        // console.log("DeepSeek Response:", JSON.stringify(data, null, 2));  // 디버깅용
+
+        // 응답 구조 확인
+        if (!data.choices || !data.choices[0]) {
+            console.error("Unexpected DeepSeek response structure:", data);
+            throw new Error("Invalid DeepSeek response structure");
+        }
+
+        completionText = data.choices[0]?.message?.content ?? "";
+    }
+
+
+    const content = completionText.trim();
     const m = content.match(/([\s\S]*?)\n?---\n?([\s\S]*)/);
     const updatedSpecRaw = m ? m[1] : content;
     const description = m ? (m[2]?.trim() ?? "") : "";
 
-    return { updatedSpec: safeParseJsonFromText(updatedSpecRaw), description };
+    return { updatedSpec: safeParseJsonFromText(updatedSpecRaw), rawResponse: completionText };
 }
 
 /** ---------- helpers: parse / pretty ---------- */
