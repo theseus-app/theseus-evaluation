@@ -1,15 +1,14 @@
 export const TEXTCORAZON =
     `
-between 1 January 2010 (2012 for  Longitudinal Patients Database France) and 31 December 2019.
+Study Period 1-2: between 1 January 2010 (2012 for  Longitudinal Patients Database France) and 31 December 2019.
 
-Patients were followed from the index date  until the occurrence of the study outcome, treatment  discontinuation (allowing for 90-day gaps between consecutive prescriptions, with the date of treatment discontinuation being the end date of the last prescription [the “on-treatment” approach]), switching from the index medication to another oral anticoagulant (apixaban, dabigatran, edoxaban, rivaroxaban, or warfarin), death, or the end of the study period (31 December 2019), whichever came first.
+TAR 1: Patients were followed from the index date  until the occurrence of the study outcome, treatment  discontinuation (allowing for 90-day gaps between consecutive prescriptions, with the date of treatment discontinuation being the end date of the last prescription [the “on-treatment” approach]), switching from the index medication to another oral anticoagulant (apixaban, dabigatran, edoxaban, rivaroxaban, or warfarin), death, or the end of the study period (31 December 2019), whichever came first.
+TAR 2: We did additional sensitivity analyses in which the time at risk was not censored if a patient discontinued the index medication therapy or switched to another anticoagulant (analogue to the “intention-to-treat” approach).
 
-We did additional sensitivity analyses in which the time at risk was not censored if a patient discontinued the index medication therapy or switched to another anticoagulant (analogue to the “intention-to-treat” approach).
+PS Settings 1: Patients were stratified into 5 strata based on propensity score to estimate the average treatment effect.
+PS Settings 2: We also repeated our analyses using propensity score matching at a variable-matching ratio as sensitivity analyses to estimate the average treatment effect on treated patients.
 
-Patients were stratified into 5 strata based on propensity score to estimate the average treatment effect.
-We also repeated our analyses using propensity score matching at a variable-matching ratio as sensitivity analyses to estimate the average treatment effect on treated patients.
-
-Cox proportional hazards regression conditioned on the propensity score strata was applied to estimate the hazard ratio (HR) of the risk for outcomes 
+Outcome Model: Cox proportional hazards regression conditioned on the propensity score strata was applied to estimate the hazard ratio (HR) of the risk for outcomes 
 `
 
 export const JSONCORAZON = {

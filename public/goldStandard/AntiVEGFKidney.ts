@@ -1,12 +1,10 @@
 export const TEXTAntiVEGFKidney =
   `
-Patients were assumed at-risk of kidney failure after the third anti-VEGF exposure until the end of continuous drug exposure or the end of the study period.
+TAR 1: Patients were assumed at-risk of kidney failure after the third anti-VEGF exposure until the end of continuous drug exposure or the end of the study period.
 
-We used the large-scale propensity score method to match patients in each target and comparator exposure cohort comparison using 1:1 propensity score matching.
+PS Settings 1: We used the large-scale propensity score method to match patients in each target and comparator exposure cohort comparison using 1:1 propensity score matching. The propensity score model included a large number of baseline covariates  as potential confounders and used the L1-regularization technique to avoid model overfitting.
 
-The propensity score model included a large number of baseline covariates  as potential confounders and used the L1-regularization technique to avoid model overfitting.
-
-Cox proportional hazards models were used to estimate the risk of kidney failure while on treatment
+Outcome Model: Cox proportional hazards models were used to estimate the risk of kidney failure while on treatment
 `
 
 export const JSONAntiVEGFKidney = {

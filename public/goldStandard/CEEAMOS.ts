@@ -1,10 +1,10 @@
 export const TEXTCEEAMOS =
     `
-Our analysis considered the time-to-first event and was followed up to the earliest date among last date of assigned treatment, date of last observation in the database, date of occurrence of the endpoint, and date of censoring (as-treated [AT] approach).
+TAR 1: Our analysis considered the time-to-first event and was followed up to the earliest date among last date of assigned treatment, date of last observation in the database, date of occurrence of the endpoint, and date of censoring (as-treated [AT] approach).
 
-The study populations were matched using variable-ratio PS matching with a maximum ratio of 10 (caliper = 0.2).
+PS Settings 1: The study populations were matched using variable-ratio PS matching with a maximum ratio of 10 (caliper = 0.2).
 
-Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) and 95% CIs according to exposure using the CohortMethod21 R package for each data source.
+Outcome Model: Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) and 95% CIs according to exposure using the CohortMethod21 R package for each data source.
 `
 
 export const JSONCEEAMOS = {
