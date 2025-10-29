@@ -1,12 +1,10 @@
 export const TEXTRanitidineCancer =
     `
-The predefined setting for primary analysis was 1:1 PS matching with ITT and a 1-year lag.
+TAR 1: The predefined setting for primary analysis was 1:1 PS matching with ITT and a 1-year lag.
 
-Comparator cohorts were constructed by performing 1:1 PS matching with a caliper of 0.2 SDs of the logic of the PS. 
+PS Settings 1: The predefined setting for primary analysis was 1:1 PS matching with ITT and a 1-year lag. Comparator cohorts were constructed by performing 1:1 PS matching with a caliper of 0.2 SDs of the logic of the PS. Database-specific PSs were estimated using L1 regularized logistic regression tuned by 10-fold cross-validation.
 
-Database-specific PSs were estimated using L1 regularized logistic regression tuned by 10-fold cross-validation.
-
-Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) and 95% CIs according to exposure using the CohortMethod21 R package for each data source.
+Outcome Model: Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) and 95% CIs according to exposure using the CohortMethod21 R package for each data source.
 `
 
 export const JSONRanitidineCancer =

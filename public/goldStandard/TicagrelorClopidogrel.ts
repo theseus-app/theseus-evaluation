@@ -1,16 +1,15 @@
 export const TEXTTicagrelorClopidogrel =
     `
-from November 2011 to March 2019.
-we conducted an additional analysis to apply an identical study period to all databases, namely March 2013 and December2016,b
+Study Period 1: from November 2011 to March 2019.
+Study Period 2: we conducted an additional analysis to apply an identical study period to all databases, namely March 2013 and December2016,b
 
-Patients were censored when they were no longer observed in the database, while they remained in the primary analysis if they discontinued the allocated drug or switched the drug within the first year.
-2 more time-at-risk windows were applied—a 5-year period and an on-treatment period. The on-treatment period was defined as the time from 1 day after the index date until the end of persistent exposure to the drug, allowing a 7-day gap or the end of a patient’s record.
+TAR 1: Patients were censored when they were no longer observed in the database, while they remained in the primary analysis if they discontinued the allocated drug or switched the drug within the first year.
+TAR 2-3: 2 more time-at-risk windows were applied—a 5-year period and an on-treatment period. The on-treatment period was defined as the time from 1 day after the index date until the end of persistent exposure to the drug, allowing a 7-day gap or the end of a patient’s record.
 
-The study populations were matched using one-to-one greedy matching of the propensity score.
+PS Settings 1: The study populations were matched using one-to-one greedy matching of the propensity score.
+PS Settings 2-3: In addition to one-to-one propensity score matching, 2 additional propensity score adjustments were performed: (1) variable-ratio propensity score matching with a maximum ratio of 10; and (2) propensity score stratification using deciles of the propensity score distribution.
 
-In addition to one-to-one propensity score matching, 2 additional propensity score adjustments were performed: (1) variable-ratio propensity score matching with a maximum ratio of 10; and (2) propensity score stratification using deciles of the propensity score distribution.
-
-We used Cox proportional haz ard regression models to estimate the association of expo sures with outcomes
+Outcome Model: We used Cox proportional haz ard regression models to estimate the association of expo sures with outcomes
 `
 
 export const JSONTicagrelorClopidogrel = {

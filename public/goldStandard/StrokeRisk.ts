@@ -1,15 +1,14 @@
 export const TEXTStrokeRisk =
   `
-Included data available from January 1, 2001 through December 31, 2017
+Study Period 1: Included data available from January 1, 2001 through December 31, 2017
+Study Period 2: We conducted a post-hoc analysis where the study end-date was redefined as September 30, 2015.
 
-We conducted a post-hoc analysis where the study end-date was redefined as September 30, 2015.
-
-"On-treatment” time at risk in the cohort for which they first qualified, starting from the day after they entered that cohort until the first of: receiving a medication associated with the other cohort, having the study outcome (see in the following sections), having a gap of more than 30 days in the supply of the cohort-defining drug (more than 30 days from the end of the days’ supply one dispensing to the next dispensing), reaching the end of insurance enrollment, or reaching the end of the study.
+TAR 1: "On-treatment” time at risk in the cohort for which they first qualified, starting from the day after they entered that cohort until the first of: receiving a medication associated with the other cohort, having the study outcome (see in the following sections), having a gap of more than 30 days in the supply of the cohort-defining drug (more than 30 days from the end of the days’ supply one dispensing to the next dispensing), reaching the end of insurance enrollment, or reaching the end of the study.
 For both cohorts being compared, patients were required to have at least 1 day of continuous observation after the time-at-risk start.
 
-Three PS adjustment approaches were used in the present study. First was the unadjusted (crude) estimate. Second was the Sentinel PS replication (Sentinel PS strategy), which involved 1:1 matching on a PS based on the 31 covariates used in the Sentinel study18 with a caliper of 0.05 on the PS scale. Third was the large-scale regularized regression model involving PS estimation (adapted PS strategy) using predicted probability from a large-scale regularized logistic regression model, fit with a Laplace prior (LASSO) using all observed covariates, including a recent diagnosis of dementia as input and 1:10 variable ratio matching with a caliper of 0.2 of the standard deviation of the logit of PS.
+PS Settings 1-3: Three PS adjustment approaches were used in the present study. First was the unadjusted (crude) estimate. Second was the Sentinel PS replication (Sentinel PS strategy), which involved 1:1 matching on a PS based on the 31 covariates used in the Sentinel study18 with a caliper of 0.05 on the PS scale. Third was the large-scale regularized regression model involving PS estimation (adapted PS strategy) using predicted probability from a large-scale regularized logistic regression model, fit with a Laplace prior (LASSO) using all observed covariates, including a recent diagnosis of dementia as input and 1:10 variable ratio matching with a caliper of 0.2 of the standard deviation of the logit of PS.
 
-The HRs for the outcome during the time-at-risk was estimated by applying a Cox proportional hazards model conditioned on the PS matched sets. 
+Outcome Model: The HRs for the outcome during the time-at-risk was estimated by applying a Cox proportional hazards model conditioned on the PS matched sets. 
 `
 
 export const JSONStrokeRisk = {
