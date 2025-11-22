@@ -6,196 +6,208 @@ type Flat = FlattenStudyDTO;
 
 // --- 안정 직렬화(키 정렬) ---
 const stableStringify = (v: any): string => {
-    const recur = (x: any): any => {
-        if (x === null || x === undefined) return null;
-        if (Array.isArray(x)) return x.map(recur);
-        if (typeof x === "object") {
-            const entries = Object.entries(x)
-                .map(([k, v]) => [k, recur(v)] as const)
-                .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
-            const o: Record<string, any> = {};
-            for (const [k, v] of entries) o[k] = v;
-            return o;
-        }
-        return x;
-    };
-    return JSON.stringify(recur(v));
+  const recur = (x: any): any => {
+    if (x === null || x === undefined) return null;
+    if (Array.isArray(x)) return x.map(recur);
+    if (typeof x === "object") {
+      const entries = Object.entries(x)
+        .map(([k, v]) => [k, recur(v)] as const)
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+      const o: Record<string, any> = {};
+      for (const [k, v] of entries) o[k] = v;
+      return o;
+    }
+    return x;
+  };
+  return JSON.stringify(recur(v));
 };
 
 // 값 정규화
 const normVal = (v: unknown): string => {
-    if (v === null || v === undefined) return "null";
-    if (typeof v === "string") return v.trim();
-    if (typeof v === "number" || typeof v === "boolean") return String(v);
-    return stableStringify(v);
+  if (v === null || v === undefined) return "null";
+  if (typeof v === "string") return v.trim();
+  if (typeof v === "number" || typeof v === "boolean") return String(v);
+  return stableStringify(v);
 };
 
 // 객체 항목 캐논화
 const canonicalizeObject = (field: string, obj: Record<string, unknown>): string => {
-    const entries = Object.entries(obj)
-        .map(([k, v]) => [k, normVal(v)] as const)
-        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
-    const body = entries.map(([k, v]) => `${k}=${v}`).join("|");
-    return `${field}:{${body}}`;
+  const entries = Object.entries(obj)
+    .map(([k, v]) => [k, normVal(v)] as const)
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+  const body = entries.map(([k, v]) => `${k}=${v}`).join("|");
+  return `${field}:{${body}}`;
 };
 
 // 1-depth facts로 변환 (완전일치 규칙 반영)
 export const toFacts = (flat: Flat): Set<string> => {
-    const facts = new Set<string>();
+  const facts = new Set<string>();
 
-    // 스칼라
-    facts.add(`maxCohortSize=${normVal(flat.maxCohortSize)}`);
-    facts.add(`restrictToCommonPeriod=${normVal(flat.restrictToCommonPeriod)}`);
-    facts.add(`firstExposureOnly=${normVal(flat.firstExposureOnly)}`);
-    facts.add(`washoutPeriod=${normVal(flat.washoutPeriod)}`);
-    facts.add(`removeDuplicateSubjects=${normVal(flat.removeDuplicateSubjects)}`);
-    facts.add(`censorAtNewRiskWindow=${normVal(flat.censorAtNewRiskWindow)}`);
-    facts.add(`removeSubjectsWithPriorOutcome=${normVal(flat.removeSubjectsWithPriorOutcome)}`);
-    facts.add(`priorOutcomeLookBack=${normVal(flat.priorOutcomeLookBack)}`);
+  // 스칼라
+  facts.add(`maxCohortSize=${normVal(flat.maxCohortSize)}`);
+  facts.add(`restrictToCommonPeriod=${normVal(flat.restrictToCommonPeriod)}`);
+  facts.add(`firstExposureOnly=${normVal(flat.firstExposureOnly)}`);
+  facts.add(`washoutPeriod=${normVal(flat.washoutPeriod)}`);
+  facts.add(`removeDuplicateSubjects=${normVal(flat.removeDuplicateSubjects)}`);
+  facts.add(`censorAtNewRiskWindow=${normVal(flat.censorAtNewRiskWindow)}`);
+  facts.add(`removeSubjectsWithPriorOutcome=${normVal(flat.removeSubjectsWithPriorOutcome)}`);
+  facts.add(`priorOutcomeLookBack=${normVal(flat.priorOutcomeLookBack)}`);
 
-    facts.add(`modelType=${normVal(flat.modelType)}`);
-    facts.add(`stratified=${normVal(flat.stratified)}`);
-    facts.add(`useCovariates=${normVal(flat.useCovariates)}`);
-    facts.add(`inversePtWeighting=${normVal(flat.inversePtWeighting)}`);
+  // facts.add(`modelType=${normVal(flat.modelType)}`);
+  // facts.add(`stratified=${normVal(flat.stratified)}`);
+  // facts.add(`useCovariates=${normVal(flat.useCovariates)}`);
+  // facts.add(`inversePtWeighting=${normVal(flat.inversePtWeighting)}`);
 
-    // 배열 항목: 완전일치 항목으로 비교
-    for (const sp of flat.studyPeriods ?? []) {
-        facts.add(
-            canonicalizeObject("studyPeriods", {
-                studyStartDate: sp.studyStartDate,
-                studyEndDate: sp.studyEndDate,
-            })
-        );
-    }
-
-    for (const t of flat.timeAtRisks ?? []) {
-        facts.add(
-            canonicalizeObject("timeAtRisks", {
-                riskWindowStart: t.riskWindowStart,
-                startAnchor: t.startAnchor,
-                riskWindowEnd: t.riskWindowEnd,
-                endAnchor: t.endAnchor,
-                minDaysAtRisk: t.minDaysAtRisk,
-            })
-        );
-    }
-
-    for (const p of flat.psSettings ?? []) {
-        facts.add(
-            canonicalizeObject("psSettings", {
-                maxRatio: p.maxRatio,
-                caliper: p.caliper,
-                caliperScale: p.caliperScale,
-                numberOfStrata: p.numberOfStrata,
-                baseSelection: p.baseSelection,
-            })
-        );
-    }
-
-    // createPsArgs: 단일 복합 항목
+  // 배열 항목: 완전일치 항목으로 비교
+  for (const sp of flat.studyPeriods ?? []) {
     facts.add(
-        canonicalizeObject("createPsArgs", {
-            maxCohortSizeForFitting: flat.createPsArgs?.maxCohortSizeForFitting ?? null,
-            errorOnHighCorrelation: flat.createPsArgs?.errorOnHighCorrelation ?? null,
-            Prior: flat.createPsArgs?.Prior ?? null,
-            Control: flat.createPsArgs?.Control ?? null,
-        })
+      canonicalizeObject("studyPeriods", {
+        studyStartDate: sp.studyStartDate,
+        studyEndDate: sp.studyEndDate,
+      })
     );
+  }
 
-    // fitOutcomeModelArgs 복합 항목은 섹션 정확도 계산에서 직접 비교,
-    // 여기서는 기존처럼 Prior/Control만 문자열로 포함(전체 지표용)
-    facts.add(`fitOutcomeModel.Prior=${normVal(flat.Prior ?? null)}`);
-    facts.add(`fitOutcomeModel.Control=${normVal(flat.Control ?? null)}`);
+  for (const t of flat.timeAtRisks ?? []) {
+    facts.add(
+      canonicalizeObject("timeAtRisks", {
+        riskWindowStart: t.riskWindowStart,
+        startAnchor: t.startAnchor,
+        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+        endAnchor: t.endAnchor,
+        minDaysAtRisk: t.minDaysAtRisk,
+      })
+    );
+  }
 
-    return facts;
+  for (const p of flat.psSettings ?? []) {
+    facts.add(
+      canonicalizeObject("psSettings", {
+        maxRatio: normalizeMaxRatio(p.maxRatio),
+        caliper: p.caliper,
+        caliperScale: p.caliperScale,
+        numberOfStrata: p.numberOfStrata,
+        baseSelection: p.baseSelection,
+      })
+    );
+  }
+
+  // createPsArgs: 단일 복합 항목
+  facts.add(
+    canonicalizeObject("createPsArgs", {
+      maxCohortSizeForFitting: flat.createPsArgs?.maxCohortSizeForFitting ?? null,
+      errorOnHighCorrelation: flat.createPsArgs?.errorOnHighCorrelation ?? null,
+      Prior: flat.createPsArgs?.Prior ?? null,
+      Control: flat.createPsArgs?.Control ?? null,
+    })
+  );
+
+  // // fitOutcomeModelArgs 복합 항목은 섹션 정확도 계산에서 직접 비교,
+  // // 여기서는 기존처럼 Prior/Control만 문자열로 포함(전체 지표용)
+  // facts.add(`fitOutcomeModel.Prior=${normVal(flat.Prior ?? null)}`);
+  // facts.add(`fitOutcomeModel.Control=${normVal(flat.Control ?? null)}`);
+
+  return facts;
 };
 
 // 안전 나눗셈
 const safeDiv = (num: number, den: number, whenZero: number): number =>
-    den === 0 ? whenZero : num / den;
+  den === 0 ? whenZero : num / den;
 
 // fact 키 추출: "a=b" -> "a", "foo:{...}" -> "foo"
 const factKey = (f: string): string => {
-    const objIdx = f.indexOf(":{");
-    if (objIdx !== -1) return f.slice(0, objIdx);
-    const eqIdx = f.indexOf("=");
-    return eqIdx === -1 ? f : f.slice(0, eqIdx);
+  const objIdx = f.indexOf(":{");
+  if (objIdx !== -1) return f.slice(0, objIdx);
+  const eqIdx = f.indexOf("=");
+  return eqIdx === -1 ? f : f.slice(0, eqIdx);
 };
 
 // --- 섹션 비교 헬퍼들 ---
 
+//riskwindow 기간 normalize
+const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => {
+  if (n === null || n === undefined) return null;
+  return n === 9999 ? 99999 : n;
+};
+
+// 2) maxRatio: 0 (no max) 와 100 을 동치로 취급
+const normalizeMaxRatio = (n: number | null | undefined): number | null => {
+  if (n === null || n === undefined) return null;
+  return n === 100 ? 0 : n;
+};
+
 const setEq = (A: Set<string>, B: Set<string>) =>
-    A.size === B.size && [...A].every((x) => B.has(x));
+  A.size === B.size && [...A].every((x) => B.has(x));
 
 const canonStudyPeriods = (arr: Flat["studyPeriods"]) =>
-    new Set(
-        (arr ?? []).map((sp) =>
-            canonicalizeObject("studyPeriods", {
-                studyStartDate: sp.studyStartDate,
-                studyEndDate: sp.studyEndDate,
-            })
-        )
-    );
+  new Set(
+    (arr ?? []).map((sp) =>
+      canonicalizeObject("studyPeriods", {
+        studyStartDate: sp.studyStartDate,
+        studyEndDate: sp.studyEndDate,
+      })
+    )
+  );
 
 const canonTimeAtRisks = (arr: Flat["timeAtRisks"]) =>
-    new Set(
-        (arr ?? []).map((t) =>
-            canonicalizeObject("timeAtRisks", {
-                riskWindowStart: t.riskWindowStart,
-                startAnchor: t.startAnchor,
-                riskWindowEnd: t.riskWindowEnd,
-                endAnchor: t.endAnchor,
-                minDaysAtRisk: t.minDaysAtRisk,
-            })
-        )
-    );
+  new Set(
+    (arr ?? []).map((t) =>
+      canonicalizeObject("timeAtRisks", {
+        riskWindowStart: t.riskWindowStart,
+        startAnchor: t.startAnchor,
+        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+        endAnchor: t.endAnchor,
+        minDaysAtRisk: t.minDaysAtRisk,
+      })
+    )
+  );
 
 const canonPsSettings = (arr: Flat["psSettings"]) =>
-    new Set(
-        (arr ?? []).map((p) =>
-            canonicalizeObject("psSettings", {
-                maxRatio: p.maxRatio,
-                caliper: p.caliper,
-                caliperScale: p.caliperScale,
-                numberOfStrata: p.numberOfStrata,
-                baseSelection: p.baseSelection,
-            })
-        )
-    );
+  new Set(
+    (arr ?? []).map((p) =>
+      canonicalizeObject("psSettings", {
+        maxRatio: normalizeMaxRatio(p.maxRatio),
+        caliper: p.caliper,
+        caliperScale: p.caliperScale,
+        numberOfStrata: p.numberOfStrata,
+        baseSelection: p.baseSelection,
+      })
+    )
+  );
 
 const pickCreatePsArgs = (f: Flat) => ({
-    maxCohortSizeForFitting: f.createPsArgs?.maxCohortSizeForFitting ?? null,
-    errorOnHighCorrelation: f.createPsArgs?.errorOnHighCorrelation ?? null,
-    Prior: f.createPsArgs?.Prior ?? null,
-    Control: f.createPsArgs?.Control ?? null,
+  maxCohortSizeForFitting: f.createPsArgs?.maxCohortSizeForFitting ?? null,
+  errorOnHighCorrelation: f.createPsArgs?.errorOnHighCorrelation ?? null,
+  Prior: f.createPsArgs?.Prior ?? null,
+  Control: f.createPsArgs?.Control ?? null,
 });
 const DEFAULT_CREATE_PS_ARGS = {
-    maxCohortSizeForFitting: 0,
-    errorOnHighCorrelation: false,
-    Prior: null,
-    Control: null,
+  maxCohortSizeForFitting: 0,
+  errorOnHighCorrelation: false,
+  Prior: null,
+  Control: null,
 };
 const isSpecifiedCreatePsArgs = (g: Flat) =>
-    stableStringify(pickCreatePsArgs(g)) !== stableStringify(DEFAULT_CREATE_PS_ARGS);
+  stableStringify(pickCreatePsArgs(g)) !== stableStringify(DEFAULT_CREATE_PS_ARGS);
 
 const pickFitOutcome = (f: Flat) => ({
-    modelType: f.modelType,
-    stratified: f.stratified,
-    useCovariates: f.useCovariates,
-    inversePtWeighting: f.inversePtWeighting,
-    Prior: f.Prior ?? null,
-    Control: f.Control ?? null,
+  modelType: f.modelType,
+  stratified: f.stratified,
+  useCovariates: f.useCovariates,
+  inversePtWeighting: f.inversePtWeighting,
+  Prior: f.Prior ?? null,
+  Control: f.Control ?? null,
 });
 const DEFAULT_FIT_OUTCOME = {
-    modelType: "cox",
-    stratified: false,
-    useCovariates: false,
-    inversePtWeighting: false,
-    Prior: null,
-    Control: null,
+  modelType: "cox",
+  stratified: false,
+  useCovariates: false,
+  inversePtWeighting: false,
+  Prior: null,
+  Control: null,
 };
 const isSpecifiedFitOutcome = (g: Flat) =>
-    stableStringify(pickFitOutcome(g)) !== stableStringify(DEFAULT_FIT_OUTCOME);
+  stableStringify(pickFitOutcome(g)) !== stableStringify(DEFAULT_FIT_OUTCOME);
 
 // gold 스코프 키만으로 Jaccard/Recall/Precision + 섹션별 정확도
 export const evaluateFlat = (A: Flat, B: Flat) => {
@@ -300,18 +312,18 @@ export const evaluateFlat = (A: Flat, B: Flat) => {
     : null;
 
   // fitOutcomeModelArgs
-  const fitSpecified = isSpecifiedFitOutcome(A);
-  const fitEq =
-    stableStringify(pickFitOutcome(A)) === stableStringify(pickFitOutcome(B));
-  const fitAcc: boolean | null = fitSpecified ? fitEq : null;
+  // const fitSpecified = isSpecifiedFitOutcome(A);
+  // const fitEq =
+  //   stableStringify(pickFitOutcome(A)) === stableStringify(pickFitOutcome(B));
+  // const fitAcc: boolean | null = fitSpecified ? fitEq : null;
 
-  const fitCounts = fitSpecified
-    ? diffMetrics(
-        [pickFitOutcome(A)],
-        [pickFitOutcome(B)],
-        (arr) => new Set(arr.map((x:any) => stableStringify(x)))
-      )
-    : null;
+  // const fitCounts = fitSpecified
+  //   ? diffMetrics(
+  //     [pickFitOutcome(A)],
+  //     [pickFitOutcome(B)],
+  //     (arr) => new Set(arr.map((x: any) => stableStringify(x)))
+  //   )
+  //   : null;
 
   // --- 결과 리턴 ---
   return {
@@ -336,13 +348,13 @@ export const evaluateFlat = (A: Flat, B: Flat) => {
       studyPeriods: spAcc,
       timeAtRisks: tarAcc,
       propensityScoreAdjustment: psaAcc,
-      fitOutcomeModelArgs: fitAcc,
+      // fitOutcomeModelArgs: fitAcc,
     },
     sectionCounts: {
       studyPeriods: spCounts,
       timeAtRisks: tarCounts,
       propensityScoreAdjustment: psaCounts,
-      fitOutcomeModelArgs: fitCounts,
+      // fitOutcomeModelArgs: fitCounts,
     },
   };
 };

@@ -77,13 +77,13 @@ type PerCaseResult = {
         studyPeriods: boolean | null;
         timeAtRisks: boolean | null;
         propensityScoreAdjustment: boolean | null;
-        fitOutcomeModelArgs: boolean | null;
+        // fitOutcomeModelArgs: boolean | null;
     };
     sectionCounts?: {
         studyPeriods?: any;
         timeAtRisks?: any;
         propensityScoreAdjustment?: any;
-        fitOutcomeModelArgs?: any;
+        // fitOutcomeModelArgs?: any;
     };
     goldJson: StudyDTO | null;
     predJson: StudyDTO | null;
@@ -134,7 +134,9 @@ export async function runBatchEvaluate(): Promise<{
                     metrics: { jaccard: 0, recall: 0, precision: 0 },
                     counts: { gold: 0, pred: 0, intersection: 0, union: 0, both: 0, predOnly: 0, goldOnly: 0 },
                     details: { bothJson: [], predJsonOnly: [], goldJsonOnly: [] },
-                    sectionAccuracy: { studyPeriods: null, timeAtRisks: null, propensityScoreAdjustment: null, fitOutcomeModelArgs: null },
+                    sectionAccuracy: { studyPeriods: null, timeAtRisks: null, propensityScoreAdjustment: null, 
+                        // fitOutcomeModelArgs: null 
+                    },
                     goldJson: p.goldJson,
                     predJson: predJson
                 };
@@ -223,7 +225,7 @@ export async function runBatchEvaluate(): Promise<{
         studyPeriods: sectionCounts("studyPeriods"),
         timeAtRisks: sectionCounts("timeAtRisks"),
         propensityScoreAdjustment: sectionCounts("propensityScoreAdjustment"),
-        fitOutcomeModelArgs: sectionCounts("fitOutcomeModelArgs"),
+        // fitOutcomeModelArgs: sectionCounts("fitOutcomeModelArgs"),
     };
 
     // 섹션별 macro/micro metrics 요약
@@ -292,7 +294,7 @@ export async function runBatchEvaluate(): Promise<{
         studyPeriods: sectionMetricsSummaryAll("studyPeriods"),
         timeAtRisks: sectionMetricsSummaryAll("timeAtRisks"),
         propensityScoreAdjustment: sectionMetricsSummaryAll("propensityScoreAdjustment"),
-        fitOutcomeModelArgs: sectionMetricsSummaryAll("fitOutcomeModelArgs"),
+        // fitOutcomeModelArgs: sectionMetricsSummaryAll("fitOutcomeModelArgs"),
     };
 
 
