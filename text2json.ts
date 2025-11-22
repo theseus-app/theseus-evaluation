@@ -10,7 +10,7 @@ const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "custom
 const MODEL_MAP = {
     OPENAI: {
         FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-5-mini", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
     },
     CLAUDE: {
         FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
