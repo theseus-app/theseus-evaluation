@@ -1,0 +1,117 @@
+{
+    "name": "Study Name",
+    "cohortDefinitions": {
+        "targetCohort": {
+            "id": null, /* ATLAS Cohort ID */
+            "name": "Target Cohort Name"
+        },
+        "comparatorCohort": {
+            "id": null, /* ATLAS Cohort ID */
+            "name": "Comparator Cohort Name"
+        },
+        "outcomeCohort": [ /* multiple objects available  */ 
+            {
+                "id": null, /* ATLAS Cohort ID */
+                "name": "Outcome Cohort Name"
+            }
+        ]
+    },
+    "negativeControlConceptSet": {
+        "id": null, /* ATLAS Concept Set ID */
+        "name": "Negative Control Concept Set Name"
+    },
+    "covariateSelection": {
+        "conceptsToInclude": [ /* multiple objects available  */ 
+            {
+                "id": null, /* ATLAS Concept Set ID */
+                "name": "Concept Name 1"
+            }
+        ],
+        "conceptsToExclude": [ /* multiple objects available  */ 
+            {
+                "id": null, /* ATLAS Concept Set ID */
+                "name": "Concept Name 3"
+            }
+        ]
+    },
+    "getDbCohortMethodDataArgs": {
+        "studyPeriods": [ /* multiple objects available  */ 
+            {
+                "studyStartDate": "", /* yyyyMMdd */
+                "studyEndDate": "" /* yyyyMMdd */
+            }
+        ],
+        "restrictToCommonPeriod": false, /* true | false */
+        "firstExposureOnly": false, /* true | false */
+        "washoutPeriod": 0, 
+        "removeDuplicateSubjects": "keep all", /* "keep all" | "keep first" | "remove all" */
+        "maxCohortSize": 0 /* 0 indicates no maximum size */
+    },
+    "createStudyPopArgs": {
+        "censorAtNewRiskWindow": false, /* true | false */
+        "removeSubjectsWithPriorOutcome": true, /* true | false */
+        "priorOutcomeLookBack": 99999,
+        "timeAtRisks": [ /* multiple objects available  */ 
+            {
+                "description": "TAR 1", 
+                "riskWindowStart": 1,
+                "startAnchor": "cohort start", /* "cohort start" | "cohort end" */
+                "riskWindowEnd": 0,
+                "endAnchor": "cohort end", /* "cohort start" | "cohort end" */
+                "minDaysAtRisk": 1
+            }         
+        ]
+    },
+    "propensityScoreAdjustment": {
+        "psSettings": [ /* multiple objects available  */ 
+            {
+                "description": "PS 1",
+                "matchOnPsArgs": { /* null if stratify by PS  */
+                    "maxRatio": 1, /* 0 means no maximum */
+                    "caliper": 0.2, /* 0 means no caliper is used */
+                    "caliperScale": "standardized logit" /* "propensity score" | "standardized" | "standardized logit" */
+                },
+                "stratifyByPsArgs": { /* null if match on PS  */
+                    "numberOfStrata": 5,
+                    "baseSelection": "all" /* "all" | "target" | "comparator" */
+                }
+            }
+        ],
+        "createPsArgs": {
+            "maxCohortSizeForFitting": 250000, /* 0 means no downsampling will be applied */
+            "errorOnHighCorrelation": true, /* true | false */
+            "prior": { /* null if 'use regularization' == false */ 
+                "priorType": "laplace", 
+                "useCrossValidation": true /* true | false */
+            },
+            "control": { /* null if 'use regularization' == false */ 
+                "tolerance": 2e-07,
+                "cvType": "auto", /* "auto" | "grid" */
+                "fold": 10,
+                "cvRepetitions": 10,
+                "noiseLevel": "silent", /* "silent" | "quiet" | "noisy" */
+                "resetCoefficients": true, /* true | false */
+                "startingVariance": 0.01 /* -1 for using estimate based on data */
+            }            
+        }
+    },
+    "fitOutcomeModelArgs": {
+        "modelType": "cox", /* "logistic" | "poisson" | "cox" */
+        "stratified": false, /* true | false */
+        "useCovariates": false, /* true | false */
+        "inversePtWeighting": false, /* true | false */
+        "prior": { /* null if 'use regularization' == false */ 
+            "priorType": "laplace",
+            "useCrossValidation": true /* true | false */
+        },
+        "control": { /* null if 'use regularization' == false */ 
+            "tolerance": 2e-07,
+            "cvType": "auto", /* "auto" | "grid" */
+            "fold": 10,
+            "cvRepetitions": 10,
+            "noiseLevel": "quiet", /* "silent" | "quiet" | "noisy" */
+            "resetCoefficients": true, /* true | false */
+            "startingVariance": 0.01 /* -1 for using estimate based on data */
+        }
+    }
+}

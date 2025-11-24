@@ -4,13 +4,13 @@ import { OpenAI } from "openai/client.js";
 import { StudyDTO } from "./flatten";
 import dotenv from "dotenv";
 dotenv.config();
-const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
+const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4.0_annotated.txt");
 
 // --- 모델 맵 ---
 const MODEL_MAP = {
     OPENAI: {
         FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-        LIGHT: { name: "gpt-5-mini", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
     },
     CLAUDE: {
         FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
@@ -45,14 +45,14 @@ export async function text2json(
 ["covariateSelection"]["conceptsToInclude"] : When specifying covariates here, all other covariates (aside from those you specified) are left out. We usually want to include all baseline covariates, letting the regularized regression build a model that balances all covariates. The only reason we might want to specify particular covariates is to replicate an existing study that manually picked covariates.
 ["covariateSelection"]["conceptsToExclude"] : Rather than specifying which concepts to include, we can instead specify concepts to exclude. When we submit a concept set in this field, we use every covariate except for those that we submitted.
 ["getDbCohortMethodDataArgs"][studyPeriods"] : Study start and end dates can be used to limit the analyses to a specific period. The study end date also truncates risk windows, meaning no outcomes beyond the study end date will be considered. Leave blank to use all time.
-["createStudyPopArgs"]["restrictToCommonPeriod"] : Should the study be restricted to the period when both exposures are present? (E.g. when both drugs are on the market)
-["createStudyPopArgs"]["firstExposureOnly"] : Can be used to restrict to the first exposure per patient.
-["createStudyPopArgs"]["washoutPeriod"] : The minimum required continuous observation time prior to index date for a person to be included in the cohort.
-["createStudyPopArgs"]["removeDuplicateSubjects"] :  What happens when a subject is in both target and comparator cohorts. “Keep All” indicating to keep the subjects in both cohorts. With this option it might be possible to double-count subjects and outcomes. “Keep First” indicating to keep the subject in the first cohort that occurred. “Remove All” indicating to remove the subject from both cohorts.
+["getDbCohortMethodDataArgs"]["restrictToCommonPeriod"] : Should the study be restricted to the period when both exposures are present? (E.g. when both drugs are on the market)
+["getDbCohortMethodDataArgs"]["firstExposureOnly"] : Can be used to restrict to the first exposure per patient.
+["getDbCohortMethodDataArgs"]["washoutPeriod"] : The minimum required continuous observation time prior to index date for a person to be included in the cohort.
+["getDbCohortMethodDataArgs"]["removeDuplicateSubjects"] :  What happens when a subject is in both target and comparator cohorts. “Keep All” indicating to keep the subjects in both cohorts. With this option it might be possible to double-count subjects and outcomes. “Keep First” indicating to keep the subject in the first cohort that occurred. “Remove All” indicating to remove the subject from both cohorts.
 ["createStudyPopArgs"]["censorAtNewRiskWindow"] : If the options “keep all” or “keep first” are selected, we may wish to censor the time when a person is in both cohorts.
 ["createStudyPopArgs"]["removeSubjectsWithPriorOutcome"] : We can choose to remove subjects that have the outcome prior to the risk window start.
 ["createStudyPopArgs"]["priorOutcomeLookBack"] : If we choose to remove people that had the outcome before, we can select how many days we should look back when identifying prior outcomes.
-["timeAtRisks"] : We can set the end of the time-at-risk to the cohort end, so when exposure stops, which can be referred to as an “on-treatment” design. We can choose to set the end of the time-at-risk to a fixed duration after cohort entry regardless of whether exposure continues, which can be referred to as an “intent-to-treat” design. In the extreme we could set the time-at-risk end to a large number of days (e.g. 99999) after cohort entry, meaning we will effectively follow up subjects until observation end. 
+["timeAtRisks"] : We set the start of time-at-risk to one day after cohort start, so one day after treatment initiation. A reason to set the time-at-risk start to be later than the cohort start is because we may want to exclude outcome events that occur on the day of treatment initiation if we do not believe it biologically plausible they can be caused by the drug.We can set the end of the time-at-risk to the cohort end, so when exposure stops, which can be referred to as an “on-treatment” design. We can choose to set the end of the time-at-risk to a fixed duration after cohort entry regardless of whether exposure continues, which can be referred to as an “intent-to-treat” design. In the extreme we could set the time-at-risk end to a large number of days (e.g. 99999) after cohort entry, meaning we will effectively follow up subjects until observation end. 
 ["propensityScoreAdjustment"]["psSettings"] : We can choose to stratify or match on the propensity score. When stratifying we need to specify the number of strata and whether to select the strata based on the target, comparator, or entire study population. When matching we need to specify the maximum number of people from the comparator group to match to each person in the target group. Typical values are 1 for one-on-one matching, or a large number (e.g. 100) for variable-ratio matching. We also need to specify the caliper: the maximum allowed difference between propensity scores to allow a match. The caliper can be defined on difference caliper scales: the propensity score scale (the PS itself), the standardized scale (in standard deviations of the PS distributions), the standardized logit scale (in standard deviations of the PS distributions after the logit transformation to make the PS more normally distributed).
 ["propensityScoreAdjustment"]["createPsArgs"]["maxCohortSizeForFitting"] : What is the maximum number of people to include in the propensity score model when fitting?
 ["propensityScoreAdjustment"]["createPsArgs"]["errorOnHighCorrelation"] : If any covariate has an unusually high correlation (either positive or negative), this will throw an error.
@@ -91,20 +91,20 @@ export async function text2json(
                 studyEndDate: null,
             },
         ],
-        maxCohortSize: 0,
-    },
-    createStudyPopArgs: {
         restrictToCommonPeriod: false,
         firstExposureOnly: false,
         washoutPeriod: 0,
         removeDuplicateSubjects: "keep all",
+        maxCohortSize: 0,
+    },
+    createStudyPopArgs: {
         censorAtNewRiskWindow: false,
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
         timeAtRisks: [
             {
                 description: "",
-                riskWindowStart: 0,
+                riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
                 endAnchor: "cohort end",
@@ -224,7 +224,6 @@ Output strictly follows the given <Output Style> format.`
                 }),
             }
         );
-
         if (!resp.ok) {
             const err = await resp.text();
             console.error("Gemini API Error:", resp.status, err);

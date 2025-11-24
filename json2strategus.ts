@@ -7,7 +7,7 @@ const TEMPLATE_PATH = path.resolve(
     process.cwd(),
     "public",
     "templates",
-    "CreateStrategusAnalysisSpecification_template.R"
+    "CreateStrategusAnalysisSpecification_template_v1.1.R"
 );
 const OPENAI_API_KEY = 'openai-api-key'
 /** Remove code fences (```lang ... ```) from LLM outputs. */

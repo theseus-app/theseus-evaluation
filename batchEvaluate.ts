@@ -20,6 +20,7 @@ function parseArgs() {
 
     const vendor = argMap["vendor"];
     const size = argMap["size"];
+    const type = argMap["type"];
     if (!vendor || !size) {
         console.error("❌ Usage: ts-node scripts/batchEvaluate.tsx --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE --size=FLAGSHIP|LIGHT");
         process.exit(1);
@@ -27,12 +28,13 @@ function parseArgs() {
 
     const supportedVendors = ["OPENAI", "GEMINI", "DEEPSEEK", "CLAUDE"];
     const supportedSizes = ["FLAGSHIP", "LIGHT"];
-    if (!supportedVendors.includes(vendor) || !supportedSizes.includes(size)) {
-        console.error(`❌ Invalid vendor/size. Supported vendors: ${supportedVendors.join(", ")} / sizes: ${supportedSizes.join(", ")}`);
+    const supportedTypes = ["DEFAULT", "PRIMARY", "METHOD", "PDF"]
+    if (!supportedVendors.includes(vendor) || !supportedSizes.includes(size) || !supportedTypes.includes(type)) {
+        console.error(`❌ Invalid vendor/size/type. Supported vendors: ${supportedVendors.join(", ")} / sizes: ${supportedSizes.join(", ")} / type: ${supportedTypes.join(", ")}`);
         process.exit(1);
     }
 
-    return { vendor, size };
+    return { vendor, size, type };
 }
 
 // 파일명용 slug
@@ -94,15 +96,21 @@ export async function runBatchEvaluate(): Promise<{
     resultsDir: string;
     cases: PerCaseResult[];
 }> {
-    const { vendor, size } = parseArgs();
+    const { vendor, size, type } = parseArgs();
 
     // 1) goldJson + studyText 로드 (여러 케이스)
-    const pairs: ModulePair[] = await loadFile();
+    const pairs: ModulePair[] = await loadFile(type);
 
     if (!pairs.length) {
         console.warn("[WARN] No pairs found. Check GOLD_DIR and exports (TEXT*, JSON*).");
     }
-    const RESULTS_DIR = path.resolve(process.cwd(), "public", `results_${vendor.toLowerCase()}_${size.toLowerCase()}`);
+    const RESULTS_DIR = path.resolve(
+        process.cwd(),
+        "public",
+        "results",
+        type.toLowerCase(),
+        `${vendor.toLowerCase()}_${size.toLowerCase()}`
+    );
 
     await ensureDir(RESULTS_DIR);
 
@@ -134,7 +142,8 @@ export async function runBatchEvaluate(): Promise<{
                     metrics: { jaccard: 0, recall: 0, precision: 0 },
                     counts: { gold: 0, pred: 0, intersection: 0, union: 0, both: 0, predOnly: 0, goldOnly: 0 },
                     details: { bothJson: [], predJsonOnly: [], goldJsonOnly: [] },
-                    sectionAccuracy: { studyPeriods: null, timeAtRisks: null, propensityScoreAdjustment: null, 
+                    sectionAccuracy: {
+                        studyPeriods: null, timeAtRisks: null, propensityScoreAdjustment: null,
                         // fitOutcomeModelArgs: null 
                     },
                     goldJson: p.goldJson,
@@ -195,13 +204,6 @@ export async function runBatchEvaluate(): Promise<{
 
     // ... for 루프 종료 직후, 요약 파일 쓰기 전에 추가
     const totalCases = summary.length;
-    const EPS = 1e-9;
-
-    // jaccard === 1 집계 (부동소수 안전하게)
-    const jaccardPerfectCount = summary.reduce((acc, c) => {
-        const j = c.metrics?.jaccard ?? 0;
-        return acc + (Math.abs(j - 1) < EPS ? 1 : 0);
-    }, 0);
 
     // 섹션별 집계 헬퍼
     function sectionCounts(
@@ -228,90 +230,53 @@ export async function runBatchEvaluate(): Promise<{
         // fitOutcomeModelArgs: sectionCounts("fitOutcomeModelArgs"),
     };
 
-    // 섹션별 macro/micro metrics 요약
-    function sectionMetricsSummaryAll(key: keyof NonNullable<PerCaseResult["sectionCounts"]>) {
-        // --- Macro (평균)
-        let macroCount = 0;
-        let precisionSum = 0;
-        let recallSum = 0;
-        let f1Sum = 0;
+    // 전체 field 단위 TP/FP/FN 집계
+    let wholeTP = 0;
+    let wholeFP = 0;
+    let wholeFN = 0;
 
-        // --- Micro (전체 TP/FP/FN 합)
-        let TP = 0;
-        let FP = 0;
-        let FN = 0;
+    for (const c of summary) {
+        const cnt = c.counts;
+        // both ≒ TP, predOnly ≒ FP, goldOnly ≒ FN 으로 사용
+        const tp = cnt.both ?? cnt.intersection ?? 0;
+        const fp = cnt.predOnly ?? 0;
+        const fn = cnt.goldOnly ?? 0;
 
-        for (const c of summary) {
-            const s = c.sectionCounts?.[key];
-            if (!s) continue;
-
-            // Macro part
-            if (typeof s.precision === "number") {
-                precisionSum += s.precision;
-                recallSum += s.recall ?? 0;
-                f1Sum += s.f1 ?? 0;
-                macroCount++;
-            }
-
-            // Micro part
-            TP += s.bothCount ?? 0;
-            FP += s.predOnlyCount ?? 0;
-            FN += s.goldOnlyCount ?? 0;
-        }
-
-        // Macro average
-        const precisionMacro = macroCount ? precisionSum / macroCount : null;
-        const recallMacro = macroCount ? recallSum / macroCount : null;
-        const f1Macro = macroCount ? f1Sum / macroCount : null;
-
-        // Micro average (전체 집계)
-        const precisionMicro = TP + FP > 0 ? TP / (TP + FP) : null;
-        const recallMicro = TP + FN > 0 ? TP / (TP + FN) : null;
-        const f1Micro =
-            precisionMicro && recallMicro && precisionMicro + recallMicro > 0
-                ? (2 * precisionMicro * recallMicro) / (precisionMicro + recallMicro)
-                : null;
-
-        return {
-            macro: {
-                count: macroCount,
-                precision: precisionMacro,
-                recall: recallMacro,
-                f1: f1Macro,
-            },
-            micro: {
-                TP,
-                FP,
-                FN,
-                precision: precisionMicro,
-                recall: recallMicro,
-                f1: f1Micro,
-            },
-        };
+        wholeTP += tp;
+        wholeFP += fp;
+        wholeFN += fn;
     }
 
-    const sectionMetricsSummaryCombined = {
-        studyPeriods: sectionMetricsSummaryAll("studyPeriods"),
-        timeAtRisks: sectionMetricsSummaryAll("timeAtRisks"),
-        propensityScoreAdjustment: sectionMetricsSummaryAll("propensityScoreAdjustment"),
-        // fitOutcomeModelArgs: sectionMetricsSummaryAll("fitOutcomeModelArgs"),
-    };
+    const fieldPrecision =
+        wholeTP + wholeFP > 0 ? wholeTP / (wholeTP + wholeFP) : null;
+
+    const fieldSensitivity =
+        wholeTP + wholeFN > 0 ? wholeTP / (wholeTP + wholeFN) : null;
+
+    const fieldFPperCase =
+        totalCases > 0 ? wholeFP / totalCases : null;
 
 
     // 전체 요약 파일도 하나 남겨두기
-    const indexPath = path.join(RESULTS_DIR, "_summary.index.json");
+    const indexPath = path.join(RESULTS_DIR, "_summary.index_second.json");
     await fs.writeFile(
         indexPath,
         JSON.stringify(
             {
                 createdAt: new Date().toISOString(),
                 totalCases,
-                jaccardPerfect: {
-                    count: jaccardPerfectCount,
-                    percent: totalCases ? jaccardPerfectCount / totalCases : null
+                // 전체 field 기준 요약 메트릭
+                fieldLevelMetrics: {
+                    wholeTP,
+                    wholeFP,
+                    wholeFN,
+                    fieldPrecision,
+                    fieldSensitivity,
+                    fieldFPperCase,
                 },
+                // 섹션별 정답 여부 요약 (원하면 나중에 제거해도 됨)
                 sectionAccuracySummary,
-                sectionMetricsSummary: sectionMetricsSummaryCombined,
+                // 각 케이스별 상세 결과
                 results: summary,
             },
             null,

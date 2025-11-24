@@ -1,0 +1,297 @@
+{
+  "name": "IUDEHRE",
+  "fileName": "iudehre.json",
+  "createdAt": "2025-11-24T06:26:53.120Z",
+  "metrics": {
+    "jaccard": 0.75,
+    "recall": 0.8571428571428571,
+    "precision": 0.8571428571428571
+  },
+  "counts": {
+    "gold": 14,
+    "pred": 14,
+    "intersection": 12,
+    "union": 16,
+    "both": 12,
+    "predOnly": 2,
+    "goldOnly": 2
+  },
+  "details": {
+    "bothJson": [
+      "maxCohortSize=0",
+      "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
+      "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=99999",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+    ],
+    "predJsonOnly": [
+      "removeSubjectsWithPriorOutcome=true",
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20030101}"
+    ],
+    "goldJsonOnly": [
+      "removeSubjectsWithPriorOutcome=false",
+      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": false,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "timeAtRisks": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20030101",
+          "studyEndDate": null
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
+      "removeDuplicateSubjects": "remove all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": false,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 30,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 5475,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "riskWindowStart": 365,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 5475,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Comparative Effectiveness of Cu IUD vs LNG-IUS on Cervical Neoplasm Incidence",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "Copper IUD Users"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Levonorgestrel Intrauterine System Users"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "High-Grade Cervical Neoplasm Diagnosis"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "123 Negative Control Outcomes"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Prior endometrial or cervical neoplasms"
+        },
+        {
+          "id": null,
+          "name": "Prior IUD placement"
+        }
+      ]
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20030101",
+          "studyEndDate": "20181231"
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
+      "removeDuplicateSubjects": "remove all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "Primary Analysis: 30 days to 15 years post-IUD placement",
+          "riskWindowStart": 30,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 5475,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity Analysis: 1 year to 15 years post-IUD placement",
+          "riskWindowStart": 365,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 5475,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "PS Matching 1:1",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS Stratification",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

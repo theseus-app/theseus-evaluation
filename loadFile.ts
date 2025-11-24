@@ -2,11 +2,23 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const GOLD_DIR = path.resolve(process.cwd(), "public", "goldStandard");
 
 export type ModulePair = { name: string; goldJson: any; studyText: string };
 
-export async function loadFile(): Promise<ModulePair[]> {
+export async function loadFile(type: string): Promise<ModulePair[]> {
+
+    // 타입별 폴더 매핑
+    const folderMap: Record<string, string> = {
+        DEFAULT: "default",
+        PRIMARY: "primary",
+        METHOD: "method",
+        PDF: "pdf",
+    };
+
+    const folderName = folderMap[type.toUpperCase()] ?? folderMap.DEFAULT;
+
+    const GOLD_DIR = path.resolve(process.cwd(), "public", "goldStandard", folderName);
+
     const entries = await fs.readdir(GOLD_DIR, { withFileTypes: true });
 
     // 파일 확장자: ts / js 지원 (필요시 추가)

@@ -45,7 +45,7 @@ export const defaultDTO: StudyDTO = {
         timeAtRisks: [
             {
                 description: "",
-                riskWindowStart: 0,
+                riskWindowStart: 1,
                 startAnchor: "cohort start",
                 riskWindowEnd: 0,
                 endAnchor: "cohort end",
