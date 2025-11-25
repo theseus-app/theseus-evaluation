@@ -1,0 +1,288 @@
+{
+  "name": "StrokeRisk",
+  "fileName": "strokerisk.json",
+  "createdAt": "2025-11-25T07:22:54.577Z",
+  "metrics": {
+    "jaccard": 0.7058823529411765,
+    "recall": 0.8,
+    "precision": 0.8571428571428571
+  },
+  "counts": {
+    "gold": 15,
+    "pred": 14,
+    "intersection": 12,
+    "union": 17,
+    "both": 12,
+    "predOnly": 2,
+    "goldOnly": 3
+  },
+  "details": {
+    "bothJson": [
+      "maxCohortSize=0",
+      "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
+      "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+    ],
+    "predJsonOnly": [
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=183"
+    ],
+    "goldJsonOnly": [
+      "removeSubjectsWithPriorOutcome=false",
+      "priorOutcomeLookBack=99999",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": false
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": 1,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "accuracy": 0.6666666666666666
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20010101",
+          "studyEndDate": "20171231"
+        },
+        {
+          "studyStartDate": "20010101",
+          "studyEndDate": "20150930"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": true,
+      "washoutPeriod": 183,
+      "removeDuplicateSubjects": "keep first",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": false,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.05,
+            "caliperScale": "propensity score"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Stroke Risk Among Elderly Users of Typical vs Atypical Antipsychotics",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "New users of typical antipsychotics, aged >=65 years"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "New users of atypical antipsychotics, aged >=65 years"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Inpatient stroke"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative Control Outcomes for Empirical Calibration"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20010101",
+          "studyEndDate": "20171231"
+        },
+        {
+          "studyStartDate": "20010101",
+          "studyEndDate": "20150930"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": true,
+      "washoutPeriod": 183,
+      "removeDuplicateSubjects": "remove all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 183,
+      "timeAtRisks": [
+        {
+          "description": "On-treatment",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "Sentinel PS replication (1:1 matching)",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.05,
+            "caliperScale": "propensity score"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "Adapted PS strategy (1:10 variable ratio matching)",
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

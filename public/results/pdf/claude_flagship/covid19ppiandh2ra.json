@@ -1,0 +1,295 @@
+{
+  "name": "COVID19PPIandH2RA",
+  "fileName": "covid19ppiandh2ra.json",
+  "createdAt": "2025-11-25T07:19:36.033Z",
+  "metrics": {
+    "jaccard": 0.6470588235294118,
+    "recall": 0.7857142857142857,
+    "precision": 0.7857142857142857
+  },
+  "counts": {
+    "gold": 14,
+    "pred": 14,
+    "intersection": 11,
+    "union": 17,
+    "both": 11,
+    "predOnly": 3,
+    "goldOnly": 3
+  },
+  "details": {
+    "bothJson": [
+      "maxCohortSize=0",
+      "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
+      "removeDuplicateSubjects=keep all",
+      "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+    ],
+    "predJsonOnly": [
+      "censorAtNewRiskWindow=true",
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=180"
+    ],
+    "goldJsonOnly": [
+      "censorAtNewRiskWindow=false",
+      "removeSubjectsWithPriorOutcome=false",
+      "priorOutcomeLookBack=99999"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 3,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20200101",
+          "studyEndDate": "20200515"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": true,
+      "washoutPeriod": 180,
+      "removeDuplicateSubjects": "keep first",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": false,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 4,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Comparative risk of incidence and clinical outcomes of COVID-19 among proton pump inhibitor and histamine-2 receptor antagonist short-term users",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "PPI users (patients aged over 18 years prescribed proton pump inhibitors for more than 7 days)"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "H2RA users (patients aged over 18 years prescribed histamine-2 receptor antagonists for more than 7 days)"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "COVID-19 diagnosis"
+        },
+        {
+          "id": null,
+          "name": "All-cause mortality among COVID-19 patients"
+        },
+        {
+          "id": null,
+          "name": "Hospitalization with respiratory disease (pneumonia, ARDS, sepsis, or AKI) among COVID-19 patients"
+        },
+        {
+          "id": null,
+          "name": "Intensive respiratory interventions (mechanical ventilation, ECMO, or tracheostomy) among COVID-19 patients"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "123 negative control outcomes"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20200101",
+          "studyEndDate": "20200515"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": false,
+      "washoutPeriod": 180,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": true,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 180,
+      "timeAtRisks": [
+        {
+          "description": "Follow-up until observation end",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "Unadjusted analysis",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "One-to-four propensity score matching",
+          "matchOnPsArgs": {
+            "maxRatio": 4,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "Propensity score stratification with five strata",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": false,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

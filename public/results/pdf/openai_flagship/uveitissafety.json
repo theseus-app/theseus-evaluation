@@ -1,0 +1,292 @@
+{
+  "name": "UveitisSafety",
+  "fileName": "uveitissafety.json",
+  "createdAt": "2025-11-25T07:57:39.382Z",
+  "metrics": {
+    "jaccard": 0.5555555555555556,
+    "recall": 0.7142857142857143,
+    "precision": 0.7142857142857143
+  },
+  "counts": {
+    "gold": 14,
+    "pred": 14,
+    "intersection": 10,
+    "union": 18,
+    "both": 10,
+    "predOnly": 4,
+    "goldOnly": 4
+  },
+  "details": {
+    "bothJson": [
+      "maxCohortSize=0",
+      "removeDuplicateSubjects=keep all",
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=99999",
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+    ],
+    "predJsonOnly": [
+      "restrictToCommonPeriod=true",
+      "firstExposureOnly=true",
+      "washoutPeriod=365",
+      "censorAtNewRiskWindow=true"
+    ],
+    "goldJsonOnly": [
+      "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
+      "censorAtNewRiskWindow=false"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Remicade and Non-infectious Uveitis (NIU) Risk: Active Comparator New-User Cohort Study",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "Remicade (infliximab) new users (indication-specific), adults ≥18, 365d prior observation; RA requires concurrent methotrexate; biologic-naive"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Indication-specific alternative biologic comparators (excluding etanercept and adalimumab)"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Non-infectious uveitis (primary phenotype: [second NIU code 31–365d after first] OR [first NIU code during ophthalmology visit])"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "NIU study negative control outcomes (n=86)"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
+      "removeDuplicateSubjects": "keep all",
+      "censorAtNewRiskWindow": true,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "On-treatment: day 1 after index to end of exposure era (90-day permissible gap; +90 days after last dose); right-censor at switch to comparator drugs incl. adalimumab, etanercept",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Intention-to-treat: day 1 after index to observation end (no censoring at discontinuation or switching)",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "PS matching: variable ratio up to 1:10, caliper 0.2 on standardized logit",
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS matching: 1:1, caliper 0.2 on standardized logit",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

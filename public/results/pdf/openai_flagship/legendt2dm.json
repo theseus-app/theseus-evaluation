@@ -1,0 +1,292 @@
+{
+  "name": "LEGENDT2DM",
+  "fileName": "legendt2dm.json",
+  "createdAt": "2025-11-25T07:36:35.187Z",
+  "metrics": {
+    "jaccard": 0.7333333333333333,
+    "recall": 0.8461538461538461,
+    "precision": 0.8461538461538461
+  },
+  "counts": {
+    "gold": 13,
+    "pred": 13,
+    "intersection": 11,
+    "union": 15,
+    "both": 11,
+    "predOnly": 2,
+    "goldOnly": 2
+  },
+  "details": {
+    "bothJson": [
+      "maxCohortSize=0",
+      "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=99999",
+      "studyPeriods:{studyEndDate=20211231|studyStartDate=19920101}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
+      "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
+    ],
+    "predJsonOnly": [
+      "washoutPeriod=365",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+    ],
+    "goldJsonOnly": [
+      "washoutPeriod=0",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": false
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "19920101",
+          "studyEndDate": "20211231"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 100,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "LEGEND-T2DM: Second-line Antihyperglycemic Class Comparison (SGLT2i vs GLP-1 RA) for CVD Outcomes",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "New users of SGLT2 inhibitors as second-line therapy on metformin, established CVD"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "New users of GLP-1 receptor agonists as second-line therapy on metformin, established CVD"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "3-point MACE (acute MI, stroke, sudden cardiac death)"
+        },
+        {
+          "id": null,
+          "name": "4-point MACE (3-point MACE + heart failure hospitalization)"
+        },
+        {
+          "id": null,
+          "name": "Acute myocardial infarction"
+        },
+        {
+          "id": null,
+          "name": "Stroke"
+        },
+        {
+          "id": null,
+          "name": "Sudden cardiac death"
+        },
+        {
+          "id": null,
+          "name": "Heart failure hospitalization"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "LEGEND-T2DM negative control outcomes (≈100 outcomes)"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "19920101",
+          "studyEndDate": "20211231"
+        }
+      ],
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": false,
+      "washoutPeriod": 365,
+      "removeDuplicateSubjects": "keep all",
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "On-treatment: start+1 day to exposure discontinuation",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "PS stratification (preferred when balance achieved)",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "PS matching (used if needed to achieve balance)",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}
