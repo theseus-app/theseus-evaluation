@@ -8,6 +8,9 @@ import { loadFile, ModulePair } from "./loadFile"
 import { StudyDTO, FlattenStudyDTO, flattenStudy } from "./flatten";
 import { evaluateFlat } from "./evaluate";
 import { text2json } from "./text2json";
+import { text2jsonPDF } from "./text2jsonPDF";
+
+const MAX_ATTEMPTS_PER_CASE = 3;
 
 // --- parse CLI args ---
 function parseArgs() {
@@ -97,12 +100,13 @@ export async function runBatchEvaluate(): Promise<{
     cases: PerCaseResult[];
 }> {
     const { vendor, size, type } = parseArgs();
+    const isPdfType = type === "PDF";
 
     // 1) goldJson + studyText 로드 (여러 케이스)
     const pairs: ModulePair[] = await loadFile(type);
 
     if (!pairs.length) {
-        console.warn("[WARN] No pairs found. Check GOLD_DIR and exports (TEXT*, JSON*).");
+        console.warn("[WARN] No pairs found. Check GOLD_DIR and exports (TEXT*, JSON*) or PDF files.");
     }
     const RESULTS_DIR = path.resolve(
         process.cwd(),
@@ -123,16 +127,54 @@ export async function runBatchEvaluate(): Promise<{
         const outPath = path.join(RESULTS_DIR, outName);
 
         try {
-            // 2-1) text2Json: predJson 생성
-            const { updatedSpec, rawResponse } = await text2json(
-                p.studyText,
-                vendor as "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
-                size as "FLAGSHIP" | "LIGHT"
-            );
+            let predJson: StudyDTO | null = null;
+            let lastError: any = null;
 
-            const predJson = updatedSpec as StudyDTO | null;
+            for (let attempt = 0; attempt < MAX_ATTEMPTS_PER_CASE; attempt++) {
+                try {
+                    let updatedSpec: StudyDTO | null = null;
 
-            // 방어: 모델 응답이 파싱 실패한 경우
+                    if (isPdfType) {
+                        if (!p.pdfPath) {
+                            throw new Error(`Missing PDF path for case ${p.name}`);
+                        }
+                        const res = await text2jsonPDF(
+                            p.pdfPath,
+                            vendor as "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
+                            size as "FLAGSHIP" | "LIGHT"
+                        );
+                        updatedSpec = res.updatedSpec as StudyDTO | null;
+                    } else {
+                        if (!p.studyText) {
+                            throw new Error(`Missing study text for case ${p.name}`);
+                        }
+                        const { updatedSpec: spec } = await text2json(
+                            { type: "text", text: p.studyText },
+                            vendor as "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
+                            size as "FLAGSHIP" | "LIGHT"
+                        );
+                        updatedSpec = spec as StudyDTO | null;
+                    }
+
+                    if (updatedSpec && typeof updatedSpec === "object") {
+                        predJson = updatedSpec as StudyDTO;
+                        break;
+                    }
+
+                    lastError = new Error("JSON parse failed (null or non-object)");
+                    const isLast = attempt === MAX_ATTEMPTS_PER_CASE - 1;
+                    if (!isLast) {
+                        console.warn(`⚠️ [WARN] ${p.name}: JSON parse failed. Retrying (${attempt + 1}/${MAX_ATTEMPTS_PER_CASE})...`);
+                    }
+                } catch (err) {
+                    lastError = err;
+                    const isLast = attempt === MAX_ATTEMPTS_PER_CASE - 1;
+                    if (!isLast) {
+                        console.warn(`⚠️ [WARN] ${p.name}: ${String(err)}. Retrying (${attempt + 1}/${MAX_ATTEMPTS_PER_CASE})...`);
+                    }
+                }
+            }
+
             if (!predJson || typeof predJson !== "object") {
 
                 const bad: PerCaseResult = {
@@ -152,7 +194,8 @@ export async function runBatchEvaluate(): Promise<{
 
                 await fs.writeFile(outPath, JSON.stringify(bad, null, 2), "utf8");
                 summary.push(bad);
-                console.warn(`⚠️ [WARN] ${p.name}: JSON parse failed.`);
+                const errMsg = lastError ? String(lastError instanceof Error ? lastError.message : lastError) : "Unknown parse error";
+                console.warn(`⚠️ [WARN] ${p.name}: JSON parse failed after ${MAX_ATTEMPTS_PER_CASE} attempt(s). Last error: ${errMsg}`);
                 continue;
             }
 
@@ -258,7 +301,7 @@ export async function runBatchEvaluate(): Promise<{
 
 
     // 전체 요약 파일도 하나 남겨두기
-    const indexPath = path.join(RESULTS_DIR, "_summary.index_second.json");
+    const indexPath = path.join(RESULTS_DIR, "_summary.index.json");
     await fs.writeFile(
         indexPath,
         JSON.stringify(
@@ -301,5 +344,3 @@ if (require.main === module) {
         process.exit(1);
     });
 }
-
-

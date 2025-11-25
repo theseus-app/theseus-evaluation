@@ -1,0 +1,436 @@
+import path from "node:path";
+import fs from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { OpenAI } from "openai/client.js";
+import { StudyDTO } from "./flatten";
+import dotenv from "dotenv";
+dotenv.config();
+
+const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
+
+// --- 모델 맵 ---
+const MODEL_MAP = {
+    OPENAI: {
+        FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+    },
+    CLAUDE: {
+        FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        LIGHT: { name: "claude-haiku-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+    },
+    GEMINI: {
+        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+    },
+    DEEPSEEK: {
+        FLAGSHIP: { name: "deepseek-reasoner", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
+        LIGHT: { name: "deepseek-chat", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
+    },
+} as const;
+
+async function readTextFile(abs: string) {
+    return fs.readFile(abs, "utf8");
+}
+
+type Vendor = "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE";
+type Size = "FLAGSHIP" | "LIGHT";
+
+export async function text2jsonPDF(
+    pdfPath: string,
+    vendor: Vendor,
+    size: Size
+): Promise<{ updatedSpec: StudyDTO | null; rawResponse: string }> {
+    const analysisSpecificationsTemplate = await readTextFile(TEMPLATE_PATH);
+    const selected = MODEL_MAP[vendor][size];
+
+    const json_fields_descriptions = `
+    ["name"] : We can give the analysis a unique name.
+["cohortDefinitions"] : We assume the cohorts have already been created in ATLAS.
+["negativeControlConceptSet"] : Negative control outcomes are outcomes that are not believed to be caused by either the target or the comparator. Here we assume the concept set has already been created.
+["covariateSelection"]["conceptsToInclude"] : When specifying covariates here, all other covariates (aside from those you specified) are left out. We usually want to include all baseline covariates, letting the regularized regression build a model that balances all covariates. The only reason we might want to specify particular covariates is to replicate an existing study that manually picked covariates.
+["covariateSelection"]["conceptsToExclude"] : Rather than specifying which concepts to include, we can instead specify concepts to exclude. When we submit a concept set in this field, we use every covariate except for those that we submitted.
+["getDbCohortMethodDataArgs"][studyPeriods"] : Study start and end dates can be used to limit the analyses to a specific period. The study end date also truncates risk windows, meaning no outcomes beyond the study end date will be considered. Leave blank to use all time.
+["getDbCohortMethodDataArgs"]["restrictToCommonPeriod"] : Should the study be restricted to the period when both exposures are present? (E.g. when both drugs are on the market)
+["getDbCohortMethodDataArgs"]["firstExposureOnly"] : Can be used to restrict to the first exposure per patient.
+["getDbCohortMethodDataArgs"]["washoutPeriod"] : The minimum required continuous observation time prior to index date for a person to be included in the cohort.
+["getDbCohortMethodDataArgs"]["removeDuplicateSubjects"] :  What happens when a subject is in both target and comparator cohorts. “Keep All” indicating to keep the subjects in both cohorts. With this option it might be possible to double-count subjects and outcomes. “Keep First” indicating to keep the subject in the first cohort that occurred. “Remove All” indicating to remove the subject from both cohorts.
+["createStudyPopArgs"]["censorAtNewRiskWindow"] : If the options “keep all” or “keep first” are selected, we may wish to censor the time when a person is in both cohorts.
+["createStudyPopArgs"]["removeSubjectsWithPriorOutcome"] : We can choose to remove subjects that have the outcome prior to the risk window start.
+["createStudyPopArgs"]["priorOutcomeLookBack"] : If we choose to remove people that had the outcome before, we can select how many days we should look back when identifying prior outcomes.
+["timeAtRisks"] : We set the start of time-at-risk to one day after cohort start, so one day after treatment initiation. A reason to set the time-at-risk start to be later than the cohort start is because we may want to exclude outcome events that occur on the day of treatment initiation if we do not believe it biologically plausible they can be caused by the drug.We can set the end of the time-at-risk to the cohort end, so when exposure stops, which can be referred to as an “on-treatment” design. We can choose to set the end of the time-at-risk to a fixed duration after cohort entry regardless of whether exposure continues, which can be referred to as an “intent-to-treat” design. In the extreme we could set the time-at-risk end to a large number of days (e.g. 99999) after cohort entry, meaning we will effectively follow up subjects until observation end. 
+["propensityScoreAdjustment"]["psSettings"] : We can choose to stratify or match on the propensity score. When stratifying we need to specify the number of strata and whether to select the strata based on the target, comparator, or entire study population. When matching we need to specify the maximum number of people from the comparator group to match to each person in the target group. Typical values are 1 for one-on-one matching, or a large number (e.g. 100) for variable-ratio matching. We also need to specify the caliper: the maximum allowed difference between propensity scores to allow a match. The caliper can be defined on difference caliper scales: the propensity score scale (the PS itself), the standardized scale (in standard deviations of the PS distributions), the standardized logit scale (in standard deviations of the PS distributions after the logit transformation to make the PS more normally distributed).
+["propensityScoreAdjustment"]["createPsArgs"]["maxCohortSizeForFitting"] : What is the maximum number of people to include in the propensity score model when fitting?
+["propensityScoreAdjustment"]["createPsArgs"]["errorOnHighCorrelation"] : If any covariate has an unusually high correlation (either positive or negative), this will throw an error.
+["fitOutcomeModelArgs"]["modelType"] : The statistical model we will use to estimate the relative risk of the outcome between target and comparator cohorts.
+["fitOutcomeModelArgs"]["stratified"] : Whether the regression should be conditioned on the strata. For one-to-one matching this is likely unnecessary and would just lose power. For stratification or variable-ratio matching it is required.
+["fitOutcomeModelArgs"]["useCovariates"] : We can also choose to add the covariates to the outcome model to adjust the analysis. We recommend keeping the outcome model as simple as possible and not include additional covariates.
+["fitOutcomeModelArgs"]["inversePtWeighting"] : Instead of stratifying or matching on the propensity score we can also choose to use inverse probability of treatment weighting (IPTW).
+["prior"]["priorType"] : Specify the prior distribution. 
+["prior"]["useCrossValidation"] : Perform cross-validation to determine prior-variance.
+["control"]["tolerance"] : Maximum relative change in convergence criterion from successive iterations.
+["control"]["cvType] : Cross validation search type.
+["control"]["fold"] : Number of random folds to employ in cross validation.
+["control"]["cvRepetitions"] : Number of repetitions of cross validation.
+["control"]["noiseLevel"] : Noise level for Cyclops screen output.
+["control"]["resetCoefficients"] : Reset all coefficients to 0 between model fits under cross-validation.
+["control"]["startingVariance"] : Starting variance for auto-search cross-validation (-1 mean use estimate based on data).`;
+
+    const currentAnalysisSpecifications = `
+{
+    name: "",
+    cohortDefinitions: {
+        targetCohort: { id: null, name: "" },
+        comparatorCohort: { id: null, name: "" },
+        outcomeCohort: [{ id: null, name: "" }],
+    },
+    negativeControlConceptSet: { id: null, name: "" },
+    covariateSelection: {
+        conceptsToInclude: [{ id: null, name: "" }],
+        conceptsToExclude: [{ id: null, name: "" }],
+    },
+    getDbCohortMethodDataArgs: {
+        studyPeriods: [
+            {
+                studyStartDate: null,
+                studyEndDate: null,
+            },
+        ],
+        restrictToCommonPeriod: false,
+        firstExposureOnly: false,
+        washoutPeriod: 0,
+        removeDuplicateSubjects: "keep all",
+        maxCohortSize: 0,
+    },
+    createStudyPopArgs: {
+        censorAtNewRiskWindow: false,
+        removeSubjectsWithPriorOutcome: true,
+        priorOutcomeLookBack: 99999,
+        timeAtRisks: [
+            {
+                description: "",
+                riskWindowStart: 1,
+                startAnchor: "cohort start",
+                riskWindowEnd: 0,
+                endAnchor: "cohort end",
+                minDaysAtRisk: 1,
+            },
+        ],
+    },
+    propensityScoreAdjustment: {
+        psSettings: [
+            {
+                description: "PS 1",
+                matchOnPsArgs: { maxRatio: 1, caliper: 0.2, caliperScale: "standardized logit" },
+                stratifyByPsArgs: null,
+            },
+        ],
+        createPsArgs: {
+            maxCohortSizeForFitting: 250000,
+            errorOnHighCorrelation: true,
+            prior: { priorType: "laplace", useCrossValidation: true },
+            control: {
+                tolerance: 2e-7,
+                cvType: "auto",
+                fold: 10,
+                cvRepetitions: 10,
+                noiseLevel: "silent",
+                resetCoefficients: true,
+                startingVariance: 0.01,
+            },
+        },
+    },
+    fitOutcomeModelArgs: {
+        modelType: "cox",
+        stratified: false,
+        useCovariates: false,
+        inversePtWeighting: false,
+        prior: { priorType: "laplace", useCrossValidation: true },
+        control: {
+            tolerance: 2e-7,
+            cvType: "auto",
+            fold: 10,
+            cvRepetitions: 10,
+            noiseLevel: "quiet",
+            resetCoefficients: true,
+            startingVariance: 0.01,
+        },
+    },
+};
+`;
+
+    const prompt = `<Instruction>
+From the provided pdf file, extract the key information and update the <Current Analysis Specifications> JSON to configure a population-level estimation study using the OMOP-CDM.
+Leave any settings at their default values if they are not specified in the file.
+Refer to the fields and value types provided in the <Analysis Specifications Template> and do not add any additional fields.
+For each fields, refer to <JSON Fields Descriptions> to ensure accurate mapping of the relevant information from file to the corresponding JSON structure.
+Additional sensitivity analyses beyond the primary analysis may have also been conducted. If the text describes multiple settings for each field (e.g., more than one timeAtRisk window), generate a separate JSON object for each setting within its corresponding array. Fields that can contain multiple objects are annotated in the <Analysis Specifications Template>.
+Following the <Output Style> format, output the updated analysis specifications JSON and provide a description of how the new settings are applied to the specification. 
+</Instruction>
+
+<Current Analysis Specifications>
+${currentAnalysisSpecifications}
+</Current Analysis Specifications>
+
+<JSON Fields Descriptions>
+${json_fields_descriptions}
+</JSON Fields Descriptions>
+
+<Analysis Specifications Template>
+${analysisSpecificationsTemplate}
+</Analysis Specifications Template>
+
+<Output Style>
+\`\`\`json
+analysis specifications 
+\`\`\`
+---
+Description
+</Output Style>`;
+
+    // --- vendor별 API 초기화 ---
+    let completionText = "";
+
+    // 1) OPENAI (파일 업로드 후 file tool 사용)
+    if (vendor === "OPENAI") {
+        const openai = new OpenAI({ apiKey: selected.key });
+
+        const upload = await openai.files.create({
+            file: createReadStream(pdfPath),
+            purpose: "assistants",
+        });
+
+        const messages = [
+            {
+                role: "user",
+                content: [
+                    { type: "text", text: prompt },
+                    { type: "file", file: { file_id: upload.id } },
+                ],
+            },
+        ];
+
+        const res = await openai.chat.completions.create({
+            model: selected.name,
+            messages,
+        });
+        completionText = res.choices[0]?.message?.content ?? "";
+    }
+
+    // 2) GEMINI
+    else if (vendor === "GEMINI") {
+        const pdfBytes = await fs.readFile(pdfPath);
+        const base64 = Buffer.from(pdfBytes).toString("base64");
+
+        const body = {
+            contents: [
+                {
+                    parts: [
+                        {
+                            inline_data: {
+                                mime_type: "application/pdf",
+                                data: base64,
+                            },
+                        },
+                        { text: prompt },
+                    ],
+                },
+            ],
+            generationConfig: {
+                maxOutputTokens: 8192,
+            },
+        };
+
+        const resp = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            }
+        );
+
+        if (!resp.ok) {
+            const err = await resp.text();
+            console.error("Gemini API Error:", resp.status, err);
+            throw new Error(`Gemini API failed: ${resp.status} ${err}`);
+        }
+
+        const data = await resp.json();
+        completionText =
+            data.candidates?.[0]?.content?.parts
+                ?.map((p: any) => p.text ?? "")
+                .join("") ?? "";
+    }
+
+    // 3) CLAUDE
+    else if (vendor === "CLAUDE") {
+        const pdfBytes = await fs.readFile(pdfPath);
+        const base64 = Buffer.from(pdfBytes).toString("base64");
+
+        const body = {
+            model: selected.name,
+            max_tokens: 4000,
+            messages: [
+                {
+                    role: "user",
+                    content: [
+                        {
+                            type: "document",
+                            source: {
+                                type: "base64",
+                                media_type: "application/pdf",
+                                data: base64,
+                            },
+                        },
+                        {
+                            type: "text",
+                            text: prompt,
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const maxRetries = 3;
+        const baseDelayMs = 60000; // 60s for rate-limit recovery
+
+        let lastErrText = "";
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            const resp = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": selected.key,
+                    "anthropic-version": "2023-06-01",
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (resp.ok) {
+                const data = await resp.json();
+                completionText = data.content?.[0]?.text ?? "";
+                break;
+            }
+
+            lastErrText = await resp.text();
+            const shouldRetry = resp.status === 429;
+            const isLast = attempt === maxRetries - 1;
+            if (!shouldRetry || isLast) {
+                console.error("Claude API Error:", resp.status, lastErrText);
+                throw new Error(`Claude API failed: ${resp.status} ${lastErrText}`);
+            }
+
+            const delay = baseDelayMs * (attempt + 1);
+            console.warn(`Claude rate limit hit (429). Retrying in ${delay / 1000}s...`);
+            await sleep(delay);
+        }
+    }
+
+    // 4) DEEPSEEK (PDF 미지원)
+    else if (vendor === "DEEPSEEK") {
+        throw new Error(
+            "DeepSeek API currently does not expose a direct PDF input format. Please extract text from the PDF separately and call text2json with { type: \"text\", text: ... }."
+        );
+    }
+
+    const content = completionText.trim();
+    const m = content.match(/([\s\S]*?)\n?---\n?([\s\S]*)/);
+    const updatedSpecRaw = m ? m[1] : content;
+
+    return { updatedSpec: safeParseJsonFromText(updatedSpecRaw), rawResponse: completionText };
+}
+
+/** ---------- helpers: parse / pretty ---------- */
+function stripCodeFences(text: string): string {
+    return text
+        .replace(/^\s*```[\w-]*\s*/i, "")
+        .replace(/\s*```+\s*$/i, "")
+        .trim();
+}
+
+function extractFirstJson(text: string): string | null {
+    const s = stripCodeFences(text);
+
+    let start = -1;
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (ch === "{" || ch === "[") {
+            start = i;
+            break;
+        }
+    }
+    if (start === -1) return null;
+
+    let depth = 0;
+    let inStr = false;
+    let esc = false;
+    const open = s[start];
+
+    for (let i = start; i < s.length; i++) {
+        const ch = s[i];
+
+        if (inStr) {
+            if (esc) {
+                esc = false;
+            } else if (ch === "\\") {
+                esc = true;
+            } else if (ch === '"') {
+                inStr = false;
+            }
+            continue;
+        }
+
+        if (ch === '"') {
+            inStr = true;
+        } else if (ch === "{" || ch === "[") {
+            depth++;
+        } else if (ch === "}" || ch === "]") {
+            depth--;
+            if (depth === 0) {
+                const isObjectJson = open === "{" && ch === "}";
+                const isArrayJson = open === "[" && ch === "]";
+                if (isObjectJson || isArrayJson) {
+                    return s.slice(start, i + 1);
+                }
+            }
+        }
+    }
+    return null;
+}
+
+function safeParseJsonFromText(text: string): any {
+    if (!text) return null;
+
+    const candidate = extractFirstJson(text);
+    if (candidate) {
+        try {
+            return JSON.parse(candidate);
+        } catch {
+            // continue
+        }
+    }
+
+    const braceIdx = text.indexOf("{");
+    if (braceIdx !== -1) {
+        try {
+            return JSON.parse(text.slice(braceIdx));
+        } catch {
+            // noop
+        }
+    }
+
+    const bracketIdx = text.indexOf("[");
+    if (bracketIdx !== -1) {
+        try {
+            return JSON.parse(text.slice(bracketIdx));
+        } catch {
+            // noop
+        }
+    }
+
+    return null;
+}
+
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
