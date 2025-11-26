@@ -1,25 +1,27 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-24T06:27:08.867Z",
+  "createdAt": "2025-11-26T05:58:05.679Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.7142857142857143,
+    "recall": 0.8333333333333334,
+    "precision": 0.8333333333333334
   },
   "counts": {
     "gold": 12,
     "pred": 12,
-    "intersection": 8,
-    "union": 16,
-    "both": 8,
-    "predOnly": 4,
-    "goldOnly": 4
+    "intersection": 10,
+    "union": 14,
+    "both": 10,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
+      "firstExposureOnly=false",
+      "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
@@ -28,16 +30,12 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "firstExposureOnly=false",
-      "washoutPeriod=0",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
+      "psSettings:{baseSelection=all|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=5}"
     ],
     "goldJsonOnly": [
-      "firstExposureOnly=true",
-      "washoutPeriod=365",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
   },
   "sectionAccuracy": {
@@ -76,12 +74,10 @@
   },
   "goldJson": {
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [
-        {
-          "studyStartDate": "20200101",
-          "studyEndDate": "20200515"
-        }
-      ],
+      "studyPeriods": {
+        "studyStartDate": "20200101",
+        "studyEndDate": "20200515"
+      },
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -92,27 +88,22 @@
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
-      "timeAtRisks": [
-        {
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        }
-      ]
+      "timeAtRisks": {
+        "riskWindowStart": 1,
+        "startAnchor": "cohort start",
+        "riskWindowEnd": 99999,
+        "endAnchor": "cohort start",
+        "minDaysAtRisk": 1
+      }
     },
     "propensityScoreAdjustment": {
-      "psSettings": [
-        {
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
+      "psSettings": {
+        "matchOnPsArgs": null,
+        "stratifyByPsArgs": {
+          "numberOfStrata": 5,
+          "baseSelection": "all"
         }
-      ],
+      },
       "createPsArgs": {
         "maxCohortSizeForFitting": 250000,
         "errorOnHighCorrelation": true,
@@ -133,7 +124,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {
@@ -152,7 +143,7 @@
     }
   },
   "predJson": {
-    "name": "HIRA COVID-19 testing - Population-level Cox model with PS stratification",
+    "name": "HIRA COVID-19 Testing Population-Level Estimation",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -178,12 +169,10 @@
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [
-        {
-          "studyStartDate": "20200101",
-          "studyEndDate": "20200515"
-        }
-      ],
+      "studyPeriods": {
+        "studyStartDate": "20200101",
+        "studyEndDate": "20200515"
+      },
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
       "washoutPeriod": 0,
@@ -194,28 +183,26 @@
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
-      "timeAtRisks": [
-        {
-          "description": "TAR 1",
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        }
-      ]
+      "timeAtRisks": {
+        "riskWindowStart": 1,
+        "startAnchor": "cohort start",
+        "riskWindowEnd": 0,
+        "endAnchor": "cohort end",
+        "minDaysAtRisk": 1
+      }
     },
     "propensityScoreAdjustment": {
-      "psSettings": [
-        {
-          "description": "PS stratification with 5 strata",
-          "matchOnPsArgs": null,
-          "stratifyByPsArgs": {
-            "numberOfStrata": 5,
-            "baseSelection": "all"
-          }
+      "psSettings": {
+        "matchOnPsArgs": {
+          "maxRatio": 1,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
+        },
+        "stratifyByPsArgs": {
+          "numberOfStrata": 5,
+          "baseSelection": "all"
         }
-      ],
+      },
       "createPsArgs": {
         "maxCohortSizeForFitting": 250000,
         "errorOnHighCorrelation": true,
