@@ -17,27 +17,23 @@ export const JSONTramadolCodein = {
         censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true, //default
         priorOutcomeLookBack: 365,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 0,
-                endAnchor: "cohort end",
-                minDaysAtRisk: 1, //default로 설정
-            },
-        ],
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 0,
+            endAnchor: "cohort end",
+            minDaysAtRisk: 1, //default로 설정
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: {
-                    maxRatio: 1,
-                    caliper: 0.2,
-                    caliperScale: "standardized logit",
-                },
-                stratifyByPsArgs: null,
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 1,
+                caliper: 0.2,
+                caliperScale: "standardized logit",
             },
-        ],
+            stratifyByPsArgs: null,
+        },
         createPsArgs: {
             maxCohortSizeForFitting: 250000, //default로 설정
             errorOnHighCorrelation: true, //default로 설정

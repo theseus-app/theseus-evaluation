@@ -11,12 +11,10 @@ Outcome Model: Cox proportional hazards regression conditioned on the propensity
 
 export const JSONCORAZON = {
     getDbCohortMethodDataArgs: {
-        studyPeriods: [
-            {
-                studyStartDate: "20100101",
-                studyEndDate: "20191231",
-            }
-        ],
+        studyPeriods: {
+            studyStartDate: "20100101",
+            studyEndDate: "20191231",
+        },
         maxCohortSize: 0, //default로 추가 
     },
     createStudyPopArgs: { //timeAtRisks 제외 default 추가 
@@ -27,26 +25,22 @@ export const JSONCORAZON = {
         censorAtNewRiskWindow: false,
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 0,
-                endAnchor: "cohort end",
-                minDaysAtRisk: 1 //default 추가
-            }
-        ],
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 0,
+            endAnchor: "cohort end",
+            minDaysAtRisk: 1 //default 추가
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: null,
-                stratifyByPsArgs: {
-                    numberOfStrata: 5,
-                    baseSelection: "all" //default 설정
-                },
-            }
-        ],
+        psSettings: {
+            matchOnPsArgs: null,
+            stratifyByPsArgs: {
+                numberOfStrata: 5,
+                baseSelection: "all" //default 설정
+            },
+        },
         createPsArgs: { //createPsArgs default로 추가 
             maxCohortSizeForFitting: 250000,
             errorOnHighCorrelation: true,

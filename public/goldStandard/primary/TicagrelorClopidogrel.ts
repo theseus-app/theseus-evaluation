@@ -11,12 +11,10 @@ Outcome Model: We used Cox proportional haz ard regression models to estimate th
 
 export const JSONTicagrelorClopidogrel = {
     getDbCohortMethodDataArgs: {
-        studyPeriods: [
-            {
-                studyStartDate: "20111101",
-                studyEndDate: "20190331",
-            },
-        ],
+        studyPeriods: {
+            studyStartDate: "20111101",
+            studyEndDate: "20190331",
+        },
         maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
@@ -27,27 +25,23 @@ export const JSONTicagrelorClopidogrel = {
         censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 365,
-                endAnchor: "cohort start",
-                minDaysAtRisk: 1, //default로 설정
-            },
-        ],
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 365,
+            endAnchor: "cohort start",
+            minDaysAtRisk: 1, //default로 설정
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: {
-                    maxRatio: 1,
-                    caliper: 0.2, //default로 설정
-                    caliperScale: "standardized logit" //default로 설정
-                },
-                stratifyByPsArgs: null,
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 1,
+                caliper: 0.2, //default로 설정
+                caliperScale: "standardized logit" //default로 설정
             },
-        ],
+            stratifyByPsArgs: null,
+        },
         createPsArgs: { //default
             maxCohortSizeForFitting: 250000,
             errorOnHighCorrelation: true,

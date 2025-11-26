@@ -1,5 +1,6 @@
 export const TEXTAntiVEGFKidney = `
 TAR 1: Patients were assumed at-risk of kidney failure after the third anti-VEGF exposure until the end of continuous drug exposure or the end of the study period.
+TAR 2: As a sensitivity analysis, all calculations were repeated under an intent-to-treat design, in which all kidney failure events after cohort entry contributed to the calculations even if they occurred while the patient was not receiving intravitreal anti-VEGF.
 
 PS Settings 1: We used the large-scale propensity score method to match patients in each target and comparator exposure cohort comparison using 1:1 propensity score matching. The propensity score model included a large number of baseline covariates as potential confounders and used the L1-regularization technique to avoid model overfitting.
 

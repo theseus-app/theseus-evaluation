@@ -18,27 +18,23 @@ export const JSONRanitidineCancer =
         censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 365,
-        timeAtRisks: [
-            {
-                riskWindowStart: 365,
-                startAnchor: "cohort start",
-                riskWindowEnd: 99999,
-                endAnchor: "cohort start",
-                minDaysAtRisk: 1 //default로 설정
-            },
-        ],
+        timeAtRisks: {
+            riskWindowStart: 365,
+            startAnchor: "cohort start",
+            riskWindowEnd: 99999,
+            endAnchor: "cohort start",
+            minDaysAtRisk: 1 //default로 설정
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: {
-                    maxRatio: 1,
-                    caliper: 0.2,
-                    caliperScale: "standardized logit",
-                },
-                stratifyByPsArgs: null, //default로 설정
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 1,
+                caliper: 0.2,
+                caliperScale: "standardized logit",
             },
-        ],
+            stratifyByPsArgs: null, //default로 설정
+        },
         createPsArgs: {
             maxCohortSizeForFitting: 250000, //default로 설정
             errorOnHighCorrelation: true, //default로 설정

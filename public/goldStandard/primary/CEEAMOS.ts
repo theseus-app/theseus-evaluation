@@ -17,27 +17,23 @@ export const JSONCEEAMOS = {
         censorAtNewRiskWindow: false, //default 추가
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 365,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 0,
-                endAnchor: "cohort end",
-                minDaysAtRisk: 1 //default로 추가
-            },
-        ],
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 0,
+            endAnchor: "cohort end",
+            minDaysAtRisk: 1 //default로 추가
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: {
-                    maxRatio: 10,
-                    caliper: 0.2,
-                    caliperScale: "standardized logit",
-                },
-                stratifyByPsArgs: null
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 10,
+                caliper: 0.2,
+                caliperScale: "standardized logit",
             },
-        ],
+            stratifyByPsArgs: null
+        },
         //createPsArgs 전체 다 default로 추
         createPsArgs: {
             maxCohortSizeForFitting: 250000,

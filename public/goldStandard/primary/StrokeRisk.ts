@@ -12,12 +12,10 @@ Outcome Model: The HRs for the outcome during the time-at-risk was estimated by 
 
 export const JSONStrokeRisk = {
   getDbCohortMethodDataArgs: {
-    studyPeriods: [
-      {
-        studyStartDate: "20010101",
-        studyEndDate: "20171231",
-      }
-    ],
+    studyPeriods: {
+      studyStartDate: "20010101",
+      studyEndDate: "20171231",
+    },
     maxCohortSize: 0, //default
   },
   createStudyPopArgs: {
@@ -28,27 +26,23 @@ export const JSONStrokeRisk = {
     censorAtNewRiskWindow: false, //default
     removeSubjectsWithPriorOutcome: true, //default
     priorOutcomeLookBack: 99999, //default
-    timeAtRisks: [
-      {
-        riskWindowStart: 1,
-        startAnchor: "cohort start",
-        riskWindowEnd: 0,
-        endAnchor: "cohort end",
-        minDaysAtRisk: 1,
-      },
-    ],
+    timeAtRisks: {
+      riskWindowStart: 1,
+      startAnchor: "cohort start",
+      riskWindowEnd: 0,
+      endAnchor: "cohort end",
+      minDaysAtRisk: 1,
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 10,
-          caliper: 0.2,
-          caliperScale: "standardized logit",
-        },
-        stratifyByPsArgs: null
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 10,
+        caliper: 0.2,
+        caliperScale: "standardized logit",
       },
-    ],
+      stratifyByPsArgs: null
+    },
     createPsArgs: {
       maxCohortSizeForFitting: 250000, //default로 설정
       errorOnHighCorrelation: true, //default로 설정

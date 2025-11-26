@@ -10,12 +10,10 @@ Outcome Model: used conditional Cox proportional hazards models to estimate haza
 `
 export const JSONCOVID19Famotidine = {
     getDbCohortMethodDataArgs: {
-        studyPeriods: [
-            {
-                studyStartDate: "20200201",
-                studyEndDate: "20200530",
-            },
-        ],
+        studyPeriods: {
+            studyStartDate: "20200201",
+            studyEndDate: "20200530",
+        },
         maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
@@ -26,26 +24,22 @@ export const JSONCOVID19Famotidine = {
         censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 30,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 30,
-                endAnchor: "cohort start",
-                minDaysAtRisk: 1, //default 설정
-            },
-        ],
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 30,
+            endAnchor: "cohort start",
+            minDaysAtRisk: 1, //default 설정
+        },
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: null,
-                stratifyByPsArgs: {
-                    numberOfStrata: 5,
-                    baseSelection: "all" //default 설정
-                }
+        psSettings: {
+            matchOnPsArgs: null,
+            stratifyByPsArgs: {
+                numberOfStrata: 5,
+                baseSelection: "all" //default 설정
             }
-        ],
+        },
         createPsArgs: {
             maxCohortSizeForFitting: 250000, //default 설정
             errorOnHighCorrelation: true, //default 설정

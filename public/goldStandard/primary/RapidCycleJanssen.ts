@@ -12,12 +12,10 @@ Outcome Model: The comparative cohort analysis employed a Cox proportional hazar
 export const JSONRapidCycleJanssen =
 {
     getDbCohortMethodDataArgs: {
-        studyPeriods: [
-            {
-                studyStartDate: 20210101,
-                studyEndDate: null
-            }
-        ],
+        studyPeriods: {
+            studyStartDate: 20210101,
+            studyEndDate: null
+        },
         maxCohortSize: 0, //default
     },
     createStudyPopArgs: {
@@ -28,27 +26,23 @@ export const JSONRapidCycleJanssen =
         censorAtNewRiskWindow: false, //default
         removeSubjectsWithPriorOutcome: true,
         priorOutcomeLookBack: 99999,
-        timeAtRisks: [
-            {
-                riskWindowStart: 1,
-                startAnchor: "cohort start",
-                riskWindowEnd: 14,
-                endAnchor: "cohort start",
-                minDaysAtRisk: 1, //default로 설정
-            }
-        ]
+        timeAtRisks: {
+            riskWindowStart: 1,
+            startAnchor: "cohort start",
+            riskWindowEnd: 14,
+            endAnchor: "cohort start",
+            minDaysAtRisk: 1, //default로 설정
+        }
     },
     propensityScoreAdjustment: {
-        psSettings: [
-            {
-                matchOnPsArgs: {
-                    maxRatio: 100,
-                    caliper: 0.2, //default로 설정
-                    caliperScale: "standardized logit"
-                },
-                stratifyByPsArgs: null,
-            }
-        ],
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 100,
+                caliper: 0.2, //default로 설정
+                caliperScale: "standardized logit"
+            },
+            stratifyByPsArgs: null,
+        },
         createPsArgs: { //default
             maxCohortSizeForFitting: 250000,
             errorOnHighCorrelation: true,
