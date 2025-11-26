@@ -198,13 +198,15 @@ Description
             file: createReadStream(pdfPath),
             purpose: "assistants",
         });
-
-        const messages = [
+        const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
             {
                 role: "user",
                 content: [
                     { type: "text", text: prompt },
-                    { type: "file", file: { file_id: upload.id } },
+                    {
+                        type: "file",
+                        file: { file_id: upload.id },
+                    },
                 ],
             },
         ];

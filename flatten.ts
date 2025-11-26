@@ -35,6 +35,16 @@ export interface PsSetting {
     stratifyByPsArgs: StratifyByPsArgs | null;
 }
 
+// ===== 유틸: yyyyMMdd 정규화 (숫자/문자/널 모두 허용) =====
+const toYyyyMmDd = (v: string | number | null | undefined): string | null => {
+    if (v === null || v === undefined) return null;
+    const s = String(v).trim();
+    // 숫자 8자리 또는 yyyy-mm-dd 같은 경우도 허용 후 yyyyMMdd로 정제
+    if (/^\d{8}$/.test(s)) return s; // 이미 yyyyMMdd
+    const onlyDigits = s.replace(/\D/g, "");
+    return onlyDigits.length === 8 ? onlyDigits : null;
+};
+
 export type StudyDTO = {
     name: string;
     cohortDefinitions: {
@@ -133,15 +143,7 @@ export type FlattenStudyDTO = {
     Control: Control | null;
 };
 
-// ===== 유틸: yyyyMMdd 정규화 (숫자/문자/널 모두 허용) =====
-const toYyyyMmDd = (v: string | number | null | undefined): string | null => {
-    if (v === null || v === undefined) return null;
-    const s = String(v).trim();
-    // 숫자 8자리 또는 yyyy-mm-dd 같은 경우도 허용 후 yyyyMMdd로 정제
-    if (/^\d{8}$/.test(s)) return s; // 이미 yyyyMMdd
-    const onlyDigits = s.replace(/\D/g, "");
-    return onlyDigits.length === 8 ? onlyDigits : null;
-};
+
 
 // ===== 메인: flatten 함수 =====
 export function flattenStudy(dto: Partial<StudyDTO>): FlattenStudyDTO {

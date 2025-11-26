@@ -78,7 +78,7 @@ export async function loadFile(type: string = "DEFAULT"): Promise<ModulePair[]> 
             ? path.resolve(GOLD_DIR, "papers", `${baseName}.pdf`)
             : undefined;
 
-        if (isPdfType && !(await fileExists(pdfPath))) {
+        if (isPdfType && !(await fileExists(pdfPath as string))) {
             console.warn(`[WARN] Skip ${file}: PDF not found at ${pdfPath}`);
             continue;
         }

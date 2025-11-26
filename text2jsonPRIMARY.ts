@@ -4,8 +4,8 @@ import { OpenAI } from "openai/client.js";
 import { StudyDTO } from "./flatten";
 import dotenv from "dotenv";
 dotenv.config();
-const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4.0_annotated.txt");
-
+const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4.0_annotated_primary.txt");
+const JSON_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4_primary.json")
 // --- 모델 맵 ---
 const MODEL_MAP = {
     OPENAI: {
@@ -30,7 +30,12 @@ async function readTextFile(abs: string) {
     return fs.readFile(abs, "utf8");
 }
 
-export async function text2json(
+async function readJsonFile<T = unknown>(abs: string): Promise<T> {
+    const txt = await fs.readFile(abs, "utf8");
+    return JSON.parse(txt) as T;
+}
+
+export async function text2jsonPRIMARY(
     text: string,
     vendor: "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
     size: "FLAGSHIP" | "LIGHT"
@@ -71,80 +76,8 @@ export async function text2json(
 ["control"]["startingVariance"] : Starting variance for auto-search cross-validation (-1 mean use estimate based on data).`
 
 
-    const currentAnalysisSpecifications = `
-{
-    name: "",
-    cohortDefinitions: {
-        targetCohort: { id: null, name: "" },
-        comparatorCohort: { id: null, name: "" },
-        outcomeCohort: [{ id: null, name: "" }],
-    },
-    negativeControlConceptSet: { id: null, name: "" },
-    covariateSelection: {
-        conceptsToInclude: [{ id: null, name: "" }],
-        conceptsToExclude: [{ id: null, name: "" }],
-    },
-    getDbCohortMethodDataArgs: {
-        studyPeriods: {
-            studyStartDate: null,
-            studyEndDate: null,
-        },
-        restrictToCommonPeriod: false,
-        firstExposureOnly: false,
-        washoutPeriod: 0,
-        removeDuplicateSubjects: "keep all",
-        maxCohortSize: 0,
-    },
-    createStudyPopArgs: {
-        censorAtNewRiskWindow: false,
-        removeSubjectsWithPriorOutcome: true,
-        priorOutcomeLookBack: 99999,
-        timeAtRisks: {
-            riskWindowStart: 1,
-            startAnchor: "cohort start",
-            riskWindowEnd: 0,
-            endAnchor: "cohort end",
-            minDaysAtRisk: 1,
-        },
-    },
-    propensityScoreAdjustment: {
-        psSettings: {
-            matchOnPsArgs: { maxRatio: 1, caliper: 0.2, caliperScale: "standardized logit" },
-            stratifyByPsArgs: null,
-        },
-        createPsArgs: {
-            maxCohortSizeForFitting: 250000,
-            errorOnHighCorrelation: true,
-            prior: { priorType: "laplace", useCrossValidation: true },
-            control: {
-                tolerance: 2e-7,
-                cvType: "auto",
-                fold: 10,
-                cvRepetitions: 10,
-                noiseLevel: "silent",
-                resetCoefficients: true,
-                startingVariance: 0.01,
-            },
-        },
-    },
-    fitOutcomeModelArgs: {
-        modelType: "cox",
-        stratified: false,
-        useCovariates: false,
-        inversePtWeighting: false,
-        prior: { priorType: "laplace", useCrossValidation: true },
-        control: {
-            tolerance: 2e-7,
-            cvType: "auto",
-            fold: 10,
-            cvRepetitions: 10,
-            noiseLevel: "quiet",
-            resetCoefficients: true,
-            startingVariance: 0.01,
-        },
-    },
-};
-`
+    const currentAnalysisSpecObj = await readJsonFile<StudyDTO>(JSON_PATH);
+    const currentAnalysisSpecifications = JSON.stringify(currentAnalysisSpecObj, null, 4);
 
     const prompt = `<Instruction>
 From the provided <Text>, extract the key information and update the <Current Analysis Specifications> JSON to configure a population-level estimation study using the OMOP-CDM.
@@ -177,13 +110,6 @@ analysis specifications
 ---
 Description
 </Output Style>`;
-
-    const systemPrompt = `You are an expert assistant specialized in the OHDSI ecosystem, 
-particularly in Strategus and OMOP-CDM study specifications.
-You translate unstructured study descriptions into valid JSON 
-and R code following the Strategus template format.
-Do not invent new fields or change field names.
-Output strictly follows the given <Output Style> format.`
 
     // --- vendor별 API 초기화 ---
     let completionText = "";
