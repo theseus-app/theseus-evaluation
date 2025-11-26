@@ -17,27 +17,23 @@ export const JSONAntiVEGFKidney = {
     censorAtNewRiskWindow: false, //default로 설정
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 1,
-        startAnchor: "cohort start",
-        riskWindowEnd: 0,
-        endAnchor: "cohort end",
-        minDaysAtRisk: 1 //default 설정
-      },
-    ],
+    timeAtRisks: {
+      riskWindowStart: 1,
+      startAnchor: "cohort start",
+      riskWindowEnd: 0,
+      endAnchor: "cohort end",
+      minDaysAtRisk: 1 //default 설정
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 1,
-          caliper: 0.2, //default 설정
-          caliperScale: "standardized logit" //default 설정
-        },
-        stratifyByPsArgs: null
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 1,
+        caliper: 0.2, //default 설정
+        caliperScale: "standardized logit" //default 설정
       },
-    ],
+      stratifyByPsArgs: null
+    },
     createPsArgs: { //laplace 제외하고 전부 default 설정
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,

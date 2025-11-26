@@ -4,6 +4,7 @@ Study Period 1: Adults 18 years and older with T2D taking semaglutide (GLP-1RA),
 TAR 1: The time-at-risk period began with medication initiation until the end of continuous drug exposure, defined as a gap in exposure of more than 30 days or the end of the continuous observation period.
 
 PS Settings 1: Patients in each target and comparator exposure comparison (eg, semaglutide vs dulaglutide) were matched 1:1 using propensity scores
+PS Settings 2: We also stratified our propensity score–matched Cox proportional hazards models by calendar time (December 2017-January 2020, February 2020-June 2021, and July 2021-December 2023)
 
 Outcome Model: Cox proportional hazards models estimated the HR of NAION from cohort entry to the outcome while taking treatment with each target and comparator T2D medication.
 `

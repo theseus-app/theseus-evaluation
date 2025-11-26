@@ -11,43 +11,37 @@ Outcome Model: used a Cox proportional hazards model to determine the relative r
 
 export const JSONIUDEHRE = {
     getDbCohortMethodDataArgs: {
-        studyPeriods: [
-            {
-                studyStartDate: "20030101",
-                studyEndDate: null,
-            },
-        ],
+        studyPeriods: {
+            studyStartDate: "20030101",
+            studyEndDate: null,
+        },
         maxCohortSize: 0, //default
     },
-  createStudyPopArgs: {
-    restrictToCommonPeriod: false, //default로 설정
-    firstExposureOnly: true,
-    washoutPeriod: 365,
-    removeDuplicateSubjects: "keep all", //default로 설정
-    censorAtNewRiskWindow: false, //default로 설정
-    removeSubjectsWithPriorOutcome: true,
-    priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 30,
-        startAnchor: "cohort start",
-        riskWindowEnd: 5475,
-        endAnchor: "cohort start",
-        minDaysAtRisk: 1 //default 설정
-      },
-    ],
-  },
-  propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-            maxRatio: 1,
-            caliper: 0.2, //default로 설정
-            caliperScale: "standardized logit" //default로 설정
+    createStudyPopArgs: {
+        restrictToCommonPeriod: false, //default로 설정
+        firstExposureOnly: true,
+        washoutPeriod: 365,
+        removeDuplicateSubjects: "keep all", //default로 설정
+        censorAtNewRiskWindow: false, //default로 설정
+        removeSubjectsWithPriorOutcome: true,
+        priorOutcomeLookBack: 99999,
+        timeAtRisks: {
+            riskWindowStart: 30,
+            startAnchor: "cohort start",
+            riskWindowEnd: 5475,
+            endAnchor: "cohort start",
+            minDaysAtRisk: 1 //default 설정
         },
-        stratifyByPsArgs: null,
     },
-    ],
+    propensityScoreAdjustment: {
+        psSettings: {
+            matchOnPsArgs: {
+                maxRatio: 1,
+                caliper: 0.2, //default로 설정
+                caliperScale: "standardized logit" //default로 설정
+            },
+            stratifyByPsArgs: null,
+        },
     createPsArgs: { //laplace 제외하고 전부 default 설정
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,
