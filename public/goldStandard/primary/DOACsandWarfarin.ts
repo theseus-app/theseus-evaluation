@@ -40,11 +40,12 @@ export const JSONDOACsandWarfarin = {
   propensityScoreAdjustment: {
     psSettings: [
       {
-        matchOnPsArgs: null,
-        stratifyByPsArgs: {
-            numberOfStrata: 5,
-            baseSelection: "all" //default로 설정
+        matchOnPsArgs: {
+            maxRatio: 1,
+            caliper: 0.2, 
+            caliperScale: "standardized logit" 
         },
+        stratifyByPsArgs: null,
       },
     ],
     createPsArgs: { //laplace 제외하고 전부 default 설정
@@ -64,7 +65,7 @@ export const JSONDOACsandWarfarin = {
   },
   fitOutcomeModelArgs: { //modelType제외 default 설정
     modelType: "cox",
-    stratified: true,
+    stratified: false,
     useCovariates: false,
     inversePtWeighting: false,
     prior: { priorType: "laplace", useCrossValidation: true },

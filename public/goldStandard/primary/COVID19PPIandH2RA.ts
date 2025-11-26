@@ -40,12 +40,11 @@ export const JSONCOVID19PPIandH2RA = {
   propensityScoreAdjustment: {
     psSettings: [
       {
-        matchOnPsArgs: {
-            maxRatio: 1,
-            caliper: 0.2, 
-            caliperScale: "standardized logit" 
+        matchOnPsArgs: null,
+        stratifyByPsArgs: {
+            numberOfStrata: 5,
+            baseSelection: "all" //default로 설정
         },
-        stratifyByPsArgs: null,
       },
     ],
     createPsArgs: { //laplace 제외하고 전부 default 설정
@@ -65,7 +64,7 @@ export const JSONCOVID19PPIandH2RA = {
   },
   fitOutcomeModelArgs: { //modelType제외 default 설정
     modelType: "cox",
-    stratified: false,
+    stratified: true,
     useCovariates: false,
     inversePtWeighting: false,
     prior: { priorType: "laplace", useCrossValidation: true },
