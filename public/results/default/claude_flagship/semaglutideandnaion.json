@@ -1,19 +1,19 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-26T06:00:02.810Z",
+  "createdAt": "2025-11-27T00:08:18.775Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
+    "jaccard": 0.5555555555555556,
     "recall": 0.7692307692307693,
-    "precision": 0.8333333333333334
+    "precision": 0.6666666666666666
   },
   "counts": {
     "gold": 13,
-    "pred": 12,
+    "pred": 15,
     "intersection": 10,
-    "union": 15,
+    "union": 18,
     "both": 10,
-    "predOnly": 2,
+    "predOnly": 5,
     "goldOnly": 3
   },
   "details": {
@@ -31,6 +31,9 @@
     ],
     "predJsonOnly": [
       "censorAtNewRiskWindow=false",
+      "studyPeriods:{studyEndDate=20200131|studyStartDate=20171201}",
+      "studyPeriods:{studyEndDate=20210630|studyStartDate=20200201}",
+      "studyPeriods:{studyEndDate=20231231|studyStartDate=20210701}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
@@ -40,19 +43,19 @@
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 0,
+      "predOnlyCount": 3,
       "goldOnlyCount": 0,
-      "precision": 1,
+      "precision": 0.25,
       "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "f1": 0.4,
+      "accuracy": 0.25
     },
     "timeAtRisks": {
       "bothCount": 0,
@@ -162,11 +165,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adults 18+ with T2D taking target medication (semaglutide, dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide)"
+        "name": "Adults with T2D on GLP-1RA/SGLT2i/DPP4i/Sulfonylurea"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adults 18+ with T2D taking comparator medication"
+        "name": "Adults with T2D on GLP-1RA/SGLT2i/DPP4i/Sulfonylurea"
       },
       "outcomeCohort": [
         {
@@ -198,6 +201,18 @@
         {
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
+        },
+        {
+          "studyStartDate": "20171201",
+          "studyEndDate": "20200131"
+        },
+        {
+          "studyStartDate": "20200201",
+          "studyEndDate": "20210630"
+        },
+        {
+          "studyStartDate": "20210701",
+          "studyEndDate": "20231231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -212,7 +227,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: medication initiation until end of continuous exposure (max 30-day gap)",
+          "description": "On-treatment with 30-day gap allowance",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
@@ -224,34 +239,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS matching stratified by calendar time: Dec 2017-Jan 2020",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS matching stratified by calendar time: Feb 2020-Jun 2021",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS matching stratified by calendar time: Jul 2021-Dec 2023",
+          "description": "1:1 PS Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -280,7 +268,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

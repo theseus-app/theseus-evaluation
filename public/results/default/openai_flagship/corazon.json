@@ -1,20 +1,20 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2025-11-26T05:58:59.121Z",
+  "createdAt": "2025-11-27T10:37:11.091Z",
   "metrics": {
-    "jaccard": 0.8125,
-    "recall": 0.8666666666666667,
-    "precision": 0.9285714285714286
+    "jaccard": 0.9333333333333333,
+    "recall": 0.9333333333333333,
+    "precision": 1
   },
   "counts": {
     "gold": 15,
     "pred": 14,
-    "intersection": 13,
-    "union": 16,
-    "both": 13,
-    "predOnly": 1,
-    "goldOnly": 2
+    "intersection": 14,
+    "union": 15,
+    "both": 14,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,6 +23,7 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20100101}",
@@ -32,11 +33,8 @@
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
-    "predJsonOnly": [
-      "censorAtNewRiskWindow=true"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
-      "censorAtNewRiskWindow=false",
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}"
     ]
   },
@@ -219,12 +217,12 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (primary)",
+          "description": "TAR 1: On-treatment (censor at discontinuation/switch/death/study end)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -232,7 +230,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat (sensitivity)",
+          "description": "TAR 2: Intention-to-treat (do not censor at discontinuation/switch)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -244,7 +242,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Stratification (ATE)",
+          "description": "PS Settings 1: Stratification (ATE)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -252,9 +250,9 @@
           }
         },
         {
-          "description": "PS Matching (ATT)",
+          "description": "PS Settings 2: Variable-ratio matching (ATT)",
           "matchOnPsArgs": {
-            "maxRatio": 0,
+            "maxRatio": 100,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

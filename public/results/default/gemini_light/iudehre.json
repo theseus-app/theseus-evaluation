@@ -1,20 +1,20 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-26T05:58:21.378Z",
+  "createdAt": "2025-11-27T00:06:40.074Z",
   "metrics": {
-    "jaccard": 0.8666666666666667,
-    "recall": 0.9285714285714286,
-    "precision": 0.9285714285714286
+    "jaccard": 0.6470588235294118,
+    "recall": 0.7857142857142857,
+    "precision": 0.7857142857142857
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 13,
-    "union": 15,
-    "both": 13,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 11,
+    "union": 17,
+    "both": 11,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -26,22 +26,24 @@
       "censorAtNewRiskWindow=false",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=null|studyStartDate=20030101}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5479|riskWindowStart=30|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5479|riskWindowStart=365|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false"
+      "removeSubjectsWithPriorOutcome=false",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -55,13 +57,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 2,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
@@ -219,18 +221,18 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: Primary analysis time at risk",
+          "description": "TAR 1",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 5475,
+          "riskWindowEnd": 5479,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2: Subgroup analysis - outcome at least 1 year after IUD placement",
+          "description": "TAR 2",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 5475,
+          "riskWindowEnd": 5479,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -239,21 +241,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Settings: 1:1 Matching",
+          "description": "PS Settings: stratification",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "PS Settings: 1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS Settings: Stratification",
-          "matchOnPsArgs": null,
-          "stratifyByPsArgs": {
-            "numberOfStrata": 5,
-            "baseSelection": "all"
-          }
         }
       ],
       "createPsArgs": {

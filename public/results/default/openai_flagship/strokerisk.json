@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-26T06:09:49.412Z",
+  "createdAt": "2025-11-27T10:48:43.189Z",
   "metrics": {
     "jaccard": 0.7647058823529411,
     "recall": 0.8666666666666667,
@@ -169,7 +169,7 @@
     }
   },
   "predJson": {
-    "name": "On-treatment PLP with multiple PS strategies",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -191,8 +191,18 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -217,7 +227,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR: start day 1 after cohort entry; end at cohort end (censor at switch to other cohort drug, >30-day exposure gap, outcome, observation end, or study end).",
+          "description": "TAR 1",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -229,12 +239,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted (crude) estimate: no PS adjustment",
+          "description": "Unadjusted (crude)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication: 1:1 PS matching, caliper 0.05 on PS scale",
+          "description": "Sentinel PS replication (1:1 PS match, caliper 0.05 on PS)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -243,7 +253,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Large-scale regularized PS (LASSO): variable-ratio matching up to 1:10, caliper 0.2 SD of logit(PS)",
+          "description": "Large-scale regularized PS (LASSO), variable-ratio up to 1:10, caliper 0.2 on standardized logit",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
