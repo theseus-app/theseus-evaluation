@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-24T06:24:35.084Z",
+  "createdAt": "2025-11-28T02:28:59.131Z",
   "metrics": {
     "jaccard": 0.8125,
     "recall": 0.8666666666666667,
@@ -174,20 +174,20 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin Severe Uterine Bleeding Study",
+    "name": "DOACs vs Warfarin and Severe Uterine Bleeding Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adult female new users of DOACs (rivaroxaban, apixaban, or dabigatran) with AF or VTE indication"
+        "name": "DOAC new users (rivaroxaban, apixaban, or dabigatran)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adult female new users of warfarin with AF or VTE indication"
+        "name": "Warfarin new users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Severe uterine bleeding (vaginal bleeding with blood transfusion on same day or surgical management within 60 days)"
+          "name": "Severe uterine bleeding (vaginal bleeding with blood transfusion or surgical management)"
         }
       ]
     },
@@ -199,7 +199,27 @@
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All baseline covariates including demographics, prior conditions, medication use, procedures, Charlson Comorbidity Index, and CHA2DS2-VASc"
+          "name": "Demographics"
+        },
+        {
+          "id": null,
+          "name": "Prior conditions (cardiovascular comorbidities, polyp of cervix, endometriosis, other cancers, pregnancy)"
+        },
+        {
+          "id": null,
+          "name": "Medication use (hormonal therapy drugs)"
+        },
+        {
+          "id": null,
+          "name": "Procedures"
+        },
+        {
+          "id": null,
+          "name": "Charlson Comorbidity Index"
+        },
+        {
+          "id": null,
+          "name": "CHA2DS2-VASc stroke risk index"
         }
       ],
       "conceptsToExclude": []
@@ -223,7 +243,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment: DOACs 3-day gap + 5 days; Warfarin 7-day gap + 5 days",
+          "description": "Primary on-treatment (DOACs: 3-day gap + 5 days; Warfarin: 7-day gap + 5 days)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -231,7 +251,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 1: 30-day gap, no days appended",
+          "description": "Sensitivity analysis 1: on-treatment (30-day gap, no days appended)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -239,7 +259,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 2: Intent-to-treat",
+          "description": "Sensitivity analysis 2: intent-to-treat (no treatment discontinuation)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -260,7 +280,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS: Variable ratio matching (1:100)",
+          "description": "Sensitivity PS: 1:100 variable ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,

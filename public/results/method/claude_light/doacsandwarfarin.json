@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-24T06:26:40.811Z",
+  "createdAt": "2025-11-28T02:28:47.398Z",
   "metrics": {
     "jaccard": 0.7058823529411765,
     "recall": 0.8,
@@ -175,15 +175,15 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin for Severe Uterine Bleeding Risk in AF and VTE Populations",
+    "name": "DOACs vs Warfarin for Severe Uterine Bleeding Risk in Women with AF or VTE",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DOAC users (rivaroxaban, apixaban, dabigatran)"
+        "name": "New users of rivaroxaban, apixaban, or dabigatran"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Warfarin users"
+        "name": "New users of warfarin"
       },
       "outcomeCohort": [
         {
@@ -202,6 +202,18 @@
         {
           "id": null,
           "name": "Edoxaban exposure"
+        },
+        {
+          "id": null,
+          "name": "Prior hysterectomy"
+        },
+        {
+          "id": null,
+          "name": "Prior vaginal bleeding"
+        },
+        {
+          "id": null,
+          "name": "Prior medical, surgical, or transfusion management for vaginal bleeding"
         }
       ]
     },
@@ -224,7 +236,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment analysis: 3-day gap for DOACs, 7-day gap for warfarin, plus 5 days appended",
+          "description": "Primary on-treatment TAR (DOACs: 3-day gap + 5 days appended; Warfarin: 7-day gap + 5 days appended)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -232,7 +244,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 1: 30-day gap for both DOACs and warfarin, no days appended",
+          "description": "Sensitivity analysis TAR (30-day gap, no days appended)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -240,7 +252,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 2: Intent-to-treat analysis",
+          "description": "Intent-to-treat TAR (until last observation or study end)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -261,7 +273,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS strategy: variable-ratio matching up to 1:100",
+          "description": "Sensitivity PS strategy: 1:100 variable-ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,

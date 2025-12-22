@@ -1,20 +1,20 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-24T06:29:43.970Z",
+  "createdAt": "2025-11-28T02:29:27.050Z",
   "metrics": {
-    "jaccard": 0.6470588235294118,
-    "recall": 0.7333333333333333,
-    "precision": 0.8461538461538461
+    "jaccard": 0.7058823529411765,
+    "recall": 0.8,
+    "precision": 0.8571428571428571
   },
   "counts": {
     "gold": 15,
-    "pred": 13,
-    "intersection": 11,
+    "pred": 14,
+    "intersection": 12,
     "union": 17,
-    "both": 11,
+    "both": 12,
     "predOnly": 2,
-    "goldOnly": 4
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -28,6 +28,7 @@
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20101019}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
@@ -37,14 +38,13 @@
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -66,13 +66,13 @@
       "accuracy": 0.25
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -175,15 +175,15 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin - population-level safety study in adult women",
+    "name": "DOACs vs Warfarin - Population-Level Estimation (Severe Uterine Bleeding)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Rivaroxaban new user (DOAC)"
+        "name": "DOACs (rivaroxaban, apixaban, dabigatran) - new users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Warfarin new user"
+        "name": "Warfarin - new users"
       },
       "outcomeCohort": [
         {
@@ -194,7 +194,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes set"
+      "name": "Negative control concept set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -219,7 +219,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment TAR: DOACs max 3-day gap between exposure intervals plus 5 days appended to last exposure date; warfarin max 7-day gap plus 5 days appended",
+          "description": "On-treatment time-at-risk (primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -227,7 +227,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity TAR 1: 30-day gap allowed between exposure intervals; no days appended to last exposure",
+          "description": "On-treatment time-at-risk (30-day gap sensitivity)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -235,7 +235,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat TAR: follow-up until end of observation or study period",
+          "description": "Intention-to-treat time-at-risk",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -247,9 +247,18 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "PS 1 (1:1 matching)",
           "matchOnPsArgs": {
             "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS 2 (1:100 matching)",
+          "matchOnPsArgs": {
+            "maxRatio": 100,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

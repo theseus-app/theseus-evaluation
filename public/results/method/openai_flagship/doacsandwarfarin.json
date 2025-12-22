@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-24T06:32:12.162Z",
+  "createdAt": "2025-11-28T02:30:19.095Z",
   "metrics": {
     "jaccard": 0.8125,
     "recall": 0.8666666666666667,
@@ -174,15 +174,15 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin: Severe uterine bleeding in women (AF, VTE), 2010-2018",
+    "name": "Severe uterine bleeding risk: DOACs vs warfarin in adult women with AF or VTE (20101019–20181231)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DOAC new users (women; AF or VTE)"
+        "name": "DOAC new users (adult women)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Warfarin new users (women; AF or VTE)"
+        "name": "Warfarin new users (adult women)"
       },
       "outcomeCohort": [
         {
@@ -193,7 +193,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "127 negative control outcomes"
+      "name": "Negative control outcomes set (127 outcomes)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -209,7 +209,7 @@
       "restrictToCommonPeriod": true,
       "firstExposureOnly": true,
       "washoutPeriod": 183,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -218,7 +218,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment: 1 day after index to cohort end (exposure era end), DOAC gap ≤3d with +5d, warfarin gap ≤7d with +5d (defined in cohort construction)",
+          "description": "Primary on-treatment TAR (start = 1 day after index; end = cohort end; gaps/padding encoded in exposure cohorts)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -226,7 +226,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity on-treatment: 1 day after index to cohort end (exposure era end), gap ≤30d, no days appended (defined in cohort construction)",
+          "description": "Sensitivity on-treatment TAR with routine-practice persistence (30-day permissible gap, no extension; start = 1 day after index; end = cohort end)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -234,7 +234,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity ITT: 1 day after index until observation/study end (regardless of exposure continuation)",
+          "description": "Sensitivity ITT TAR (start = 1 day after index; end = observation/study end)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -246,7 +246,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary PS: 1:1 greedy matching, caliper 0.2 SD on logit(PS)",
+          "description": "Primary PS matching (1:1; caliper 0.2 SD on logit)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -255,7 +255,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS: variable-ratio matching up to 1:100, caliper 0.2 SD on logit(PS)",
+          "description": "Sensitivity PS matching (variable ratio up to 1:100; caliper 0.2 SD on logit)",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,
