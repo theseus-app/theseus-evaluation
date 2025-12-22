@@ -88,6 +88,18 @@ const normalizeToArray = <T>(v: T[] | T | undefined | null): T[] => {
   return v === undefined || v === null ? [] : [v];
 };
 
+const isBlankString = (v: unknown) =>
+  typeof v === "string" && v.trim() === "";
+
+const filterEmptyStudyPeriods = (
+  arr: { studyStartDate: string | number | null; studyEndDate: string | number | null }[],
+) =>
+  (arr ?? []).filter((sp) => {
+    const s = sp?.studyStartDate;
+    const e = sp?.studyEndDate;
+    return !(isBlankString(s) && isBlankString(e));
+  });
+
 const defaultCreatePsArgs = {
   maxCohortSizeForFitting: 0,
   errorOnHighCorrelation: false,
@@ -124,8 +136,8 @@ export const flattenStudyDone = (dto: Partial<StudyDTO>): FlattenStudyDoneDTO =>
     getDbCohortMethodDataArgs: {
       ...defaultGetDbCohortMethodDataArgs,
       ...(dto.getDbCohortMethodDataArgs ?? {}),
-      studyPeriods: normalizeToArray(
-        (dto.getDbCohortMethodDataArgs as any)?.studyPeriods,
+      studyPeriods: filterEmptyStudyPeriods(
+        normalizeToArray((dto.getDbCohortMethodDataArgs as any)?.studyPeriods),
       ),
     },
     createStudyPopArgs: {
@@ -151,12 +163,12 @@ const pickDoneFieldsPrimary = (
   flat: FlattenStudyDTOPRIMARY,
 ): FlattenStudyDoneDTO => ({
   studyPeriods: flat.studyPeriodsPRIMARY
-    ? [
+    ? filterEmptyStudyPeriods([
         {
           studyStartDate: flat.studyPeriodsPRIMARY.studyStartDate,
           studyEndDate: flat.studyPeriodsPRIMARY.studyEndDate,
         },
-      ]
+      ])
     : [],
   timeAtRisks: flat.timeAtRisksPRIMARY
     ? [
@@ -188,10 +200,61 @@ export const flattenStudyDonePrimary = (
 
 // ======== facts 변환 ========
 
+const isEmptyStudyPeriod = (sp: {
+  studyStartDate: string | null;
+  studyEndDate: string | null;
+}) => {
+  // null 값만 있는 경우는 포함해야 하므로, 빈 문자열만 비움으로 간주
+  const blank = (v: string | null) =>
+    typeof v === "string" && v.trim() === "";
+  return blank(sp.studyStartDate) && blank(sp.studyEndDate);
+};
+
+const isEmptyTimeAtRisk = (tar: {
+  riskWindowStart: number | null;
+  startAnchor: Anchor | null;
+  riskWindowEnd: number | null;
+  endAnchor: Anchor | null;
+  minDaysAtRisk: number | null;
+}) => {
+  // null만 있는 경우는 포함시키고, 완전 공백/미기재(빈 문자열/undefined)일 때만 제외
+  const numEmpty = (n: number | null | undefined) => n === undefined;
+  const strEmpty = (s: string | null | undefined) =>
+    s === undefined || (typeof s === "string" && s.trim() === "");
+  return (
+    numEmpty(tar.riskWindowStart) &&
+    numEmpty(tar.riskWindowEnd) &&
+    numEmpty(tar.minDaysAtRisk) &&
+    strEmpty(tar.startAnchor) &&
+    strEmpty(tar.endAnchor)
+  );
+};
+
+const isEmptyPsSetting = (ps: {
+  maxRatio: number | null;
+  caliper: number | null;
+  caliperScale: CaliperScale | null;
+  numberOfStrata: number | null;
+  baseSelection: BaseSelection | null;
+}) => {
+  // null만 있는 경우는 포함, undefined/빈 문자열만 있는 경우에만 제외
+  const numEmpty = (n: number | null | undefined) => n === undefined;
+  const strEmpty = (s: string | null | undefined) =>
+    s === undefined || (typeof s === "string" && s.trim() === "");
+  return (
+    numEmpty(ps.maxRatio) &&
+    numEmpty(ps.caliper) &&
+    strEmpty(ps.caliperScale) &&
+    numEmpty(ps.numberOfStrata) &&
+    strEmpty(ps.baseSelection)
+  );
+};
+
 export const toFactsDone = (flat: FlatDone): Set<string> => {
   const facts = new Set<string>();
 
   for (const sp of flat.studyPeriods ?? []) {
+    if (isEmptyStudyPeriod(sp)) continue; // 빈 기간은 비교에서 제외
     facts.add(
       canonicalizeObject("studyPeriods", {
         studyStartDate: sp.studyStartDate,
@@ -201,6 +264,7 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
   }
 
   for (const t of flat.timeAtRisks ?? []) {
+    if (isEmptyTimeAtRisk(t)) continue; // 빈 TAR는 제외
     facts.add(
       canonicalizeObject("timeAtRisks", {
         riskWindowStart: t.riskWindowStart,
@@ -213,6 +277,7 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
   }
 
   for (const p of flat.psSettings ?? []) {
+    if (isEmptyPsSetting(p)) continue; // 빈 psSettings는 제외
     facts.add(
       canonicalizeObject("psSettings", {
         maxRatio: normalizeMaxRatio(p.maxRatio),
@@ -255,38 +320,44 @@ const setEq = (A: Set<string>, B: Set<string>) =>
 
 const canonStudyPeriods = (arr: FlatDone["studyPeriods"]) =>
   new Set(
-    (arr ?? []).map((sp) =>
-      canonicalizeObject("studyPeriods", {
-        studyStartDate: sp.studyStartDate,
-        studyEndDate: sp.studyEndDate,
-      }),
-    ),
+    (arr ?? [])
+      .filter((sp) => !isEmptyStudyPeriod(sp))
+      .map((sp) =>
+        canonicalizeObject("studyPeriods", {
+          studyStartDate: sp.studyStartDate,
+          studyEndDate: sp.studyEndDate,
+        }),
+      ),
   );
 
 const canonTimeAtRisks = (arr: FlatDone["timeAtRisks"]) =>
   new Set(
-    (arr ?? []).map((t) =>
-      canonicalizeObject("timeAtRisks", {
-        riskWindowStart: t.riskWindowStart,
-        startAnchor: t.startAnchor,
-        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
-        endAnchor: t.endAnchor,
-        minDaysAtRisk: t.minDaysAtRisk,
-      }),
-    ),
+    (arr ?? [])
+      .filter((t) => !isEmptyTimeAtRisk(t))
+      .map((t) =>
+        canonicalizeObject("timeAtRisks", {
+          riskWindowStart: t.riskWindowStart,
+          startAnchor: t.startAnchor,
+          riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+          endAnchor: t.endAnchor,
+          minDaysAtRisk: t.minDaysAtRisk,
+        }),
+      ),
   );
 
 const canonPsSettings = (arr: FlatDone["psSettings"]) =>
   new Set(
-    (arr ?? []).map((p) =>
-      canonicalizeObject("psSettings", {
-        maxRatio: normalizeMaxRatio(p.maxRatio),
-        caliper: p.caliper,
-        caliperScale: p.caliperScale,
-        numberOfStrata: p.numberOfStrata,
-        baseSelection: p.baseSelection,
-      }),
-    ),
+    (arr ?? [])
+      .filter((p) => !isEmptyPsSetting(p))
+      .map((p) =>
+        canonicalizeObject("psSettings", {
+          maxRatio: normalizeMaxRatio(p.maxRatio),
+          caliper: p.caliper,
+          caliperScale: p.caliperScale,
+          numberOfStrata: p.numberOfStrata,
+          baseSelection: p.baseSelection,
+        }),
+      ),
   );
 
 // ======== 메인 비교 함수 ========
@@ -354,31 +425,31 @@ export const evaluateFlatDone = (gold: FlatDone, pred: FlatDone) => {
   };
 
   // studyPeriods
-  const spSpecified = (gold.studyPeriods?.length ?? 0) > 0;
+  const spSetGold = canonStudyPeriods(gold.studyPeriods);
+  const spSetPred = canonStudyPeriods(pred.studyPeriods);
+  const spSpecified = spSetGold.size > 0;
   const spCounts = spSpecified
     ? diffMetrics(gold.studyPeriods, pred.studyPeriods, (arr) => canonStudyPeriods(arr))
     : null;
-  const spAcc: boolean | null = spSpecified
-    ? setEq(canonStudyPeriods(gold.studyPeriods), canonStudyPeriods(pred.studyPeriods))
-    : null;
+  const spAcc: boolean | null = spSpecified ? setEq(spSetGold, spSetPred) : null;
 
   // timeAtRisks
-  const tarSpecified = (gold.timeAtRisks?.length ?? 0) > 0;
+  const tarSetGold = canonTimeAtRisks(gold.timeAtRisks);
+  const tarSetPred = canonTimeAtRisks(pred.timeAtRisks);
+  const tarSpecified = tarSetGold.size > 0;
   const tarCounts = tarSpecified
     ? diffMetrics(gold.timeAtRisks, pred.timeAtRisks, (arr) => canonTimeAtRisks(arr))
     : null;
-  const tarAcc: boolean | null = tarSpecified
-    ? setEq(canonTimeAtRisks(gold.timeAtRisks), canonTimeAtRisks(pred.timeAtRisks))
-    : null;
+  const tarAcc: boolean | null = tarSpecified ? setEq(tarSetGold, tarSetPred) : null;
 
   // propensityScoreAdjustment (psSettings만 비교)
-  const psSpecified = (gold.psSettings?.length ?? 0) > 0;
+  const psSetGold = canonPsSettings(gold.psSettings);
+  const psSetPred = canonPsSettings(pred.psSettings);
+  const psSpecified = psSetGold.size > 0;
   const psCounts = psSpecified
     ? diffMetrics(gold.psSettings, pred.psSettings, (arr) => canonPsSettings(arr))
     : null;
-  const psAcc: boolean | null = psSpecified
-    ? setEq(canonPsSettings(gold.psSettings), canonPsSettings(pred.psSettings))
-    : null;
+  const psAcc: boolean | null = psSpecified ? setEq(psSetGold, psSetPred) : null;
 
   return {
     jaccard,

@@ -383,7 +383,7 @@ export async function runBatchEvaluate(): Promise<{
   const fieldFPperCase = totalCases > 0 ? wholeFP / totalCases : null;
 
   // 전체 요약 파일도 하나 남겨두기
-  const indexPath = path.join(RESULTS_DIR, "_summary.index.json");
+  const indexPath = path.join(RESULTS_DIR, "_summary.index_fourth.json");
   await fs.writeFile(
     indexPath,
     JSON.stringify(
