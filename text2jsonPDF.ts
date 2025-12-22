@@ -4,29 +4,11 @@ import { createReadStream } from "node:fs";
 import { OpenAI } from "openai/client.js";
 import { StudyDTO } from "./flatten";
 import dotenv from "dotenv";
+import { MODEL_MAP } from "./text2jsonPRIMARY";
 dotenv.config();
 
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.3.0_annotated.txt");
 
-// --- 모델 맵 ---
-const MODEL_MAP = {
-    OPENAI: {
-        FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-    },
-    CLAUDE: {
-        FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
-        LIGHT: { name: "claude-haiku-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
-    },
-    GEMINI: {
-        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
-        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
-    },
-    DEEPSEEK: {
-        FLAGSHIP: { name: "deepseek-reasoner", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
-        LIGHT: { name: "deepseek-chat", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
-    },
-} as const;
 
 async function readTextFile(abs: string) {
     return fs.readFile(abs, "utf8");

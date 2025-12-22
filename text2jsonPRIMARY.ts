@@ -7,18 +7,18 @@ dotenv.config();
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4.0_annotated_primary.txt");
 const JSON_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.4_primary.json")
 // --- 모델 맵 ---
-const MODEL_MAP = {
+export const MODEL_MAP = {
     OPENAI: {
-        FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-        LIGHT: { name: "gpt-5-nano", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        FLAGSHIP: { name: "gpt-5.2-2025-12-11", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-5-mini-2025-08-07", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
     },
     CLAUDE: {
-        FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
-        LIGHT: { name: "claude-haiku-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        FLAGSHIP: { name: "claude-sonnet-4-5-20250929", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        LIGHT: { name: "claude-haiku-4-5-20251001", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
     },
     GEMINI: {
-        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
-        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+        FLAGSHIP: { name: "gemini-3-pro-preview", key: process.env.GOOGLE_API_KEY ?? "google_api_key" }, //2025-11 최종 업데이트
+        LIGHT: { name: "gemini-3-flash-preview", key: process.env.GOOGLE_API_KEY ?? "google_api_key" }, //2025-12 최종 업데이트
     },
     DEEPSEEK: {
         FLAGSHIP: { name: "deepseek-reasoner", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
@@ -157,7 +157,6 @@ Description
             headers: {
                 "Content-Type": "application/json",
                 "x-api-key": selected.key,
-                "anthropic-version": "2023-06-01",
             },
             body: JSON.stringify({
                 model: selected.name,
