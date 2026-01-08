@@ -24,6 +24,13 @@ import { text2jsonPRIMARY } from "./text2jsonPRIMARY";
 
 const MAX_ATTEMPTS_PER_CASE = 3;
 
+function isTestDataset(): boolean {
+  const goldDir = process.env.GOLD_STANDARD_DIR;
+  if (!goldDir) return false;
+  const resolved = path.resolve(process.cwd(), goldDir);
+  return path.basename(resolved).toLowerCase() === "goldstandardtest";
+}
+
 // --- parse CLI args ---
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -140,6 +147,7 @@ export async function runBatchEvaluate(): Promise<{
     process.cwd(),
     "public",
     "results",
+    isTestDataset() ? "test" : "",
     type.toLowerCase(),
     `${vendor.toLowerCase()}_${size.toLowerCase()}`,
   );
@@ -383,7 +391,7 @@ export async function runBatchEvaluate(): Promise<{
   const fieldFPperCase = totalCases > 0 ? wholeFP / totalCases : null;
 
   // 전체 요약 파일도 하나 남겨두기
-  const indexPath = path.join(RESULTS_DIR, "_summary.index_fourth.json");
+  const indexPath = path.join(RESULTS_DIR, "_summary.index.json");
   await fs.writeFile(
     indexPath,
     JSON.stringify(

@@ -157,6 +157,7 @@ Description
             headers: {
                 "Content-Type": "application/json",
                 "x-api-key": selected.key,
+                "anthropic-version": "2023-06-01",
             },
             body: JSON.stringify({
                 model: selected.name,

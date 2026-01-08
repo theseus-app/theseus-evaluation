@@ -571,6 +571,13 @@ const folderMap: Record<string, string> = {
   PRIMARY: "primary",
 };
 
+function isTestDataset(): boolean {
+  const goldDir = process.env.GOLD_STANDARD_DIR;
+  if (!goldDir) return false;
+  const resolved = path.resolve(process.cwd(), goldDir);
+  return path.basename(resolved).toLowerCase() === "goldstandardtest";
+}
+
 export async function runEvaluateDone(): Promise<{
   totalCases: number;
   resultsDir: string;
@@ -582,11 +589,13 @@ export async function runEvaluateDone(): Promise<{
   const folderName = folderMap[type];
   const lowerVendor = vendor.toLowerCase();
   const lowerSize = size.toLowerCase();
+  const testSegment = isTestDataset() ? "test" : "";
 
   const sourceDir = path.resolve(
     process.cwd(),
     "public",
     "results",
+    testSegment,
     folderName,
     `${lowerVendor}_${lowerSize}`,
   );
@@ -595,6 +604,7 @@ export async function runEvaluateDone(): Promise<{
     "public",
     "results",
     "done",
+    testSegment,
     folderName,
     `${lowerVendor}_${lowerSize}`,
   );

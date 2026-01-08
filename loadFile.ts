@@ -27,7 +27,10 @@ export async function loadFile(type: string = "DEFAULT"): Promise<ModulePair[]> 
     const folderName = folderMap[upperType] ?? folderMap.DEFAULT;
     const isPdfType = upperType === "PDF";
 
-    const GOLD_DIR = path.resolve(process.cwd(), "public", "goldStandard", folderName);
+    const goldBaseDir = process.env.GOLD_STANDARD_DIR
+        ? path.resolve(process.cwd(), process.env.GOLD_STANDARD_DIR)
+        : path.resolve(process.cwd(), "public", "goldStandard");
+    const GOLD_DIR = path.join(goldBaseDir, folderName);
 
     const entries = await fs.readdir(GOLD_DIR, { withFileTypes: true });
 
