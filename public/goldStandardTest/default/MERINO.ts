@@ -1,4 +1,4 @@
-export const TEXTAntiVEGFKidney = `
+export const TEXTMERINO = `
 Study Period 1: The BSI-FOO observational study was a multicentre cohort study of 1,903 hospitalised patients with a BSI across seven NHS acute hospital trusts in England and Wales conducted between November 2010 and May 2012 with the primary aim of identifying modifiable risk factors for 28-day mortality.
 
 TAR 1: 25-day mortality was analysed to ensure full follow-up was available for all patients.
@@ -8,7 +8,7 @@ PS Settings 1: The number of participants and deaths in each emulated interventi
 Outcome Model: Convergence was not achieved when fitting an adjusted generalised linear model and therefore outcomes were compared using logistic regression adjusted for the propensity score.
 `
 
-export const JSONAntiVEGFKidney = {
+export const JSONMERINO = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {

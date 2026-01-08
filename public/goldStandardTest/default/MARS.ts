@@ -1,4 +1,4 @@
-export const TEXTAntiVEGFKidney = `
+export const TEXTMARS = `
 Study Period 1: a prospective cohort study conducted between January 2011 and December 2013 in two tertiary academic center adult ICUs in the Netherlands (Amsterdam University Medical Center, location AMC, and University Medical Center Utrecht).
 
 TAR 1: The follow-up period started after this 72-h exposure period and ended 90 days after ICU admission.
@@ -8,7 +8,7 @@ PS Settings 1: For PS matching, we used greedy matching with a caliper width of 
 Outcome Model: After PS matching, we created survival curves of the matched samples and estimated the hazard ratios and their standard errors by using Cox models with a robust variance estimator to account for the matched pairs.
 `
 
-export const JSONAntiVEGFKidney = {
+export const JSONMARS = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {

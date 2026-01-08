@@ -1,4 +1,4 @@
-export const TEXTAntiVEGFKidney = `
+export const TEXTSGLT2iMetformin = `
 Study Period 1-2: Before applying the eligibility criteria, we identified persons who filled a new prescription for first-line SGLT-2i (canagliflozin, empagliflozin, or dapagliflozin) or metformin between 1 April 2013 (consistent with the launch of SGLT2i in the United States) and 31 March 2020 in Optum (31 December 2018 in MarketScan and Medicare).
 
 TAR 1: Follow-up began on the day after cohort entry and continued until the occurrence of a study outcome, death, treatment discontinuation (with an interval between prescription refills >60 days) (29), disenrollment, or end of the study period, whichever occurred first.
@@ -10,7 +10,7 @@ compared with SGLT-2i initiators.
 Outcome Model: Within each database, time block–specific PSmatched cohorts were aggregated for outcome regression and hazard ratios (HRs) with 95% CIs were estimated using proportional hazards models without further adjustment.
 `
 
-export const JSONAntiVEGFKidney = {
+export const JSONSGLT2iMetformin = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {

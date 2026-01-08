@@ -1,4 +1,4 @@
-export const TEXTAntiVEGFKidney = `
+export const TEXTAlzheimerDonepezil = `
 TAR 1: The follow-up window is from baseline to 180 days after drug initiation.
 
 PS Settings 1: the ratio of the number of subjects in the 23 mg arm to the 10 mg arm was set as 1:1
@@ -7,7 +7,7 @@ PS Settings 2: the ratio was set as 1:3
 Outcome Model: Specifically, we fitted a logistic regression model using different treatments (i.e., case vs. control) as the outcome variable and age, gender, race, and CCI as covariates to generate the logistic probabilities of propensity scores of individuals in the two comparison groups and then used the nearest neighbor method to carry out the mapping process
 `
 
-export const JSONAntiVEGFKidney = {
+export const JSONAlzheimerDonepezil = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {
