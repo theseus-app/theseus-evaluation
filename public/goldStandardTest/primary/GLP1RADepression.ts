@@ -1,20 +1,20 @@
-export const TEXTMERINO = `
-Study Period 1: The BSI-FOO observational study was a multicentre cohort study of 1,903 hospitalised patients with a BSI across seven NHS acute hospital trusts in England and Wales conducted between November 2010 and May 2012 with the primary aim of identifying modifiable risk factors for 28-day mortality.
+export const TEXTSGLT2iMetformin = `
+Study Period: We emulated the target trial using U.S. national Medicare administrative claims data between January 2013 and December 2020
 
-TAR 1: 25-day mortality was analysed to ensure full follow-up was available for all patients.
+TAR: The patients were followed from the index date until the diagnosis of depression; death; disenrollment from Medicare Part A, B, or D; up to 2 years of follow-up; or the end of the study (31 December 2020), whichever came first
 
-PS Settings 1: The number of participants and deaths in each emulated intervention group was examined within strata defined by propensity score quantiles.
+PS Settings: The statistical analyses were the same as for the target trial except that 1:1 propensity score (PS) matching was used to mitigate potential confounding. The PS was estimated using multivariate logistic regression models incorporating baseline covariates. We applied nearest-neighbor matching without replacement, using a maximum caliper width of 0.05, to construct the matched cohort.
 
-Outcome Model: Convergence was not achieved when fitting an adjusted generalised linear model and therefore outcomes were compared using logistic regression adjusted for the propensity score.
+Outcome Model: To test the robustness of the study findings, we used a Fine–Gray subdistribution hazard model to address the competing risk for death, which allows a more accurate estimation of the cumulative incidence of the outcome in the presence of a competing event (death) that precludes the occurrence of the event of interest.
 `
 
-export const JSONMERINO = {
+export const JSONSGLT2iMetformin = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {
-        studyStartDate: "20101101",
-        studyEndDate: "20120531",
-      },
+        studyStartDate: "20130101",
+        studyEndDate: "20201231",
+      }
     ],
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
@@ -30,7 +30,7 @@ export const JSONMERINO = {
       {
         riskWindowStart: 1,
         startAnchor: "cohort start",
-        riskWindowEnd: 25,
+        riskWindowEnd: 730,
         endAnchor: "cohort start",
         minDaysAtRisk: 1 //default 설정
       }
@@ -39,11 +39,12 @@ export const JSONMERINO = {
   propensityScoreAdjustment: {
     psSettings: [
       {
-        matchOnPsArgs: null,
-        stratifyByPsArgs: {
-            numberOfStrata: 10,
-            baseSelection: "all" //default로 설정
+        matchOnPsArgs: {
+          maxRatio: 1,
+          caliper: 0.05, //default 설정
+          caliperScale: "standardized logit" //default 설정
         },
+        stratifyByPsArgs: null
       }
     ],
     createPsArgs: { //laplace 제외하고 전부 default 설정
@@ -62,7 +63,7 @@ export const JSONMERINO = {
     }
   },
   fitOutcomeModelArgs: { //modelType제외 default 설정
-    modelType: "logistic",
+    modelType: "cox",
     stratified: true,
     useCovariates: false,
     inversePtWeighting: false,
