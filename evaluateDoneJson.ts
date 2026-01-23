@@ -88,18 +88,6 @@ const normalizeToArray = <T>(v: T[] | T | undefined | null): T[] => {
   return v === undefined || v === null ? [] : [v];
 };
 
-const isBlankString = (v: unknown) =>
-  typeof v === "string" && v.trim() === "";
-
-const filterEmptyStudyPeriods = (
-  arr: { studyStartDate: string | number | null; studyEndDate: string | number | null }[],
-) =>
-  (arr ?? []).filter((sp) => {
-    const s = sp?.studyStartDate;
-    const e = sp?.studyEndDate;
-    return !(isBlankString(s) && isBlankString(e));
-  });
-
 const defaultCreatePsArgs = {
   maxCohortSizeForFitting: 0,
   errorOnHighCorrelation: false,
@@ -136,9 +124,7 @@ export const flattenStudyDone = (dto: Partial<StudyDTO>): FlattenStudyDoneDTO =>
     getDbCohortMethodDataArgs: {
       ...defaultGetDbCohortMethodDataArgs,
       ...(dto.getDbCohortMethodDataArgs ?? {}),
-      studyPeriods: filterEmptyStudyPeriods(
-        normalizeToArray((dto.getDbCohortMethodDataArgs as any)?.studyPeriods),
-      ),
+      studyPeriods: normalizeToArray((dto.getDbCohortMethodDataArgs as any)?.studyPeriods),
     },
     createStudyPopArgs: {
       ...defaultCreateStudyPopArgs,
@@ -163,12 +149,12 @@ const pickDoneFieldsPrimary = (
   flat: FlattenStudyDTOPRIMARY,
 ): FlattenStudyDoneDTO => ({
   studyPeriods: flat.studyPeriodsPRIMARY
-    ? filterEmptyStudyPeriods([
+    ? [
         {
           studyStartDate: flat.studyPeriodsPRIMARY.studyStartDate,
           studyEndDate: flat.studyPeriodsPRIMARY.studyEndDate,
         },
-      ])
+      ]
     : [],
   timeAtRisks: flat.timeAtRisksPRIMARY
     ? [
@@ -200,61 +186,10 @@ export const flattenStudyDonePrimary = (
 
 // ======== facts 변환 ========
 
-const isEmptyStudyPeriod = (sp: {
-  studyStartDate: string | null;
-  studyEndDate: string | null;
-}) => {
-  // null 값만 있는 경우는 포함해야 하므로, 빈 문자열만 비움으로 간주
-  const blank = (v: string | null) =>
-    typeof v === "string" && v.trim() === "";
-  return blank(sp.studyStartDate) && blank(sp.studyEndDate);
-};
-
-const isEmptyTimeAtRisk = (tar: {
-  riskWindowStart: number | null;
-  startAnchor: Anchor | null;
-  riskWindowEnd: number | null;
-  endAnchor: Anchor | null;
-  minDaysAtRisk: number | null;
-}) => {
-  // null만 있는 경우는 포함시키고, 완전 공백/미기재(빈 문자열/undefined)일 때만 제외
-  const numEmpty = (n: number | null | undefined) => n === undefined;
-  const strEmpty = (s: string | null | undefined) =>
-    s === undefined || (typeof s === "string" && s.trim() === "");
-  return (
-    numEmpty(tar.riskWindowStart) &&
-    numEmpty(tar.riskWindowEnd) &&
-    numEmpty(tar.minDaysAtRisk) &&
-    strEmpty(tar.startAnchor) &&
-    strEmpty(tar.endAnchor)
-  );
-};
-
-const isEmptyPsSetting = (ps: {
-  maxRatio: number | null;
-  caliper: number | null;
-  caliperScale: CaliperScale | null;
-  numberOfStrata: number | null;
-  baseSelection: BaseSelection | null;
-}) => {
-  // null만 있는 경우는 포함, undefined/빈 문자열만 있는 경우에만 제외
-  const numEmpty = (n: number | null | undefined) => n === undefined;
-  const strEmpty = (s: string | null | undefined) =>
-    s === undefined || (typeof s === "string" && s.trim() === "");
-  return (
-    numEmpty(ps.maxRatio) &&
-    numEmpty(ps.caliper) &&
-    strEmpty(ps.caliperScale) &&
-    numEmpty(ps.numberOfStrata) &&
-    strEmpty(ps.baseSelection)
-  );
-};
-
 export const toFactsDone = (flat: FlatDone): Set<string> => {
   const facts = new Set<string>();
 
   for (const sp of flat.studyPeriods ?? []) {
-    if (isEmptyStudyPeriod(sp)) continue; // 빈 기간은 비교에서 제외
     facts.add(
       canonicalizeObject("studyPeriods", {
         studyStartDate: sp.studyStartDate,
@@ -264,10 +199,9 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
   }
 
   for (const t of flat.timeAtRisks ?? []) {
-    if (isEmptyTimeAtRisk(t)) continue; // 빈 TAR는 제외
     facts.add(
       canonicalizeObject("timeAtRisks", {
-        riskWindowStart: t.riskWindowStart,
+        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
@@ -277,7 +211,6 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
   }
 
   for (const p of flat.psSettings ?? []) {
-    if (isEmptyPsSetting(p)) continue; // 빈 psSettings는 제외
     facts.add(
       canonicalizeObject("psSettings", {
         maxRatio: normalizeMaxRatio(p.maxRatio),
@@ -310,6 +243,12 @@ const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => 
   return n === 9999 ? 99999 : n;
 };
 
+// riskWindowStart: 0과 1을 동치로 취급
+const normalizeRiskWindowStart = (n: number | null | undefined): number | null => {
+  if (n === null || n === undefined) return null;
+  return n === 0 ? 1 : n;
+};
+
 const normalizeMaxRatio = (n: number | null | undefined): number | null => {
   if (n === null || n === undefined) return null;
   return n === 100 ? 0 : n;
@@ -320,44 +259,38 @@ const setEq = (A: Set<string>, B: Set<string>) =>
 
 const canonStudyPeriods = (arr: FlatDone["studyPeriods"]) =>
   new Set(
-    (arr ?? [])
-      .filter((sp) => !isEmptyStudyPeriod(sp))
-      .map((sp) =>
-        canonicalizeObject("studyPeriods", {
-          studyStartDate: sp.studyStartDate,
-          studyEndDate: sp.studyEndDate,
-        }),
-      ),
+    (arr ?? []).map((sp) =>
+      canonicalizeObject("studyPeriods", {
+        studyStartDate: sp.studyStartDate,
+        studyEndDate: sp.studyEndDate,
+      }),
+    ),
   );
 
 const canonTimeAtRisks = (arr: FlatDone["timeAtRisks"]) =>
   new Set(
-    (arr ?? [])
-      .filter((t) => !isEmptyTimeAtRisk(t))
-      .map((t) =>
-        canonicalizeObject("timeAtRisks", {
-          riskWindowStart: t.riskWindowStart,
-          startAnchor: t.startAnchor,
-          riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
-          endAnchor: t.endAnchor,
-          minDaysAtRisk: t.minDaysAtRisk,
-        }),
-      ),
+    (arr ?? []).map((t) =>
+      canonicalizeObject("timeAtRisks", {
+        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
+        startAnchor: t.startAnchor,
+        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+        endAnchor: t.endAnchor,
+        minDaysAtRisk: t.minDaysAtRisk,
+      }),
+    ),
   );
 
 const canonPsSettings = (arr: FlatDone["psSettings"]) =>
   new Set(
-    (arr ?? [])
-      .filter((p) => !isEmptyPsSetting(p))
-      .map((p) =>
-        canonicalizeObject("psSettings", {
-          maxRatio: normalizeMaxRatio(p.maxRatio),
-          caliper: p.caliper,
-          caliperScale: p.caliperScale,
-          numberOfStrata: p.numberOfStrata,
-          baseSelection: p.baseSelection,
-        }),
-      ),
+    (arr ?? []).map((p) =>
+      canonicalizeObject("psSettings", {
+        maxRatio: normalizeMaxRatio(p.maxRatio),
+        caliper: p.caliper,
+        caliperScale: p.caliperScale,
+        numberOfStrata: p.numberOfStrata,
+        baseSelection: p.baseSelection,
+      }),
+    ),
   );
 
 // ======== 메인 비교 함수 ========
@@ -612,10 +545,13 @@ export async function runEvaluateDone(): Promise<{
   await ensureDir(outputDir);
 
   const entries = await fs.readdir(sourceDir, { withFileTypes: true });
+  // merino.json 제외
+  const EXCLUDED_FILES = ["merino.json"];
+
   const jsonFiles = entries
     .filter((e) => e.isFile())
     .map((e) => e.name)
-    .filter((n) => n.endsWith(".json") && !n.startsWith("_"));
+    .filter((n) => n.endsWith(".json") && !n.startsWith("_") && !EXCLUDED_FILES.includes(n.toLowerCase()));
 
   if (!jsonFiles.length) {
     console.warn(`[WARN] No case files found under ${sourceDir}`);

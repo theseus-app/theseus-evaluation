@@ -42,6 +42,19 @@ pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=METHOD
 pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=LIGHT --type=METHOD
 ```
 
+### Goldstandard Method
+```
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=OPENAI --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=OPENAI --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=GEMINI --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=GEMINI --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=LIGHT --type=METHOD
+```
+
+
 ### PRIMARY
 ```
 pnpm dlx tsx batchEvaluate.ts --vendor=OPENAI --size=FLAGSHIP --type=PRIMARY
@@ -76,6 +89,18 @@ pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=FLAGSHIP --type=DEFAULT
 pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT
 pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=DEFAULT
 pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=LIGHT --type=DEFAULT
+```
+
+### Gold standard Default
+```
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=OPENAI --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=GEMINI --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=GEMINI --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest pnpm dlx tsx batchEvaluate.ts --vendor=DEEPSEEK --size=LIGHT --type=DEFAULT
 ```
 
 ## Re-generate results (field-level accuracy fix)
@@ -118,4 +143,40 @@ npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=FLAGSHIP --type=METHOD
 npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=LIGHT --type=METHOD
 npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=METHOD
 npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=LIGHT --type=METHOD
+```
+
+### Gold standard Test DEFAULT
+```
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=DEFAULT
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=LIGHT --type=DEFAULT
+```
+
+### Gold standard Test METHOD
+```
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=LIGHT --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=METHOD
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=LIGHT --type=METHOD
+```
+
+### Gold standard Test PRIMARY
+```
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=FLAGSHIP --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=OPENAI --size=LIGHT --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=FLAGSHIP --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=GEMINI --size=LIGHT --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=FLAGSHIP --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=CLAUDE --size=LIGHT --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=PRIMARY
+GOLD_STANDARD_DIR=public/goldStandardTest npx tsx evaluateDoneJson.ts --vendor=DEEPSEEK --size=LIGHT --type=PRIMARY
 ```

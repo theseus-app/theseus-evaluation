@@ -71,7 +71,7 @@ export const toFacts = (flat: Flat): Set<string> => {
   for (const t of flat.timeAtRisks ?? []) {
     facts.add(
       canonicalizeObject("timeAtRisks", {
-        riskWindowStart: t.riskWindowStart,
+        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
@@ -130,6 +130,12 @@ const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => 
   return n === 9999 ? 99999 : n;
 };
 
+// riskWindowStart: 0과 1을 동치로 취급
+const normalizeRiskWindowStart = (n: number | null | undefined): number | null => {
+  if (n === null || n === undefined) return null;
+  return n === 0 ? 1 : n;
+};
+
 // 2) maxRatio: 0 (no max) 와 100 을 동치로 취급
 const normalizeMaxRatio = (n: number | null | undefined): number | null => {
   if (n === null || n === undefined) return null;
@@ -153,7 +159,7 @@ const canonTimeAtRisks = (arr: Flat["timeAtRisks"]) =>
   new Set(
     (arr ?? []).map((t) =>
       canonicalizeObject("timeAtRisks", {
-        riskWindowStart: t.riskWindowStart,
+        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,

@@ -195,6 +195,7 @@ Description
 
         const res = await openai.chat.completions.create({
             model: selected.name,
+            temperature: 0,
             messages,
         });
         completionText = res.choices[0]?.message?.content ?? "";
@@ -220,30 +221,46 @@ Description
                 },
             ],
             generationConfig: {
-                maxOutputTokens: 8192,
+                temperature: 0,
+                maxOutputTokens: 65536,
             },
         };
 
-        const resp = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
+        const maxRetries = 10;
+        const baseDelayMs = 60000; // 60초
+
+        let lastErrText = "";
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            const resp = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+                }
+            );
+
+            if (resp.ok) {
+                const data = await resp.json();
+                completionText =
+                    data.candidates?.[0]?.content?.parts
+                        ?.map((p: any) => p.text ?? "")
+                        .join("") ?? "";
+                break;
             }
-        );
 
-        if (!resp.ok) {
-            const err = await resp.text();
-            console.error("Gemini API Error:", resp.status, err);
-            throw new Error(`Gemini API failed: ${resp.status} ${err}`);
+            lastErrText = await resp.text();
+            const shouldRetry = resp.status === 503 || resp.status === 429;
+            const isLast = attempt === maxRetries - 1;
+            if (!shouldRetry || isLast) {
+                console.error("Gemini API Error:", resp.status, lastErrText);
+                throw new Error(`Gemini API failed: ${resp.status} ${lastErrText}`);
+            }
+
+            const delay = baseDelayMs * (attempt + 1);
+            console.warn(`Gemini overloaded (${resp.status}). Retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${maxRetries})`);
+            await sleep(delay);
         }
-
-        const data = await resp.json();
-        completionText =
-            data.candidates?.[0]?.content?.parts
-                ?.map((p: any) => p.text ?? "")
-                .join("") ?? "";
     }
 
     // 3) CLAUDE
@@ -253,6 +270,7 @@ Description
 
         const body = {
             model: selected.name,
+            temperature: 0,
             max_tokens: 4000,
             messages: [
                 {

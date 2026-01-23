@@ -102,39 +102,65 @@ Description
         const openai = new OpenAI({ apiKey: selected.key });
         const res = await openai.chat.completions.create({
             model: selected.name,
+            temperature: 0,
             messages: [
                 { role: "user", content: prompt }],
         });
         completionText = res.choices[0]?.message?.content ?? "";
     } else if (vendor === "GEMINI") {
-        const resp = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [
-                                { text: `${prompt}` }
-                            ]
-                        }
-                    ],
-                    generationConfig: {
-                        maxOutputTokens: 8192
-                    }
-                }),
-            }
-        );
-        if (!resp.ok) {
-            const err = await resp.text();
-            console.error("Gemini API Error:", resp.status, err);
-            throw new Error(`Gemini API failed: ${resp.status} ${err}`);
-        }
+        const maxRetries = 10;
+        const baseDelayMs = 60000; // 60초
 
-        const data = await resp.json();
-        // console.log("Gemini Response:", JSON.stringify(data, null, 2)); // 🔍 디버깅용
-        completionText = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+        let lastErrText = "";
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            const resp = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [
+                            {
+                                parts: [
+                                    { text: `${prompt}` }
+                                ]
+                            }
+                        ],
+                        generationConfig: {
+                            temperature: 0,
+                            maxOutputTokens: 65536
+                        }
+                    }),
+                }
+            );
+
+            if (resp.ok) {
+                const data = await resp.json();
+
+                // finishReason 체크 (MAX_TOKENS, SAFETY 등)
+                const finishReason = data.candidates?.[0]?.finishReason;
+                if (finishReason && finishReason !== "STOP") {
+                    console.warn(`[WARN] Gemini finishReason: ${finishReason}`);
+                }
+
+                // Gemini가 여러 part로 응답할 수 있으므로 모든 part를 합침
+                const parts = data.candidates?.[0]?.content?.parts ?? [];
+                completionText = parts.map((p: any) => p.text ?? "").join("");
+                break;
+            }
+
+            lastErrText = await resp.text();
+            const shouldRetry = resp.status === 503 || resp.status === 429;
+            const isLast = attempt === maxRetries - 1;
+            if (!shouldRetry || isLast) {
+                console.error("Gemini API Error:", resp.status, lastErrText);
+                throw new Error(`Gemini API failed: ${resp.status} ${lastErrText}`);
+            }
+
+            const delay = baseDelayMs * (attempt + 1);
+            console.warn(`Gemini overloaded (${resp.status}). Retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${maxRetries})`);
+            await sleep(delay);
+        }
     }
     else if (vendor === "CLAUDE") {
         const resp = await fetch("https://api.anthropic.com/v1/messages", {
@@ -146,6 +172,7 @@ Description
             },
             body: JSON.stringify({
                 model: selected.name,
+                temperature: 0,
                 max_tokens: 4000,
                 messages: [
                     { role: "user", content: prompt }  // system 제거
@@ -165,38 +192,53 @@ Description
         completionText = data.content?.[0]?.text ?? "";
 
     } else if (vendor === "DEEPSEEK") {
-        const resp = await fetch("https://api.deepseek.com/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${selected.key}`,
-            },
-            body: JSON.stringify({
-                model: selected.name,
-                messages: [
-                    { role: "user", content: prompt },
-                ],
-                stream: false,
-            }),
-        });
+        const maxRetries = 10;
+        const baseDelayMs = 60000; // 60초
 
-        // 에러 체크 추가
-        if (!resp.ok) {
-            const errorText = await resp.text();
-            console.error("DeepSeek API Error:", resp.status, errorText);
-            throw new Error(`DeepSeek API failed: ${resp.status} ${errorText}`);
+        let lastErrText = "";
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            const resp = await fetch("https://api.deepseek.com/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${selected.key}`,
+                },
+                body: JSON.stringify({
+                    model: selected.name,
+                    temperature: 0,
+                    messages: [
+                        { role: "user", content: prompt },
+                    ],
+                    response_format: { type: "json_object" },
+                    stream: false,
+                }),
+            });
+
+            if (resp.ok) {
+                const data = await resp.json();
+
+                // 응답 구조 확인
+                if (!data.choices || !data.choices[0]) {
+                    console.error("Unexpected DeepSeek response structure:", data);
+                    throw new Error("Invalid DeepSeek response structure");
+                }
+
+                completionText = data.choices[0]?.message?.content ?? "";
+                break;
+            }
+
+            lastErrText = await resp.text();
+            const shouldRetry = resp.status === 503 || resp.status === 429 || resp.status === 500 || resp.status === 502;
+            const isLast = attempt === maxRetries - 1;
+            if (!shouldRetry || isLast) {
+                console.error("DeepSeek API Error:", resp.status, lastErrText);
+                throw new Error(`DeepSeek API failed: ${resp.status} ${lastErrText}`);
+            }
+
+            const delay = baseDelayMs * (attempt + 1);
+            console.warn(`DeepSeek error (${resp.status}). Retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${maxRetries})`);
+            await sleep(delay);
         }
-
-        const data = await resp.json();
-        // console.log("DeepSeek Response:", JSON.stringify(data, null, 2));  // 디버깅용
-
-        // 응답 구조 확인
-        if (!data.choices || !data.choices[0]) {
-            console.error("Unexpected DeepSeek response structure:", data);
-            throw new Error("Invalid DeepSeek response structure");
-        }
-
-        completionText = data.choices[0]?.message?.content ?? "";
     }
 
 
@@ -306,4 +348,8 @@ function safeParseJsonFromText(text: string): any {
     }
 
     return null;
+}
+
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

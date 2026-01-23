@@ -82,7 +82,7 @@ export const toFactsPRIMARY = (flatPRIMARY: FlatPRIMARY): Set<string> => {
     const t = flatPRIMARY.timeAtRisksPRIMARY;
     factsPRIMARY.add(
       canonicalizeObject("timeAtRisks", {
-        riskWindowStart: t.riskWindowStart,
+        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
@@ -135,6 +135,12 @@ const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => 
   return n === 9999 ? 99999 : n;
 };
 
+// riskWindowStart: 0과 1을 동치로 취급
+const normalizeRiskWindowStart = (n: number | null | undefined): number | null => {
+  if (n === null || n === undefined) return null;
+  return n === 0 ? 1 : n;
+};
+
 // maxRatio: 0 (no max) 와 100 을 동치로 취급
 const normalizeMaxRatio = (n: number | null | undefined): number | null => {
   if (n === null || n === undefined) return null;
@@ -167,7 +173,7 @@ const canonTimeAtRisksPRIMARY = (tarPRIMARY: FlatPRIMARY["timeAtRisksPRIMARY"]) 
     tarPRIMARY
       ? [
           canonicalizeObject("timeAtRisks", {
-            riskWindowStart: tarPRIMARY.riskWindowStart,
+            riskWindowStart: normalizeRiskWindowStart(tarPRIMARY.riskWindowStart),
             startAnchor: tarPRIMARY.startAnchor,
             riskWindowEnd: normalizeRiskWindowEnd(tarPRIMARY.riskWindowEnd),
             endAnchor: tarPRIMARY.endAnchor,
