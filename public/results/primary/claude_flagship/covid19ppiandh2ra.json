@@ -1,20 +1,20 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-26T05:55:36.290Z",
+  "createdAt": "2026-01-22T15:42:14.929Z",
   "metrics": {
-    "jaccard": 0.8461538461538461,
-    "recall": 0.9166666666666666,
-    "precision": 0.9166666666666666
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 12,
     "pred": 12,
-    "intersection": 11,
-    "union": 13,
-    "both": 11,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 12,
+    "union": 12,
+    "both": 12,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -27,19 +27,16 @@
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -53,13 +50,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -195,8 +192,8 @@
       "timeAtRisks": {
         "riskWindowStart": 1,
         "startAnchor": "cohort start",
-        "riskWindowEnd": 0,
-        "endAnchor": "cohort end",
+        "riskWindowEnd": 99999,
+        "endAnchor": "cohort start",
         "minDaysAtRisk": 1
       }
     },
@@ -228,7 +225,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

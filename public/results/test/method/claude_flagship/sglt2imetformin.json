@@ -1,20 +1,20 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-01-08T08:21:21.504Z",
+  "createdAt": "2026-01-23T02:18:19.578Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.8333333333333334,
-    "precision": 0.7692307692307693
+    "jaccard": 0.5,
+    "recall": 0.7142857142857143,
+    "precision": 0.625
   },
   "counts": {
-    "gold": 12,
-    "pred": 13,
+    "gold": 14,
+    "pred": 16,
     "intersection": 10,
-    "union": 15,
+    "union": 20,
     "both": 10,
-    "predOnly": 3,
-    "goldOnly": 2
+    "predOnly": 6,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -26,42 +26,47 @@
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
-      "studyPeriods:{studyEndDate=20200331|studyStartDate=20130401}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=60|riskWindowStart=1|startAnchor=cohort start}",
+      "studyPeriods:{studyEndDate=20141231|studyStartDate=20130401}",
+      "studyPeriods:{studyEndDate=20160630|studyStartDate=20150101}",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20160701}",
+      "studyPeriods:{studyEndDate=20200331|studyStartDate=20180101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.001|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "studyPeriods:{studyEndDate=20200331|studyStartDate=20130401}",
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130401}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
-    },
-    "timeAtRisks": {
       "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 1,
+      "predOnlyCount": 4,
+      "goldOnlyCount": 2,
       "precision": 0,
       "recall": 0,
       "f1": null,
       "accuracy": 0
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
       "bothCount": 0,
@@ -79,6 +84,10 @@
         {
           "studyStartDate": "20130401",
           "studyEndDate": "20200331"
+        },
+        {
+          "studyStartDate": "20130401",
+          "studyEndDate": "20181231"
         }
       ],
       "restrictToCommonPeriod": true,
@@ -97,6 +106,13 @@
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]
@@ -151,7 +167,7 @@
     }
   },
   "predJson": {
-    "name": "First-line SGLT-2i versus Metformin Cardiovascular Outcomes Study",
+    "name": "First-line SGLT-2i vs Metformin and Cardiovascular Events in Type 2 Diabetes",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -159,16 +175,16 @@
       },
       "comparatorCohort": {
         "id": null,
-        "name": "First-line metformin initiators"
+        "name": "First-line Metformin initiators"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "MI/stroke/mortality composite"
+          "name": "Composite of MI/stroke/all-cause mortality"
         },
         {
           "id": null,
-          "name": "HHF/mortality composite"
+          "name": "Composite of HHF/all-cause mortality"
         },
         {
           "id": null,
@@ -188,7 +204,7 @@
         },
         {
           "id": null,
-          "name": "MI/stroke/HHF/mortality composite"
+          "name": "Composite of MI/stroke/HHF/mortality"
         },
         {
           "id": null,
@@ -234,7 +250,7 @@
       "conceptsToExclude": [
         {
           "id": null,
-          "name": "Concept Name 3"
+          "name": "Laboratory test results"
         }
       ]
     },
@@ -242,13 +258,25 @@
       "studyPeriods": [
         {
           "studyStartDate": "20130401",
+          "studyEndDate": "20141231"
+        },
+        {
+          "studyStartDate": "20150101",
+          "studyEndDate": "20160630"
+        },
+        {
+          "studyStartDate": "20160701",
+          "studyEndDate": "20171231"
+        },
+        {
+          "studyStartDate": "20180101",
           "studyEndDate": "20200331"
         }
       ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -260,12 +288,12 @@
           "description": "On-treatment with 60-day grace period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 60,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat 365 days",
+          "description": "Intention-to-treat 365 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -277,7 +305,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:2 PS matching with caliper 0.001 SD of logit PS",
+          "description": "1:2 PS matching with caliper 0.001 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 2,
             "caliper": 0.001,

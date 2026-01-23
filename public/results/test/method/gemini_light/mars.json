@@ -1,7 +1,7 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-01-08T08:20:25.560Z",
+  "createdAt": "2026-01-23T02:18:37.299Z",
   "metrics": {
     "jaccard": 0.8,
     "recall": 1,
@@ -150,47 +150,123 @@
     }
   },
   "predJson": {
-    "name": "MARS Cohort Study: Low-dose Erythromycin and Mortality in Sepsis",
+    "name": "MARS study (Molecular Assessment and Risk Stratification in Sepsis)",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 1,
-        "name": "Sepsis patients receiving low-dose erythromycin (125–250 mg) within 72h of ICU admission"
+        "id": null,
+        "name": "Low-dose erythromycin"
       },
       "comparatorCohort": {
-        "id": 2,
-        "name": "Sepsis patients not receiving erythromycin within 72h of ICU admission"
+        "id": null,
+        "name": "No low-dose erythromycin"
       },
       "outcomeCohort": [
         {
-          "id": 101,
+          "id": null,
           "name": "90-day mortality"
         },
         {
-          "id": 102,
+          "id": null,
           "name": "30-day mortality"
+        },
+        {
+          "id": null,
+          "name": "Change in mSOFA score (Day 4)"
+        },
+        {
+          "id": null,
+          "name": "ICU length of stay"
+        },
+        {
+          "id": null,
+          "name": "Hospital length of stay"
+        },
+        {
+          "id": null,
+          "name": "Duration of mechanical ventilation"
+        },
+        {
+          "id": null,
+          "name": "Incidence of secondary infections"
+        },
+        {
+          "id": null,
+          "name": "Incidence of AKI"
+        },
+        {
+          "id": null,
+          "name": "Incidence of ARDS"
         }
       ]
     },
     "negativeControlConceptSet": {
-      "id": 0,
-      "name": "Negative Control Outcomes"
+      "id": null,
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": [
+      "conceptsToInclude": [
         {
-          "id": 1,
-          "name": "Azithromycin"
+          "id": null,
+          "name": "Age"
         },
         {
-          "id": 2,
-          "name": "Clarithromycin"
+          "id": null,
+          "name": "Sex"
         },
         {
-          "id": 3,
-          "name": "High-dose erythromycin (500–1000 mg)"
+          "id": null,
+          "name": "Body mass index"
+        },
+        {
+          "id": null,
+          "name": "Hospital of admission"
+        },
+        {
+          "id": null,
+          "name": "Postsurgical admission"
+        },
+        {
+          "id": null,
+          "name": "Source of infection"
+        },
+        {
+          "id": null,
+          "name": "Charlson comorbidity index score (without age)"
+        },
+        {
+          "id": null,
+          "name": "Any malignancy"
+        },
+        {
+          "id": null,
+          "name": "APACHE IV score"
+        },
+        {
+          "id": null,
+          "name": "mSOFA score"
+        },
+        {
+          "id": null,
+          "name": "Gastrointestinal Failure score (dichotomized)"
+        },
+        {
+          "id": null,
+          "name": "Septic shock"
+        },
+        {
+          "id": null,
+          "name": "ARDS"
+        },
+        {
+          "id": null,
+          "name": "AKI"
+        },
+        {
+          "id": null,
+          "name": "Use of mechanical ventilation"
         }
-      ]
+      ],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -200,9 +276,9 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -211,7 +287,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary Analysis: 72h exposure period, 90-day follow-up",
+          "description": "Primary analysis (90-day mortality, 72h exposure)",
           "riskWindowStart": 3,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -219,7 +295,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Secondary Analysis: 72h exposure period, 30-day follow-up",
+          "description": "Secondary analysis (30-day mortality, 72h exposure)",
           "riskWindowStart": 3,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
@@ -227,7 +303,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity Analysis: 48h exposure period, 90-day follow-up",
+          "description": "Sensitivity analysis (90-day mortality, 48h exposure)",
           "riskWindowStart": 2,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -235,7 +311,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity Analysis: 96h exposure period, 90-day follow-up",
+          "description": "Sensitivity analysis (90-day mortality, 96h exposure)",
           "riskWindowStart": 4,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -247,7 +323,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 Propensity Score Matching",
+          "description": "PS Matching (ATT)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -276,7 +352,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

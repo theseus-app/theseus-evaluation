@@ -1,19 +1,19 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-28T02:33:12.176Z",
+  "createdAt": "2026-01-23T01:40:43.619Z",
   "metrics": {
-    "jaccard": 0.75,
+    "jaccard": 0.6,
     "recall": 0.75,
-    "precision": 1
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
+    "pred": 4,
     "intersection": 3,
-    "union": 4,
+    "union": 5,
     "both": 3,
-    "predOnly": 0,
+    "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
@@ -22,7 +22,9 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
-    "predJsonOnly": [],
+    "predJsonOnly": [
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=3}"
+    ],
     "goldJsonOnly": [
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
@@ -53,12 +55,12 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 1,
-      "precision": 1,
+      "precision": 0.5,
       "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     }
   },
   "goldJson": {
@@ -146,30 +148,30 @@
     }
   },
   "predJson": {
-    "name": "NAION risk with semaglutide vs comparators",
+    "name": "Semaglutide and NAION Risk Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide users"
+        "name": "Semaglutide new users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator medication users"
+        "name": "Comparator T2D medication new users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION sensitive definition"
+          "name": "NAION sensitive definition (single diagnosis)"
         },
         {
           "id": null,
-          "name": "NAION specific definition"
+          "name": "NAION specific definition (confirmed diagnosis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes"
+      "name": "97 negative control outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -185,7 +187,7 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -213,6 +215,14 @@
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
+        },
+        {
+          "description": "Calendar time stratification sensitivity",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 3,
+            "baseSelection": "all"
+          }
         }
       ],
       "createPsArgs": {

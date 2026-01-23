@@ -1,20 +1,20 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-24T06:34:23.385Z",
+  "createdAt": "2026-01-23T00:03:53.489Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.7692307692307693,
-    "precision": 0.8333333333333334
+    "jaccard": 0.7857142857142857,
+    "recall": 0.8461538461538461,
+    "precision": 0.9166666666666666
   },
   "counts": {
     "gold": 13,
     "pred": 12,
-    "intersection": 10,
-    "union": 15,
-    "both": 10,
-    "predOnly": 2,
-    "goldOnly": 3
+    "intersection": 11,
+    "union": 14,
+    "both": 11,
+    "predOnly": 1,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -26,22 +26,21 @@
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "censorAtNewRiskWindow=false",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}"
+      "censorAtNewRiskWindow=false"
     ],
     "goldJsonOnly": [
       "censorAtNewRiskWindow=true",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
@@ -55,13 +54,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -158,34 +157,33 @@
     }
   },
   "predJson": {
-    "name": "Semaglutide NAION risk - active-comparator new-user cohort (cohort method) vs dulaglutide",
+    "name": "Semaglutide and NAION Risk in T2D: Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide new-user cohort (T2DM)"
+        "name": "Adults with T2D initiating semaglutide"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dulaglutide new-user cohort (GLP-1RA)"
+        "name": "Adults with T2D initiating dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "NAION (sensitive definition: ≥1 ischemic optic neuropathy diagnosis code, excluding traumatic optic neuropathy and giant cell arteritis)"
+        },
+        {
+          "id": null,
+          "name": "NAION (specific definition: ≥2 ischemic optic neuropathy diagnosis codes within 90 days, excluding traumatic optic neuropathy and giant cell arteritis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes set for NAION study"
+      "name": "97 negative control outcomes unrelated to T2D medications"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All baseline covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -197,7 +195,7 @@
       ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
-      "washoutPeriod": 0,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -207,8 +205,8 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
-          "riskWindowStart": 0,
+          "description": "On-treatment: from drug initiation to end of continuous exposure (gap >30 days or observation end)",
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
@@ -219,7 +217,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 PS matching using regularized regression on all baseline covariates",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

@@ -1,20 +1,20 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-28T02:11:21.496Z",
+  "createdAt": "2026-01-23T00:04:26.611Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.8571428571428571,
-    "precision": 0.8571428571428571
+    "jaccard": 0.6470588235294118,
+    "recall": 0.7857142857142857,
+    "precision": 0.7857142857142857
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 12,
-    "union": 16,
-    "both": 12,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 11,
+    "union": 17,
+    "both": 11,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -24,7 +24,6 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
-      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}",
@@ -33,10 +32,12 @@
     ],
     "predJsonOnly": [
       "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=180",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
+      "priorOutcomeLookBack=99999",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
@@ -163,7 +164,7 @@
     }
   },
   "predJson": {
-    "name": "Acid-suppressants and COVID-19 Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -188,13 +189,13 @@
         },
         {
           "id": null,
-          "name": "Intensive respiratory interventions"
+          "name": "Intensive respiratory interventions (mechanical ventilation, ECMO, or tracheostomy)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes"
+      "name": "123 negative control outcomes for acid-suppressant use"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -216,7 +217,7 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 180,
       "timeAtRisks": [
         {
           "description": "TAR 1",
@@ -231,7 +232,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Propensity score unadjusted analysis",
+          "description": "Unadjusted analysis",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },

@@ -1,23 +1,24 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-28T02:32:25.721Z",
+  "createdAt": "2026-01-23T01:40:43.279Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.5,
-    "precision": 0.5
+    "jaccard": 0.42857142857142855,
+    "recall": 0.6,
+    "precision": 0.6
   },
   "counts": {
-    "gold": 4,
-    "pred": 4,
-    "intersection": 2,
-    "union": 6,
-    "both": 2,
+    "gold": 5,
+    "pred": 5,
+    "intersection": 3,
+    "union": 7,
+    "both": 3,
     "predOnly": 2,
     "goldOnly": 2
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
@@ -31,12 +32,20 @@
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 0,
       "predOnlyCount": 2,
@@ -149,50 +158,45 @@
     }
   },
   "predJson": {
-    "name": "Remicade® Uveitis Safety Estimation - Multi-Database Cohort Study",
+    "name": "Remicade Uveitis Safety Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of Remicade® (with methotrexate for RA population)"
+        "name": "New users of Remicade (with methotrexate for RA)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of alternative biologics (indicated per study population)"
+        "name": "New users of alternative biologics (IBD, AS, PsO/PsA, RA)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Non-infectious uveitis (NIU) - Primary definition"
+          "name": "Non-infectious uveitis (NIU) - Primary Definition"
         },
         {
           "id": null,
-          "name": "Non-infectious uveitis (NIU) - Narrow definition"
+          "name": "Non-infectious uveitis (NIU) - Broad Definition"
         },
         {
           "id": null,
-          "name": "Non-infectious uveitis (NIU) - Broad definition"
+          "name": "Non-infectious uveitis (NIU) - Narrow Definition"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "86 negative control outcomes"
+      "name": "86 Negative Control Outcomes"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All baseline covariates - demographics, risk indices, diagnoses, drug exposures, procedures, devices, laboratory measurements"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": [
         {
           "id": null,
-          "name": "Etanercept (known to increase uveitis risk)"
+          "name": "Etanercept"
         },
         {
           "id": null,
-          "name": "Adalimumab (approved treatment for uveitis)"
+          "name": "Adalimumab"
         }
       ]
     },
@@ -215,7 +219,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR (primary analysis)",
+          "description": "On-treatment TAR (Primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -223,7 +227,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat TAR (secondary analysis)",
+          "description": "Intention-to-treat TAR (Secondary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -235,7 +239,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1:10 variable ratio matching (primary analysis)",
+          "description": "PS 1:10 Matching (Primary)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -244,7 +248,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 1:1 matching (secondary analysis)",
+          "description": "PS 1:1 Matching (Secondary)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -264,7 +268,7 @@
           "tolerance": 2e-7,
           "cvType": "auto",
           "fold": 10,
-          "cvRepetitions": 1,
+          "cvRepetitions": 10,
           "noiseLevel": "silent",
           "resetCoefficients": true,
           "startingVariance": 0.01
@@ -276,8 +280,19 @@
       "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   },
   "error": null

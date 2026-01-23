@@ -1,20 +1,20 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-24T06:36:56.071Z",
+  "createdAt": "2026-01-23T00:04:54.592Z",
   "metrics": {
-    "jaccard": 0.7619047619047619,
-    "recall": 0.8,
-    "precision": 0.9411764705882353
+    "jaccard": 0.9047619047619048,
+    "recall": 0.95,
+    "precision": 0.95
   },
   "counts": {
     "gold": 20,
-    "pred": 17,
-    "intersection": 16,
+    "pred": 20,
+    "intersection": 19,
     "union": 21,
-    "both": 16,
+    "both": 19,
     "predOnly": 1,
-    "goldOnly": 4
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -30,6 +30,9 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
@@ -39,15 +42,12 @@
       "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}"
+      "removeSubjectsWithPriorOutcome=false"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -61,13 +61,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 3,
+      "bothCount": 6,
       "predOnlyCount": 0,
-      "goldOnlyCount": 3,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -211,34 +211,77 @@
     }
   },
   "predJson": {
-    "name": "Ticagrelor vs Clopidogrel after PCI for ACS: One-year NACE in OMOP-CDM",
+    "name": "Ticagrelor vs Clopidogrel in ACS-PCI: Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ticagrelor post-PCI for ACS"
+        "name": "Ticagrelor users post-PCI for ACS"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Clopidogrel post-PCI for ACS"
+        "name": "Clopidogrel users post-PCI for ACS"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NACE within 1 year after PCI"
+          "name": "Net Adverse Clinical Events (NACE)"
+        },
+        {
+          "id": null,
+          "name": "NACE or Mortality"
+        },
+        {
+          "id": null,
+          "name": "All-cause Mortality"
+        },
+        {
+          "id": null,
+          "name": "Composite Ischemic Events"
+        },
+        {
+          "id": null,
+          "name": "Composite Hemorrhagic Events"
+        },
+        {
+          "id": null,
+          "name": "Recurrent AMI"
+        },
+        {
+          "id": null,
+          "name": "Revascularization"
+        },
+        {
+          "id": null,
+          "name": "Ischemic Stroke"
+        },
+        {
+          "id": null,
+          "name": "Hemorrhagic Stroke"
+        },
+        {
+          "id": null,
+          "name": "Gastrointestinal Bleeding"
+        },
+        {
+          "id": null,
+          "name": "Dyspnea"
+        },
+        {
+          "id": null,
+          "name": "Cardiovascular Mortality"
+        },
+        {
+          "id": null,
+          "name": "Major Adverse Cardiovascular Events (MACE)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set for ticagrelor vs clopidogrel"
+      "name": "Falsification Endpoints (96 negative controls)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All Baseline Covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -253,7 +296,7 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
@@ -264,7 +307,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary time-at-risk: 1 day after PCI to 365 days after PCI",
+          "description": "1-year ITT (primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -272,7 +315,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis TAR: 5-year time-at-risk after PCI",
+          "description": "5-year ITT",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -280,8 +323,32 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment time-at-risk (until exposure ends with 7-day gap allowed or end of record)",
+          "description": "On-treatment",
           "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "1-year ITT with 28-day blanking",
+          "riskWindowStart": 29,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "5-year ITT with 28-day blanking",
+          "riskWindowStart": 29,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 1825,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "On-treatment with 28-day blanking",
+          "riskWindowStart": 29,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
@@ -292,7 +359,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1-to-1 matching",
+          "description": "1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -301,7 +368,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: Variable-ratio matching up to 10",
+          "description": "Variable-ratio PS matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -310,7 +377,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 3: Stratification into deciles",
+          "description": "PS stratification (deciles)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

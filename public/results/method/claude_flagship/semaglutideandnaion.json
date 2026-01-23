@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-24T06:26:40.714Z",
+  "createdAt": "2026-01-23T00:08:40.769Z",
   "metrics": {
     "jaccard": 0.6470588235294118,
     "recall": 0.8461538461538461,
@@ -160,39 +160,44 @@
     }
   },
   "predJson": {
-    "name": "Semaglutide and NAION Risk - Active Comparator New User Cohort Study",
+    "name": "Semaglutide and NAION Risk in T2D Patients",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adults 18+ with T2D taking semaglutide"
+        "name": "New users of semaglutide with T2D on metformin monotherapy"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adults 18+ with T2D taking dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
+        "name": "New users of comparator T2D medications (dulaglutide, exenatide, empagliflozin, sitagliptin, glipizide)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION - Sensitive Definition (1 ischemic optic neuropathy diagnosis code)"
+          "name": "NAION - Sensitive definition (1 ischemic optic neuropathy diagnosis code)"
         },
         {
           "id": null,
-          "name": "NAION - Specific Definition (2 confirmatory ischemic optic neuropathy diagnosis codes within 90 days)"
+          "name": "NAION - Specific definition (2 ischemic optic neuropathy diagnosis codes within 90 days)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "97 negative control outcomes"
+      "name": "97 Negative Control Outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All baseline characteristics (demographics, preexisting conditions, medications, procedures)"
+          "name": "Concept Name 1"
         }
       ],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -225,7 +230,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: From medication initiation until end of continuous drug exposure (gap >30 days)",
+          "description": "On-treatment with 30-day gap allowance",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -237,7 +242,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching",
+          "description": "1:1 Propensity Score Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

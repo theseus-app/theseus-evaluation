@@ -1,20 +1,20 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-28T02:32:13.802Z",
+  "createdAt": "2026-01-23T01:40:39.174Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
+    "jaccard": 0.8,
+    "recall": 0.8,
     "precision": 1
   },
   "counts": {
-    "gold": 4,
+    "gold": 5,
     "pred": 4,
     "intersection": 4,
-    "union": 4,
+    "union": 5,
     "both": 4,
     "predOnly": 0,
-    "goldOnly": 0
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -24,15 +24,25 @@
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": []
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 0,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": null,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
     "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 0,
@@ -158,13 +168,13 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Primary NIU Definition"
+          "name": "Primary NIU definition"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes for NIU Study"
+      "name": "86 Negative Control Outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -172,7 +182,7 @@
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [],
-      "restrictToCommonPeriod": true,
+      "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
@@ -192,7 +202,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat",
+          "description": "Intention-to-treat (ITT)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -204,7 +214,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:10 PS Matching (Primary)",
+          "description": "Primary: 1:10 variable ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -213,7 +223,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "1:1 PS Matching (Secondary)",
+          "description": "Secondary: 1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

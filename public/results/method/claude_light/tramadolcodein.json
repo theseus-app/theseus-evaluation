@@ -1,7 +1,7 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-24T06:28:39.733Z",
+  "createdAt": "2026-01-23T00:08:01.949Z",
   "metrics": {
     "jaccard": 0.625,
     "recall": 0.7692307692307693,
@@ -159,7 +159,7 @@
     }
   },
   "predJson": {
-    "name": "Tramadol vs Codeine Hip Fracture Risk - Population-Level Estimation Study",
+    "name": "Tramadol vs Codeine and Hip Fracture Risk - Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -172,17 +172,17 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Hip Fracture - Outcome Definition 1 (O1) - CPRD READ codes"
+          "name": "Hip Fracture Outcome Definition 1 (O1) - CPRD"
         },
         {
           "id": null,
-          "name": "Hip Fracture - Outcome Definition 2 (O2) - US Claims OMOP Standard Terminologies"
+          "name": "Hip Fracture Outcome Definition 2 (O2) - US Claims Databases"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "101 Negative Control Outcomes - Physician-Reviewed Conditions"
+      "name": "101 Negative Control Outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -207,7 +207,7 @@
       "priorOutcomeLookBack": 365,
       "timeAtRisks": [
         {
-          "description": "On-Treatment (OT) - Risk from index date to end of treatment with 30-day gap allowance",
+          "description": "On-Treatment (OT) TAR",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -215,7 +215,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-Treat (ITT) - Risk from index date to end of observation or outcome",
+          "description": "Intent-to-Treat (ITT) TAR",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -227,7 +227,25 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Matching - 1:1 ratio with caliper 0.2 on standardized logit scale",
+          "description": "PS Matching - Analysis 101/102 (Replication of Wei et al.)",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS Matching - Analysis 201/202 (Excluded correlated variables)",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS Matching - Analysis 301/302 (Excluded cough/cold confounding)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -256,7 +274,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

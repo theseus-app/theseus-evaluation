@@ -1,7 +1,7 @@
 {
   "name": "LEGENDT2DM",
   "fileName": "legendt2dm.json",
-  "createdAt": "2025-11-28T02:33:12.174Z",
+  "createdAt": "2026-01-23T01:40:43.618Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -145,24 +145,24 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM Cardiovascular Outcomes Study",
+    "name": "LEGEND-T2DM: Comparative effectiveness of second-line antihyperglycemic agents in patients with T2DM and CVD",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Second-line antihyperglycemic agent initiators"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Second-line antihyperglycemic agent initiators"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "3-point MACE (MI, stroke, SCD)"
+          "name": "3-point MACE (acute MI, stroke, sudden cardiac death)"
         },
         {
           "id": null,
-          "name": "4-point MACE (MI, stroke, SCD, HF hospitalization)"
+          "name": "4-point MACE (includes hospitalization for HF)"
         },
         {
           "id": null,
@@ -178,13 +178,13 @@
         },
         {
           "id": null,
-          "name": "Heart failure hospitalization"
+          "name": "Hospitalization for HF"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "LEGEND-T2DM Negative Controls"
+      "name": "100 Negative Controls for LEGEND-T2DM"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -209,7 +209,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment analysis",
+          "description": "On-treatment TAR (treatment initiation to discontinuation)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -221,7 +221,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS stratification preferred",
+          "description": "PS Stratification (preferred)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -229,7 +229,7 @@
           }
         },
         {
-          "description": "PS matching alternative",
+          "description": "PS Matching (alternative)",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,
@@ -261,19 +261,8 @@
       "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
-      "prior": {
-        "priorType": "laplace",
-        "useCrossValidation": true
-      },
-      "control": {
-        "tolerance": 2e-7,
-        "cvType": "auto",
-        "fold": 10,
-        "cvRepetitions": 10,
-        "noiseLevel": "quiet",
-        "resetCoefficients": true,
-        "startingVariance": 0.01
-      }
+      "prior": null,
+      "control": null
     }
   },
   "error": null

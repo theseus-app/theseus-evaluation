@@ -1,20 +1,20 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-24T06:27:30.777Z",
+  "createdAt": "2026-01-23T00:10:16.379Z",
   "metrics": {
-    "jaccard": 0.7,
-    "recall": 0.7777777777777778,
-    "precision": 0.875
+    "jaccard": 0.75,
+    "recall": 0.8333333333333334,
+    "precision": 0.8823529411764706
   },
   "counts": {
     "gold": 18,
-    "pred": 16,
-    "intersection": 14,
+    "pred": 17,
+    "intersection": 15,
     "union": 20,
-    "both": 14,
+    "both": 15,
     "predOnly": 2,
-    "goldOnly": 4
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -26,6 +26,7 @@
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
@@ -38,26 +39,25 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
+      "bothCount": 1,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
-      "precision": null,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 2,
@@ -196,15 +196,15 @@
     }
   },
   "predJson": {
-    "name": "A cohort study of ranitidine use and the risk of cancer development",
+    "name": "Ranitidine vs. other H2RAs and Cancer Risk",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adult patients aged 20+ using ranitidine for more than 30 days"
+        "name": "Ranitidine users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adult patients aged 20+ using other H2RAs (famotidine, roxatidine, or lafutidine)"
+        "name": "Other H2RA users (famotidine, roxatidine, lafutidine)"
       },
       "outcomeCohort": [
         {
@@ -213,7 +213,7 @@
         },
         {
           "id": null,
-          "name": "Any cancer (including nonmelanoma skin cancer and excluding thyroid cancer)"
+          "name": "Any cancer (including nonmelanoma skin cancer, excluding thyroid cancer)"
         },
         {
           "id": null,
@@ -283,14 +283,19 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "119 Negative Control Outcomes"
+      "name": "Negative Control Outcomes (n=119)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
       "washoutPeriod": 365,
@@ -303,16 +308,16 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT with a 1-year lag (Primary)",
-          "riskWindowStart": 366,
+          "description": "Intention-to-treat (ITT)",
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat (ITT)",
-          "riskWindowStart": 1,
+          "description": "ITT with a 1-year lag (Primary)",
+          "riskWindowStart": 366,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
@@ -357,7 +362,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS stratification into deciles",
+          "description": "PS stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

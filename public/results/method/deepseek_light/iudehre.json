@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-24T06:27:01.459Z",
+  "createdAt": "2026-01-23T00:09:32.540Z",
   "metrics": {
     "jaccard": 0.75,
     "recall": 0.8571428571428571,
@@ -166,26 +166,26 @@
     }
   },
   "predJson": {
-    "name": "Cu IUD vs LNG-IUS Cervical Neoplasm Study",
+    "name": "Comparative effectiveness analysis of Cu IUDs to LNG-IUSs with respect to cervical neoplasm incidence",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD Users"
+        "name": "Cu IUD users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS Users"
+        "name": "LNG-IUS users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "High-grade Cervical Neoplasm"
+          "name": "High-grade cervical neoplasm diagnosis"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative control diagnoses unrelated to IUD exposure"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -210,7 +210,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary analysis: 30 days to 15 years",
+          "description": "Primary analysis time-at-risk",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -218,7 +218,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Subgroup analysis: 1 year to 15 years",
+          "description": "Subgroup analysis time-at-risk",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -230,21 +230,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 matching",
+          "description": "Propensity score stratification",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "Propensity score 1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
-        },
-        {
-          "description": "Stratification",
-          "matchOnPsArgs": null,
-          "stratifyByPsArgs": {
-            "numberOfStrata": 5,
-            "baseSelection": "all"
-          }
         }
       ],
       "createPsArgs": {
@@ -267,7 +267,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

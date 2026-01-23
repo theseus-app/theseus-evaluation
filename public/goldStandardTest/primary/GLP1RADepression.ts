@@ -1,4 +1,4 @@
-export const TEXTSGLT2iMetformin = `
+export const TEXTGLP1RADepression = `
 Study Period: We emulated the target trial using U.S. national Medicare administrative claims data between January 2013 and December 2020
 
 TAR: The patients were followed from the index date until the diagnosis of depression; death; disenrollment from Medicare Part A, B, or D; up to 2 years of follow-up; or the end of the study (31 December 2020), whichever came first
@@ -8,46 +8,40 @@ PS Settings: The statistical analyses were the same as for the target trial exce
 Outcome Model: To test the robustness of the study findings, we used a Fine–Gray subdistribution hazard model to address the competing risk for death, which allows a more accurate estimation of the cumulative incidence of the outcome in the presence of a competing event (death) that precludes the occurrence of the event of interest.
 `
 
-export const JSONSGLT2iMetformin = {
+export const JSONGLP1RADepression = {
   getDbCohortMethodDataArgs: {
-    studyPeriods: [
-      {
-        studyStartDate: "20130101",
-        studyEndDate: "20201231",
-      }
-    ],
+    studyPeriods: {
+      studyStartDate: "20130101",
+      studyEndDate: "20201231",
+    },
+    maxCohortSize: 0,
+  },
+  createStudyPopArgs: {
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
     washoutPeriod: 0,
     removeDuplicateSubjects: "keep all",
-    maxCohortSize: 0, //default
-  },
-  createStudyPopArgs: {
-    censorAtNewRiskWindow: false, //default로 설정
+    censorAtNewRiskWindow: false,
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 1,
-        startAnchor: "cohort start",
-        riskWindowEnd: 730,
-        endAnchor: "cohort start",
-        minDaysAtRisk: 1 //default 설정
-      }
-    ],
+    timeAtRisks: {
+      riskWindowStart: 1,
+      startAnchor: "cohort start",
+      riskWindowEnd: 730,
+      endAnchor: "cohort start",
+      minDaysAtRisk: 1
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 1,
-          caliper: 0.05, //default 설정
-          caliperScale: "standardized logit" //default 설정
-        },
-        stratifyByPsArgs: null
-      }
-    ],
-    createPsArgs: { //laplace 제외하고 전부 default 설정
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 1,
+        caliper: 0.05,
+        caliperScale: "standardized logit"
+      },
+      stratifyByPsArgs: null
+    },
+    createPsArgs: {
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,
       prior: { priorType: "laplace", useCrossValidation: true },
@@ -62,7 +56,7 @@ export const JSONSGLT2iMetformin = {
       }
     }
   },
-  fitOutcomeModelArgs: { //modelType제외 default 설정
+  fitOutcomeModelArgs: {
     modelType: "cox",
     stratified: true,
     useCovariates: false,

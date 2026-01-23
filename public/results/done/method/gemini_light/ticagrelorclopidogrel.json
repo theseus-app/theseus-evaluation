@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-28T02:32:18.170Z",
+  "createdAt": "2026-01-23T01:40:39.515Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -199,15 +199,15 @@
     }
   },
   "predJson": {
-    "name": "Association of Ticagrelor vs Clopidogrel with Clinical Outcomes Following PCI",
+    "name": "Retrospective Observational Study on PCI Patients",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ticagrelor Use"
+        "name": "Ticagrelor use"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Clopidogrel Use"
+        "name": "Clopidogrel use"
       },
       "outcomeCohort": [
         {
@@ -220,35 +220,15 @@
         },
         {
           "id": null,
-          "name": "All-cause Mortality"
+          "name": "All-cause mortality"
         },
         {
           "id": null,
-          "name": "Composite Ischemic Events (recurrent AMI, revascularization, or ischemic stroke)"
+          "name": "Composite ischemic events"
         },
         {
           "id": null,
-          "name": "Composite Hemorrhagic Events (hemorrhagic stroke or gastrointestinal bleeding)"
-        },
-        {
-          "id": null,
-          "name": "Recurrent Acute Myocardial Infarction (AMI)"
-        },
-        {
-          "id": null,
-          "name": "Revascularization"
-        },
-        {
-          "id": null,
-          "name": "Ischemic Stroke"
-        },
-        {
-          "id": null,
-          "name": "Hemorrhagic Stroke"
-        },
-        {
-          "id": null,
-          "name": "Gastrointestinal Bleeding"
+          "name": "Composite hemorrhagic events"
         },
         {
           "id": null,
@@ -256,7 +236,7 @@
         },
         {
           "id": null,
-          "name": "Cardiovascular-related Mortality"
+          "name": "Cardiovascular-related mortality"
         },
         {
           "id": null,
@@ -266,7 +246,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Falsification Endpoints (e.g., chalazion, pneumothorax)"
+      "name": "96 Falsification End Points"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -284,7 +264,7 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
@@ -295,7 +275,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-year follow-up, no blanking period",
+          "description": "Primary: 1-365 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -303,15 +283,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-year follow-up, with 28-day blanking period",
-          "riskWindowStart": 29,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "5-year follow-up, no blanking period",
+          "description": "Sensitivity: 5-year period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -319,15 +291,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "5-year follow-up, with 28-day blanking period",
-          "riskWindowStart": 29,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 1825,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "On-treatment follow-up, no blanking period",
+          "description": "Sensitivity: On-treatment period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -335,7 +299,23 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment follow-up, with 28-day blanking period",
+          "description": "Primary with 28-day blanking: 29-365 days",
+          "riskWindowStart": 29,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity with 28-day blanking: 29-5 years",
+          "riskWindowStart": 29,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 1825,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity with 28-day blanking: 29-on-treatment",
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -347,7 +327,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 Propensity Score Matching",
+          "description": "Primary: One-to-one greedy matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -356,7 +336,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Variable-Ratio Propensity Score Matching (Max Ratio 10)",
+          "description": "Sensitivity: Variable-ratio matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -365,7 +345,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Propensity Score Stratification (Deciles)",
+          "description": "Sensitivity: Propensity score stratification (deciles)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

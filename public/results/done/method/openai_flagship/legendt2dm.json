@@ -1,45 +1,48 @@
 {
   "name": "LEGENDT2DM",
   "fileName": "legendt2dm.json",
-  "createdAt": "2025-11-28T02:32:03.284Z",
+  "createdAt": "2026-01-23T01:40:38.485Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 4,
-    "union": 4,
-    "both": 4,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 3,
+    "union": 5,
+    "both": 3,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=20211231|studyStartDate=19920101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}"
+    ],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20211231|studyStartDate=19920101}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -145,15 +148,15 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM: Second-line antihyperglycemic agents in T2DM with CVD (on-treatment)",
+    "name": "LEGEND-T2DM: Second-line antihyperglycemic agents in T2DM with established CVD (new-user, on-treatment, PS stratification/matching, calibrated with negative controls)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of a second-line antihyperglycemic agent class (target) among T2DM with established CVD on metformin"
+        "name": "New users of SGLT2i or GLP-1 RA or DPP4i or SU among T2DM + established CVD on metformin monotherapy"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of an alternative second-line antihyperglycemic agent class (comparator) among T2DM with established CVD on metformin"
+        "name": "Active comparator new users of another second-line class (SGLT2i vs GLP-1 RA vs DPP4i vs SU) among T2DM + established CVD on metformin monotherapy"
       },
       "outcomeCohort": [
         {
@@ -162,7 +165,7 @@
         },
         {
           "id": null,
-          "name": "4-point MACE (3-point MACE plus hospitalization for heart failure)"
+          "name": "4-point MACE (acute MI, stroke, sudden cardiac death, hospitalization for heart failure)"
         },
         {
           "id": null,
@@ -184,17 +187,27 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "LEGEND-T2DM negative control outcomes (n≈100)"
+      "name": "LEGEND-T2DM negative control outcomes (100 outcomes)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "All baseline covariates (data-driven large-scale PS: demographics, comorbidities, concomitant medications, health care utilization)"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "19920101",
-          "studyEndDate": "20211231"
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "restrictToCommonPeriod": false,
@@ -209,8 +222,8 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (index to discontinuation)",
-          "riskWindowStart": 1,
+          "description": "On-treatment: from treatment initiation to treatment discontinuation (continuous exposure allowing <30-day gaps)",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
@@ -221,21 +234,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable-ratio PS matching",
-          "matchOnPsArgs": {
-            "maxRatio": 100,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS stratification (preferred when balance achieved)",
+          "description": "PS stratification (preferred when balance achieved; SMD < 0.15)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
             "baseSelection": "all"
           }
+        },
+        {
+          "description": "PS variable-ratio matching (used when stratification does not achieve balance; SMD < 0.15)",
+          "matchOnPsArgs": {
+            "maxRatio": 0,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
         }
       ],
       "createPsArgs": {

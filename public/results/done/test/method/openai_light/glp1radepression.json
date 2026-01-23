@@ -1,0 +1,248 @@
+{
+  "name": "GLP1RADepression",
+  "fileName": "glp1radepression.json",
+  "createdAt": "2026-01-23T02:32:51.200Z",
+  "metrics": {
+    "jaccard": 0.2,
+    "recall": 0.3333333333333333,
+    "precision": 0.3333333333333333
+  },
+  "counts": {
+    "gold": 3,
+    "pred": 3,
+    "intersection": 1,
+    "union": 5,
+    "both": 1,
+    "predOnly": 2,
+    "goldOnly": 2
+  },
+  "details": {
+    "bothJson": [
+      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+    ],
+    "predJsonOnly": [
+      "studyPeriods:{studyEndDate=20201231|studyStartDate=20140101}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+    ],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20201231|studyStartDate=20130101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=730|riskWindowStart=1|startAnchor=cohort start}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": false,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "timeAtRisks": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20130101",
+          "studyEndDate": "20201231"
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 730,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.05,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "GLP-1RA vs SGLT2i/DPP4i and Depression Risk in Older Adults with T2D",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "GLP-1RA Initiators, Age ≥66, T2D, No Prior Depression or Mood Disorder, No Prior GLP-1RA/SGLT2i/DPP4i in Past Year"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "SGLT2i or DPP4i Initiators, Age ≥66, T2D, No Prior Depression or Mood Disorder, No Prior GLP-1RA/SGLT2i/DPP4i in Past Year"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Incident Depression (Chronic Conditions Data Warehouse Algorithm)"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative Control Concept Set Name"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20140101",
+          "studyEndDate": "20201231"
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "Intention-to-treat: index to earliest of outcome, death, disenrollment, 2 years, or 2020-12-31",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "1:1 Nearest Neighbor Matching, Caliper 0.05 (standardized logit)",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.05,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": false,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "error": null
+}

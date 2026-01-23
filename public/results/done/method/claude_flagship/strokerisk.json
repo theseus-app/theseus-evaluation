@@ -1,41 +1,40 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T02:32:21.522Z",
+  "createdAt": "2026-01-23T01:40:42.927Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.5,
-    "precision": 0.5
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
     "gold": 6,
     "pred": 6,
-    "intersection": 3,
-    "union": 9,
-    "both": 3,
-    "predOnly": 3,
-    "goldOnly": 3
+    "intersection": 4,
+    "union": 8,
+    "both": 4,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
     ],
     "predJsonOnly": [
       "studyPeriods:{studyEndDate=20171231|studyStartDate=20010701}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010701}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010701}"
     ],
     "goldJsonOnly": [
       "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -49,13 +48,13 @@
       "accuracy": 0
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -165,7 +164,7 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of typical antipsychotics"
+        "name": "New users of typical antipsychotics (T1) / New users of haloperidol (T2)"
       },
       "comparatorCohort": {
         "id": null,
@@ -174,22 +173,31 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Stroke (primary diagnosis in inpatient stay)"
+          "name": "Stroke (inpatient primary diagnosis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "31 covariates from Sentinel study"
+          "name": "31 covariates from Sentinel study (Sentinel PS strategy)"
+        },
+        {
+          "id": null,
+          "name": "Dementia diagnosis"
         }
       ],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -209,15 +217,15 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 183,
       "timeAtRisks": [
         {
-          "description": "On-treatment with 30-day gap allowed",
+          "description": "On-treatment with 30-day gap",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -231,7 +239,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication",
+          "description": "Sentinel PS strategy - 1:1 matching, caliper 0.05 on PS scale",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -240,7 +248,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Large-scale regularized regression (adapted PS)",
+          "description": "Adapted PS strategy - 1:10 variable ratio matching, caliper 0.2 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

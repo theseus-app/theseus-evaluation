@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-28T01:40:32.842Z",
+  "createdAt": "2026-01-23T01:40:05.584Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -157,16 +157,16 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Cervical Neoplasm"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
@@ -215,7 +215,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2: At least 1 year after IUD placement",
+          "description": "TAR 2: 1 year to 15 years after IUD placement (subgroup analysis)",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -227,21 +227,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1:1 Matching",
+          "description": "PS 1: Stratification",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "PS 2: 1:1 Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS 2: Stratification",
-          "matchOnPsArgs": null,
-          "stratifyByPsArgs": {
-            "numberOfStrata": 5,
-            "baseSelection": "all"
-          }
         }
       ],
       "createPsArgs": {

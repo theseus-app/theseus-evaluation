@@ -10,44 +10,38 @@ Outcome Model: Differences in overall survival by treatment were estimated using
 
 export const JSONCystectomyTrimodality = {
   getDbCohortMethodDataArgs: {
-    studyPeriods: [
-      {
-        studyStartDate: "20050101",
-        studyEndDate: "20171231",
-      }
-    ],
+    studyPeriods: {
+      studyStartDate: "20050101",
+      studyEndDate: "20171231",
+    },
+    maxCohortSize: 0,
+  },
+  createStudyPopArgs: {
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
     washoutPeriod: 0,
     removeDuplicateSubjects: "keep all",
-    maxCohortSize: 0, //default
-  },
-  createStudyPopArgs: {
-    censorAtNewRiskWindow: false, //default로 설정
+    censorAtNewRiskWindow: false,
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 1,
-        startAnchor: "cohort start",
-        riskWindowEnd: 99999,
-        endAnchor: "cohort start",
-        minDaysAtRisk: 1 //default 설정
-      }
-    ],
+    timeAtRisks: {
+      riskWindowStart: 1,
+      startAnchor: "cohort start",
+      riskWindowEnd: 99999,
+      endAnchor: "cohort start",
+      minDaysAtRisk: 1
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 3,
-          caliper: 0.2, //default 설정
-          caliperScale: "standardized logit" //default 설정
-        },
-        stratifyByPsArgs: null
-      }
-    ],
-    createPsArgs: { //laplace 제외하고 전부 default 설정
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 3,
+        caliper: 0.2,
+        caliperScale: "standardized logit"
+      },
+      stratifyByPsArgs: null
+    },
+    createPsArgs: {
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,
       prior: { priorType: "laplace", useCrossValidation: true },
@@ -62,7 +56,7 @@ export const JSONCystectomyTrimodality = {
       }
     }
   },
-  fitOutcomeModelArgs: { 
+  fitOutcomeModelArgs: {
     modelType: "cox",
     stratified: true,
     useCovariates: true,

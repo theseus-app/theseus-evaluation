@@ -1,4 +1,4 @@
-export const TEXTSGLT2iMetformin = `
+export const TEXTGLP1RADepression = `
 Study Period 1: We emulated the target trial using U.S. national Medicare administrative claims data between January 2013 and December 2020
 
 TAR 1: The patients were followed from the index date until the diagnosis of depression; death; disenrollment from Medicare Part A, B, or D; up to 2 years of follow-up; or the end of the study (31 December 2020), whichever came first
@@ -8,7 +8,7 @@ PS Settings 1: The statistical analyses were the same as for the target trial ex
 Outcome Model: To test the robustness of the study findings, we used a Fine–Gray subdistribution hazard model to address the competing risk for death, which allows a more accurate estimation of the cumulative incidence of the outcome in the presence of a competing event (death) that precludes the occurrence of the event of interest.
 `
 
-export const JSONSGLT2iMetformin = {
+export const JSONGLP1RADepression = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {

@@ -1,40 +1,38 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2025-11-28T02:32:09.775Z",
+  "createdAt": "2026-01-23T01:40:38.825Z",
   "metrics": {
-    "jaccard": 0.2857142857142857,
-    "recall": 0.3333333333333333,
-    "precision": 0.6666666666666666
+    "jaccard": 0.8333333333333334,
+    "recall": 0.8333333333333334,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
-    "pred": 3,
-    "intersection": 2,
-    "union": 7,
-    "both": 2,
-    "predOnly": 1,
-    "goldOnly": 4
+    "pred": 5,
+    "intersection": 5,
+    "union": 6,
+    "both": 5,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20100101}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+    ],
+    "predJsonOnly": [],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
-    "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -47,22 +45,22 @@
       "accuracy": 0.5
     },
     "timeAtRisks": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -161,38 +159,38 @@
     }
   },
   "predJson": {
-    "name": "DOAC comparison: Apixaban vs Dabigatran - on-treatment, PS-stratified Cox",
+    "name": "Population-level estimation of DOACs in AF: multinational OMOP-CDM study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Apixaban initiators"
+        "name": "DOAC Initiators with AF (Target Drug)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dabigatran initiators"
+        "name": "DOAC Initiators with AF (Comparator Drug)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Ischemic stroke or systemic embolism"
+          "name": "Composite of Ischemic Stroke and Systemic Embolism"
         },
         {
           "id": null,
-          "name": "Intracranial hemorrhage"
+          "name": "Intracranial Hemorrhage"
         },
         {
           "id": null,
-          "name": "Gastrointestinal bleeding"
+          "name": "Gastrointestinal Bleeding"
         },
         {
           "id": null,
-          "name": "All-cause mortality"
+          "name": "All-cause Mortality"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes set"
+      "name": "Negative Control Outcomes (49 events, Supplement Table 1)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -214,14 +212,22 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 365,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment risk window",
+          "description": "On-treatment (primary analysis)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Intention-to-treat (sensitivity analysis)",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]
@@ -229,9 +235,17 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "Stratification (primary analysis)",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "Variable-ratio matching (sensitivity analysis)",
           "matchOnPsArgs": {
-            "maxRatio": 1,
+            "maxRatio": 0,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

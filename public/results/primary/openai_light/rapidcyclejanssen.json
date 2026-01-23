@@ -1,57 +1,56 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-26T06:02:47.770Z",
+  "createdAt": "2026-01-22T15:23:23.902Z",
   "metrics": {
-    "jaccard": 0.7142857142857143,
-    "recall": 0.8333333333333334,
-    "precision": 0.8333333333333334
+    "jaccard": 0.8461538461538461,
+    "recall": 0.9166666666666666,
+    "precision": 0.9166666666666666
   },
   "counts": {
     "gold": 12,
     "pred": 12,
-    "intersection": 10,
-    "union": 14,
-    "both": 10,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 11,
+    "union": 13,
+    "both": 11,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "maxCohortSize=0",
       "restrictToCommonPeriod=false",
       "firstExposureOnly=false",
-      "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
+      "studyPeriods:{studyEndDate=null|studyStartDate=20210101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=14|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=5|numberOfStrata=null}"
+      "washoutPeriod=365"
     ],
     "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=null|studyStartDate=20210101}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+      "washoutPeriod=0"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -63,13 +62,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -144,7 +143,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Exposure - Population-Level Estimation (1-14 day risk window)",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -181,12 +180,12 @@
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": {
-        "studyStartDate": "",
+        "studyStartDate": "20210101",
         "studyEndDate": ""
       },
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -205,7 +204,7 @@
     "propensityScoreAdjustment": {
       "psSettings": {
         "matchOnPsArgs": {
-          "maxRatio": 5,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -231,7 +230,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

@@ -1,20 +1,20 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-28T02:32:13.801Z",
+  "createdAt": "2026-01-23T01:40:39.173Z",
   "metrics": {
-    "jaccard": 0.7272727272727273,
-    "recall": 0.7272727272727273,
+    "jaccard": 0.8181818181818182,
+    "recall": 0.8181818181818182,
     "precision": 1
   },
   "counts": {
     "gold": 11,
-    "pred": 8,
-    "intersection": 8,
+    "pred": 9,
+    "intersection": 9,
     "union": 11,
-    "both": 8,
+    "both": 9,
     "predOnly": 0,
-    "goldOnly": 3
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -23,13 +23,13 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}"
     ],
     "predJsonOnly": [],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}"
     ]
@@ -50,13 +50,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 3,
+      "bothCount": 4,
       "predOnlyCount": 0,
-      "goldOnlyCount": 3,
+      "goldOnlyCount": 2,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "accuracy": 0.6666666666666666
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -200,7 +200,7 @@
     }
   },
   "predJson": {
-    "name": "Ticagrelor vs. Clopidogrel after PCI for ACS",
+    "name": "Ticagrelor vs Clopidogrel after PCI for ACS",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -233,26 +233,6 @@
         },
         {
           "id": null,
-          "name": "Recurrent acute myocardial infarction (AMI)"
-        },
-        {
-          "id": null,
-          "name": "Revascularization"
-        },
-        {
-          "id": null,
-          "name": "Ischemic stroke"
-        },
-        {
-          "id": null,
-          "name": "Hemorrhagic stroke"
-        },
-        {
-          "id": null,
-          "name": "Gastrointestinal bleeding"
-        },
-        {
-          "id": null,
           "name": "Dyspnea"
         },
         {
@@ -271,7 +251,20 @@
     },
     "covariateSelection": {
       "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "ticagrelor"
+        },
+        {
+          "id": null,
+          "name": "clopidogrel"
+        },
+        {
+          "id": null,
+          "name": "prasugrel"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -296,7 +289,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary: 1 year after index",
+          "description": "Primary: 1 to 365 days after PCI",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -304,7 +297,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity: 5 years after index",
+          "description": "Sensitivity: 5-year period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -317,6 +310,14 @@
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity: 1 to 365 days with 28-day blanking",
+          "riskWindowStart": 29,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]

@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T01:40:01.111Z",
+  "createdAt": "2026-01-23T01:39:30.099Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -209,7 +209,7 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
@@ -226,12 +226,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted (crude)",
+          "description": "PS Settings 1: Crude (unadjusted) estimate",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication (1:1 PS match, caliper 0.05 on PS)",
+          "description": "PS Settings 2: Sentinel PS replication (1:1 matching; caliper 0.05 on PS scale; 31 covariates)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -240,7 +240,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Large-scale regularized PS (LASSO), variable-ratio up to 1:10, caliper 0.2 on standardized logit",
+          "description": "PS Settings 3: Adapted PS strategy (large-scale regularized logistic regression w/ Laplace prior; variable ratio 1:10; caliper 0.2 SD of logit PS)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

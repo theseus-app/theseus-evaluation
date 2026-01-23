@@ -1,20 +1,20 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-27T10:38:56.398Z",
+  "createdAt": "2026-01-22T23:47:52.620Z",
   "metrics": {
-    "jaccard": 0.5263157894736842,
-    "recall": 0.6666666666666666,
-    "precision": 0.7142857142857143
+    "jaccard": 0.75,
+    "recall": 0.8,
+    "precision": 0.9230769230769231
   },
   "counts": {
     "gold": 15,
-    "pred": 14,
-    "intersection": 10,
-    "union": 19,
-    "both": 10,
-    "predOnly": 4,
-    "goldOnly": 5
+    "pred": 13,
+    "intersection": 12,
+    "union": 16,
+    "both": 12,
+    "predOnly": 1,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -27,26 +27,23 @@
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20101019}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+      "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -60,21 +57,21 @@
     },
     "timeAtRisks": {
       "bothCount": 1,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 2,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 0.3333333333333333,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -177,7 +174,7 @@
     }
   },
   "predJson": {
-    "name": "Dabigatran Population-Level Estimation (OMOP-CDM)",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -231,7 +228,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: On-treatment, DOACs 3-day gap + 5d, warfarin 7-day gap + 5d",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -239,7 +236,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2",
+          "description": "TAR 2: On-treatment, 30-day gap, no days appended",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -247,10 +244,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 3 - ITT",
+          "description": "TAR 3: ITT, follow-up to obs end or study end",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -259,19 +256,19 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "PS 1: 1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
-            "caliper": 0,
+            "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2",
+          "description": "PS 2: Variable-ratio matching up to 1:100",
           "matchOnPsArgs": {
             "maxRatio": 100,
-            "caliper": 0,
+            "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null

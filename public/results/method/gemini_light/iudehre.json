@@ -1,20 +1,20 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-24T06:25:32.057Z",
+  "createdAt": "2026-01-23T00:08:15.025Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.8571428571428571,
-    "precision": 0.8571428571428571
+    "jaccard": 0.5555555555555556,
+    "recall": 0.7142857142857143,
+    "precision": 0.7142857142857143
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 12,
-    "union": 16,
-    "both": 12,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 10,
+    "union": 18,
+    "both": 10,
+    "predOnly": 4,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -25,24 +25,26 @@
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "priorOutcomeLookBack=99999",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
       "removeSubjectsWithPriorOutcome=true",
-      "studyPeriods:{studyEndDate=20181231|studyStartDate=20030101}"
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20030101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5479|riskWindowStart=30|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5479|riskWindowStart=365|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
-      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}"
+      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -56,13 +58,13 @@
       "accuracy": 0
     },
     "timeAtRisks": {
-      "bothCount": 2,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
@@ -170,16 +172,16 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD Users"
+        "name": "Cu IUD users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS Users"
+        "name": "LNG-IUS users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "High-grade Cervical Neoplasm"
+          "name": "High-grade cervical neoplasm diagnosis"
         }
       ]
     },
@@ -199,7 +201,7 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "washoutPeriod": 365,
       "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
@@ -210,18 +212,18 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary Time-at-Risk",
+          "description": "Primary TAR: 30 days to 15 years",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 5475,
+          "riskWindowEnd": 5479,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity 1 Year Lag",
+          "description": "Sensitivity TAR: 1 year to 15 years",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 5475,
+          "riskWindowEnd": 5479,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }

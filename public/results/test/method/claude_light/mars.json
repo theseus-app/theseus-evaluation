@@ -1,19 +1,19 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-01-08T08:19:40.990Z",
+  "createdAt": "2026-01-23T02:04:29.713Z",
   "metrics": {
-    "jaccard": 0.6111111111111112,
+    "jaccard": 0.6875,
     "recall": 0.9166666666666666,
-    "precision": 0.6470588235294118
+    "precision": 0.7333333333333333
   },
   "counts": {
     "gold": 12,
-    "pred": 17,
+    "pred": 15,
     "intersection": 11,
-    "union": 18,
+    "union": 16,
     "both": 11,
-    "predOnly": 6,
+    "predOnly": 4,
     "goldOnly": 1
   },
   "details": {
@@ -31,11 +31,9 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=73|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=73|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=30|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=49|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=97|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=72|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=48|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=96|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
@@ -59,7 +57,7 @@
     },
     "timeAtRisks": {
       "bothCount": 0,
-      "predOnlyCount": 5,
+      "predOnlyCount": 3,
       "goldOnlyCount": 1,
       "precision": 0,
       "recall": 0,
@@ -154,48 +152,48 @@
     }
   },
   "predJson": {
-    "name": "MARS Study: Low-Dose Erythromycin in Sepsis",
+    "name": "MARS Study: Low-Dose Erythromycin and 90-Day Mortality in Sepsis",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Low-Dose Erythromycin Exposure (125-250mg) within 72h of ICU Admission"
+        "name": "Sepsis patients receiving low-dose erythromycin (125-250 mg) within 72 hours of ICU admission"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "No Erythromycin Exposure within 72h of ICU Admission"
+        "name": "Sepsis patients not receiving erythromycin within 72 hours of ICU admission"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "90-Day Mortality"
+          "name": "All-cause mortality up to 90 days after ICU admission"
         },
         {
           "id": null,
-          "name": "30-Day Mortality"
+          "name": "All-cause mortality at 30 days after ICU admission"
         },
         {
           "id": null,
-          "name": "Secondary Infections (≥72h after ICU admission)"
+          "name": "Secondary infections occurring ≥72 hours after ICU admission"
         },
         {
           "id": null,
-          "name": "Acute Kidney Injury (≥72h after ICU admission)"
+          "name": "Acute kidney injury occurring ≥72 hours after ICU admission"
         },
         {
           "id": null,
-          "name": "ARDS (≥72h after ICU admission)"
+          "name": "ARDS occurring ≥72 hours after ICU admission"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Age at ICU Admission"
+          "name": "Age"
         },
         {
           "id": null,
@@ -203,71 +201,58 @@
         },
         {
           "id": null,
-          "name": "Body Mass Index"
+          "name": "Body mass index"
         },
         {
           "id": null,
-          "name": "Hospital of Admission"
+          "name": "Hospital of admission"
         },
         {
           "id": null,
-          "name": "Postsurgical Admission Status"
+          "name": "Postsurgical admission"
         },
         {
           "id": null,
-          "name": "Source of Infection (Abdominal, Pulmonary, Urinary, Cardiovascular, Skin, CNS, Other)"
+          "name": "Source of infection (abdominal, pulmonary, urinary, cardiovascular, skin, CNS, other)"
         },
         {
           "id": null,
-          "name": "Charlson Comorbidity Index (without age)"
+          "name": "Charlson comorbidity index score (without age)"
         },
         {
           "id": null,
-          "name": "Any Malignancy (Solid or Hematological)"
+          "name": "Any malignancy (solid or hematological)"
         },
         {
           "id": null,
-          "name": "APACHE IV Score"
+          "name": "APACHE IV score"
         },
         {
           "id": null,
-          "name": "Modified SOFA Score"
+          "name": "Modified SOFA score"
         },
         {
           "id": null,
-          "name": "Gastrointestinal Failure Score (dichotomized: absent vs present)"
+          "name": "Gastrointestinal Failure score (dichotomized)"
         },
         {
           "id": null,
-          "name": "Septic Shock"
+          "name": "Septic shock"
         },
         {
           "id": null,
-          "name": "ARDS at Admission"
+          "name": "ARDS at admission"
         },
         {
           "id": null,
-          "name": "Acute Kidney Injury at Admission"
+          "name": "Acute kidney injury at admission"
         },
         {
           "id": null,
-          "name": "Mechanical Ventilation Use"
+          "name": "Use of mechanical ventilation"
         }
       ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": "High-Dose Erythromycin (500-1000mg)"
-        },
-        {
-          "id": null,
-          "name": "Azithromycin"
-        },
-        {
-          "id": null,
-          "name": "Clarithromycin"
-        }
-      ]
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -279,7 +264,7 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
       "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -288,40 +273,24 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary Analysis - 90 Day Follow-up (starting after 72h exposure window)",
-          "riskWindowStart": 73,
+          "description": "Primary analysis: 72-hour exposure period to 90-day follow-up",
+          "riskWindowStart": 72,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Secondary Analysis - 30 Day Follow-up (starting after 72h exposure window)",
-          "riskWindowStart": 73,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "Sensitivity Analysis - 30 to 90 Days Post-Admission",
-          "riskWindowStart": 30,
+          "description": "Sensitivity analysis: 48-hour exposure period to 90-day follow-up",
+          "riskWindowStart": 48,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity Analysis - 48h Exposure Window",
-          "riskWindowStart": 49,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 90,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "Sensitivity Analysis - 96h Exposure Window",
-          "riskWindowStart": 97,
+          "description": "Sensitivity analysis: 96-hour exposure period to 90-day follow-up",
+          "riskWindowStart": 96,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start",
@@ -332,7 +301,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Matching (1:1) with Caliper",
+          "description": "PS matching 1:1 with caliper 0.2 on standardized logit scale",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -341,7 +310,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Inverse Probability of Treatment Weighting (IPTW)",
+          "description": "Inverse probability of treatment weighting (IPTW) with weight capping at 10",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         }

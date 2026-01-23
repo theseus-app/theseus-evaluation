@@ -1,45 +1,54 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-28T02:32:09.780Z",
+  "createdAt": "2026-01-23T01:40:38.829Z",
   "metrics": {
-    "jaccard": 0.2222222222222222,
-    "recall": 0.25,
-    "precision": 0.6666666666666666
+    "jaccard": 0.6,
+    "recall": 0.6666666666666666,
+    "precision": 0.8571428571428571
   },
   "counts": {
-    "gold": 8,
-    "pred": 3,
-    "intersection": 2,
-    "union": 9,
-    "both": 2,
+    "gold": 9,
+    "pred": 7,
+    "intersection": 6,
+    "union": 10,
+    "both": 6,
     "predOnly": 1,
-    "goldOnly": 6
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=366|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 1,
       "predOnlyCount": 1,
@@ -50,13 +59,13 @@
       "accuracy": 0.2
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
+      "bothCount": 4,
       "predOnlyCount": 0,
-      "goldOnlyCount": 3,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.25,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -177,33 +186,106 @@
     }
   },
   "predJson": {
-    "name": "Ranitidine vs other H2RA cancer risk - population-level study (OMOP-CDM)",
+    "name": "Ranitidine vs Other H2RAs and Cancer Risk: OMOP-CDM Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ranitidine users with >30 days exposure (age >=20)"
+        "name": "Adult new users of ranitidine (≥20 years, >30 days use, 1-year exposure-free)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Users of other H2RAs (famotidine, roxatidine, lafutidine) with 1-year washout"
+        "name": "Adult new users of other H2RAs (famotidine, roxatidine, lafutidine; 1-year exposure-free; excludes cimetidine, nizatidine)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Any cancer excluding nonmelanoma skin cancer"
+          "name": "Any cancer (excluding nonmelanoma skin cancer)"
+        },
+        {
+          "id": null,
+          "name": "Any cancer (including nonmelanoma skin cancer, excluding thyroid cancer)"
+        },
+        {
+          "id": null,
+          "name": "Breast cancer"
+        },
+        {
+          "id": null,
+          "name": "Prostate cancer"
+        },
+        {
+          "id": null,
+          "name": "Lung cancer"
+        },
+        {
+          "id": null,
+          "name": "Colorectal cancer"
+        },
+        {
+          "id": null,
+          "name": "Bladder cancer"
+        },
+        {
+          "id": null,
+          "name": "Liver cancer"
+        },
+        {
+          "id": null,
+          "name": "Leukemia"
+        },
+        {
+          "id": null,
+          "name": "Pancreatic cancer"
+        },
+        {
+          "id": null,
+          "name": "Stomach cancer"
+        },
+        {
+          "id": null,
+          "name": "Lip, oral cavity, and pharynx cancer"
+        },
+        {
+          "id": null,
+          "name": "Thyroid cancer"
+        },
+        {
+          "id": null,
+          "name": "Corpus uteri cancer"
+        },
+        {
+          "id": null,
+          "name": "Ovary cancer"
+        },
+        {
+          "id": null,
+          "name": "Esophageal cancer"
+        },
+        {
+          "id": null,
+          "name": "Gall bladder and biliary tract cancer"
+        },
+        {
+          "id": null,
+          "name": "Cervix uteri cancer"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes (119) for empirical calibration"
+      "name": "119 negative control outcomes (see eAppendix 4)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
       "washoutPeriod": 365,
@@ -216,7 +298,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR ITT",
+          "description": "Intention-to-treat (ITT)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -224,15 +306,15 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR ITT with 1-year lag",
+          "description": "Intention-to-treat (ITT) with 1-year lag",
           "riskWindowStart": 366,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR during treatment",
+          "description": "On-treatment",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -240,10 +322,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR during treatment with 1-year lag",
+          "description": "On-treatment with 1-year lag",
           "riskWindowStart": 366,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -252,12 +334,34 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "Variable-ratio PS matching (max 1:10)",
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS stratification (deciles)",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 10,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "Unadjusted",
+          "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         }
       ],

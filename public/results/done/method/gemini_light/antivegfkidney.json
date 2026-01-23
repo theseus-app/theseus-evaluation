@@ -1,23 +1,24 @@
 {
   "name": "AntiVEGFKidney",
   "fileName": "antivegfkidney.json",
-  "createdAt": "2025-11-28T02:32:18.158Z",
+  "createdAt": "2026-01-23T01:40:39.507Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
     "precision": 1
   },
   "counts": {
-    "gold": 3,
-    "pred": 3,
-    "intersection": 3,
-    "union": 3,
-    "both": 3,
+    "gold": 4,
+    "pred": 4,
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
     "predOnly": 0,
     "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
@@ -26,12 +27,20 @@
     "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 0,
@@ -140,29 +149,34 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Intravitreal Anti-VEGF Exposure"
+        "name": "Aflibercept Exposure"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Intravitreal Anti-VEGF Exposure"
+        "name": "Ranibizumab Exposure"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Kidney Failure (Simpler Phenotype)"
+          "name": "Kidney failure (administrative code-only limited definition)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
@@ -175,7 +189,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment after third anti-VEGF exposure",
+          "description": "Primary: On-treatment",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -183,7 +197,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat after third anti-VEGF exposure",
+          "description": "Sensitivity: Intent-to-treat",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,

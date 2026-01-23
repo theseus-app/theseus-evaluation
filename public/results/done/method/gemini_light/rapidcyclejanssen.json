@@ -1,20 +1,20 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-28T02:32:18.167Z",
+  "createdAt": "2026-01-23T01:40:39.513Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
+    "jaccard": 0.8571428571428571,
+    "recall": 0.8571428571428571,
     "precision": 1
   },
   "counts": {
     "gold": 7,
-    "pred": 7,
-    "intersection": 7,
+    "pred": 6,
+    "intersection": 6,
     "union": 7,
-    "both": 7,
+    "both": 6,
     "predOnly": 0,
-    "goldOnly": 0
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,15 +23,16 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=28|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=0|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": []
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=1|startAnchor=cohort start}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -45,13 +46,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 5,
+      "bothCount": 4,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "recall": 0.8,
+      "f1": 0.888888888888889,
+      "accuracy": 0.8
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -169,7 +170,7 @@
     }
   },
   "predJson": {
-    "name": "Janssen Ad26.COV2·S Comparative Cohort Analysis",
+    "name": "Janssen COVID-19 Vaccine Safety Monitoring - Comparative Cohort Analysis",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -188,7 +189,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes (93)"
+      "name": "93 Negative Control Outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -213,7 +214,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1-14 days",
+          "description": "1-14 days post-vaccination",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 14,
@@ -221,7 +222,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 1-28 days",
+          "description": "1-28 days post-vaccination",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 28,
@@ -229,7 +230,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 1-42 days",
+          "description": "1-42 days post-vaccination",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 42,
@@ -237,18 +238,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 1-90 days",
+          "description": "1-90 days post-vaccination",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "TAR 0-2 days (Anaphylaxis)",
-          "riskWindowStart": 0,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 2,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -257,7 +250,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable Ratio PS Matching",
+          "description": "Variable-ratio matching on PS",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,

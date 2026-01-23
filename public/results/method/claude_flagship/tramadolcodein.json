@@ -1,20 +1,20 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-24T06:28:04.517Z",
+  "createdAt": "2026-01-23T00:09:48.128Z",
   "metrics": {
-    "jaccard": 0.5294117647058824,
-    "recall": 0.6923076923076923,
-    "precision": 0.6923076923076923
+    "jaccard": 0.8571428571428571,
+    "recall": 0.9230769230769231,
+    "precision": 0.9230769230769231
   },
   "counts": {
     "gold": 13,
     "pred": 13,
-    "intersection": 9,
-    "union": 17,
-    "both": 9,
-    "predOnly": 4,
-    "goldOnly": 4
+    "intersection": 12,
+    "union": 14,
+    "both": 12,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,27 +23,24 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=null|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "censorAtNewRiskWindow=true",
-      "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=365",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+      "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
-      "censorAtNewRiskWindow=false",
-      "removeSubjectsWithPriorOutcome=false",
-      "priorOutcomeLookBack=99999",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "removeSubjectsWithPriorOutcome=false"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -57,13 +54,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -160,24 +157,24 @@
     }
   },
   "predJson": {
-    "name": "Tramadol vs Codeine Hip Fracture Study",
+    "name": "Tramadol vs Codeine and Risk of Hip Fracture",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Tramadol (T1 or T2)"
+        "name": "Tramadol new users aged 50-89 years"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Codeine (C1 or C2)"
+        "name": "Codeine new users aged 50-89 years"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Hip Fracture (O1 - READ codes for CPRD)"
+          "name": "Hip fracture (O1 - READ codes for CPRD)"
         },
         {
           "id": null,
-          "name": "Hip Fracture (O2 - Standard codes for US claims)"
+          "name": "Hip fracture (O2 - Standard terminologies for US claims)"
         }
       ]
     },
@@ -186,8 +183,18 @@
       "name": "101 Negative Control Outcomes"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -203,21 +210,21 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 365,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
           "description": "On-Treatment (OT)",
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
           "description": "Intent-to-Treat (ITT)",
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
@@ -257,7 +264,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

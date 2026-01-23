@@ -1,51 +1,48 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T02:32:13.800Z",
+  "createdAt": "2026-01-23T01:40:39.172Z",
   "metrics": {
-    "jaccard": 0.375,
-    "recall": 0.5,
-    "precision": 0.6
+    "jaccard": 0.8333333333333334,
+    "recall": 0.8333333333333334,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
     "pred": 5,
-    "intersection": 3,
-    "union": 8,
-    "both": 3,
-    "predOnly": 2,
-    "goldOnly": 3
+    "intersection": 5,
+    "union": 6,
+    "both": 5,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010701}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010701}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -160,7 +157,7 @@
     }
   },
   "predJson": {
-    "name": "Stroke Risk in Elderly Antipsychotic Users",
+    "name": "Stroke Risk in Elderly New Users of Typical vs. Atypical Antipsychotics",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -179,7 +176,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes for empirical calibration"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -188,11 +185,11 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         },
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
       ],
@@ -205,7 +202,7 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 183,
       "timeAtRisks": [
         {
           "description": "On-treatment",
@@ -220,7 +217,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Sentinel PS replication",
+          "description": "Sentinel PS strategy",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -229,7 +226,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted large-scale PS",
+          "description": "Adapted PS strategy",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

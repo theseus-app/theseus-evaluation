@@ -1,20 +1,20 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-24T06:45:00.874Z",
+  "createdAt": "2026-01-23T00:00:39.720Z",
   "metrics": {
-    "jaccard": 0.8571428571428571,
-    "recall": 0.9230769230769231,
-    "precision": 0.9230769230769231
+    "jaccard": 0.7333333333333333,
+    "recall": 0.8461538461538461,
+    "precision": 0.8461538461538461
   },
   "counts": {
     "gold": 13,
     "pred": 13,
-    "intersection": 12,
-    "union": 14,
-    "both": 12,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 11,
+    "union": 15,
+    "both": 11,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -24,7 +24,6 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
-      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
@@ -32,10 +31,12 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=365"
     ],
     "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false"
+      "removeSubjectsWithPriorOutcome=false",
+      "priorOutcomeLookBack=99999"
     ]
   },
   "sectionAccuracy": {
@@ -157,34 +158,44 @@
     }
   },
   "predJson": {
-    "name": "Tramadol vs Codeine and hip fracture risk (OT and ITT)",
+    "name": "Tramadol vs Codeine and Hip Fracture (Retrospective Comparative Cohort; OT and ITT TARs)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Tramadol initiation cohorts (T1/T2; age 50–89; 365d prior observation)"
+        "name": "Tramadol new users (T1/T2 variants)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Codeine initiation cohorts (C1/C2; age 50–89; 365d prior observation)"
+        "name": "Codeine new users (C1/C2 variants)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Hip fracture - READ-based (O1; CPRD-specific)"
+          "name": "Hip fracture (O1; CPRD/READ-based)"
         },
         {
           "id": null,
-          "name": "Hip fracture - standardized terminology (O2; US claims)"
+          "name": "Hip fracture (O2; US claims/standard terminology)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Hip fracture study negative control outcomes (n=101)"
+      "name": "Negative control outcomes (101 outcomes)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "All baseline covariates (data-driven high-dimensional PS)"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Exclude covariates with prevalence <0.1% in combined T/C (implemented outside spec)"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -202,19 +213,19 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 365,
       "timeAtRisks": [
         {
-          "description": "On-treatment (OT): index to cohort end (exposure-based)",
-          "riskWindowStart": 1,
+          "description": "On-treatment (OT): index to end of exposure (allow 30-day gaps), censored at outcome/365d/other opioid/death/exit/age 89",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat (ITT): index to observation end",
-          "riskWindowStart": 1,
+          "description": "Intent-to-treat (ITT): index to end of observation (death/exit), censored at outcome",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
@@ -225,7 +236,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching (caliper 0.2 SD on logit)",
+          "description": "1:1 PS matching, greedy, caliper 0.2 SD on logit(PS)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

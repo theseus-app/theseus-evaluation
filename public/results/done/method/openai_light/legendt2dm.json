@@ -1,48 +1,48 @@
 {
   "name": "LEGENDT2DM",
   "fileName": "legendt2dm.json",
-  "createdAt": "2025-11-28T02:32:09.780Z",
+  "createdAt": "2026-01-23T01:40:38.828Z",
   "metrics": {
-    "jaccard": 0.4,
-    "recall": 0.5,
-    "precision": 0.6666666666666666
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
-    "intersection": 2,
+    "pred": 4,
+    "intersection": 3,
     "union": 5,
-    "both": 2,
+    "both": 3,
     "predOnly": 1,
-    "goldOnly": 2
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=20211231|studyStartDate=19920101}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=all|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=5}"
-    ],
-    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
+    ],
+    "predJsonOnly": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}"
+    ],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20211231|studyStartDate=19920101}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -54,13 +54,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -148,28 +148,28 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM population-level estimation: metformin-treated T2DM with established CVD - new-user comparison of antihyperglycemic agents",
+    "name": "LEGEND-T2DM: Comparative Effectiveness of Second-Line Antihyperglycemic Agents in T2DM with CVD",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New-user cohort: target antihyperglycemic agent (drug class)"
+        "name": "New users of SGLT2i, GLP-1 RA, DPP4i, or SU (T2DM with CVD on metformin)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New-user cohort: comparator antihyperglycemic agent (drug class)"
+        "name": "Active comparator new users of alternative second-line antihyperglycemic agent"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "3-point MACE (MI, stroke, SCD)"
+          "name": "3-point MACE (acute MI, stroke, sudden cardiac death)"
         },
         {
           "id": null,
-          "name": "4-point MACE (3-point MACE + hospitalization for HF)"
+          "name": "4-point MACE (3-point MACE + hospitalization for heart failure)"
         },
         {
           "id": null,
-          "name": "Acute MI"
+          "name": "Acute myocardial infarction"
         },
         {
           "id": null,
@@ -187,7 +187,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes set for LEGEND-T2DM"
+      "name": "LEGEND-T2DM Negative Control Outcomes (100 OMOP condition concepts)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -196,8 +196,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "19920101",
-          "studyEndDate": "20211231"
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "restrictToCommonPeriod": false,
@@ -212,7 +212,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR: risk window",
+          "description": "On-treatment (treatment initiation to discontinuation)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -224,16 +224,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
+          "description": "PS stratification (preferred if SMD <0.15)",
+          "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
             "baseSelection": "all"
           }
+        },
+        {
+          "description": "PS matching (if stratification insufficient for SMD <0.15)",
+          "matchOnPsArgs": {
+            "maxRatio": 100,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
         }
       ],
       "createPsArgs": {

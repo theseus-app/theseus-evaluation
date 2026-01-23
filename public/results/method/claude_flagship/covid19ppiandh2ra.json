@@ -1,20 +1,20 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-28T02:27:35.412Z",
+  "createdAt": "2026-01-23T00:06:33.892Z",
   "metrics": {
-    "jaccard": 0.6470588235294118,
-    "recall": 0.7857142857142857,
-    "precision": 0.7857142857142857
+    "jaccard": 0.75,
+    "recall": 0.8571428571428571,
+    "precision": 0.8571428571428571
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 11,
-    "union": 17,
-    "both": 11,
-    "predOnly": 3,
-    "goldOnly": 3
+    "intersection": 12,
+    "union": 16,
+    "both": 12,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -24,6 +24,7 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}",
@@ -32,12 +33,10 @@
     ],
     "predJsonOnly": [
       "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=180",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
-      "priorOutcomeLookBack=99999",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
@@ -164,15 +163,15 @@
     }
   },
   "predJson": {
-    "name": "Acid-Suppressants and COVID-19 Risk Study",
+    "name": "Association between acid-suppressants (PPIs and H2RAs) and COVID-19 outcomes",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "PPI users"
+        "name": "PPI users (patients aged >18 years with COVID-19 prescribed PPIs for ≥7 days)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "H2RA users"
+        "name": "H2RA users (patients aged >18 years with COVID-19 prescribed H2RAs for ≥7 days)"
       },
       "outcomeCohort": [
         {
@@ -195,33 +194,13 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes"
+      "name": "123 Negative Control Outcomes for Acid-Suppressant Use"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Age"
-        },
-        {
-          "id": null,
-          "name": "Sex"
-        },
-        {
-          "id": null,
-          "name": "All medications"
-        },
-        {
-          "id": null,
-          "name": "Medical procedures"
-        },
-        {
-          "id": null,
-          "name": "Disease history"
-        },
-        {
-          "id": null,
-          "name": "Comorbidity index"
+          "name": "Concept Name 1"
         }
       ],
       "conceptsToExclude": [
@@ -247,13 +226,13 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 180,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
           "description": "On-treatment with 30-day gap allowance",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -262,12 +241,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted analysis",
+          "description": "Unadjusted analysis (no PS adjustment)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "One-to-four exact PSM with greedy nearest method",
+          "description": "1:4 PS matching with greedy nearest neighbor",
           "matchOnPsArgs": {
             "maxRatio": 4,
             "caliper": 0.2,
@@ -276,7 +255,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Propensity score stratification with five strata",
+          "description": "PS stratification with 5 strata",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,

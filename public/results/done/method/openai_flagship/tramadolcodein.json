@@ -1,23 +1,24 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-28T02:32:03.292Z",
+  "createdAt": "2026-01-23T01:40:38.488Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
     "precision": 1
   },
   "counts": {
-    "gold": 3,
-    "pred": 3,
-    "intersection": 3,
-    "union": 3,
-    "both": 3,
+    "gold": 4,
+    "pred": 4,
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
     "predOnly": 0,
     "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
@@ -26,12 +27,20 @@
     "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 0,
@@ -136,34 +145,44 @@
     }
   },
   "predJson": {
-    "name": "Tramadol vs Codeine and hip fracture risk (OT and ITT)",
+    "name": "Tramadol vs Codeine and Hip Fracture (Retrospective Comparative Cohort; OT and ITT TARs)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Tramadol initiation cohorts (T1/T2; age 50–89; 365d prior observation)"
+        "name": "Tramadol new users (T1/T2 variants)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Codeine initiation cohorts (C1/C2; age 50–89; 365d prior observation)"
+        "name": "Codeine new users (C1/C2 variants)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Hip fracture - READ-based (O1; CPRD-specific)"
+          "name": "Hip fracture (O1; CPRD/READ-based)"
         },
         {
           "id": null,
-          "name": "Hip fracture - standardized terminology (O2; US claims)"
+          "name": "Hip fracture (O2; US claims/standard terminology)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Hip fracture study negative control outcomes (n=101)"
+      "name": "Negative control outcomes (101 outcomes)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "All baseline covariates (data-driven high-dimensional PS)"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Exclude covariates with prevalence <0.1% in combined T/C (implemented outside spec)"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -181,19 +200,19 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 365,
       "timeAtRisks": [
         {
-          "description": "On-treatment (OT): index to cohort end (exposure-based)",
-          "riskWindowStart": 1,
+          "description": "On-treatment (OT): index to end of exposure (allow 30-day gaps), censored at outcome/365d/other opioid/death/exit/age 89",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat (ITT): index to observation end",
-          "riskWindowStart": 1,
+          "description": "Intent-to-treat (ITT): index to end of observation (death/exit), censored at outcome",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
@@ -204,7 +223,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS matching (caliper 0.2 SD on logit)",
+          "description": "1:1 PS matching, greedy, caliper 0.2 SD on logit(PS)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

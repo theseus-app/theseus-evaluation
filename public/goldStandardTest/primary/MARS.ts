@@ -3,51 +3,45 @@ Study Period: a prospective cohort study conducted between January 2011 and Dece
 
 TAR: The follow-up period started after this 72-h exposure period and ended 90 days after ICU admission.
 
-PS Settings: For PS matching, we used greedy matching with a caliper width of 0.2 times the standard deviation of the PS logit and matched treated patients to controls 1:1. 
+PS Settings: For PS matching, we used greedy matching with a caliper width of 0.2 times the standard deviation of the PS logit and matched treated patients to controls 1:1.
 
 Outcome Model: After PS matching, we created survival curves of the matched samples and estimated the hazard ratios and their standard errors by using Cox models with a robust variance estimator to account for the matched pairs.
 `
 
 export const JSONMARS = {
   getDbCohortMethodDataArgs: {
-    studyPeriods: [
-      {
-        studyStartDate: "20110101",
-        studyEndDate: "20131231",
-      }
-    ],
+    studyPeriods: {
+      studyStartDate: "20110101",
+      studyEndDate: "20131231",
+    },
+    maxCohortSize: 0,
+  },
+  createStudyPopArgs: {
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
     washoutPeriod: 0,
     removeDuplicateSubjects: "keep all",
-    maxCohortSize: 0, //default
-  },
-  createStudyPopArgs: {
-    censorAtNewRiskWindow: false, //default로 설정
+    censorAtNewRiskWindow: false,
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 3,
-        startAnchor: "cohort start",
-        riskWindowEnd: 90,
-        endAnchor: "cohort start",
-        minDaysAtRisk: 1 //default 설정
-      }
-    ],
+    timeAtRisks: {
+      riskWindowStart: 3,
+      startAnchor: "cohort start",
+      riskWindowEnd: 90,
+      endAnchor: "cohort start",
+      minDaysAtRisk: 1
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 1,
-          caliper: 0.2, //default 설정
-          caliperScale: "standardized logit" //default 설정
-        },
-        stratifyByPsArgs: null
-      }      
-    ],
-    createPsArgs: { //laplace 제외하고 전부 default 설정
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 1,
+        caliper: 0.2,
+        caliperScale: "standardized logit"
+      },
+      stratifyByPsArgs: null
+    },
+    createPsArgs: {
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,
       prior: { priorType: "laplace", useCrossValidation: true },
@@ -62,7 +56,7 @@ export const JSONMARS = {
       }
     }
   },
-  fitOutcomeModelArgs: { 
+  fitOutcomeModelArgs: {
     modelType: "cox",
     stratified: false,
     useCovariates: false,

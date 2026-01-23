@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T01:40:32.846Z",
+  "createdAt": "2026-01-23T01:40:05.587Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -203,18 +203,18 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
+      "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment with 30-day gap allowed",
+          "description": "On-treatment with 30-day gap allowance",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -231,7 +231,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication - 1:1 matching with caliper 0.05",
+          "description": "Sentinel PS replication - 1:1 matching with 31 covariates",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -240,7 +240,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted PS strategy - 1:10 variable ratio matching with caliper 0.2 SD of logit PS",
+          "description": "Large-scale regularized regression PS - 1:10 variable ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

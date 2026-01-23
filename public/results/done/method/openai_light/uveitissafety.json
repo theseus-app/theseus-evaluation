@@ -1,41 +1,50 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-28T02:32:09.785Z",
+  "createdAt": "2026-01-23T01:40:38.832Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
-    "gold": 4,
-    "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
+    "gold": 5,
+    "pred": 5,
+    "intersection": 4,
+    "union": 6,
+    "both": 4,
     "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=observation end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 1,
       "predOnlyCount": 1,
@@ -148,40 +157,30 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU risk - active comparator, new user PS-matched cohorts (primary on-treatment TAR)",
+    "name": "Remicade NIU Risk Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade new user target cohort"
+        "name": "Remicade New Users (by indication, see Appendix 2)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator biologics new user exposure"
+        "name": "Active Comparator Biologics (by indication, see Table 1 and Appendix 2)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NIU outcome - primary definition"
+          "name": "Primary NIU (first NIU code with a second NIU code 31-365 days later OR first NIU code during ophthalmology visit)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes (Appendix 6)"
+      "name": "Negative Control Outcomes for NIU Study (see Appendix 6)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -190,9 +189,9 @@
           "studyEndDate": ""
         }
       ],
-      "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -202,7 +201,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment TAR (primary)",
+          "description": "On-Treatment (primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -210,11 +209,11 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "ITT TAR",
+          "description": "Intention-to-Treat (secondary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort end",
+          "riskWindowEnd": 0,
+          "endAnchor": "observation end",
           "minDaysAtRisk": 1
         }
       ]
@@ -222,7 +221,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1:10 matching",
+          "description": "1:10 Variable Ratio Matching (primary)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -231,7 +230,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: 1:1 matching",
+          "description": "1:1 Matching (secondary)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

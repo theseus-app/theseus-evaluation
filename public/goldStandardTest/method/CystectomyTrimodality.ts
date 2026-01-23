@@ -259,7 +259,31 @@ export const JSONCystectomyTrimodality = {
           caliperScale: "standardized logit" //default 설정
         },
         stratifyByPsArgs: null
-      }
+      },
+      {
+        matchOnPsArgs: {
+          maxRatio: 1,
+          caliper: 0.2, //default 설정
+          caliperScale: "standardized logit" //default 설정
+        },
+        stratifyByPsArgs: null
+      },
+      {
+        matchOnPsArgs: {
+          maxRatio: 2,
+          caliper: 0.2, //default 설정
+          caliperScale: "standardized logit" //default 설정
+        },
+        stratifyByPsArgs: null
+      },
+      {
+        matchOnPsArgs: {
+          maxRatio: 4,
+          caliper: 0.2, //default 설정
+          caliperScale: "standardized logit" //default 설정
+        },
+        stratifyByPsArgs: null
+      }      
     ],
     createPsArgs: { //laplace 제외하고 전부 default 설정
       maxCohortSizeForFitting: 250000,

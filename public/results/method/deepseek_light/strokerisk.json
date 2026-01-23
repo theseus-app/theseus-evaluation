@@ -1,20 +1,20 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-24T06:30:51.297Z",
+  "createdAt": "2026-01-23T00:13:07.477Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
     "gold": 15,
     "pred": 15,
-    "intersection": 10,
-    "union": 20,
-    "both": 10,
-    "predOnly": 5,
-    "goldOnly": 5
+    "intersection": 12,
+    "union": 18,
+    "both": 12,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -23,6 +23,8 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
@@ -32,32 +34,28 @@
     "predJsonOnly": [
       "censorAtNewRiskWindow=true",
       "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=183",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010701}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010701}"
+      "priorOutcomeLookBack=183"
     ],
     "goldJsonOnly": [
       "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=false",
-      "priorOutcomeLookBack=99999",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}"
+      "priorOutcomeLookBack=99999"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -176,11 +174,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of typical antipsychotics"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of atypical antipsychotics"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
@@ -191,7 +189,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -200,11 +198,11 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         },
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
       ],
@@ -232,7 +230,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted (crude)",
+          "description": "Unadjusted (crude) estimate",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },

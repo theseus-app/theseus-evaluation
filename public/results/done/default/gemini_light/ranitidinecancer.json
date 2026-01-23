@@ -1,23 +1,24 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-28T01:40:29.268Z",
+  "createdAt": "2026-01-23T01:39:52.062Z",
   "metrics": {
-    "jaccard": 0.45454545454545453,
-    "recall": 0.625,
-    "precision": 0.625
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
-    "gold": 8,
-    "pred": 8,
-    "intersection": 5,
-    "union": 11,
-    "both": 5,
+    "gold": 9,
+    "pred": 9,
+    "intersection": 6,
+    "union": 12,
+    "both": 6,
     "predOnly": 3,
     "goldOnly": 3
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
@@ -25,8 +26,8 @@
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99634|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=-365|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=366|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
@@ -36,12 +37,20 @@
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 2,
@@ -242,9 +251,9 @@
         },
         {
           "description": "TAR 2: ITT with a 1-year lag",
-          "riskWindowStart": 1,
+          "riskWindowStart": 366,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99634,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
@@ -258,9 +267,9 @@
         },
         {
           "description": "TAR 4: during treatment with a 1-year lag",
-          "riskWindowStart": 1,
+          "riskWindowStart": 366,
           "startAnchor": "cohort start",
-          "riskWindowEnd": -365,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -269,7 +278,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Settings 1",
+          "description": "PS Settings 1: 1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -278,7 +287,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Settings 2",
+          "description": "PS Settings 2: variable-ratio PS matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0,
@@ -287,7 +296,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Settings 3",
+          "description": "PS Settings 3: PS stratification into deciles",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

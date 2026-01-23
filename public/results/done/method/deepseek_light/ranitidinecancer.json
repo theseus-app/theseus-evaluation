@@ -1,23 +1,25 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-28T02:32:39.430Z",
+  "createdAt": "2026-01-23T01:40:43.964Z",
   "metrics": {
-    "jaccard": 0.45454545454545453,
-    "recall": 0.625,
-    "precision": 0.625
+    "jaccard": 0.6363636363636364,
+    "recall": 0.7777777777777778,
+    "precision": 0.7777777777777778
   },
   "counts": {
-    "gold": 8,
-    "pred": 8,
-    "intersection": 5,
+    "gold": 9,
+    "pred": 9,
+    "intersection": 7,
     "union": 11,
-    "both": 5,
-    "predOnly": 3,
-    "goldOnly": 3
+    "both": 7,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
@@ -25,31 +27,37 @@
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=366|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=366|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
-    "timeAtRisks": {
+    "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 3,
-      "goldOnlyCount": 3,
-      "precision": 0.25,
-      "recall": 0.25,
-      "f1": 0.25,
-      "accuracy": 0.14285714285714285
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 2,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
       "bothCount": 4,
@@ -179,24 +187,24 @@
     }
   },
   "predJson": {
-    "name": "Ranitidine Cancer Risk Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ranitidine users"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Other H2RA users (famotidine, roxatidine, lafutidine)"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Any cancer excluding nonmelanoma skin cancer"
+          "name": "Any cancer types, excluding nonmelanoma skin cancer"
         },
         {
           "id": null,
-          "name": "Any cancer including nonmelanoma skin cancer excluding thyroid cancer"
+          "name": "Any cancer types, including nonmelanoma skin cancer and excluding thyroid cancer"
         },
         {
           "id": null,
@@ -266,7 +274,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "119 negative control outcomes"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -275,8 +283,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": null,
-          "studyEndDate": null
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "restrictToCommonPeriod": false,
@@ -294,31 +302,31 @@
           "description": "ITT with 1-year lag",
           "riskWindowStart": 366,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
           "description": "ITT",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "During treatment with 1-year lag",
+          "riskWindowStart": 366,
+          "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment with 1-year lag",
-          "riskWindowStart": 366,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "On-treatment",
+          "description": "During treatment",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }

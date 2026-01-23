@@ -1,7 +1,7 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2025-11-27T10:37:11.091Z",
+  "createdAt": "2026-01-22T23:46:23.867Z",
   "metrics": {
     "jaccard": 0.9333333333333333,
     "recall": 0.9333333333333333,
@@ -222,7 +222,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: On-treatment (censor at discontinuation/switch/death/study end)",
+          "description": "TAR 1 (on-treatment; allow 90-day gaps; censor at discontinuation/switch/death/end of study period)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -230,7 +230,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2: Intention-to-treat (do not censor at discontinuation/switch)",
+          "description": "TAR 2 (intention-to-treat; do not censor at discontinuation or switching)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -242,7 +242,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Settings 1: Stratification (ATE)",
+          "description": "PS Settings 1 (stratification; 5 strata; ATE)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -250,9 +250,9 @@
           }
         },
         {
-          "description": "PS Settings 2: Variable-ratio matching (ATT)",
+          "description": "PS Settings 2 (variable-ratio matching; sensitivity; ATT)",
           "matchOnPsArgs": {
-            "maxRatio": 100,
+            "maxRatio": 0,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

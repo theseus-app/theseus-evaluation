@@ -1,20 +1,20 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-24T06:24:57.407Z",
+  "createdAt": "2026-01-23T00:07:14.623Z",
   "metrics": {
-    "jaccard": 0.8666666666666667,
-    "recall": 0.9285714285714286,
-    "precision": 0.9285714285714286
+    "jaccard": 0.75,
+    "recall": 0.8571428571428571,
+    "precision": 0.8571428571428571
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 13,
-    "union": 15,
-    "both": 13,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 12,
+    "union": 16,
+    "both": 12,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -25,7 +25,6 @@
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
       "priorOutcomeLookBack=99999",
-      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
@@ -33,26 +32,28 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20030101}"
     ],
     "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false"
+      "removeSubjectsWithPriorOutcome=false",
+      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 2,
@@ -165,38 +166,38 @@
     }
   },
   "predJson": {
-    "name": "Comparative Effectiveness of Cu IUD vs LNG-IUS on Cervical Neoplasm Incidence",
+    "name": "Comparative Effectiveness of Cu IUDs vs LNG-IUSs for Cervical Neoplasm Incidence",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD users"
+        "name": "Copper IUD Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS users"
+        "name": "Levonorgestrel Intrauterine System Users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "High-grade cervical neoplasm diagnosis"
+          "name": "High-Grade Cervical Neoplasm Diagnosis"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes"
+      "name": "Negative Control Outcomes (123 outcomes)"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": ""
+          "name": "Concept Name 1"
         }
       ],
       "conceptsToExclude": [
         {
           "id": null,
-          "name": ""
+          "name": "Concept Name 3"
         }
       ]
     },
@@ -204,7 +205,7 @@
       "studyPeriods": [
         {
           "studyStartDate": "20030101",
-          "studyEndDate": ""
+          "studyEndDate": "20181231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -219,7 +220,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary analysis: 30 days to 15 years after IUD placement",
+          "description": "Primary Analysis: 30 days to 15 years",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -227,7 +228,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Subgroup analysis: at least 1 year after IUD placement",
+          "description": "Subgroup Analysis: 1 year to 15 years",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -239,7 +240,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS Matching",
+          "description": "1:1 Propensity Score Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -248,7 +249,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Stratification",
+          "description": "Propensity Score Stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -276,7 +277,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

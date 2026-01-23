@@ -1,20 +1,20 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-01-08T08:22:04.718Z",
+  "createdAt": "2026-01-23T02:19:19.520Z",
   "metrics": {
-    "jaccard": 0.7333333333333333,
-    "recall": 0.9166666666666666,
-    "precision": 0.7857142857142857
+    "jaccard": 0.5555555555555556,
+    "recall": 0.7142857142857143,
+    "precision": 0.7142857142857143
   },
   "counts": {
-    "gold": 12,
+    "gold": 14,
     "pred": 14,
-    "intersection": 11,
-    "union": 15,
-    "both": 11,
-    "predOnly": 3,
-    "goldOnly": 1
+    "intersection": 10,
+    "union": 18,
+    "both": 10,
+    "predOnly": 4,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -24,18 +24,21 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
-      "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200331|studyStartDate=20130401}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130401}",
+      "removeSubjectsWithPriorOutcome=false",
+      "studyPeriods:{studyEndDate=20200331|studyStartDate=20150101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.001|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
+      "removeSubjectsWithPriorOutcome=true",
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130401}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ]
   },
@@ -48,20 +51,20 @@
     "studyPeriods": {
       "bothCount": 1,
       "predOnlyCount": 1,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 0.5,
-      "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "timeAtRisks": {
       "bothCount": 1,
       "predOnlyCount": 1,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 0.5,
-      "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
       "bothCount": 0,
@@ -79,6 +82,10 @@
         {
           "studyStartDate": "20130401",
           "studyEndDate": "20200331"
+        },
+        {
+          "studyStartDate": "20130401",
+          "studyEndDate": "20181231"
         }
       ],
       "restrictToCommonPeriod": true,
@@ -97,6 +104,13 @@
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]
@@ -151,62 +165,87 @@
     }
   },
   "predJson": {
-    "name": "Comparison of Cardiovascular Events: First-line SGLT-2i vs Metformin",
+    "name": "Cardiovascular events with SGLT-2i vs Metformin in T2D",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 1,
-        "name": "First-line SGLT-2i initiators (canagliflozin, empagliflozin, or dapagliflozin)"
+        "id": null,
+        "name": "First-line SGLT-2i Initiators"
       },
       "comparatorCohort": {
-        "id": 2,
-        "name": "First-line Metformin initiators"
+        "id": null,
+        "name": "First-line Metformin Initiators"
       },
       "outcomeCohort": [
         {
-          "id": 101,
-          "name": "Composite of MI, stroke, or all-cause mortality"
+          "id": null,
+          "name": "MI/Stroke/Mortality Composite"
         },
         {
-          "id": 102,
-          "name": "Composite of HHF or all-cause mortality"
+          "id": null,
+          "name": "HHF/Mortality Composite"
         },
         {
-          "id": 103,
-          "name": "Hospitalization for acute MI"
+          "id": null,
+          "name": "Acute MI Hospitalization"
         },
         {
-          "id": 104,
-          "name": "Hospitalization for ischemic or hemorrhagic stroke"
+          "id": null,
+          "name": "Ischemic or Hemorrhagic Stroke Hospitalization"
         },
         {
-          "id": 105,
-          "name": "All-cause mortality"
+          "id": null,
+          "name": "All-cause Mortality"
         },
         {
-          "id": 106,
+          "id": null,
           "name": "Hospitalization for Heart Failure (HHF)"
         },
         {
-          "id": 107,
-          "name": "Composite of MI/stroke/HHF/mortality"
+          "id": null,
+          "name": "MI/Stroke/HHF/Mortality Composite"
         },
         {
-          "id": 201,
-          "name": "Safety: Genital infections (Positive tracer outcome)"
+          "id": null,
+          "name": "Acute Kidney Injury"
         },
         {
-          "id": 202,
-          "name": "Safety: Acute kidney injury, bone fractures, hypoglycemia, UTI, DKA, lower-limb amputations"
+          "id": null,
+          "name": "Bone Fractures"
+        },
+        {
+          "id": null,
+          "name": "Genital Infections"
+        },
+        {
+          "id": null,
+          "name": "Severe Hypoglycemia"
+        },
+        {
+          "id": null,
+          "name": "Severe Urinary Tract Infections"
+        },
+        {
+          "id": null,
+          "name": "Diabetic Ketoacidosis"
+        },
+        {
+          "id": null,
+          "name": "Lower-Limb Amputations"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Laboratory Values"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -215,23 +254,23 @@
           "studyEndDate": "20200331"
         },
         {
-          "studyStartDate": "20130401",
-          "studyEndDate": "20181231"
+          "studyStartDate": "20150101",
+          "studyEndDate": "20200331"
         }
       ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "remove all",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
-      "removeSubjectsWithPriorOutcome": true,
+      "removeSubjectsWithPriorOutcome": false,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment analysis (Primary)",
+          "description": "On-treatment with 60-day grace period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -239,7 +278,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat analysis (Sensitivity)",
+          "description": "Intention-to-treat (365 days)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -251,7 +290,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:2 Propensity Score Matching",
+          "description": "Primary PS Matching (1:2 ratio, 0.001 SD logit caliper)",
           "matchOnPsArgs": {
             "maxRatio": 2,
             "caliper": 0.001,

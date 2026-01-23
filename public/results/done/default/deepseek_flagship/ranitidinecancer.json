@@ -1,44 +1,49 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-28T02:21:36.638Z",
+  "createdAt": "2026-01-23T01:40:14.372Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
-    "gold": 8,
-    "pred": 8,
-    "intersection": 8,
-    "union": 8,
-    "both": 8,
-    "predOnly": 0,
-    "goldOnly": 0
+    "gold": 9,
+    "pred": 9,
+    "intersection": 6,
+    "union": 12,
+    "both": 6,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=365|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
-    "timeAtRisks": true,
-    "propensityScoreAdjustment": true
+    "studyPeriods": true,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": false
   },
   "sectionCounts": {
-    "studyPeriods": null,
-    "timeAtRisks": {
-      "bothCount": 4,
+    "studyPeriods": {
+      "bothCount": 1,
       "predOnlyCount": 0,
       "goldOnlyCount": 0,
       "precision": 1,
@@ -46,14 +51,23 @@
       "f1": 1,
       "accuracy": 1
     },
+    "timeAtRisks": {
+      "bothCount": 2,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
+    },
     "propensityScoreAdjustment": {
-      "bothCount": 4,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 3,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "accuracy": 0.6
     }
   },
   "goldJson": {
@@ -228,23 +242,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: ITT",
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "TAR 2: ITT with 1-year lag",
-          "riskWindowStart": 365,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "TAR 3: during treatment",
+          "description": "TAR 1: ITT to end of data",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -252,10 +250,26 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 4: during treatment with 1-year lag",
+          "description": "TAR 2: ITT with 1-year lag",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "TAR 3: During treatment",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 30,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "TAR 4: During treatment with 1-year lag",
+          "riskWindowStart": 365,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 30,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -264,7 +278,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Settings 1",
+          "description": "PS Settings 1: 1:1 matching with caliper",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -273,16 +287,16 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Settings 2",
+          "description": "PS Settings 2: variable-ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
-            "caliper": 0.2,
+            "caliper": 0,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Settings 3",
+          "description": "PS Settings 3: stratification into deciles",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,
@@ -290,7 +304,7 @@
           }
         },
         {
-          "description": "PS Settings 4",
+          "description": "PS Settings 4: unadjusted",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         }

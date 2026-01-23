@@ -1,47 +1,44 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-28T01:49:27.190Z",
+  "createdAt": "2026-01-23T01:29:46.484Z",
   "metrics": {
-    "jaccard": 0.25,
-    "recall": 0.3333333333333333,
-    "precision": 0.5
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 3,
-    "pred": 2,
-    "intersection": 1,
-    "union": 4,
-    "both": 1,
-    "predOnly": 1,
-    "goldOnly": 2
+    "pred": 3,
+    "intersection": 3,
+    "union": 3,
+    "both": 3,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=14|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=5|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
       "studyPeriods:{studyEndDate=null|studyStartDate=20210101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=14|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
-    ]
+    ],
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
+      "bothCount": 1,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
-      "precision": null,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -53,13 +50,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -134,7 +131,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Exposure - Population-Level Estimation (1-14 day risk window)",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -171,12 +168,12 @@
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": {
-        "studyStartDate": "",
+        "studyStartDate": "20210101",
         "studyEndDate": ""
       },
       "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -195,7 +192,7 @@
     "propensityScoreAdjustment": {
       "psSettings": {
         "matchOnPsArgs": {
-          "maxRatio": 5,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -221,7 +218,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

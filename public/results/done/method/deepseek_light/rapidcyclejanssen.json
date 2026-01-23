@@ -1,20 +1,20 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-28T02:32:39.430Z",
+  "createdAt": "2026-01-23T01:40:43.964Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
+    "jaccard": 0.8571428571428571,
+    "recall": 0.8571428571428571,
     "precision": 1
   },
   "counts": {
     "gold": 7,
-    "pred": 7,
-    "intersection": 7,
+    "pred": 6,
+    "intersection": 6,
     "union": 7,
-    "both": 7,
+    "both": 6,
     "predOnly": 0,
-    "goldOnly": 0
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,15 +23,16 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=28|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=0|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": []
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=1|startAnchor=cohort start}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -45,13 +46,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 5,
+      "bothCount": 4,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "recall": 0.8,
+      "f1": 0.888888888888889,
+      "accuracy": 0.8
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -169,42 +170,26 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Safety Monitoring",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Janssen Ad26.COV2·S"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Moderna mRNA-1273 or Pfizer mRNA-BNT162b2"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Guillain-Barré syndrome (GBS)"
-        },
-        {
-          "id": null,
-          "name": "Myocarditis"
-        },
-        {
-          "id": null,
-          "name": "Myocarditis or Pericarditis"
-        },
-        {
-          "id": null,
-          "name": "Pericarditis"
-        },
-        {
-          "id": null,
-          "name": "Anaphylaxis"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "COVID-19 Vaccine Negative Controls"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -214,7 +199,7 @@
       "studyPeriods": [
         {
           "studyStartDate": "20210101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "restrictToCommonPeriod": false,
@@ -229,7 +214,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-14 days",
+          "description": "TAR 1-14 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 14,
@@ -237,7 +222,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-28 days",
+          "description": "TAR 1-28 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 28,
@@ -245,7 +230,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-42 days",
+          "description": "TAR 1-42 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 42,
@@ -253,18 +238,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-90 days",
+          "description": "TAR 1-90 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "0-2 days for anaphylaxis",
-          "riskWindowStart": 0,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 2,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -273,9 +250,9 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable ratio matching",
+          "description": "PS 1",
           "matchOnPsArgs": {
-            "maxRatio": 100,
+            "maxRatio": 0,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

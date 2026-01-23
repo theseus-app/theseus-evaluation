@@ -8,44 +8,38 @@ Outcome Model: Specifically, we fitted a logistic regression model using differe
 
 export const JSONAlzheimerDonepezil = {
   getDbCohortMethodDataArgs: {
-    studyPeriods: [
-      {
-        studyStartDate: "",
-        studyEndDate: "",
-      },
-    ],
+    studyPeriods: {
+      studyStartDate: null,
+      studyEndDate: null,
+    },
+    maxCohortSize: 0,
+  },
+  createStudyPopArgs: {
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
     washoutPeriod: 0,
     removeDuplicateSubjects: "keep all",
-    maxCohortSize: 0, //default
-  },
-  createStudyPopArgs: {
-    censorAtNewRiskWindow: false, //default로 설정
+    censorAtNewRiskWindow: false,
     removeSubjectsWithPriorOutcome: true,
     priorOutcomeLookBack: 99999,
-    timeAtRisks: [
-      {
-        riskWindowStart: 1,
-        startAnchor: "cohort start",
-        riskWindowEnd: 180,
-        endAnchor: "cohort start",
-        minDaysAtRisk: 1 //default 설정
-      }
-    ],
+    timeAtRisks: {
+      riskWindowStart: 1,
+      startAnchor: "cohort start",
+      riskWindowEnd: 180,
+      endAnchor: "cohort start",
+      minDaysAtRisk: 1
+    },
   },
   propensityScoreAdjustment: {
-    psSettings: [
-      {
-        matchOnPsArgs: {
-          maxRatio: 1,
-          caliper: 0.2, //default 설정
-          caliperScale: "standardized logit" //default 설정
-        },
-        stratifyByPsArgs: null
-      }
-    ],
-    createPsArgs: { //laplace 제외하고 전부 default 설정
+    psSettings: {
+      matchOnPsArgs: {
+        maxRatio: 1,
+        caliper: 0.2,
+        caliperScale: "standardized logit"
+      },
+      stratifyByPsArgs: null
+    },
+    createPsArgs: {
       maxCohortSizeForFitting: 250000,
       errorOnHighCorrelation: true,
       prior: { priorType: "laplace", useCrossValidation: true },
@@ -60,7 +54,7 @@ export const JSONAlzheimerDonepezil = {
       }
     }
   },
-  fitOutcomeModelArgs: { //modelType제외 default 설정
+  fitOutcomeModelArgs: {
     modelType: "logistic",
     stratified: true,
     useCovariates: false,

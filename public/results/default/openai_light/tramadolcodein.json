@@ -1,19 +1,19 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-27T10:48:47.095Z",
+  "createdAt": "2026-01-22T23:50:58.480Z",
   "metrics": {
-    "jaccard": 0.7333333333333333,
+    "jaccard": 0.7857142857142857,
     "recall": 0.8461538461538461,
-    "precision": 0.8461538461538461
+    "precision": 0.9166666666666666
   },
   "counts": {
     "gold": 13,
-    "pred": 13,
+    "pred": 12,
     "intersection": 11,
-    "union": 15,
+    "union": 14,
     "both": 11,
-    "predOnly": 2,
+    "predOnly": 1,
     "goldOnly": 2
   },
   "details": {
@@ -31,8 +31,7 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=0|startAnchor=cohort start}"
+      "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
@@ -56,12 +55,12 @@
     },
     "timeAtRisks": {
       "bothCount": 1,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 1,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -158,24 +157,20 @@
     }
   },
   "predJson": {
-    "name": "Population-level TAR ITT and PS-adjusted Cox analysis",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Opioid of interest (target)"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Opioid of interest (comparator)"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "O1 outcome"
-        },
-        {
-          "id": null,
-          "name": "O2 outcome"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
@@ -184,8 +179,18 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -206,18 +211,18 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
-          "riskWindowStart": 1,
+          "description": "On-Treatment (OT) TAR",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2 (ITT)",
+          "description": "Intent-to-Treat (ITT) TAR",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -255,7 +260,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

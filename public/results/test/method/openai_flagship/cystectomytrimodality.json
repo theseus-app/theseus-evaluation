@@ -1,20 +1,20 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-01-08T08:19:18.002Z",
+  "createdAt": "2026-01-23T02:14:54.091Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.8333333333333334,
+    "jaccard": 0.5555555555555556,
+    "recall": 0.6666666666666666,
     "precision": 0.7692307692307693
   },
   "counts": {
-    "gold": 12,
+    "gold": 15,
     "pred": 13,
     "intersection": 10,
-    "union": 15,
+    "union": 18,
     "both": 10,
     "predOnly": 3,
-    "goldOnly": 2
+    "goldOnly": 5
   },
   "details": {
     "bothJson": [
@@ -30,13 +30,16 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}"
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
@@ -66,7 +69,7 @@
     "propensityScoreAdjustment": {
       "bothCount": 0,
       "predOnlyCount": 2,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 4,
       "precision": 0,
       "recall": 0,
       "f1": null,
@@ -106,6 +109,30 @@
         {
           "matchOnPsArgs": {
             "maxRatio": 3,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 2,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 4,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
@@ -151,15 +178,15 @@
     }
   },
   "predJson": {
-    "name": "Radical cystectomy vs trimodality therapy in localized muscle-invasive bladder cancer (retrospective; ITT; PS matched and IPTW)",
+    "name": "Radical cystectomy vs trimodality therapy in localized muscle-invasive bladder cancer (retrospective; PS matched and IPTW)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Trimodality therapy (TURBT + concurrent radiosensitizing chemoradiation) for cT2–T4N0M0 muscle-invasive bladder cancer"
+        "name": "Trimodality therapy (TURBT + concurrent radiosensitizing chemoradiation) in cT2–T4N0M0 MIBC"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Radical cystectomy for cT2–T4N0M0 muscle-invasive bladder cancer"
+        "name": "Radical cystectomy in cT2–T4N0M0 MIBC"
       },
       "outcomeCohort": [
         {
@@ -216,7 +243,7 @@
         },
         {
           "id": null,
-          "name": "Body mass index category (<30 vs ≥30 kg/m^2)"
+          "name": "BMI category (<30 vs >=30 kg/m^2)"
         },
         {
           "id": null,
@@ -257,7 +284,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT from diagnosis (follow-up until cohort/observation end)",
+          "description": "Intention-to-treat (from index/diagnosis to end of follow-up)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -278,7 +305,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "IPTW (primary weighting analysis described)",
+          "description": "IPTW using stabilized weights",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         }
@@ -303,7 +330,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": true,
       "inversePtWeighting": true,
       "prior": {

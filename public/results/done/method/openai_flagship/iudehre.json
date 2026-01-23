@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-28T02:32:03.283Z",
+  "createdAt": "2026-01-23T01:40:38.484Z",
   "metrics": {
     "jaccard": 0.6666666666666666,
     "recall": 0.8,
@@ -156,20 +156,20 @@
     }
   },
   "predJson": {
-    "name": "Cu IUD vs LNG-IUS and high-grade cervical neoplasm (CUIMC, TAR 30d–15y; ≥1y sensitivity)",
+    "name": "Comparative effectiveness of Cu IUD vs LNG-IUS on high-grade cervical neoplasm incidence (CUIMC OMOP-CDM v5.2)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Copper IUD users (first IUD placement, female ≤45y)"
+        "name": "Cu IUD users (first IUD placement; female <=45; >=365d prior observation; no prior IUD; no prior endometrial/cervical neoplasm; no both-device use)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS users (first IUD placement, female ≤45y)"
+        "name": "LNG-IUS users (first IUD placement; female <=45; >=365d prior observation; no prior IUD; no prior endometrial/cervical neoplasm; no both-device use)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "High-grade cervical neoplasm (e.g., CIN2/3, malignant primary cervix)"
+          "name": "High-grade cervical neoplasm diagnosis"
         }
       ]
     },
@@ -178,8 +178,18 @@
       "name": "Negative control outcomes (123 diagnoses unrelated to IUD exposure)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -200,7 +210,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary TAR: 30 days to 15 years post-index (any-use)",
+          "description": "Primary TAR: 30 days to 15 years after IUD placement (any-use; follow until outcome or observation end)",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -208,7 +218,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity TAR: ≥1 year to 15 years post-index",
+          "description": "Subgroup TAR: diagnoses occurring >=1 year after IUD placement (sensitivity/subgroup)",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -220,21 +230,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS matching (1:1)",
+          "description": "PS stratification",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": {
+            "numberOfStrata": 5,
+            "baseSelection": "all"
+          }
+        },
+        {
+          "description": "PS 1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
-        },
-        {
-          "description": "PS stratification (quintiles)",
-          "matchOnPsArgs": null,
-          "stratifyByPsArgs": {
-            "numberOfStrata": 5,
-            "baseSelection": "all"
-          }
         }
       ],
       "createPsArgs": {
@@ -257,7 +267,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

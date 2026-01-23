@@ -1,19 +1,19 @@
 {
   "name": "AntiVEGFKidney",
   "fileName": "antivegfkidney.json",
-  "createdAt": "2025-11-24T06:23:04.868Z",
+  "createdAt": "2026-01-22T23:53:45.293Z",
   "metrics": {
-    "jaccard": 0.9230769230769231,
+    "jaccard": 0.8571428571428571,
     "recall": 0.9230769230769231,
-    "precision": 1
+    "precision": 0.9230769230769231
   },
   "counts": {
     "gold": 13,
-    "pred": 12,
+    "pred": 13,
     "intersection": 12,
-    "union": 13,
+    "union": 14,
     "both": 12,
-    "predOnly": 0,
+    "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
@@ -23,22 +23,24 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
-      "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
-    "predJsonOnly": [],
+    "predJsonOnly": [
+      "censorAtNewRiskWindow=true"
+    ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "censorAtNewRiskWindow=false"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -52,13 +54,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -155,26 +157,26 @@
     }
   },
   "predJson": {
-    "name": "Kidney Failure Incidence and Comparative Risk among Adults Initiating Aflibercept vs Ranibizumab (On-Treatment Time-at-Risk)",
+    "name": "Incidence and Comparative Risk of Kidney Failure in Anti-VEGF Treated Patients: OMOP-CDM Population-Level Estimation",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Anti-VEGF: Aflibercept"
+        "name": "Anti-VEGF Exposure Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Anti-VEGF: Ranibizumab"
+        "name": "Comparator Anti-VEGF Exposure Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Kidney Failure (End-Stage Kidney Disease) - administrative code-only definition"
+          "name": "Kidney Failure (Administrative Code-Only Definition)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -190,20 +192,28 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "keep first",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
+      "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment time at risk: starts after the third anti-VEGF exposure and ends with end of continuous exposure (gap > 180 days) or end of study",
-          "riskWindowStart": 1,
+          "description": "On-Treatment (Primary Analysis)",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Intent-to-Treat (Sensitivity Analysis)",
+          "riskWindowStart": 0,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]
@@ -211,7 +221,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 PS Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

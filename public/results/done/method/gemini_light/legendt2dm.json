@@ -1,19 +1,19 @@
 {
   "name": "LEGENDT2DM",
   "fileName": "legendt2dm.json",
-  "createdAt": "2025-11-28T02:32:18.165Z",
+  "createdAt": "2026-01-23T01:40:39.512Z",
   "metrics": {
-    "jaccard": 0.75,
+    "jaccard": 0.6,
     "recall": 0.75,
-    "precision": 1
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
+    "pred": 4,
     "intersection": 3,
-    "union": 4,
+    "union": 5,
     "both": 3,
-    "predOnly": 0,
+    "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
@@ -22,7 +22,9 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ],
-    "predJsonOnly": [],
+    "predJsonOnly": [
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+    ],
     "goldJsonOnly": [
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ]
@@ -53,12 +55,12 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 1,
-      "precision": 1,
+      "precision": 0.5,
       "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     }
   },
   "goldJson": {
@@ -146,24 +148,24 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM Comparative Effectiveness Study",
+    "name": "LEGEND-T2DM Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of SGLT2i, GLP-1 RA, DPP4i, or SU (Target)"
+        "name": "New users of SGLT2i, GLP-1 RA, DPP4i, or SU drug classes"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of SGLT2i, GLP-1 RA, DPP4i, or SU (Comparator)"
+        "name": "New users of SGLT2i, GLP-1 RA, DPP4i, or SU drug classes"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "3-point MACE (acute MI, stroke, SCD)"
+          "name": "3-point MACE (acute MI, stroke, sudden cardiac death)"
         },
         {
           "id": null,
-          "name": "4-point MACE (3-point MACE + hospitalization for HF)"
+          "name": "4-point MACE (acute MI, stroke, sudden cardiac death, hospitalization for HF)"
         },
         {
           "id": null,
@@ -185,7 +187,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "LEGEND-T2DM Negative Controls"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -201,7 +203,7 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -210,7 +212,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment",
+          "description": "On-treatment time-at-risk",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -222,7 +224,16 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Stratification (Preferred)",
+          "description": "PS Matching",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS Stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,

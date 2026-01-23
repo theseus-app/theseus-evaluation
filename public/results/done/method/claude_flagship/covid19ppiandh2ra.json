@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-28T02:32:21.517Z",
+  "createdAt": "2026-01-23T01:40:42.923Z",
   "metrics": {
     "jaccard": 0.6666666666666666,
     "recall": 0.8,
@@ -24,7 +24,7 @@
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
@@ -153,15 +153,15 @@
     }
   },
   "predJson": {
-    "name": "Acid-Suppressants and COVID-19 Risk Study",
+    "name": "Association between acid-suppressants (PPIs and H2RAs) and COVID-19 outcomes",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "PPI users"
+        "name": "PPI users (patients aged >18 years with COVID-19 prescribed PPIs for ≥7 days)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "H2RA users"
+        "name": "H2RA users (patients aged >18 years with COVID-19 prescribed H2RAs for ≥7 days)"
       },
       "outcomeCohort": [
         {
@@ -184,33 +184,13 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes"
+      "name": "123 Negative Control Outcomes for Acid-Suppressant Use"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Age"
-        },
-        {
-          "id": null,
-          "name": "Sex"
-        },
-        {
-          "id": null,
-          "name": "All medications"
-        },
-        {
-          "id": null,
-          "name": "Medical procedures"
-        },
-        {
-          "id": null,
-          "name": "Disease history"
-        },
-        {
-          "id": null,
-          "name": "Comorbidity index"
+          "name": "Concept Name 1"
         }
       ],
       "conceptsToExclude": [
@@ -236,13 +216,13 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 180,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
           "description": "On-treatment with 30-day gap allowance",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -251,12 +231,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted analysis",
+          "description": "Unadjusted analysis (no PS adjustment)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "One-to-four exact PSM with greedy nearest method",
+          "description": "1:4 PS matching with greedy nearest neighbor",
           "matchOnPsArgs": {
             "maxRatio": 4,
             "caliper": 0.2,
@@ -265,7 +245,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Propensity score stratification with five strata",
+          "description": "PS stratification with 5 strata",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,

@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-24T06:26:53.120Z",
+  "createdAt": "2026-01-23T00:06:30.268Z",
   "metrics": {
     "jaccard": 0.75,
     "recall": 0.8571428571428571,
@@ -174,7 +174,7 @@
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Levonorgestrel Intrauterine System Users"
+        "name": "Levonorgestrel IUS Users"
       },
       "outcomeCohort": [
         {
@@ -192,7 +192,11 @@
       "conceptsToExclude": [
         {
           "id": null,
-          "name": "Prior endometrial or cervical neoplasms"
+          "name": "Prior endometrial neoplasm"
+        },
+        {
+          "id": null,
+          "name": "Prior cervical neoplasm"
         },
         {
           "id": null,
@@ -227,7 +231,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity Analysis: 1 year to 15 years post-IUD placement",
+          "description": "Sensitivity Analysis: Outcomes at least 1 year after IUD placement",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -239,21 +243,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Matching 1:1",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
-        },
-        {
           "description": "PS Stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
             "baseSelection": "all"
           }
+        },
+        {
+          "description": "PS 1:1 Matching",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
         }
       ],
       "createPsArgs": {
@@ -276,7 +280,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

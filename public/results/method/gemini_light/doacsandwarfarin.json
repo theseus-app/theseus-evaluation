@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-28T02:29:00.650Z",
+  "createdAt": "2026-01-23T00:07:51.979Z",
   "metrics": {
     "jaccard": 0.8125,
     "recall": 0.8666666666666667,
@@ -174,15 +174,15 @@
     }
   },
   "predJson": {
-    "name": "DOACs and Warfarin Sub study",
+    "name": "DOACsWarfarinSub Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DOACs (Rivaroxaban, Apixaban, Dabigatran)"
+        "name": "New User of DOAC or Warfarin (Target)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Warfarin"
+        "name": "New User of DOAC or Warfarin (Comparator)"
       },
       "outcomeCohort": [
         {
@@ -193,7 +193,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Outcomes (127)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -218,7 +218,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary On-Treatment (DOAC 3-day gap + 5 days, Warfarin 7-day gap + 5 days)",
+          "description": "Primary and Sensitivity 1: On-treatment (persistent exposure)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -226,15 +226,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity On-Treatment (30-day gap, no appended days)",
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "Intent-to-Treat (ITT)",
+          "description": "Sensitivity 2: Intent-to-treat",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -246,7 +238,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary PS Matching (1:1 Ratio)",
+          "description": "Primary PS Strategy (1:1 matching)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -255,7 +247,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS Matching (1:100 Variable Ratio)",
+          "description": "Sensitivity PS Strategy (1:100 variable ratio matching)",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,

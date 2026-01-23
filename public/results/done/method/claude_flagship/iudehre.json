@@ -1,46 +1,49 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2025-11-28T02:32:21.518Z",
+  "createdAt": "2026-01-23T01:40:42.924Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
     "gold": 5,
     "pred": 5,
-    "intersection": 5,
-    "union": 5,
-    "both": 5,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 4,
+    "union": 6,
+    "both": 4,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20030101}"
+    ],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=20030101}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 2,
@@ -153,38 +156,38 @@
     }
   },
   "predJson": {
-    "name": "Comparative Effectiveness of Cu IUD vs LNG-IUS on Cervical Neoplasm Incidence",
+    "name": "Comparative Effectiveness of Cu IUDs vs LNG-IUSs for Cervical Neoplasm Incidence",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD users"
+        "name": "Copper IUD Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS users"
+        "name": "Levonorgestrel Intrauterine System Users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "High-grade cervical neoplasm diagnosis"
+          "name": "High-Grade Cervical Neoplasm Diagnosis"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes"
+      "name": "Negative Control Outcomes (123 outcomes)"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": ""
+          "name": "Concept Name 1"
         }
       ],
       "conceptsToExclude": [
         {
           "id": null,
-          "name": ""
+          "name": "Concept Name 3"
         }
       ]
     },
@@ -192,7 +195,7 @@
       "studyPeriods": [
         {
           "studyStartDate": "20030101",
-          "studyEndDate": ""
+          "studyEndDate": "20181231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -207,7 +210,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary analysis: 30 days to 15 years after IUD placement",
+          "description": "Primary Analysis: 30 days to 15 years",
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -215,7 +218,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Subgroup analysis: at least 1 year after IUD placement",
+          "description": "Subgroup Analysis: 1 year to 15 years",
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 5475,
@@ -227,7 +230,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS Matching",
+          "description": "1:1 Propensity Score Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -236,7 +239,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Stratification",
+          "description": "Propensity Score Stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -264,7 +267,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

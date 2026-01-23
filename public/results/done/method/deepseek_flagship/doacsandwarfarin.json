@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-28T02:33:12.172Z",
+  "createdAt": "2026-01-23T01:40:43.616Z",
   "metrics": {
     "jaccard": 0.8333333333333334,
     "recall": 0.8333333333333334,
@@ -163,7 +163,7 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin - Severe Uterine Bleeding",
+    "name": "DoacsWarfarinSub",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -182,7 +182,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set (127 outcomes)"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -207,7 +207,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment TAR",
+          "description": "Primary on-treatment (DOAC gap 3/7 days + 5 days)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -215,7 +215,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity on-treatment TAR (30-day gap)",
+          "description": "Sensitivity: On-treatment (30-day gap, no days appended)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -223,7 +223,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "ITT TAR",
+          "description": "Sensitivity: Intent-to-treat",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -235,7 +235,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary PS (1:1 matching)",
+          "description": "Primary PS matching 1:1",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -244,7 +244,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS (1:100 matching)",
+          "description": "Sensitivity PS matching 1:100",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,
@@ -273,7 +273,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

@@ -1,60 +1,55 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-28T01:40:01.110Z",
+  "createdAt": "2026-01-23T01:39:30.099Z",
   "metrics": {
-    "jaccard": 0.25,
-    "recall": 0.5,
-    "precision": 0.3333333333333333
+    "jaccard": 0.75,
+    "recall": 0.75,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 6,
-    "intersection": 2,
-    "union": 8,
-    "both": 2,
-    "predOnly": 4,
-    "goldOnly": 2
+    "pred": 3,
+    "intersection": 3,
+    "union": 4,
+    "both": 3,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20200131|studyStartDate=20171201}",
-      "studyPeriods:{studyEndDate=20210630|studyStartDate=20200201}",
-      "studyPeriods:{studyEndDate=20231231|studyStartDate=20210701}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
-    "timeAtRisks": false,
+    "studyPeriods": true,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 3,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.25,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -151,20 +146,20 @@
     }
   },
   "predJson": {
-    "name": "NAION risk with T2D medications (2017-12-01 to 2023-12-31)",
+    "name": "Study Period 1: T2D medications and NAION (2017-12-01 to 2023-12-31)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort Name"
+        "name": "Target T2D medication initiators (e.g., semaglutide)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort Name"
+        "name": "Comparator T2D medication initiators (e.g., dulaglutide)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Non-arteritic anterior ischemic optic neuropathy (NAION)"
+          "name": "NAION"
         }
       ]
     },
@@ -191,18 +186,6 @@
         {
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
-        },
-        {
-          "studyStartDate": "20171201",
-          "studyEndDate": "20200131"
-        },
-        {
-          "studyStartDate": "20200201",
-          "studyEndDate": "20210630"
-        },
-        {
-          "studyStartDate": "20210701",
-          "studyEndDate": "20231231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -217,7 +200,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: on-treatment (initiation to end of continuous exposure; 30-day gap allowed; or observation end)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -229,7 +212,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "PS Settings 1: 1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -258,7 +241,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

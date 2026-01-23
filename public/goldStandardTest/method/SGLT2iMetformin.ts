@@ -185,7 +185,11 @@ export const JSONSGLT2iMetformin = {
       {
         studyStartDate: "20130401",
         studyEndDate: "20200331",
-      }
+      },
+      {
+        studyStartDate: "20130401",
+        studyEndDate: "20181231",
+      },
     ],
     restrictToCommonPeriod: true,
     firstExposureOnly: false,
@@ -203,6 +207,13 @@ export const JSONSGLT2iMetformin = {
         startAnchor: "cohort start",
         riskWindowEnd: 0,
         endAnchor: "cohort end",
+        minDaysAtRisk: 1 //default 설정
+      },
+      {
+        riskWindowStart: 1,
+        startAnchor: "cohort start",
+        riskWindowEnd: 99999,
+        endAnchor: "cohort start",
         minDaysAtRisk: 1 //default 설정
       }
     ],

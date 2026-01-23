@@ -1,7 +1,7 @@
 {
   "name": "CEEAMOS",
   "fileName": "ceeamos.json",
-  "createdAt": "2025-11-24T06:25:17.931Z",
+  "createdAt": "2026-01-22T23:53:57.221Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,34 +154,44 @@
     }
   },
   "predJson": {
-    "name": "ACE inhibitors vs ARBs on incident schizophrenia (AT and ITT)",
+    "name": "ACE inhibitors vs ARBs / Thiazide diuretics and incident schizophrenia (active-comparator new-user; AT and ITT sensitivity)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of ACE inhibitors (first-line, adults ≥18y)"
+        "name": "New users of ACE inhibitors (adult; 1y prior observation; exclusions per protocol)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of ARBs (first-line, adults ≥18y)"
+        "name": "New users of ARBs OR thiazide/thiazide-like diuretics (adult; 1y prior observation; exclusions per protocol)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Schizophrenia (restricted definition: dx + antipsychotic/procedure criteria)"
+          "name": "Schizophrenia (primary: first diagnosis with restricted confirmation criteria)"
         },
         {
           "id": null,
-          "name": "Schizophrenia at emergency department (specific definition)"
+          "name": "Schizophrenia at emergency department visit (secondary)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Falsification endpoints (26 outcomes) for empirical calibration"
+      "name": "Falsification endpoints / negative control outcomes (26 outcomes)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "All available baseline demographics, conditions, drugs, and procedures (large-scale PS; >10,000 covariates)"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -202,7 +212,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "As-treated (on-treatment) follow-up",
+          "description": "As-treated (AT): from day 1 after initiation until treatment end (allow 30-day refill gap) / censor at outcome or observation end",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -210,7 +220,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat (follow-up regardless of treatment changes)",
+          "description": "Intention-to-treat (ITT) sensitivity: from day 1 after initiation through end of observation (regardless of discontinuation)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -222,7 +232,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable-ratio PS matching (max 10), caliper 0.2 (standardized logit)",
+          "description": "Variable-ratio PS matching (max 10:1), caliper 0.2 (standardized logit)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

@@ -1,19 +1,19 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-28T02:32:18.168Z",
+  "createdAt": "2026-01-23T01:40:39.514Z",
   "metrics": {
-    "jaccard": 0.42857142857142855,
+    "jaccard": 0.75,
     "recall": 0.75,
-    "precision": 0.5
+    "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 6,
+    "pred": 3,
     "intersection": 3,
-    "union": 7,
+    "union": 4,
     "both": 3,
-    "predOnly": 3,
+    "predOnly": 0,
     "goldOnly": 1
   },
   "details": {
@@ -22,29 +22,25 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20200131|studyStartDate=20171201}",
-      "studyPeriods:{studyEndDate=20210630|studyStartDate=20200201}",
-      "studyPeriods:{studyEndDate=20231231|studyStartDate=20210701}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 3,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.25,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -150,24 +146,24 @@
     }
   },
   "predJson": {
-    "name": "NAION risk with Semaglutide vs other GLP-1RA and non-GLP-1RA",
+    "name": "NAION Risk with Semaglutide vs. Other GLP-1RAs and non-GLP-1RAs",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide users with T2D"
+        "name": "Semaglutide New Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Other GLP-1RA (dulaglutide, exenatide) and non-GLP-1RA (empagliflozin, sitagliptin, glipizide) users with T2D"
+        "name": "Other GLP-1RA and non-GLP-1RA New Users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION (sensitive definition)"
+          "name": "NAION (Sensitive Definition)"
         },
         {
           "id": null,
-          "name": "NAION (specific definition)"
+          "name": "NAION (Specific Definition)"
         }
       ]
     },
@@ -184,24 +180,12 @@
         {
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
-        },
-        {
-          "studyStartDate": "20171201",
-          "studyEndDate": "20200131"
-        },
-        {
-          "studyStartDate": "20200201",
-          "studyEndDate": "20210630"
-        },
-        {
-          "studyStartDate": "20210701",
-          "studyEndDate": "20231231"
         }
       ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "remove all",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -210,7 +194,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Medication initiation until end of continuous exposure",
+          "description": "Time-at-risk from medication initiation until end of continuous drug exposure",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,

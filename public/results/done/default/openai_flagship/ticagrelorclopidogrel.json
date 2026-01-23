@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-28T01:40:01.111Z",
+  "createdAt": "2026-01-23T01:39:30.100Z",
   "metrics": {
     "jaccard": 0.6923076923076923,
     "recall": 0.8181818181818182,
@@ -20,21 +20,21 @@
     "bothJson": [
       "studyPeriods:{studyEndDate=20190331|studyStartDate=20111101}",
       "studyPeriods:{studyEndDate=20161231|studyStartDate=20130301}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1826|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1826|riskWindowStart=29|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=29|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
@@ -261,23 +261,23 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: Primary ITT up to 1 year (censor at observation end only)",
+          "description": "TAR 1 (primary): follow-up until end of observation (do not censor at treatment discontinuation/switch within first year)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2: ITT up to 5 years",
+          "description": "TAR 2: fixed 5-year period",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 1826,
+          "riskWindowEnd": 1825,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 3: On-treatment (end at cohort end)",
+          "description": "TAR 3: on-treatment (persistent exposure; allow 7-day gap) from 1 day after index until cohort end",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -285,23 +285,23 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 4: TAR 1 with 28-day blanking period",
+          "description": "TAR 4: TAR 1 with 28-day blanking period (exclude outcomes in first 28 days after index/PCI)",
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 5: TAR 2 with 28-day blanking period",
+          "description": "TAR 5: TAR 2 (5-year) with 28-day blanking period",
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 1826,
+          "riskWindowEnd": 1825,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 6: TAR 3 with 28-day blanking period",
+          "description": "TAR 6: TAR 3 (on-treatment) with 28-day blanking period",
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -313,7 +313,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: One-to-one greedy PS matching",
+          "description": "PS Settings 1: 1:1 greedy propensity score matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -322,7 +322,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: Variable-ratio PS matching (max 10)",
+          "description": "PS Settings 2: variable-ratio propensity score matching (max ratio 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -331,7 +331,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 3: PS stratification by deciles",
+          "description": "PS Settings 3: propensity score stratification using deciles",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

@@ -1,48 +1,55 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2025-11-28T02:32:09.784Z",
+  "createdAt": "2026-01-23T01:40:38.831Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.75,
+    "recall": 0.75,
+    "precision": 1
   },
   "counts": {
-    "gold": 3,
+    "gold": 4,
     "pred": 3,
-    "intersection": 2,
+    "intersection": 3,
     "union": 4,
-    "both": 2,
-    "predOnly": 1,
+    "both": 3,
+    "predOnly": 0,
     "goldOnly": 1
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=0|startAnchor=cohort start}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 1,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 1,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -139,40 +146,34 @@
     }
   },
   "predJson": {
-    "name": "Population-level tramadol vs codeine hip fracture analysis (OT and ITT TARs, T1/C1 and T2/C2 variants)",
+    "name": "Tramadol vs Codeine and Hip Fracture Risk: Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Tramadol target (T1/T2 variants)"
+        "name": "Tramadol Exposure (T1, T2)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Codeine comparator (C1/C2 variants)"
+        "name": "Codeine Exposure (C1, C2)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Hip fracture outcome (O1/O2)"
+          "name": "Hip Fracture (CPRD Definition, O1)"
+        },
+        {
+          "id": null,
+          "name": "Hip Fracture (US Claims Definition, O2)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes concept set (as described in the study)"
+      "name": "101 Negative Control Outcomes"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -182,26 +183,26 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
+      "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 365,
       "timeAtRisks": [
         {
-          "description": "OT TAR (on-treatment)",
-          "riskWindowStart": 1,
+          "description": "On-Treatment (OT) Time-at-Risk",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "ITT TAR (intention-to-treat)",
+          "description": "Intent-to-Treat (ITT) Time-at-Risk",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -213,7 +214,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
+          "description": "1:1 Greedy Matching with Caliper 0.2 SD Logit",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

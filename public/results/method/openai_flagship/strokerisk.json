@@ -1,20 +1,20 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-24T06:41:01.626Z",
+  "createdAt": "2026-01-22T23:59:47.519Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.875,
+    "recall": 0.9333333333333333,
+    "precision": 0.9333333333333333
   },
   "counts": {
     "gold": 15,
     "pred": 15,
-    "intersection": 10,
-    "union": 20,
-    "both": 10,
-    "predOnly": 5,
-    "goldOnly": 5
+    "intersection": 14,
+    "union": 16,
+    "both": 14,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,6 +23,10 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=99999",
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
+      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
@@ -30,34 +34,26 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "censorAtNewRiskWindow=true",
-      "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=183",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010701}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010701}"
+      "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
-      "censorAtNewRiskWindow=false",
-      "removeSubjectsWithPriorOutcome=false",
-      "priorOutcomeLookBack=99999",
-      "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
-      "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}"
+      "removeSubjectsWithPriorOutcome=false"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -172,55 +168,65 @@
     }
   },
   "predJson": {
-    "name": "Stroke risk in elderly antipsychotic users (MDCR, on-treatment)",
+    "name": "Stroke risk in elderly new users of antipsychotics (MDCR OMOP-CDM)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of typical antipsychotics (age ≥65)"
+        "name": "New users of typical antipsychotics (>=65y, 183d washout/clean window)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of atypical antipsychotics (age ≥65)"
+        "name": "New users of atypical antipsychotics (>=65y, 183d washout/clean window)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Inpatient stroke, primary diagnosis"
+          "name": "Stroke (inpatient primary diagnosis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Study negative control outcomes for calibration"
+      "name": "Negative control outcomes (for empirical calibration)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         },
         {
-          "studyStartDate": "20010701",
+          "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "washoutPeriod": 183,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 183,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (day 1+ to exposure end)",
+          "description": "On-treatment: day after index until cohort end",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -237,7 +243,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication: 1:1 matching, caliper 0.05 on PS",
+          "description": "Sentinel PS replication: 1:1 match, caliper 0.05 on PS scale",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -246,7 +252,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted PS: variable-ratio 1:10 matching, caliper 0.2 on standardized logit",
+          "description": "Adapted PS strategy: variable-ratio up to 1:10, caliper 0.2 SD logit(PS)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -275,7 +281,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

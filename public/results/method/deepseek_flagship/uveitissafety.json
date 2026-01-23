@@ -1,20 +1,20 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-24T07:48:23.450Z",
+  "createdAt": "2026-01-23T00:44:24.519Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.8571428571428571,
-    "precision": 0.8571428571428571
+    "jaccard": 0.8666666666666667,
+    "recall": 0.9285714285714286,
+    "precision": 0.9285714285714286
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 12,
-    "union": 16,
-    "both": 12,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 13,
+    "union": 15,
+    "both": 13,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,21 +23,20 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
+      "censorAtNewRiskWindow=false",
       "removeSubjectsWithPriorOutcome=true",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=null|studyStartDate=null}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "censorAtNewRiskWindow=true",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "censorAtNewRiskWindow=false",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
@@ -167,26 +166,26 @@
     }
   },
   "predJson": {
-    "name": "UveitisSafetyEstimation",
+    "name": "Remicade NIU Risk Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade new users"
+        "name": "New users of Remicade® (with methotrexate for RA)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Alternative biologic therapies"
+        "name": "New users of FDA-approved biologics (excluding etanercept and adalimumab)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Non-infectious uveitis (primary definition)"
+          "name": "Primary NIU definition: [First NIU code + second within 31-365 days] OR [First NIU code during ophthalmology visit]"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "86 negative control outcomes"
+      "name": "86 negative control outcomes (Appendix 6)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -195,8 +194,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": null,
-          "studyEndDate": null
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "restrictToCommonPeriod": false,
@@ -206,7 +205,7 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
@@ -222,8 +221,8 @@
           "description": "ITT TAR",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
       ]
@@ -231,7 +230,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:10 PS matching",
+          "description": "1:10 variable ratio matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -240,7 +239,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "1:1 PS matching",
+          "description": "1:1 matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -272,19 +271,8 @@
       "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
-      "prior": {
-        "priorType": "laplace",
-        "useCrossValidation": true
-      },
-      "control": {
-        "tolerance": 2e-7,
-        "cvType": "auto",
-        "fold": 10,
-        "cvRepetitions": 10,
-        "noiseLevel": "quiet",
-        "resetCoefficients": true,
-        "startingVariance": 0.01
-      }
+      "prior": null,
+      "control": null
     }
   }
 }

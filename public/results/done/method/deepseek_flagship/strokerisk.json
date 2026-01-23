@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T02:33:12.177Z",
+  "createdAt": "2026-01-23T01:40:43.620Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -156,7 +156,7 @@
     }
   },
   "predJson": {
-    "name": "Typical antipsychotics vs atypical antipsychotics - stroke risk",
+    "name": "Stroke risk in elderly antipsychotic users",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -169,21 +169,16 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Stroke"
+          "name": "Stroke (inpatient primary diagnosis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes"
+      "name": "Negative controls for empirical calibration"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "Sentinel study covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -206,10 +201,10 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 183,
       "timeAtRisks": [
         {
-          "description": "On-treatment time at risk",
+          "description": "On-treatment analysis",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -221,12 +216,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted",
+          "description": "Unadjusted (crude)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication",
+          "description": "Sentinel PS strategy",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,

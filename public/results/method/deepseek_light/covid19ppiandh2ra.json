@@ -1,20 +1,20 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-28T02:28:03.623Z",
+  "createdAt": "2026-01-23T00:08:18.670Z",
   "metrics": {
-    "jaccard": 0.6470588235294118,
-    "recall": 0.7857142857142857,
-    "precision": 0.7857142857142857
+    "jaccard": 0.75,
+    "recall": 0.8571428571428571,
+    "precision": 0.8571428571428571
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 11,
-    "union": 17,
-    "both": 11,
-    "predOnly": 3,
-    "goldOnly": 3
+    "intersection": 12,
+    "union": 16,
+    "both": 12,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
@@ -24,6 +24,7 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
+      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}",
@@ -32,12 +33,10 @@
     ],
     "predJsonOnly": [
       "removeSubjectsWithPriorOutcome=true",
-      "priorOutcomeLookBack=180",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
-      "priorOutcomeLookBack=99999",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
@@ -164,7 +163,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Acid-Suppressants Study",
+    "name": "COVID-19 and Acid-Suppressants Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -177,25 +176,25 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "COVID-19 Diagnosis"
+          "name": "COVID-19 diagnosis"
         },
         {
           "id": null,
-          "name": "All-cause Mortality"
+          "name": "All-cause mortality"
         },
         {
           "id": null,
-          "name": "Hospitalization with Complications"
+          "name": "Hospitalization with pneumonia, ARDS, sepsis, or AKI"
         },
         {
           "id": null,
-          "name": "Intensive Respiratory Interventions"
+          "name": "Requirement of intensive respiratory interventions"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 Negative Control Outcomes"
+      "name": "123 negative control outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -217,10 +216,10 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 180,
+      "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Continuous Exposure TAR",
+          "description": "TAR 1",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -232,12 +231,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Propensity Score Unadjusted",
+          "description": "Propensity score unadjusted analysis",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "One-to-Four Exact PSM",
+          "description": "One-to-four exact PSM with greedy nearest method",
           "matchOnPsArgs": {
             "maxRatio": 4,
             "caliper": 0.2,
@@ -246,7 +245,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Propensity Score Stratification",
+          "description": "Propensity score stratification with five strata",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,

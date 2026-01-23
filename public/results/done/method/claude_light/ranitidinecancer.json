@@ -1,23 +1,25 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2025-11-28T02:32:25.715Z",
+  "createdAt": "2026-01-23T01:40:43.274Z",
   "metrics": {
-    "jaccard": 0.7777777777777778,
-    "recall": 0.875,
-    "precision": 0.875
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
-    "gold": 8,
-    "pred": 8,
-    "intersection": 7,
+    "gold": 9,
+    "pred": 9,
+    "intersection": 9,
     "union": 9,
-    "both": 7,
-    "predOnly": 1,
-    "goldOnly": 1
+    "both": 9,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
@@ -26,28 +28,32 @@
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=0|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
-    "timeAtRisks": false,
+    "studyPeriods": true,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
-      "bothCount": 3,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.75,
-      "recall": 0.75,
-      "f1": 0.75,
-      "accuracy": 0.6
+      "bothCount": 4,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 4,
@@ -177,15 +183,15 @@
     }
   },
   "predJson": {
-    "name": "Ranitidine and Cancer Risk - International Federated Network Cohort Study",
+    "name": "Ranitidine and Cancer Risk: A Federated Network Cohort Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ranitidine Users (≥30 days exposure, age ≥20 years)"
+        "name": "Ranitidine Users (≥30 days exposure)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Other H2RA Users (famotidine, roxatidine, lafutidine; age ≥20 years)"
+        "name": "Other H2RA Users (famotidine, roxatidine, lafutidine)"
       },
       "outcomeCohort": [
         {
@@ -254,7 +260,7 @@
         },
         {
           "id": null,
-          "name": "Gall Bladder and Biliary Tract Cancer"
+          "name": "Gallbladder and Biliary Tract Cancer"
         },
         {
           "id": null,
@@ -319,23 +325,23 @@
         },
         {
           "description": "Intention-to-Treat (ITT)",
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         },
         {
-          "description": "During Treatment",
-          "riskWindowStart": 1,
+          "description": "During Treatment with 1-year lag",
+          "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "During Treatment with 1-year lag",
-          "riskWindowStart": 365,
+          "description": "During Treatment",
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
@@ -346,7 +352,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 PS Matching (Primary Analysis)",
+          "description": "1:1 Propensity Score Matching (Primary Analysis)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -355,7 +361,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Variable-ratio PS Matching (1:10)",
+          "description": "Variable-Ratio PS Matching (1:10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

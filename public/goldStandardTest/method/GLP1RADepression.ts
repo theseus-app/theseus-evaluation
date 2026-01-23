@@ -1,4 +1,4 @@
-export const TEXTSGLT2iMetformin = `
+export const TEXTGLP1RADepression = `
 Target Trial
 We developed a hypothetical pragmatic trial (the target trial) to evaluate the effects of GLP-1RAs, compared with SGLT2is or DPP4is, on risk for depression. Table 1 summarizes the key components of this target trial. Eligible participants would be those aged 66 years or older with a diagnosis of T2D who have no prior diagnosis of type 1 diabetes, depression, or another mood disorder; no use of antidepressants; no contraindication to study drugs (end-stage renal disease or dialysis); and no use of GLP-1RAs, SGLT2is, or DPP4is within the past year. These broad inclusion criteria allow us to evaluate the real-world effectiveness and safety of GLP-1RAs across a wide spectrum of patients with T2D and increase the generalizability of the findings to clinical practice.
 The participants would be randomly assigned to GLP-1RAs, SGLT2is, or DPP4is and would be aware of their assigned strategy. The primary end point would be the onset of depression. The causal contrast of interest would use the intention-to-treat effect. Participants would be followed from treatment assignment until the onset of depression, death, loss to follow-up, up to 2 years of follow-up, or the end of the study (31 December 2020), whichever came first.
@@ -19,7 +19,7 @@ Role of the Funding Source
 The National Institute of Diabetes and Digestive and Kidney Diseases had no role in the design, conduct, or analysis of the study or in the decision to submit the manuscript for publication.
 `
 
-export const JSONSGLT2iMetformin = {
+export const JSONGLP1RADepression = {
   getDbCohortMethodDataArgs: {
     studyPeriods: [
       {

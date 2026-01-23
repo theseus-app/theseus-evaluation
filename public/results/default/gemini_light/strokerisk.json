@@ -1,19 +1,19 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-27T00:08:23.845Z",
+  "createdAt": "2026-01-22T23:49:33.690Z",
   "metrics": {
-    "jaccard": 0.8125,
+    "jaccard": 0.7647058823529411,
     "recall": 0.8666666666666667,
-    "precision": 0.9285714285714286
+    "precision": 0.8666666666666667
   },
   "counts": {
     "gold": 15,
-    "pred": 14,
+    "pred": 15,
     "intersection": 13,
-    "union": 16,
+    "union": 17,
     "both": 13,
-    "predOnly": 1,
+    "predOnly": 2,
     "goldOnly": 2
   },
   "details": {
@@ -33,7 +33,8 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
@@ -66,12 +67,12 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 1,
-      "precision": 1,
+      "precision": 0.6666666666666666,
       "recall": 0.6666666666666666,
-      "f1": 0.8,
-      "accuracy": 0.6666666666666666
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     }
   },
   "goldJson": {
@@ -190,18 +191,8 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "Concept Name 1"
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": "Concept Name 3"
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -226,7 +217,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment time at risk",
+          "description": "TAR 1",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -238,6 +229,15 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
+          "description": "Unadjusted (crude) estimate",
+          "matchOnPsArgs": {
+            "maxRatio": 0,
+            "caliper": 0,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
           "description": "Sentinel PS replication",
           "matchOnPsArgs": {
             "maxRatio": 1,
@@ -247,7 +247,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "adapted PS strategy",
+          "description": "Adapted PS strategy",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

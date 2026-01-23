@@ -1,20 +1,20 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-24T06:28:22.813Z",
+  "createdAt": "2026-01-23T00:07:47.326Z",
   "metrics": {
-    "jaccard": 0.9047619047619048,
-    "recall": 0.95,
-    "precision": 0.95
+    "jaccard": 0.7619047619047619,
+    "recall": 0.8,
+    "precision": 0.9411764705882353
   },
   "counts": {
     "gold": 20,
-    "pred": 20,
-    "intersection": 19,
+    "pred": 17,
+    "intersection": 16,
     "union": 21,
-    "both": 19,
+    "both": 16,
     "predOnly": 1,
-    "goldOnly": 1
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
@@ -30,9 +30,6 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=10}",
@@ -42,12 +39,15 @@
       "removeSubjectsWithPriorOutcome=true"
     ],
     "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false"
+      "removeSubjectsWithPriorOutcome=false",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=29|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -61,13 +61,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 6,
+      "bothCount": 3,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 3,
       "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -215,11 +215,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Ticagrelor users post-PCI for ACS"
+        "name": "Ticagrelor Users Post-PCI for ACS"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Clopidogrel users post-PCI for ACS"
+        "name": "Clopidogrel Users Post-PCI for ACS"
       },
       "outcomeCohort": [
         {
@@ -232,7 +232,7 @@
         },
         {
           "id": null,
-          "name": "All-cause Mortality"
+          "name": "All-Cause Mortality"
         },
         {
           "id": null,
@@ -268,7 +268,7 @@
         },
         {
           "id": null,
-          "name": "Cardiovascular-related Mortality"
+          "name": "Cardiovascular-Related Mortality"
         },
         {
           "id": null,
@@ -278,7 +278,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Falsification Endpoints (96 unrelated conditions)"
+      "name": "Falsification Endpoints (Chalazion, Pneumothorax, etc.)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -298,7 +298,7 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "remove all",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -307,7 +307,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Intent-to-treat (1 year)",
+          "description": "Primary Analysis - 1 Year Intent-to-Treat",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -315,15 +315,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "On-treatment period",
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "5-year follow-up",
+          "description": "Sensitivity Analysis - 5 Year Follow-up",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -331,27 +323,11 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intent-to-treat with 28-day blanking period",
-          "riskWindowStart": 29,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 365,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "On-treatment with 28-day blanking period",
-          "riskWindowStart": 29,
+          "description": "Sensitivity Analysis - On-Treatment Period",
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "5-year follow-up with 28-day blanking period",
-          "riskWindowStart": 29,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 1825,
-          "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
       ]
@@ -359,7 +335,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: One-to-one matching",
+          "description": "Primary Analysis - One-to-One Propensity Score Matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -368,7 +344,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: Variable-ratio matching (max ratio 10)",
+          "description": "Sensitivity Analysis - Variable-Ratio Propensity Score Matching",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -377,7 +353,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 3: Stratification by deciles",
+          "description": "Sensitivity Analysis - Propensity Score Stratification",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

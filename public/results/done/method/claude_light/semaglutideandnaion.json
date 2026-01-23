@@ -1,19 +1,19 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-28T02:32:25.717Z",
+  "createdAt": "2026-01-23T01:40:43.276Z",
   "metrics": {
-    "jaccard": 0.75,
+    "jaccard": 0.6,
     "recall": 0.75,
-    "precision": 1
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
+    "pred": 4,
     "intersection": 3,
-    "union": 4,
+    "union": 5,
     "both": 3,
-    "predOnly": 0,
+    "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
@@ -22,14 +22,16 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
-    "predJsonOnly": [],
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
+    ],
     "goldJsonOnly": [
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
@@ -44,12 +46,12 @@
     },
     "timeAtRisks": {
       "bothCount": 1,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 0,
-      "precision": 1,
+      "precision": 0.5,
       "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -146,15 +148,15 @@
     }
   },
   "predJson": {
-    "name": "NAION Risk with Semaglutide vs Comparator Medications in Type 2 Diabetes",
+    "name": "NAION Risk with Semaglutide: Active-Comparator New-User Cohort Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide New Users with Type 2 Diabetes"
+        "name": "Semaglutide New Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Other GLP-1RA and Non-GLP-1RA Users"
+        "name": "GLP-1RA and Non-GLP-1RA Comparators"
       },
       "outcomeCohort": [
         {
@@ -173,7 +175,16 @@
     },
     "covariateSelection": {
       "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Traumatic Optic Neuropathy"
+        },
+        {
+          "id": null,
+          "name": "Giant Cell Arteritis"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -185,19 +196,27 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR - from drug initiation to end of continuous exposure (30-day gap)",
+          "description": "On-Treatment TAR - Primary Analysis",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "TAR with 30-Day Gap Definition",
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 30,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -206,7 +225,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1:1 Matching",
+          "description": "PS 1:1 Matching - Primary Analysis",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

@@ -1,48 +1,54 @@
 {
   "name": "CEEAMOS",
   "fileName": "ceeamos.json",
-  "createdAt": "2025-11-28T02:32:25.709Z",
+  "createdAt": "2026-01-23T01:40:43.269Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
-    "gold": 3,
-    "pred": 3,
-    "intersection": 2,
+    "gold": 4,
+    "pred": 4,
+    "intersection": 4,
     "union": 4,
-    "both": 2,
-    "predOnly": 1,
-    "goldOnly": 1
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
-    "timeAtRisks": false,
+    "studyPeriods": true,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
-    "timeAtRisks": {
+    "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -139,34 +145,59 @@
     }
   },
   "predJson": {
-    "name": "ACE Inhibitors vs ARBs and Thiazide Diuretics: Schizophrenia Risk",
+    "name": "Antihypertensive Drugs and Schizophrenia Risk - CEEAMOS Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of ACE inhibitors"
+        "name": "ACE Inhibitor New Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of ARBs and thiazide diuretics"
+        "name": "ARB New Users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Schizophrenia diagnosis (primary outcome)"
+          "name": "Schizophrenia Diagnosis (Restricted Definition)"
         },
         {
           "id": null,
-          "name": "Schizophrenia at emergency department (secondary outcome)"
+          "name": "Schizophrenia at Emergency Department"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "26 Falsification endpoints (ingrowing nails, fractures of upper limb, etc.)"
+      "name": "Falsification Endpoints (26 outcomes)"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Hypertension Treatment History"
+        },
+        {
+          "id": null,
+          "name": "Schizophrenia Diagnosis"
+        },
+        {
+          "id": null,
+          "name": "Heart Failure Diagnosis"
+        },
+        {
+          "id": null,
+          "name": "Non-Thiazide Diuretics"
+        },
+        {
+          "id": null,
+          "name": "Beta Blockers"
+        },
+        {
+          "id": null,
+          "name": "Calcium Channel Blockers"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -187,15 +218,15 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment (as-treated approach)",
+          "description": "As-Treated (AT) Approach",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat approach",
+          "description": "Intention-to-Treat (ITT) Approach",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -207,7 +238,16 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable-ratio PS matching",
+          "description": "PS Matching - ACE Inhibitor vs ARB",
+          "matchOnPsArgs": {
+            "maxRatio": 10,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "PS Matching - ACE Inhibitor vs Thiazide Diuretics",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

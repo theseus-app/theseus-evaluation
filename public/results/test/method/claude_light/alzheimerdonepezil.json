@@ -1,7 +1,7 @@
 {
   "name": "AlzheimerDonepezil",
   "fileName": "alzheimerdonepezil.json",
-  "createdAt": "2026-01-08T08:19:13.807Z",
+  "createdAt": "2026-01-23T02:03:55.292Z",
   "metrics": {
     "jaccard": 0.7857142857142857,
     "recall": 0.9166666666666666,
@@ -200,8 +200,8 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "firstExposureOnly": true,
+      "washoutPeriod": 90,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -211,7 +211,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment 24 weeks follow-up",
+          "description": "On-treatment follow-up (24 weeks)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 168,
@@ -223,7 +223,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 Propensity Score Matching",
+          "description": "PS Matching 1:1",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -232,7 +232,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "1:3 Propensity Score Matching",
+          "description": "PS Matching 1:3",
           "matchOnPsArgs": {
             "maxRatio": 3,
             "caliper": 0.2,
@@ -261,7 +261,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "logistic",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

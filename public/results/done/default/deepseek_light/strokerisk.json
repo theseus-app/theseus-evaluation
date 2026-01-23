@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T01:40:42.320Z",
+  "createdAt": "2026-01-23T01:40:17.657Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -209,12 +209,12 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR",
+          "description": "TAR 1",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -226,12 +226,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted (crude)",
+          "description": "PS Settings 1",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication",
+          "description": "PS Settings 2",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
@@ -240,7 +240,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Large-scale regularized regression",
+          "description": "PS Settings 3",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -269,7 +269,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

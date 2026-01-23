@@ -1,36 +1,35 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2025-11-28T02:32:03.279Z",
+  "createdAt": "2026-01-23T01:40:38.482Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.75,
+    "jaccard": 1,
+    "recall": 1,
     "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
-    "intersection": 3,
+    "pred": 4,
+    "intersection": 4,
     "union": 4,
-    "both": 3,
+    "both": 4,
     "predOnly": 0,
-    "goldOnly": 1
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20200530|studyStartDate=20200201}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
-    ]
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -52,13 +51,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -146,42 +145,42 @@
     }
   },
   "predJson": {
-    "name": "Famotidine vs PPI among hospitalized COVID-19 patients (PHD 2020)",
+    "name": "COVID-19 Estimation Famotidine (Premier Hospital Database) - Prevalent-user comparative cohort",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Famotidine users on day of admission"
+        "name": "Famotidine users on day of admission among hospitalized COVID-19 patients"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Proton pump inhibitor (PPI) users on day of admission"
+        "name": "Active comparator users on day of admission among hospitalized COVID-19 patients (PPI or hydroxychloroquine; run separately)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "In-hospital death"
+          "name": "Death during hospitalization"
         },
         {
           "id": null,
-          "name": "In-hospital death or intensive services"
+          "name": "Death or intensive services (mechanical ventilation, tracheostomy, or ECMO) during hospitalization"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative control outcomes concept set (not specified)"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": ""
+          "name": "All observed baseline covariates (demographics incl. gender/age/index month; all conditions in prior 30 days or on admission; exclude features <0.1% prevalence during PS fitting)"
         }
       ],
       "conceptsToExclude": [
         {
           "id": null,
-          "name": ""
+          "name": "Concept Name 3"
         }
       ]
     },
@@ -200,11 +199,11 @@
     },
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary ITT: 1–30 days after hospital admission",
+          "description": "ITT: start day 1 after admission, end at 30 days after admission (or earlier outcome/LTFU handled by data)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
@@ -222,6 +221,15 @@
             "numberOfStrata": 5,
             "baseSelection": "all"
           }
+        },
+        {
+          "description": "Sensitivity: 1:1 PS matching",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
         }
       ],
       "createPsArgs": {

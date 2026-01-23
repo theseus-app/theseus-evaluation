@@ -1,7 +1,7 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-01-08T08:24:52.287Z",
+  "createdAt": "2026-01-23T02:19:31.654Z",
   "metrics": {
     "jaccard": 0.8,
     "recall": 1,
@@ -32,9 +32,9 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=3|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=2|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=4|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=4|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=30|startAnchor=cohort start}"
     ],
     "goldJsonOnly": []
   },
@@ -150,60 +150,64 @@
     }
   },
   "predJson": {
-    "name": "MARS Cohort: Low-dose Erythromycin in Sepsis",
+    "name": "Erythromycin for Sepsis in ICU - MARS Cohort Emulation",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Sepsis patients receiving low-dose erythromycin (within 72h)"
+        "name": "Sepsis patients receiving low-dose erythromycin"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Sepsis patients not receiving erythromycin (within 72h)"
+        "name": "Sepsis patients not receiving low-dose erythromycin"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Mortality"
+          "name": "90-day mortality"
+        },
+        {
+          "id": null,
+          "name": "30-day mortality"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": null
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Age"
+          "name": "age"
         },
         {
           "id": null,
-          "name": "Sex"
+          "name": "sex"
         },
         {
           "id": null,
-          "name": "Body Mass Index"
+          "name": "body mass index"
         },
         {
           "id": null,
-          "name": "Hospital of admission"
+          "name": "hospital of admission"
         },
         {
           "id": null,
-          "name": "Postsurgical admission"
+          "name": "postsurgical admission"
         },
         {
           "id": null,
-          "name": "Source of infection"
+          "name": "source of infection"
         },
         {
           "id": null,
-          "name": "Charlson comorbidity index"
+          "name": "Charlson comorbidity index score"
         },
         {
           "id": null,
-          "name": "Malignancy"
+          "name": "any malignancy"
         },
         {
           "id": null,
@@ -219,7 +223,7 @@
         },
         {
           "id": null,
-          "name": "Septic shock"
+          "name": "septic shock"
         },
         {
           "id": null,
@@ -227,11 +231,11 @@
         },
         {
           "id": null,
-          "name": "Acute Kidney Injury"
+          "name": "AKI"
         },
         {
           "id": null,
-          "name": "Mechanical ventilation"
+          "name": "use of mechanical ventilation"
         }
       ],
       "conceptsToExclude": []
@@ -255,7 +259,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary Analysis: 90-day mortality (starts after 72h exposure)",
+          "description": "Primary TAR: 90-day follow-up after 72h exposure",
           "riskWindowStart": 3,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -263,15 +267,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Secondary Analysis: 30-day mortality (starts after 72h exposure)",
-          "riskWindowStart": 3,
-          "startAnchor": "cohort start",
-          "riskWindowEnd": 30,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        },
-        {
-          "description": "Sensitivity Analysis: Exposure period 48h",
+          "description": "Sensitivity TAR: 90-day follow-up after 48h exposure",
           "riskWindowStart": 2,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -279,8 +275,16 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity Analysis: Exposure period 96h",
+          "description": "Sensitivity TAR: 90-day follow-up after 96h exposure",
           "riskWindowStart": 4,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Secondary TAR: 30 to 90 days",
+          "riskWindowStart": 30,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start",
@@ -291,7 +295,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "1:1 Greedy Matching",
+          "description": "PS Matching 1:1",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -320,7 +324,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {

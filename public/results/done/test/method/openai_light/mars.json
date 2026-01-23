@@ -1,0 +1,343 @@
+{
+  "name": "MARS",
+  "fileName": "mars.json",
+  "createdAt": "2026-01-23T02:32:51.201Z",
+  "metrics": {
+    "jaccard": 0.42857142857142855,
+    "recall": 1,
+    "precision": 0.42857142857142855
+  },
+  "counts": {
+    "gold": 3,
+    "pred": 7,
+    "intersection": 3,
+    "union": 7,
+    "both": 3,
+    "predOnly": 4,
+    "goldOnly": 0
+  },
+  "details": {
+    "bothJson": [
+      "studyPeriods:{studyEndDate=20131231|studyStartDate=20110101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+    ],
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=3|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=2|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=4|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
+    ],
+    "goldJsonOnly": []
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": false
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 3,
+      "goldOnlyCount": 0,
+      "precision": 0.25,
+      "recall": 1,
+      "f1": 0.4,
+      "accuracy": 0.25
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 0,
+      "precision": 0.5,
+      "recall": 1,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20110101",
+          "studyEndDate": "20131231"
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 3,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": false,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Low-dose erythromycin in sepsis: population-level estimation study",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "Sepsis patients receiving low-dose erythromycin within 72h of ICU admission"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Sepsis patients not receiving erythromycin, azithromycin, or clarithromycin within 72h of ICU admission"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "90-day mortality"
+        },
+        {
+          "id": null,
+          "name": "30-day mortality"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative Control Concept Set Name"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Age"
+        },
+        {
+          "id": null,
+          "name": "Sex"
+        },
+        {
+          "id": null,
+          "name": "Body mass index"
+        },
+        {
+          "id": null,
+          "name": "Hospital of admission"
+        },
+        {
+          "id": null,
+          "name": "Postsurgical admission"
+        },
+        {
+          "id": null,
+          "name": "Source of infection"
+        },
+        {
+          "id": null,
+          "name": "Charlson comorbidity index (without age)"
+        },
+        {
+          "id": null,
+          "name": "Any malignancy"
+        },
+        {
+          "id": null,
+          "name": "APACHE IV score"
+        },
+        {
+          "id": null,
+          "name": "mSOFA score"
+        },
+        {
+          "id": null,
+          "name": "Gastrointestinal Failure score"
+        },
+        {
+          "id": null,
+          "name": "Septic shock"
+        },
+        {
+          "id": null,
+          "name": "ARDS"
+        },
+        {
+          "id": null,
+          "name": "AKI"
+        },
+        {
+          "id": null,
+          "name": "Use of mechanical ventilation"
+        }
+      ],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20110101",
+          "studyEndDate": "20131231"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "Primary analysis: 90-day follow-up after 72h exposure period",
+          "riskWindowStart": 3,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Secondary analysis: 30-day follow-up after 72h exposure period",
+          "riskWindowStart": 3,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 30,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity analysis: 90-day follow-up after 48h exposure period",
+          "riskWindowStart": 2,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "Sensitivity analysis: 90-day follow-up after 96h exposure period",
+          "riskWindowStart": 4,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "PS matching (ATT): 1:1 greedy matching, caliper 0.2 SD logit",
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "IPTW (ATE): weights capped at 10",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": false,
+      "useCovariates": false,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "error": null
+}

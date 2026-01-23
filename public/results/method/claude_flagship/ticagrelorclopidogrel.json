@@ -1,19 +1,19 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2025-11-24T06:27:39.324Z",
+  "createdAt": "2026-01-23T00:09:27.820Z",
   "metrics": {
-    "jaccard": 0.7619047619047619,
+    "jaccard": 0.7272727272727273,
     "recall": 0.8,
-    "precision": 0.9411764705882353
+    "precision": 0.8888888888888888
   },
   "counts": {
     "gold": 20,
-    "pred": 17,
+    "pred": 18,
     "intersection": 16,
-    "union": 21,
+    "union": 22,
     "both": 16,
-    "predOnly": 1,
+    "predOnly": 2,
     "goldOnly": 4
   },
   "details": {
@@ -36,7 +36,8 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=28|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "removeSubjectsWithPriorOutcome=false",
@@ -62,12 +63,12 @@
     },
     "timeAtRisks": {
       "bothCount": 3,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 3,
-      "precision": 1,
+      "precision": 0.75,
       "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 0.6,
+      "accuracy": 0.42857142857142855
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -211,20 +212,20 @@
     }
   },
   "predJson": {
-    "name": "Ticagrelor vs Clopidogrel in ACS Patients Post-PCI",
+    "name": "Ticagrelor vs Clopidogrel in ACS Patients Undergoing PCI",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adult ACS patients who underwent PCI and received ticagrelor within 7 days before index date"
+        "name": "Adult ACS patients undergoing first-time PCI with ticagrelor prescription within 7 days before index"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adult ACS patients who underwent PCI and received clopidogrel within 7 days before index date"
+        "name": "Adult ACS patients undergoing first-time PCI with clopidogrel prescription within 7 days before index"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Net adverse clinical events (NACE): recurrent AMI, revascularization, ischemic stroke, hemorrhagic stroke, or gastrointestinal bleeding"
+          "name": "Net Adverse Clinical Events (NACE) - Recurrent AMI, revascularization, ischemic stroke, hemorrhagic stroke, or GI bleeding"
         },
         {
           "id": null,
@@ -236,11 +237,11 @@
         },
         {
           "id": null,
-          "name": "Composite ischemic events: recurrent AMI, revascularization, or ischemic stroke"
+          "name": "Composite ischemic events (recurrent AMI, revascularization, or ischemic stroke)"
         },
         {
           "id": null,
-          "name": "Composite hemorrhagic events: hemorrhagic stroke or gastrointestinal bleeding"
+          "name": "Composite hemorrhagic events (hemorrhagic stroke or GI bleeding)"
         },
         {
           "id": null,
@@ -272,17 +273,27 @@
         },
         {
           "id": null,
-          "name": "Major adverse cardiovascular events (MACE): cardiovascular mortality, recurrent AMI, and stroke"
+          "name": "Major adverse cardiovascular events (MACE)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "96 falsification endpoints using data-rich algorithm (e.g., chalazion, pneumothorax)"
+      "name": "96 Falsification Endpoints (e.g., chalazion, pneumothorax)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -307,7 +318,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-year fixed duration (intent-to-treat)",
+          "description": "1-year follow-up (primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -315,7 +326,15 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "5-year fixed duration",
+          "description": "1-year follow-up with 28-day blanking period",
+          "riskWindowStart": 28,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "5-year follow-up",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
@@ -335,7 +354,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "One-to-one matching",
+          "description": "One-to-one propensity score matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -344,7 +363,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Variable-ratio matching (max ratio 10)",
+          "description": "Variable-ratio propensity score matching (max 10)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -353,7 +372,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Stratification using deciles",
+          "description": "Propensity score stratification (deciles)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 10,

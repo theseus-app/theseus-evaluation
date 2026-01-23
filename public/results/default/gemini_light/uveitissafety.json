@@ -1,20 +1,20 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-27T00:09:45.546Z",
+  "createdAt": "2026-01-22T23:50:39.489Z",
   "metrics": {
-    "jaccard": 0.8666666666666667,
-    "recall": 0.9285714285714286,
-    "precision": 0.9285714285714286
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 14,
     "pred": 14,
-    "intersection": 13,
-    "union": 15,
-    "both": 13,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 14,
+    "union": 14,
+    "both": 14,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -30,19 +30,16 @@
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -64,13 +61,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -220,7 +217,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "on-treatment",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -228,7 +225,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2",
+          "description": "ITT",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -240,7 +237,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS Settings 1",
+          "description": "Primary PS adjustment strategy",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -249,10 +246,10 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS Settings 2",
+          "description": "Secondary PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
-            "caliper": 0,
+            "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null

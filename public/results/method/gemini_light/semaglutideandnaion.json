@@ -1,19 +1,19 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2025-11-24T06:27:42.109Z",
+  "createdAt": "2026-01-23T00:10:13.892Z",
   "metrics": {
-    "jaccard": 0.6470588235294118,
+    "jaccard": 0.7857142857142857,
     "recall": 0.8461538461538461,
-    "precision": 0.7333333333333333
+    "precision": 0.9166666666666666
   },
   "counts": {
     "gold": 13,
-    "pred": 15,
+    "pred": 12,
     "intersection": 11,
-    "union": 17,
+    "union": 14,
     "both": 11,
-    "predOnly": 4,
+    "predOnly": 1,
     "goldOnly": 2
   },
   "details": {
@@ -31,10 +31,7 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "censorAtNewRiskWindow=false",
-      "studyPeriods:{studyEndDate=20200131|studyStartDate=20171201}",
-      "studyPeriods:{studyEndDate=20210630|studyStartDate=20200201}",
-      "studyPeriods:{studyEndDate=20231231|studyStartDate=20210701}"
+      "censorAtNewRiskWindow=false"
     ],
     "goldJsonOnly": [
       "censorAtNewRiskWindow=true",
@@ -42,19 +39,19 @@
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
       "bothCount": 1,
-      "predOnlyCount": 3,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.25,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -160,24 +157,24 @@
     }
   },
   "predJson": {
-    "name": "NAION risk with Semaglutide vs other GLP-1RA and non-GLP-1RA",
+    "name": "NAION Risk with Semaglutide vs. Other GLP-1RAs and non-GLP-1RAs",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide users with T2D"
+        "name": "Semaglutide New Users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Other GLP-1RA (dulaglutide, exenatide) and non-GLP-1RA (empagliflozin, sitagliptin, glipizide) users with T2D"
+        "name": "Other GLP-1RA and non-GLP-1RA New Users"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION (sensitive definition)"
+          "name": "NAION (Sensitive Definition)"
         },
         {
           "id": null,
-          "name": "NAION (specific definition)"
+          "name": "NAION (Specific Definition)"
         }
       ]
     },
@@ -194,24 +191,12 @@
         {
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
-        },
-        {
-          "studyStartDate": "20171201",
-          "studyEndDate": "20200131"
-        },
-        {
-          "studyStartDate": "20200201",
-          "studyEndDate": "20210630"
-        },
-        {
-          "studyStartDate": "20210701",
-          "studyEndDate": "20231231"
         }
       ],
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "remove all",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -220,7 +205,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Medication initiation until end of continuous exposure",
+          "description": "Time-at-risk from medication initiation until end of continuous drug exposure",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,

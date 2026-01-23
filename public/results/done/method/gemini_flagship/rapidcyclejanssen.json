@@ -1,20 +1,20 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-28T02:32:13.799Z",
+  "createdAt": "2026-01-23T01:40:39.171Z",
   "metrics": {
-    "jaccard": 0.8571428571428571,
-    "recall": 0.8571428571428571,
+    "jaccard": 1,
+    "recall": 1,
     "precision": 1
   },
   "counts": {
     "gold": 7,
-    "pred": 6,
-    "intersection": 6,
+    "pred": 7,
+    "intersection": 7,
     "union": 7,
-    "both": 6,
+    "both": 7,
     "predOnly": 0,
-    "goldOnly": 1
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -23,16 +23,15 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=28|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=0|startAnchor=cohort start}"
-    ]
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
@@ -46,13 +45,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 4,
+      "bothCount": 5,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.8,
-      "f1": 0.888888888888889,
-      "accuracy": 0.8
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -170,20 +169,20 @@
     }
   },
   "predJson": {
-    "name": "Janssen Ad26.COV2S COVID-19 Vaccine Safety Monitoring",
+    "name": "COVID-19 Vaccine Safety Monitoring",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Janssen Ad26.COV2·S"
+        "name": "Janssen Ad26.COV2·S (1st dose)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Moderna mRNA-1273"
+        "name": "Moderna mRNA-1273 (1st dose)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Guillain-Barré syndrome"
+          "name": "Guillain-Barré syndrome (GBS)"
         }
       ]
     },
@@ -214,7 +213,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-14 days post-vaccination",
+          "description": "1-14 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 14,
@@ -222,7 +221,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-28 days post-vaccination",
+          "description": "1-28 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 28,
@@ -230,7 +229,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-42 days post-vaccination",
+          "description": "1-42 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 42,
@@ -238,10 +237,18 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-90 days post-vaccination",
+          "description": "1-90 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        },
+        {
+          "description": "0-2 days (Anaphylaxis)",
+          "riskWindowStart": 0,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 2,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -250,9 +257,9 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable Ratio Matching on PS",
+          "description": "Variable Ratio Matching",
           "matchOnPsArgs": {
-            "maxRatio": 0,
+            "maxRatio": 100,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

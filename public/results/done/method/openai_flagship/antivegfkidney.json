@@ -1,23 +1,24 @@
 {
   "name": "AntiVEGFKidney",
   "fileName": "antivegfkidney.json",
-  "createdAt": "2025-11-28T02:32:03.276Z",
+  "createdAt": "2026-01-23T01:40:38.480Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
     "precision": 1
   },
   "counts": {
-    "gold": 3,
-    "pred": 3,
-    "intersection": 3,
-    "union": 3,
-    "both": 3,
+    "gold": 4,
+    "pred": 4,
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
     "predOnly": 0,
     "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
@@ -26,12 +27,20 @@
     "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": null,
+    "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true
   },
   "sectionCounts": {
-    "studyPeriods": null,
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
     "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 0,
@@ -136,40 +145,30 @@
     }
   },
   "predJson": {
-    "name": "Intravitreal anti-VEGF and risk of kidney failure (OMOP CDM PLE)",
+    "name": "Anti-VEGF intravitreal injections and kidney failure (on-treatment + ITT sensitivity)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Aflibercept new users (>=3 monthly injections; 365-day washout)"
+        "name": "Intravitreal anti-VEGF new users (monthly; ranibizumab/aflibercept/bevacizumab; >=3 months; adults; >=365d prior observation; blinding disease)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Ranibizumab new users (>=3 monthly injections; 365-day washout)"
+        "name": "Active comparator intravitreal anti-VEGF new users (ranibizumab vs aflibercept vs bevacizumab comparisons)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Kidney failure (ESKD) - administrative code-only phenotype"
+          "name": "Kidney failure / end-stage kidney disease (administrative code-only phenotype used in primary analysis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -181,25 +180,25 @@
       "restrictToCommonPeriod": false,
       "firstExposureOnly": true,
       "washoutPeriod": 365,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": true,
+      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment: risk starts after 3rd injection (index) and ends at end of continuous exposure",
-          "riskWindowStart": 1,
+          "description": "On-treatment TAR (primary): from after 3rd injection until end of continuous exposure (gap >180d defines end)",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity ITT: follow-up from index regardless of treatment continuation or switching",
-          "riskWindowStart": 1,
+          "description": "Intent-to-treat TAR (sensitivity): from cohort entry through end of observation (no censoring at treatment end/switch)",
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start",
@@ -210,7 +209,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1:1 matching with caliper on standardized logit",
+          "description": "1:1 propensity score matching (large-scale PS with L1 regularization)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

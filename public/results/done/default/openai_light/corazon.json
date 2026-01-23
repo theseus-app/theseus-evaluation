@@ -1,45 +1,59 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2025-11-28T01:40:22.660Z",
+  "createdAt": "2026-01-23T01:39:35.411Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.5,
-    "precision": 0.5
+    "jaccard": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
-    "pred": 6,
-    "intersection": 3,
-    "union": 9,
-    "both": 3,
-    "predOnly": 3,
-    "goldOnly": 3
+    "pred": 4,
+    "intersection": 4,
+    "union": 6,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20100101}",
-      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=all|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=5}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+    ],
+    "predJsonOnly": [],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": 1,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": 1,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
+    },
+    "propensityScoreAdjustment": {
       "bothCount": 2,
       "predOnlyCount": 0,
       "goldOnlyCount": 0,
@@ -47,24 +61,6 @@
       "recall": 1,
       "f1": 1,
       "accuracy": 1
-    },
-    "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
-    },
-    "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
     }
   },
   "goldJson": {
@@ -203,10 +199,6 @@
         {
           "studyStartDate": "20100101",
           "studyEndDate": "20191231"
-        },
-        {
-          "studyStartDate": "20120101",
-          "studyEndDate": "20191231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -221,7 +213,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: On-treatment (censor at discontinuation/switch/death/end of study)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -229,10 +221,10 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "TAR 2",
+          "description": "TAR 2: Intention-to-treat (do not censor at discontinuation/switch)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
@@ -241,21 +233,17 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1",
-          "matchOnPsArgs": {
-            "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
+          "description": "PS 1: Stratification (5 strata, ATE)",
+          "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
             "baseSelection": "all"
           }
         },
         {
-          "description": "PS 2",
+          "description": "PS 2: Variable-ratio matching (ATT)",
           "matchOnPsArgs": {
-            "maxRatio": 3,
+            "maxRatio": 0,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },

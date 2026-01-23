@@ -1,20 +1,20 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2025-11-27T00:11:14.057Z",
+  "createdAt": "2026-01-22T23:51:30.581Z",
   "metrics": {
-    "jaccard": 0.8571428571428571,
-    "recall": 0.9230769230769231,
-    "precision": 0.9230769230769231
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 13,
     "pred": 13,
-    "intersection": 12,
-    "union": 14,
-    "both": 12,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 13,
+    "union": 13,
+    "both": 13,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -24,6 +24,7 @@
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
       "censorAtNewRiskWindow=false",
+      "removeSubjectsWithPriorOutcome=false",
       "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20200530|studyStartDate=20200201}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}",
@@ -31,12 +32,8 @@
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
-    "predJsonOnly": [
-      "removeSubjectsWithPriorOutcome=true"
-    ],
-    "goldJsonOnly": [
-      "removeSubjectsWithPriorOutcome=false"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
@@ -207,7 +204,7 @@
     },
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": false,
-      "removeSubjectsWithPriorOutcome": true,
+      "removeSubjectsWithPriorOutcome": false,
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
@@ -263,8 +260,19 @@
       "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

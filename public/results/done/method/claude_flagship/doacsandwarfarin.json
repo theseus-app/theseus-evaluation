@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2025-11-28T02:32:21.517Z",
+  "createdAt": "2026-01-23T01:40:42.924Z",
   "metrics": {
     "jaccard": 0.8333333333333334,
     "recall": 0.8333333333333334,
@@ -163,11 +163,11 @@
     }
   },
   "predJson": {
-    "name": "DOACs vs Warfarin and Severe Uterine Bleeding Study",
+    "name": "DOACs vs Warfarin Severe Uterine Bleeding Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DOAC new users (rivaroxaban, apixaban, or dabigatran)"
+        "name": "DOACs (rivaroxaban, apixaban, dabigatran) new users"
       },
       "comparatorCohort": {
         "id": null,
@@ -176,42 +176,27 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Severe uterine bleeding (vaginal bleeding with blood transfusion or surgical management)"
+          "name": "Severe uterine bleeding (vaginal bleeding with blood transfusion same day or surgical management within 60 days)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "127 negative control outcomes"
+      "name": "127 Negative Control Outcomes"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "Demographics"
-        },
-        {
-          "id": null,
-          "name": "Prior conditions (cardiovascular comorbidities, polyp of cervix, endometriosis, other cancers, pregnancy)"
-        },
-        {
-          "id": null,
-          "name": "Medication use (hormonal therapy drugs)"
-        },
-        {
-          "id": null,
-          "name": "Procedures"
-        },
-        {
-          "id": null,
-          "name": "Charlson Comorbidity Index"
-        },
-        {
-          "id": null,
-          "name": "CHA2DS2-VASc stroke risk index"
+          "name": "Concept Name 1"
         }
       ],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -223,7 +208,7 @@
       "restrictToCommonPeriod": true,
       "firstExposureOnly": true,
       "washoutPeriod": 183,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "remove all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -232,7 +217,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary on-treatment (DOACs: 3-day gap + 5 days; Warfarin: 7-day gap + 5 days)",
+          "description": "Primary on-treatment (short gap: 3-day for DOACs, 7-day for warfarin, +5 days)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -240,7 +225,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 1: on-treatment (30-day gap, no days appended)",
+          "description": "Sensitivity 1: On-treatment (30-day gap, no days appended)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -248,7 +233,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "Sensitivity analysis 2: intent-to-treat (no treatment discontinuation)",
+          "description": "Sensitivity 2: Intent-to-treat (until end of observation)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -260,7 +245,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary PS: 1:1 matching",
+          "description": "Primary: 1:1 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -269,7 +254,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity PS: 1:100 variable ratio matching",
+          "description": "Sensitivity: Variable ratio 1:100 PS matching",
           "matchOnPsArgs": {
             "maxRatio": 100,
             "caliper": 0.2,

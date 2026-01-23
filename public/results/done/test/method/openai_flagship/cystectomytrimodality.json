@@ -1,0 +1,343 @@
+{
+  "name": "CystectomyTrimodality",
+  "fileName": "cystectomytrimodality.json",
+  "createdAt": "2026-01-23T02:32:50.411Z",
+  "metrics": {
+    "jaccard": 0.1111111111111111,
+    "recall": 0.16666666666666666,
+    "precision": 0.25
+  },
+  "counts": {
+    "gold": 6,
+    "pred": 4,
+    "intersection": 1,
+    "union": 9,
+    "both": 1,
+    "predOnly": 3,
+    "goldOnly": 5
+  },
+  "details": {
+    "bothJson": [
+      "studyPeriods:{studyEndDate=20171231|studyStartDate=20050101}"
+    ],
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": false
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 0,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 4,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20050101",
+          "studyEndDate": "20171231"
+        }
+      ],
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 3,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 2,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 4,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": true,
+      "useCovariates": true,
+      "inversePtWeighting": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Radical cystectomy vs trimodality therapy in localized muscle-invasive bladder cancer (retrospective; PS matched and IPTW)",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "Trimodality therapy (TURBT + concurrent radiosensitizing chemoradiation) in cT2–T4N0M0 MIBC"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Radical cystectomy in cT2–T4N0M0 MIBC"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Metastasis-free survival event (distant metastasis or regional pelvic/nodal failure)"
+        },
+        {
+          "id": null,
+          "name": "Overall survival (all-cause mortality)"
+        },
+        {
+          "id": null,
+          "name": "Cancer-specific survival (bladder cancer death)"
+        },
+        {
+          "id": null,
+          "name": "Distant metastatic failure-free survival (recurrence outside pelvis)"
+        },
+        {
+          "id": null,
+          "name": "Regional failure-free survival (pelvic nodal recurrence)"
+        },
+        {
+          "id": null,
+          "name": "Disease-free survival (regional/distant failure or cancer-specific mortality)"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative Control Concept Set Name"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Age"
+        },
+        {
+          "id": null,
+          "name": "Sex"
+        },
+        {
+          "id": null,
+          "name": "Carcinoma in situ"
+        },
+        {
+          "id": null,
+          "name": "Clinical T stage (cT2 vs cT3/cT4)"
+        },
+        {
+          "id": null,
+          "name": "ECOG performance status"
+        },
+        {
+          "id": null,
+          "name": "BMI category (<30 vs >=30 kg/m^2)"
+        },
+        {
+          "id": null,
+          "name": "Hydronephrosis (none vs unilateral)"
+        },
+        {
+          "id": null,
+          "name": "Peri-treatment chemotherapy (neoadjuvant or adjuvant)"
+        },
+        {
+          "id": null,
+          "name": "Smoking history (never vs current/former)"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "studyStartDate": "20050101",
+          "studyEndDate": "20171231"
+        }
+      ],
+      "restrictToCommonPeriod": false,
+      "firstExposureOnly": false,
+      "washoutPeriod": 0,
+      "removeDuplicateSubjects": "keep all",
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "censorAtNewRiskWindow": false,
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookBack": 99999,
+      "timeAtRisks": [
+        {
+          "description": "Intention-to-treat (from index/diagnosis to end of follow-up)",
+          "riskWindowStart": 0,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
+          "minDaysAtRisk": 1
+        }
+      ]
+    },
+    "propensityScoreAdjustment": {
+      "psSettings": [
+        {
+          "description": "PSM 3:1 nearest-neighbor with replacement; caliper 0.25 SD of logit(PS)",
+          "matchOnPsArgs": {
+            "maxRatio": 3,
+            "caliper": 0.25,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "IPTW using stabilized weights",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        }
+      ],
+      "createPsArgs": {
+        "maxCohortSizeForFitting": 250000,
+        "errorOnHighCorrelation": true,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "silent",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "modelType": "cox",
+      "stratified": false,
+      "useCovariates": true,
+      "inversePtWeighting": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "error": null
+}

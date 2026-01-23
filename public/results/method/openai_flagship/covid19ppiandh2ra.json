@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2025-11-28T02:08:11.456Z",
+  "createdAt": "2026-01-22T23:55:01.831Z",
   "metrics": {
     "jaccard": 0.75,
     "recall": 0.8571428571428571,
@@ -163,15 +163,15 @@
     }
   },
   "predJson": {
-    "name": "HIRA Korea: Acid-suppressants and risk of COVID-19 and complications (OMOP CDM v5)",
+    "name": "Acid-suppressant use and COVID-19 outcomes (HIRA OMOP-CDM v5, South Korea)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "PPI users (>=7 days; continuous exposure with <=30-day gaps; rabeprazole/pantoprazole/omeprazole/lansoprazole/ilaprazole/esomeprazole/dexlansoprazole)"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "H2RA users (>=7 days; continuous exposure with <=30-day gaps; ranitidine/nizatidine/lafutidine/famotidine/cimetidine)"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
@@ -184,21 +184,31 @@
         },
         {
           "id": null,
-          "name": "Hospitalization with pneumonia OR ARDS OR sepsis OR acute kidney injury"
+          "name": "Hospitalization with pneumonia/ARDS/sepsis/AKI"
         },
         {
           "id": null,
-          "name": "Intensive respiratory intervention (mechanical ventilation OR ECMO OR tracheostomy)"
+          "name": "Intensive respiratory interventions (mechanical ventilation/ECMO/tracheostomy)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "123 negative control outcomes (not affected by acid-suppressant use)"
+      "name": "Negative control outcomes (123 outcomes)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -219,7 +229,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment: 1 day after index until exposure end",
+          "description": "On-treatment (start day after index; end at cohort end)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -231,7 +241,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted (no PS)",
+          "description": "PS unadjusted",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },

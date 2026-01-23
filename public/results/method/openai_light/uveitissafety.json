@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2025-11-24T06:39:18.686Z",
+  "createdAt": "2026-01-23T00:06:11.499Z",
   "metrics": {
     "jaccard": 0.75,
     "recall": 0.8571428571428571,
@@ -33,7 +33,7 @@
     ],
     "predJsonOnly": [
       "censorAtNewRiskWindow=true",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=observation end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "censorAtNewRiskWindow=false",
@@ -167,40 +167,30 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU risk - active comparator, new user PS-matched cohorts (primary on-treatment TAR)",
+    "name": "Remicade NIU Risk Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade new user target cohort"
+        "name": "Remicade New Users (by indication, see Appendix 2)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator biologics new user exposure"
+        "name": "Active Comparator Biologics (by indication, see Table 1 and Appendix 2)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NIU outcome - primary definition"
+          "name": "Primary NIU (first NIU code with a second NIU code 31-365 days later OR first NIU code during ophthalmology visit)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes (Appendix 6)"
+      "name": "Negative Control Outcomes for NIU Study (see Appendix 6)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -209,9 +199,9 @@
           "studyEndDate": ""
         }
       ],
-      "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
-      "washoutPeriod": 0,
+      "restrictToCommonPeriod": true,
+      "firstExposureOnly": true,
+      "washoutPeriod": 365,
       "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
@@ -221,7 +211,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment TAR (primary)",
+          "description": "On-Treatment (primary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -229,11 +219,11 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "ITT TAR",
+          "description": "Intention-to-Treat (secondary)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort end",
+          "riskWindowEnd": 0,
+          "endAnchor": "observation end",
           "minDaysAtRisk": 1
         }
       ]
@@ -241,7 +231,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "PS 1: 1:10 matching",
+          "description": "1:10 Variable Ratio Matching (primary)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,
@@ -250,7 +240,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "PS 2: 1:1 matching",
+          "description": "1:1 Matching (secondary)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,

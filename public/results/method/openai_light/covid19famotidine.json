@@ -1,7 +1,7 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2025-11-24T06:27:37.383Z",
+  "createdAt": "2026-01-22T23:58:13.742Z",
   "metrics": {
     "jaccard": 0.8571428571428571,
     "recall": 0.9230769230769231,
@@ -157,44 +157,34 @@
     }
   },
   "predJson": {
-    "name": "Famotidine use and COVID-19 severity in hospitalized patients (PHD data) - prevalent-user analysis",
+    "name": "Famotidine and COVID-19 Severity: Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Famotidine on day of admission"
+        "name": "Famotidine users hospitalized with COVID-19"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Proton pump inhibitor (PPI) users on day of admission"
+        "name": "PPI users or Hydroxychloroquine users hospitalized with COVID-19"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Death during hospitalization"
+          "name": "In-hospital death"
         },
         {
           "id": null,
-          "name": "Death or intensive services"
+          "name": "In-hospital death or intensive services"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Outcomes for COVID-19 Estimation Famotidine Study"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -215,7 +205,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Intention-to-treat: 1 day after admission to 30 days after admission or earlier censoring",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
@@ -227,7 +217,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary PS stratification",
+          "description": "Stratification on PS (primary analysis)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -235,7 +225,7 @@
           }
         },
         {
-          "description": "Sensitivity PS 1:1 matching",
+          "description": "1:1 PS matching (sensitivity analysis)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.2,
@@ -262,24 +252,45 @@
         }
       }
     },
-    "fitOutcomeModelArgs": {
-      "modelType": "cox",
-      "stratified": true,
-      "useCovariates": false,
-      "inversePtWeighting": false,
-      "prior": {
-        "priorType": "laplace",
-        "useCrossValidation": true
+    "fitOutcomeModelArgs": [
+      {
+        "modelType": "cox",
+        "stratified": true,
+        "useCovariates": false,
+        "inversePtWeighting": false,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "quiet",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
       },
-      "control": {
-        "tolerance": 2e-7,
-        "cvType": "auto",
-        "fold": 10,
-        "cvRepetitions": 10,
-        "noiseLevel": "quiet",
-        "resetCoefficients": true,
-        "startingVariance": 0.01
+      {
+        "modelType": "cox",
+        "stratified": false,
+        "useCovariates": false,
+        "inversePtWeighting": false,
+        "prior": {
+          "priorType": "laplace",
+          "useCrossValidation": true
+        },
+        "control": {
+          "tolerance": 2e-7,
+          "cvType": "auto",
+          "fold": 10,
+          "cvRepetitions": 10,
+          "noiseLevel": "quiet",
+          "resetCoefficients": true,
+          "startingVariance": 0.01
+        }
       }
-    }
+    ]
   }
 }

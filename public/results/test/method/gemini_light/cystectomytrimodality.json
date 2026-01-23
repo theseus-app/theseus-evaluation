@@ -1,20 +1,20 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-01-08T08:19:59.793Z",
+  "createdAt": "2026-01-23T02:17:10.500Z",
   "metrics": {
-    "jaccard": 0.5882352941176471,
-    "recall": 0.8333333333333334,
-    "precision": 0.6666666666666666
+    "jaccard": 0.47619047619047616,
+    "recall": 0.6666666666666666,
+    "precision": 0.625
   },
   "counts": {
-    "gold": 12,
-    "pred": 15,
+    "gold": 15,
+    "pred": 16,
     "intersection": 10,
-    "union": 17,
+    "union": 21,
     "both": 10,
-    "predOnly": 5,
-    "goldOnly": 2
+    "predOnly": 6,
+    "goldOnly": 5
   },
   "details": {
     "bothJson": [
@@ -30,15 +30,19 @@
       "createPsArgs:{Control={\"cvRepetitions\":10,\"cvType\":\"auto\",\"fold\":10,\"noiseLevel\":\"silent\",\"resetCoefficients\":true,\"startingVariance\":0.01,\"tolerance\":2e-7}|Prior={\"priorType\":\"laplace\",\"useCrossValidation\":true}|errorOnHighCorrelation=true|maxCohortSizeForFitting=250000}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=0|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.25|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}"
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=3|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=4|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
@@ -67,8 +71,8 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 0,
-      "predOnlyCount": 4,
-      "goldOnlyCount": 1,
+      "predOnlyCount": 5,
+      "goldOnlyCount": 4,
       "precision": 0,
       "recall": 0,
       "f1": null,
@@ -108,6 +112,30 @@
         {
           "matchOnPsArgs": {
             "maxRatio": 3,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 1,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 2,
+            "caliper": 0.2,
+            "caliperScale": "standardized logit"
+          },
+          "stratifyByPsArgs": null
+        },
+        {
+          "matchOnPsArgs": {
+            "maxRatio": 4,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
@@ -153,49 +181,86 @@
     }
   },
   "predJson": {
-    "name": "Radical Cystectomy vs Trimodality Therapy in Localised Muscle-Invasive Bladder Cancer",
+    "name": "Comparison of Radical Cystectomy vs Trimodality Therapy for Muscle-Invasive Bladder Carcinoma",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 1,
-        "name": "Patients with muscle-invasive urothelial carcinoma treated with trimodality therapy"
+        "id": null,
+        "name": "Trimodality Therapy"
       },
       "comparatorCohort": {
-        "id": 2,
-        "name": "Patients with muscle-invasive urothelial carcinoma treated with radical cystectomy"
+        "id": null,
+        "name": "Radical Cystectomy"
       },
       "outcomeCohort": [
         {
-          "id": 101,
-          "name": "Metastasis-free survival"
+          "id": null,
+          "name": "Metastasis-Free Survival"
         },
         {
-          "id": 102,
-          "name": "Overall survival"
+          "id": null,
+          "name": "Overall Survival"
         },
         {
-          "id": 103,
-          "name": "Cancer-specific survival"
+          "id": null,
+          "name": "Cancer-Specific Survival"
         },
         {
-          "id": 104,
-          "name": "Distant metastatic failure-free survival"
+          "id": null,
+          "name": "Distant Metastatic Failure-Free Survival"
         },
         {
-          "id": 105,
-          "name": "Regional failure-free survival"
+          "id": null,
+          "name": "Regional Failure-Free Survival"
         },
         {
-          "id": 106,
-          "name": "Disease-free survival"
+          "id": null,
+          "name": "Disease-Free Survival"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Age"
+        },
+        {
+          "id": null,
+          "name": "Sex"
+        },
+        {
+          "id": null,
+          "name": "Carcinoma in situ"
+        },
+        {
+          "id": null,
+          "name": "Clinical T-stage"
+        },
+        {
+          "id": null,
+          "name": "ECOG performance status"
+        },
+        {
+          "id": null,
+          "name": "BMI"
+        },
+        {
+          "id": null,
+          "name": "Hydronephrosis"
+        },
+        {
+          "id": null,
+          "name": "Peritreatment chemotherapy"
+        },
+        {
+          "id": null,
+          "name": "Smoking history"
+        }
+      ],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -206,9 +271,9 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -217,11 +282,11 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "Intent-to-treat follow-up from diagnosis/treatment until observation end",
+          "description": "From diagnosis to first event or last follow-up",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         }
       ]
@@ -229,7 +294,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Primary Analysis: 3:1 Propensity Score Matching",
+          "description": "Primary PSM: 3:1 matching with replacement, caliper 0.25 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 3,
             "caliper": 0.25,
@@ -238,7 +303,12 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity Analysis: 1:1 Propensity Score Matching",
+          "description": "Primary IPTW: Inverse Probability Treatment Weighting",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "Sensitivity PSM: 1:1 matching with replacement, caliper 0.25 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.25,
@@ -247,7 +317,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity Analysis: 1:2 Propensity Score Matching",
+          "description": "Sensitivity PSM: 1:2 matching with replacement, caliper 0.25 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 2,
             "caliper": 0.25,
@@ -256,7 +326,7 @@
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sensitivity Analysis: 1:4 Propensity Score Matching",
+          "description": "Sensitivity PSM: 1:4 matching with replacement, caliper 0.25 SD logit",
           "matchOnPsArgs": {
             "maxRatio": 4,
             "caliper": 0.25,

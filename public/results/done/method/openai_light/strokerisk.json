@@ -1,40 +1,37 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-28T02:32:09.783Z",
+  "createdAt": "2026-01-23T01:40:38.830Z",
   "metrics": {
-    "jaccard": 0.5714285714285714,
-    "recall": 0.6666666666666666,
-    "precision": 0.8
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
-    "pred": 5,
-    "intersection": 4,
-    "union": 7,
-    "both": 4,
-    "predOnly": 1,
-    "goldOnly": 2
+    "pred": 6,
+    "intersection": 6,
+    "union": 6,
+    "both": 6,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
+      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=null}",
-      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -56,13 +53,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 2,
-      "precision": 0.5,
-      "recall": 0.3333333333333333,
-      "f1": 0.4,
-      "accuracy": 0.25
+      "bothCount": 3,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -159,40 +156,30 @@
     }
   },
   "predJson": {
-    "name": "Stroke risk among new users of antipsychotics in older adults (MDCR, OMOP-CDM)",
+    "name": "Stroke Risk in Elderly Antipsychotic Users: OMOP-CDM Population-Level Estimation",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of typical antipsychotics"
+        "name": "New users of typical antipsychotics or haloperidol (T1/T2)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of atypical antipsychotics"
+        "name": "New users of atypical antipsychotics (C1)"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Stroke"
+          "name": "Stroke (inpatient primary diagnosis, mapped from Sentinel ICD-9-CM/ICD-10-CM via SNOMED-CT)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative control outcomes (as per protocol)"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": ""
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -206,18 +193,18 @@
         }
       ],
       "restrictToCommonPeriod": false,
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "washoutPeriod": 183,
-      "removeDuplicateSubjects": "keep all",
+      "removeDuplicateSubjects": "keep first",
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
+      "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 183,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR",
+          "description": "On-treatment (primary analysis)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -229,16 +216,21 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Sentinel PS replication",
+          "description": "Unadjusted (crude)",
+          "matchOnPsArgs": null,
+          "stratifyByPsArgs": null
+        },
+        {
+          "description": "Sentinel PS strategy (1:1 matching, 31 covariates, caliper 0.05 PS scale)",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
-            "caliperScale": "standardized logit"
+            "caliperScale": "propensity score"
           },
           "stratifyByPsArgs": null
         },
         {
-          "description": "Adapted PS strategy (1:10 matching)",
+          "description": "Adapted PS strategy (large-scale LASSO, 1:10 variable ratio, caliper 0.2 SD logit)",
           "matchOnPsArgs": {
             "maxRatio": 10,
             "caliper": 0.2,

@@ -1,44 +1,50 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2025-11-28T02:32:21.515Z",
+  "createdAt": "2026-01-23T01:40:42.922Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.8333333333333334,
+    "recall": 0.8333333333333334,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
-    "pred": 6,
-    "intersection": 4,
-    "union": 8,
-    "both": 4,
-    "predOnly": 2,
-    "goldOnly": 2
+    "pred": 5,
+    "intersection": 5,
+    "union": 6,
+    "both": 5,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20100101}",
-      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}"
-    ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
-    ],
-    "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|maxRatio=null|numberOfStrata=5}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
+    ],
+    "predJsonOnly": [],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
-    "timeAtRisks": false,
-    "propensityScoreAdjustment": false
+    "studyPeriods": false,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true
   },
   "sectionCounts": {
     "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 1,
+      "precision": 1,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
+    },
+    "timeAtRisks": {
       "bothCount": 2,
       "predOnlyCount": 0,
       "goldOnlyCount": 0,
@@ -47,23 +53,14 @@
       "f1": 1,
       "accuracy": 1
     },
-    "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
-    },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     }
   },
   "goldJson": {
@@ -162,15 +159,15 @@
     }
   },
   "predJson": {
-    "name": "DOAC Comparative Safety and Effectiveness Study",
+    "name": "DOAC Comparative Safety Study in Atrial Fibrillation",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DOAC exposure (varies by comparison: apixaban, dabigatran, rivaroxaban, or edoxaban)"
+        "name": "New users of DOAC (apixaban, dabigatran, rivaroxaban, or edoxaban) with atrial fibrillation"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Alternative DOAC exposure (varies by comparison)"
+        "name": "New users of comparator DOAC with atrial fibrillation"
       },
       "outcomeCohort": [
         {
@@ -179,11 +176,11 @@
         },
         {
           "id": null,
-          "name": "Intracranial hemorrhage"
+          "name": "Intracranial hemorrhage (ICH)"
         },
         {
           "id": null,
-          "name": "Gastrointestinal bleeding"
+          "name": "Gastrointestinal bleeding (GIB)"
         },
         {
           "id": null,
@@ -193,25 +190,26 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "49 negative control outcomes"
+      "name": "49 Negative Control Outcomes for DOAC Study"
     },
     "covariateSelection": {
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All baseline covariates (>90,000 predefined characteristics)"
+          "name": "Concept Name 1"
         }
       ],
-      "conceptsToExclude": []
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
           "studyStartDate": "20100101",
-          "studyEndDate": "20191231"
-        },
-        {
-          "studyStartDate": "20120101",
           "studyEndDate": "20191231"
         }
       ],
@@ -227,15 +225,15 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment approach with 90-day gap allowance",
+          "description": "On-treatment (primary analysis)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 90,
+          "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
         },
         {
-          "description": "Intention-to-treat approach (sensitivity analysis)",
+          "description": "Intention-to-treat (sensitivity analysis)",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
@@ -247,7 +245,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Propensity score stratification (primary analysis)",
+          "description": "Propensity Score Stratification (primary analysis)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": {
             "numberOfStrata": 5,
@@ -255,10 +253,10 @@
           }
         },
         {
-          "description": "Propensity score matching (sensitivity analysis)",
+          "description": "Propensity Score Variable-Ratio Matching (sensitivity analysis)",
           "matchOnPsArgs": {
             "maxRatio": 100,
-            "caliper": 0,
+            "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null

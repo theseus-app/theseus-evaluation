@@ -1,7 +1,7 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2025-11-28T02:32:25.716Z",
+  "createdAt": "2026-01-23T01:40:43.275Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -23,7 +23,7 @@
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=28|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=0|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=2|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=0|numberOfStrata=null}"
     ],
     "predJsonOnly": [],
@@ -169,24 +169,36 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Safety Monitoring - Ad26.COV2·S Comparative Effectiveness",
+    "name": "Janssen COVID-19 Vaccine Real-World Safety Monitoring - Comparative Cohort Analysis",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Janssen Ad26.COV2·S First Dose"
+        "name": "First Janssen Ad26.COV2·S Vaccination"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Moderna mRNA-1273 and Pfizer mRNA-BNT162b2 First Doses"
+        "name": "First Moderna mRNA-1273 or Pfizer mRNA-BNT162b2 Vaccination"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "56 Adverse Events of Special Interest (AESI) - Blood/Lymphatic, Cardiac, Immune, Nervous/Central Systems"
+          "name": "Adverse Events of Special Interest (56 outcomes)"
         },
         {
           "id": null,
           "name": "Guillain-Barré Syndrome (GBS)"
+        },
+        {
+          "id": null,
+          "name": "Myocarditis"
+        },
+        {
+          "id": null,
+          "name": "Pericarditis"
+        },
+        {
+          "id": null,
+          "name": "Anaphylaxis"
         }
       ]
     },
@@ -195,12 +207,7 @@
       "name": "93 Negative Control Outcomes"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All Baseline Covariates (60,000-100,000 variables: demographics, conditions, drug exposures, procedures from 365 days prior to vaccination)"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -222,7 +229,7 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "description": "1-14 days post-vaccination",
+          "description": "TAR 1-14 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 14,
@@ -230,7 +237,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-28 days post-vaccination",
+          "description": "TAR 1-28 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 28,
@@ -238,7 +245,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-42 days post-vaccination",
+          "description": "TAR 1-42 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 42,
@@ -246,7 +253,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "1-90 days post-vaccination",
+          "description": "TAR 1-90 days",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
@@ -254,7 +261,7 @@
           "minDaysAtRisk": 1
         },
         {
-          "description": "0-2 days post-vaccination (anaphylaxis)",
+          "description": "TAR 0-2 days (Anaphylaxis)",
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 2,
@@ -266,7 +273,7 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Variable-ratio matching on propensity score with standardized logit caliper",
+          "description": "Large-Scale Propensity Score with Variable-Ratio Matching",
           "matchOnPsArgs": {
             "maxRatio": 0,
             "caliper": 0.2,

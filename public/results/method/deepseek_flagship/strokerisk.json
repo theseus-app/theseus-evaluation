@@ -1,20 +1,20 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2025-11-24T07:36:38.468Z",
+  "createdAt": "2026-01-23T00:36:39.390Z",
   "metrics": {
-    "jaccard": 0.7647058823529411,
-    "recall": 0.8666666666666667,
-    "precision": 0.8666666666666667
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
     "gold": 15,
     "pred": 15,
-    "intersection": 13,
-    "union": 17,
-    "both": 13,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 12,
+    "union": 18,
+    "both": 12,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
@@ -23,7 +23,6 @@
       "firstExposureOnly=false",
       "washoutPeriod=0",
       "removeDuplicateSubjects=keep all",
-      "priorOutcomeLookBack=99999",
       "studyPeriods:{studyEndDate=20171231|studyStartDate=20010101}",
       "studyPeriods:{studyEndDate=20150930|studyStartDate=20010101}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
@@ -34,11 +33,13 @@
     ],
     "predJsonOnly": [
       "censorAtNewRiskWindow=true",
-      "removeSubjectsWithPriorOutcome=true"
+      "removeSubjectsWithPriorOutcome=true",
+      "priorOutcomeLookBack=183"
     ],
     "goldJsonOnly": [
       "censorAtNewRiskWindow=false",
-      "removeSubjectsWithPriorOutcome=false"
+      "removeSubjectsWithPriorOutcome=false",
+      "priorOutcomeLookBack=99999"
     ]
   },
   "sectionAccuracy": {
@@ -169,7 +170,7 @@
     }
   },
   "predJson": {
-    "name": "Typical antipsychotics vs atypical antipsychotics - stroke risk",
+    "name": "Stroke risk in elderly antipsychotic users",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -182,21 +183,16 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Stroke"
+          "name": "Stroke (inpatient primary diagnosis)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control outcomes"
+      "name": "Negative controls for empirical calibration"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "Sentinel study covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -219,10 +215,10 @@
     "createStudyPopArgs": {
       "censorAtNewRiskWindow": true,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookBack": 183,
       "timeAtRisks": [
         {
-          "description": "On-treatment time at risk",
+          "description": "On-treatment analysis",
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -234,12 +230,12 @@
     "propensityScoreAdjustment": {
       "psSettings": [
         {
-          "description": "Unadjusted",
+          "description": "Unadjusted (crude)",
           "matchOnPsArgs": null,
           "stratifyByPsArgs": null
         },
         {
-          "description": "Sentinel PS replication",
+          "description": "Sentinel PS strategy",
           "matchOnPsArgs": {
             "maxRatio": 1,
             "caliper": 0.05,
