@@ -1,7 +1,7 @@
 {
-  "name": "MARS",
-  "fileName": "mars.json",
-  "createdAt": "2026-01-27T13:20:25.285Z",
+  "name": "GLP1RADepression",
+  "fileName": "glp1radepression.json",
+  "createdAt": "2026-01-27T13:20:23.034Z",
   "metrics": {
     "jaccard": 0.5,
     "recall": 0.6666666666666666,
@@ -18,20 +18,20 @@
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=20131231|studyStartDate=20110101}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+      "studyPeriods:{studyEndDate=20201231|studyStartDate=20130101}",
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=730|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=72|startAnchor=cohort start}"
+      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}"
+      "psSettings:{baseSelection=null|caliper=0.05|caliperScale=propensity score|maxRatio=1|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
-    "propensityScoreAdjustment": true
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -44,15 +44,6 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
-    },
-    "propensityScoreAdjustment": {
       "bothCount": 1,
       "predOnlyCount": 0,
       "goldOnlyCount": 0,
@@ -60,14 +51,23 @@
       "recall": 1,
       "f1": 1,
       "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     }
   },
   "goldJson": {
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20110101",
-          "studyEndDate": "20131231"
+          "studyStartDate": "20130101",
+          "studyEndDate": "20201231"
         }
       ],
       "restrictToCommonPeriod": true,
@@ -82,9 +82,9 @@
       "priorOutcomeLookBack": 99999,
       "timeAtRisks": [
         {
-          "riskWindowStart": 3,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 90,
+          "riskWindowEnd": 730,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -95,8 +95,8 @@
         {
           "matchOnPsArgs": {
             "maxRatio": 1,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
+            "caliper": 0.05,
+            "caliperScale": "propensity score"
           },
           "stratifyByPsArgs": null
         }
@@ -121,7 +121,7 @@
     },
     "fitOutcomeModelArgs": {
       "modelType": "cox",
-      "stratified": false,
+      "stratified": true,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {
@@ -162,24 +162,14 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "Concept Name 1"
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": "Concept Name 3"
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "studyStartDate": "20110101",
-          "studyEndDate": "20131231"
+          "studyStartDate": "20130101",
+          "studyEndDate": "20201231"
         }
       ],
       "restrictToCommonPeriod": false,
@@ -195,9 +185,9 @@
       "timeAtRisks": [
         {
           "description": "TAR 1",
-          "riskWindowStart": 72,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 90,
+          "riskWindowEnd": 730,
           "endAnchor": "cohort start",
           "minDaysAtRisk": 1
         }
@@ -209,7 +199,7 @@
           "description": "PS 1",
           "matchOnPsArgs": {
             "maxRatio": 1,
-            "caliper": 0.2,
+            "caliper": 0.05,
             "caliperScale": "standardized logit"
           },
           "stratifyByPsArgs": null
