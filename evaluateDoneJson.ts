@@ -14,6 +14,7 @@ import {
   StudyDTOPRIMARY,
   flattenStudyPRIMARY,
 } from "./flattenPrimary";
+import { loadFile, ModulePair } from "./loadFile";
 
 // ===== 네가 원하는 최종 Flatten 타입 =====
 export type FlattenStudyDoneDTO = {
@@ -544,6 +545,15 @@ export async function runEvaluateDone(): Promise<{
 
   await ensureDir(outputDir);
 
+  // Gold standard를 새로 읽어옴
+  const goldPairs = await loadFile(type);
+  const goldMap = new Map<string, any>();
+  for (const pair of goldPairs) {
+    // name을 소문자로 정규화해서 매핑
+    goldMap.set(pair.name.toLowerCase(), pair.goldJson);
+  }
+  console.log(`[INFO] Loaded ${goldPairs.length} gold standard(s) from ${type} folder`);
+
   const entries = await fs.readdir(sourceDir, { withFileTypes: true });
   // merino.json 제외
   const EXCLUDED_FILES = ["merino.json"];
@@ -566,8 +576,13 @@ export async function runEvaluateDone(): Promise<{
 
     try {
       const raw = JSON.parse(await fs.readFile(abs, "utf8"));
-      const goldJson = raw.goldJson;
+      // Gold standard는 새로 읽어온 것 사용, predJson은 기존 결과 파일에서 사용
+      const goldJson = goldMap.get(baseName.toLowerCase()) ?? raw.goldJson;
       const predJson = raw.predJson;
+
+      if (!goldMap.has(baseName.toLowerCase())) {
+        console.warn(`[WARN] ${baseName}: gold standard not found in current gold dir, using stored goldJson`);
+      }
 
       if (!goldJson || !predJson) {
         const bad: DoneCaseResult = {
