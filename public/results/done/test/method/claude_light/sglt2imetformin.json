@@ -1,58 +1,59 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-01-23T02:32:54.041Z",
+  "createdAt": "2026-01-27T12:08:46.469Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.6666666666666666,
-    "precision": 0.4
+    "jaccard": 0.42857142857142855,
+    "recall": 0.6,
+    "precision": 0.6
   },
   "counts": {
-    "gold": 3,
+    "gold": 5,
     "pred": 5,
-    "intersection": 2,
-    "union": 6,
-    "both": 2,
-    "predOnly": 3,
-    "goldOnly": 1
+    "intersection": 3,
+    "union": 7,
+    "both": 3,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20200331|studyStartDate=20130401}",
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130401}",
       "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130401}",
       "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.001|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}"
     ],
     "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=1|numberOfStrata=null}"
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=2|numberOfStrata=null}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": false
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
+      "bothCount": 2,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 1,
       "predOnlyCount": 1,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 0.5,
-      "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
       "bothCount": 0,
@@ -70,6 +71,10 @@
         {
           "studyStartDate": "20130401",
           "studyEndDate": "20200331"
+        },
+        {
+          "studyStartDate": "20130401",
+          "studyEndDate": "20181231"
         }
       ],
       "restrictToCommonPeriod": true,
@@ -89,6 +94,13 @@
           "riskWindowEnd": 0,
           "endAnchor": "cohort end",
           "minDaysAtRisk": 1
+        },
+        {
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start",
+          "minDaysAtRisk": 1
         }
       ]
     },
@@ -96,7 +108,7 @@
       "psSettings": [
         {
           "matchOnPsArgs": {
-            "maxRatio": 1,
+            "maxRatio": 2,
             "caliper": 0.2,
             "caliperScale": "standardized logit"
           },
