@@ -51,12 +51,7 @@ export const toFacts = (flat: Flat): Set<string> => {
   facts.add(`removeDuplicateSubjects=${normVal(flat.removeDuplicateSubjects)}`);
   facts.add(`censorAtNewRiskWindow=${normVal(flat.censorAtNewRiskWindow)}`);
   facts.add(`removeSubjectsWithPriorOutcome=${normVal(flat.removeSubjectsWithPriorOutcome)}`);
-  facts.add(`priorOutcomeLookBack=${normVal(flat.priorOutcomeLookBack)}`);
-
-  // facts.add(`modelType=${normVal(flat.modelType)}`);
-  // facts.add(`stratified=${normVal(flat.stratified)}`);
-  // facts.add(`useCovariates=${normVal(flat.useCovariates)}`);
-  // facts.add(`inversePtWeighting=${normVal(flat.inversePtWeighting)}`);
+  facts.add(`priorOutcomeLookback=${normVal(flat.priorOutcomeLookback)}`);
 
   // 배열 항목: 완전일치 항목으로 비교
   for (const sp of flat.studyPeriods ?? []) {
@@ -88,6 +83,18 @@ export const toFacts = (flat: Flat): Set<string> => {
         caliperScale: p.caliperScale,
         numberOfStrata: p.numberOfStrata,
         baseSelection: p.baseSelection,
+        trimByPsArgs: p.trimByPsArgs ?? null,
+        inversePtWeighting: p.inversePtWeighting,
+      })
+    );
+  }
+
+  // outcomeModels[] — per-item modelType/useCovariates (C5)
+  for (const om of flat.outcomeModels ?? []) {
+    facts.add(
+      canonicalizeObject("outcomeModels", {
+        modelType: om.modelType,
+        useCovariates: om.useCovariates,
       })
     );
   }
@@ -177,6 +184,18 @@ const canonPsSettings = (arr: Flat["psSettings"]) =>
         caliperScale: p.caliperScale,
         numberOfStrata: p.numberOfStrata,
         baseSelection: p.baseSelection,
+        trimByPsArgs: p.trimByPsArgs ?? null,
+        inversePtWeighting: p.inversePtWeighting,
+      })
+    )
+  );
+
+const canonOutcomeModels = (arr: Flat["outcomeModels"]) =>
+  new Set(
+    (arr ?? []).map((om) =>
+      canonicalizeObject("outcomeModels", {
+        modelType: om.modelType,
+        useCovariates: om.useCovariates,
       })
     )
   );
@@ -196,24 +215,9 @@ const DEFAULT_CREATE_PS_ARGS = {
 const isSpecifiedCreatePsArgs = (g: Flat) =>
   stableStringify(pickCreatePsArgs(g)) !== stableStringify(DEFAULT_CREATE_PS_ARGS);
 
-const pickFitOutcome = (f: Flat) => ({
-  modelType: f.modelType,
-  stratified: f.stratified,
-  useCovariates: f.useCovariates,
-  inversePtWeighting: f.inversePtWeighting,
-  Prior: f.Prior ?? null,
-  Control: f.Control ?? null,
-});
-const DEFAULT_FIT_OUTCOME = {
-  modelType: "cox",
-  stratified: false,
-  useCovariates: false,
-  inversePtWeighting: false,
-  Prior: null,
-  Control: null,
-};
-const isSpecifiedFitOutcome = (g: Flat) =>
-  stableStringify(pickFitOutcome(g)) !== stableStringify(DEFAULT_FIT_OUTCOME);
+// outcomeModels[] — per-item (C5); replaces old flat modelType/useCovariates/inversePtWeighting
+const isSpecifiedOutcomeModels = (g: Flat) =>
+  (g.outcomeModels?.length ?? 0) > 0;
 
 // gold 스코프 키만으로 Jaccard/Recall/Precision + 섹션별 정확도
 export const evaluateFlat = (A: Flat, B: Flat) => {
@@ -317,19 +321,14 @@ export const evaluateFlat = (A: Flat, B: Flat) => {
     ? diffMetrics(A.psSettings, B.psSettings, (arr) => canonPsSettings(arr))
     : null;
 
-  // fitOutcomeModelArgs
-  // const fitSpecified = isSpecifiedFitOutcome(A);
-  // const fitEq =
-  //   stableStringify(pickFitOutcome(A)) === stableStringify(pickFitOutcome(B));
-  // const fitAcc: boolean | null = fitSpecified ? fitEq : null;
-
-  // const fitCounts = fitSpecified
-  //   ? diffMetrics(
-  //     [pickFitOutcome(A)],
-  //     [pickFitOutcome(B)],
-  //     (arr) => new Set(arr.map((x: any) => stableStringify(x)))
-  //   )
-  //   : null;
+  // outcomeModels[] (C5)
+  const omSpecified = isSpecifiedOutcomeModels(A);
+  const omCounts = omSpecified
+    ? diffMetrics(A.outcomeModels, B.outcomeModels, (arr) => canonOutcomeModels(arr))
+    : null;
+  const omAcc: boolean | null = omSpecified
+    ? setEq(canonOutcomeModels(A.outcomeModels), canonOutcomeModels(B.outcomeModels))
+    : null;
 
   // --- 결과 리턴 ---
   return {
@@ -354,13 +353,13 @@ export const evaluateFlat = (A: Flat, B: Flat) => {
       studyPeriods: spAcc,
       timeAtRisks: tarAcc,
       propensityScoreAdjustment: psaAcc,
-      // fitOutcomeModelArgs: fitAcc,
+      outcomeModels: omAcc,
     },
     sectionCounts: {
       studyPeriods: spCounts,
       timeAtRisks: tarCounts,
       propensityScoreAdjustment: psaCounts,
-      // fitOutcomeModelArgs: fitCounts,
+      outcomeModels: omCounts,
     },
   };
 };

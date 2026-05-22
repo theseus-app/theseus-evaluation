@@ -7,6 +7,7 @@ import {
   FlattenStudyDTO,
   RemoveDuplicate,
   StudyDTO,
+  TrimByPsArgs,
   flattenStudy,
 } from "./flatten";
 import {
@@ -29,13 +30,16 @@ export type FlattenStudyDoneDTO = {
     minDaysAtRisk: number;
   }[];
 
-  /////// propensityScoreAdjustment ///////
+  /////// psSettings (top-level, C3) ///////
   psSettings: {
+    description: string;
+    trimByPsArgs: TrimByPsArgs | null;
     maxRatio: number | null;
     caliper: number | null;
     caliperScale: CaliperScale | null;
     numberOfStrata: number | null;
     baseSelection: BaseSelection | null;
+    inversePtWeighting: boolean;
   }[];
 };
 
@@ -97,18 +101,18 @@ const defaultCreatePsArgs = {
 };
 
 const defaultGetDbCohortMethodDataArgs = {
-  studyPeriods: [] as { studyStartDate: string | number | null; studyEndDate: string | number | null }[],
+  studyPeriods: [] as { description: string; studyStartDate: string | null; studyEndDate: string | null }[],
   maxCohortSize: 0,
+  firstExposureOnly: false,
+  removeDuplicateSubjects: "keep all" as RemoveDuplicate,
+  restrictToCommonPeriod: false,
+  washoutPeriod: 0,
 };
 
 const defaultCreateStudyPopArgs = {
-  restrictToCommonPeriod: false,
-  firstExposureOnly: false,
-  washoutPeriod: 0,
-  removeDuplicateSubjects: "keep all" as RemoveDuplicate,
   censorAtNewRiskWindow: false,
   removeSubjectsWithPriorOutcome: false,
-  priorOutcomeLookBack: 0,
+  priorOutcomeLookback: 0,
   timeAtRisks: [] as {
     riskWindowStart: number;
     startAnchor: Anchor;
@@ -132,14 +136,9 @@ export const flattenStudyDone = (dto: Partial<StudyDTO>): FlattenStudyDoneDTO =>
       ...(dto.createStudyPopArgs ?? {}),
       timeAtRisks: normalizeToArray((dto.createStudyPopArgs as any)?.timeAtRisks),
     },
-    propensityScoreAdjustment: {
-      ...(dto.propensityScoreAdjustment ?? {}),
-      psSettings: normalizeToArray(
-        (dto.propensityScoreAdjustment as any)?.psSettings,
-      ),
-      createPsArgs:
-        (dto.propensityScoreAdjustment as any)?.createPsArgs ?? defaultCreatePsArgs,
-    },
+    // C3: psSettings/createPsArgs are now top-level (no propensityScoreAdjustment wrapper)
+    psSettings: normalizeToArray((dto as any)?.psSettings),
+    createPsArgs: (dto as any)?.createPsArgs ?? defaultCreatePsArgs,
   };
 
   return pickDoneFields(flattenStudy(normalized));
@@ -171,11 +170,14 @@ const pickDoneFieldsPrimary = (
   psSettings: flat.psSettingsPRIMARY
     ? [
         {
+          description: "",
+          trimByPsArgs: null,
           maxRatio: flat.psSettingsPRIMARY.maxRatio,
           caliper: flat.psSettingsPRIMARY.caliper,
           caliperScale: flat.psSettingsPRIMARY.caliperScale,
           numberOfStrata: flat.psSettingsPRIMARY.numberOfStrata,
           baseSelection: flat.psSettingsPRIMARY.baseSelection,
+          inversePtWeighting: false,
         },
       ]
     : [],
@@ -219,6 +221,8 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
         caliperScale: p.caliperScale,
         numberOfStrata: p.numberOfStrata,
         baseSelection: p.baseSelection,
+        trimByPsArgs: p.trimByPsArgs ?? null,
+        inversePtWeighting: p.inversePtWeighting,
       }),
     );
   }
@@ -290,6 +294,8 @@ const canonPsSettings = (arr: FlatDone["psSettings"]) =>
         caliperScale: p.caliperScale,
         numberOfStrata: p.numberOfStrata,
         baseSelection: p.baseSelection,
+        trimByPsArgs: p.trimByPsArgs ?? null,
+        inversePtWeighting: p.inversePtWeighting,
       }),
     ),
   );
