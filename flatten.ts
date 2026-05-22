@@ -1,39 +1,33 @@
-// ===== 재사용 타입들 (네가 이미 갖고 있다면 중복 정의는 제거해도 됨) =====
-export type Anchor = "cohort start" | "cohort end";
-export type RemoveDuplicate = "keep all" | "keep first" | "remove all";
-export type CaliperScale = "propensity score" | "standardized" | "standardized logit";
-export type BaseSelection = "all" | "target" | "comparator";
-export type ModelType = "logistic" | "poisson" | "cox";
-export type CvType = "auto";
-export type NoiseLevel = "silent" | "quiet" | "noisy";
+// ===== Types sourced from theseus-core (new cmAnalysis structure) =====
+export type {
+    StudyDTO,
+    Anchor,
+    RemoveDuplicate,
+    CaliperScale,
+    BaseSelection,
+    ModelType,
+    CvType,
+    NoiseLevel,
+    TrimByPsArgs,
+    MatchOnPsArgs,
+    StratifyByPsArgs,
+    Prior,
+    Control,
+    PsSetting,
+    OutcomeModel,
+} from "theseus-core";
 
-export interface MatchOnPsArgs {
-    maxRatio: number;     // 0 = no max
-    caliper: number;      // 0 = off
-    caliperScale: CaliperScale;
-}
-export interface StratifyByPsArgs {
-    numberOfStrata: number;
-    baseSelection: BaseSelection;
-}
-export interface Prior {
-    priorType: "laplace";
-    useCrossValidation: boolean;
-}
-export interface Control {
-    tolerance: number;
-    cvType: CvType;
-    fold: number;
-    cvRepetitions: number;
-    noiseLevel: NoiseLevel;
-    resetCoefficients: boolean;
-    startingVariance: number; // -1 = auto
-}
-export interface PsSetting {
-    description: string;
-    matchOnPsArgs: MatchOnPsArgs | null;
-    stratifyByPsArgs: StratifyByPsArgs | null;
-}
+import type {
+    StudyDTO,
+    Anchor,
+    RemoveDuplicate,
+    CaliperScale,
+    BaseSelection,
+    ModelType,
+    Prior,
+    Control,
+    TrimByPsArgs,
+} from "theseus-core";
 
 // ===== 유틸: yyyyMMdd 정규화 (숫자/문자/널 모두 허용) =====
 const toYyyyMmDd = (v: string | number | null | undefined): string | null => {
@@ -45,73 +39,24 @@ const toYyyyMmDd = (v: string | number | null | undefined): string | null => {
     return onlyDigits.length === 8 ? onlyDigits : null;
 };
 
-export type StudyDTO = {
-    name: string;
-    cohortDefinitions: {
-        targetCohort: { id: number | null; name: string };
-        comparatorCohort: { id: number | null; name: string };
-        outcomeCohort: { id: number | null; name: string }[];
-    };
-    negativeControlConceptSet: { id: number | null; name: string };
-    covariateSelection: {
-        conceptsToInclude: { id: number | null; name: string }[];
-        conceptsToExclude: { id: number | null; name: string }[];
-    };
-    getDbCohortMethodDataArgs: {
-        studyPeriods: { studyStartDate: string | number | null; studyEndDate: string | number | null }[]; // yyyyMMdd
-        maxCohortSize: number; // 0 = no limit
-    };
-    createStudyPopArgs: {
-        restrictToCommonPeriod: boolean;
-        firstExposureOnly: boolean;
-        washoutPeriod: number;
-        removeDuplicateSubjects: RemoveDuplicate;
-        censorAtNewRiskWindow: boolean;
-        removeSubjectsWithPriorOutcome: boolean;
-        priorOutcomeLookBack: number;
-        timeAtRisks: {
-            description?: string;
-            riskWindowStart: number;
-            startAnchor: Anchor;
-            riskWindowEnd: number;
-            endAnchor: Anchor;
-            minDaysAtRisk: number;
-        }[];
-    };
-    propensityScoreAdjustment: {
-        psSettings: PsSetting[];
-        createPsArgs: {
-            maxCohortSizeForFitting: number; // 0 = no downsample
-            errorOnHighCorrelation: boolean;
-            prior: Prior | null;
-            control: Control | null;
-        };
-    };
-    fitOutcomeModelArgs: {
-        modelType: ModelType;
-        stratified: boolean;
-        useCovariates: boolean;
-        inversePtWeighting: boolean;
-        prior: Prior | null;
-        control: Control | null;
-    };
-};
-
-// ===== 네가 원하는 최종 Flatten 타입 =====
+// ===== Flattened representation type (eval-specific, NOT in theseus-core) =====
 export type FlattenStudyDTO = {
     /////// getDbCohortMethodDataArgs ///////
-    studyPeriods: { studyStartDate: string | null; studyEndDate: string | null }[]; // yyyyMMdd
+    studyPeriods: { description: string; studyStartDate: string | null; studyEndDate: string | null }[]; // yyyyMMdd
     maxCohortSize: number;
 
-    /////// createStudyPopArgs ///////
-    restrictToCommonPeriod: boolean;
+    /////// getDbCohortMethodDataArgs — moved fields (C1) ///////
     firstExposureOnly: boolean;
-    washoutPeriod: number;
     removeDuplicateSubjects: RemoveDuplicate;
+    restrictToCommonPeriod: boolean;
+    washoutPeriod: number;
+
+    /////// createStudyPopArgs ///////
     censorAtNewRiskWindow: boolean;
     removeSubjectsWithPriorOutcome: boolean;
-    priorOutcomeLookBack: number;
+    priorOutcomeLookback: number;
     timeAtRisks: {
+        description: string;
         riskWindowStart: number;
         startAnchor: Anchor;
         riskWindowEnd: number;
@@ -119,14 +64,19 @@ export type FlattenStudyDTO = {
         minDaysAtRisk: number;
     }[];
 
-    /////// propensityScoreAdjustment ///////
+    /////// psSettings (top-level, C3) + trimByPsArgs/inversePtWeighting per item (C4) ///////
     psSettings: {
+        description: string;
+        trimByPsArgs: TrimByPsArgs | null;
         maxRatio: number | null;
         caliper: number | null;
         caliperScale: CaliperScale | null;
         numberOfStrata: number | null;
         baseSelection: BaseSelection | null;
+        inversePtWeighting: boolean;
     }[];
+
+    /////// createPsArgs (top-level, C3) ///////
     createPsArgs: {
         maxCohortSizeForFitting: number;
         errorOnHighCorrelation: boolean;
@@ -134,54 +84,58 @@ export type FlattenStudyDTO = {
         Control: Control | null;
     };
 
-    /////// fitOutcomeModelArgs ///////
-    modelType: ModelType;
+    /////// fitOutcomeModelArgs — outcomeModels per item (C5); modelType/useCovariates/inversePtWeighting removed from top-level ///////
+    outcomeModels: {
+        description: string;
+        modelType: ModelType;
+        useCovariates: boolean;
+    }[];
     stratified: boolean;
-    useCovariates: boolean;
-    inversePtWeighting: boolean;
     Prior: Prior | null;
     Control: Control | null;
 };
 
 
-
 // ===== 메인: flatten 함수 =====
 export function flattenStudy(dto: Partial<StudyDTO>): FlattenStudyDTO {
-    const g = dto.getDbCohortMethodDataArgs ?? { studyPeriods: [], maxCohortSize: 0 };
-    const c = dto.createStudyPopArgs ?? {
-        restrictToCommonPeriod: false,
+    const g = dto.getDbCohortMethodDataArgs ?? {
+        studyPeriods: [],
         firstExposureOnly: false,
-        washoutPeriod: 0,
         removeDuplicateSubjects: "keep all" as RemoveDuplicate,
-        censorAtNewRiskWindow: false,
-        removeSubjectsWithPriorOutcome: false,
-        priorOutcomeLookBack: 0,
-        timeAtRisks: [],
+        restrictToCommonPeriod: false,
+        washoutPeriod: 0,
+        maxCohortSize: 0,
     };
-    const psa = dto.propensityScoreAdjustment ?? {
-        psSettings: [],
-        createPsArgs: {
-            maxCohortSizeForFitting: 0,
-            errorOnHighCorrelation: false,
-            prior: null,
-            control: null,
-        },
+    const c = dto.createStudyPopArgs ?? {
+        removeSubjectsWithPriorOutcome: false,
+        priorOutcomeLookback: 0,
+        timeAtRisks: [],
+        censorAtNewRiskWindow: false,
+    };
+    const psSettings = dto.psSettings ?? [];
+    const createPsArgs = dto.createPsArgs ?? {
+        maxCohortSizeForFitting: 0,
+        errorOnHighCorrelation: false,
+        prior: null,
+        control: null,
     };
     const fom = dto.fitOutcomeModelArgs ?? {
-        modelType: "cox" as ModelType,
+        outcomeModels: [],
         stratified: false,
-        useCovariates: false,
-        inversePtWeighting: false,
         prior: null,
         control: null,
     };
 
-    const studyPeriods = (g.studyPeriods ?? []).map(sp => ({
+    // studyPeriods — now includes description (C2)
+    const flatStudyPeriods = (g.studyPeriods ?? []).map(sp => ({
+        description: sp?.description ?? "",
         studyStartDate: toYyyyMmDd(sp?.studyStartDate ?? null),
         studyEndDate: toYyyyMmDd(sp?.studyEndDate ?? null),
     }));
 
+    // timeAtRisks — now includes description
     const timeAtRisks = (c.timeAtRisks ?? []).map(t => ({
+        description: t.description ?? "",
         riskWindowStart: t.riskWindowStart ?? 0,
         startAnchor: (t.startAnchor ?? "cohort start") as Anchor,
         riskWindowEnd: t.riskWindowEnd ?? 0,
@@ -189,48 +143,59 @@ export function flattenStudy(dto: Partial<StudyDTO>): FlattenStudyDTO {
         minDaysAtRisk: t.minDaysAtRisk ?? 0,
     }));
 
-    const psSettings = (psa.psSettings ?? []).map(s => {
+    // psSettings — top-level (C3), now with trimByPsArgs + inversePtWeighting (C4)
+    const flatPsSettings = (psSettings ?? []).map(s => {
         const m = s?.matchOnPsArgs ?? null;
         const st = s?.stratifyByPsArgs ?? null;
         return {
+            description: s?.description ?? "",
+            trimByPsArgs: s?.trimByPsArgs ?? null,
             maxRatio: m ? m.maxRatio ?? null : null,
             caliper: m ? m.caliper ?? null : null,
             caliperScale: m ? (m.caliperScale ?? null) : null,
             numberOfStrata: st ? st.numberOfStrata ?? null : null,
             baseSelection: st ? (st.baseSelection ?? null) : null,
+            inversePtWeighting: s?.inversePtWeighting ?? false,
         };
     });
 
+    // outcomeModels — per-item modelType/useCovariates (C5)
+    const outcomeModels = (fom.outcomeModels ?? []).map(om => ({
+        description: om.description ?? "",
+        modelType: (om.modelType ?? "cox") as ModelType,
+        useCovariates: om.useCovariates ?? false,
+    }));
+
     return {
         // getDbCohortMethodDataArgs
-        studyPeriods,
+        studyPeriods: flatStudyPeriods,
         maxCohortSize: g.maxCohortSize ?? 0,
 
+        // moved from createStudyPopArgs → getDbCohortMethodDataArgs (C1)
+        firstExposureOnly: g.firstExposureOnly ?? false,
+        removeDuplicateSubjects: (g.removeDuplicateSubjects ?? "keep all") as RemoveDuplicate,
+        restrictToCommonPeriod: g.restrictToCommonPeriod ?? false,
+        washoutPeriod: g.washoutPeriod ?? 0,
+
         // createStudyPopArgs
-        restrictToCommonPeriod: c.restrictToCommonPeriod ?? false,
-        firstExposureOnly: c.firstExposureOnly ?? false,
-        washoutPeriod: c.washoutPeriod ?? 0,
-        removeDuplicateSubjects: (c.removeDuplicateSubjects ?? "keep all") as RemoveDuplicate,
         censorAtNewRiskWindow: c.censorAtNewRiskWindow ?? false,
         removeSubjectsWithPriorOutcome: c.removeSubjectsWithPriorOutcome ?? false,
-        priorOutcomeLookBack: c.priorOutcomeLookBack ?? 0,
+        priorOutcomeLookback: c.priorOutcomeLookback ?? 0,
         timeAtRisks,
 
-        // propensityScoreAdjustment
-        psSettings,
+        // psSettings (top-level, C3) + trimByPsArgs/inversePtWeighting (C4)
+        psSettings: flatPsSettings,
         createPsArgs: {
-            maxCohortSizeForFitting: psa.createPsArgs?.maxCohortSizeForFitting ?? 0,
-            errorOnHighCorrelation: psa.createPsArgs?.errorOnHighCorrelation ?? false,
+            maxCohortSizeForFitting: createPsArgs.maxCohortSizeForFitting ?? 0,
+            errorOnHighCorrelation: createPsArgs.errorOnHighCorrelation ?? false,
             // 대소문자 키 유지 (요청사항)
-            Prior: psa.createPsArgs?.prior ?? null,
-            Control: psa.createPsArgs?.control ?? null,
+            Prior: createPsArgs.prior ?? null,
+            Control: createPsArgs.control ?? null,
         },
 
-        // fitOutcomeModelArgs
-        modelType: (fom.modelType ?? "cox") as ModelType,
+        // fitOutcomeModelArgs — outcomeModels per item (C5)
+        outcomeModels,
         stratified: fom.stratified ?? false,
-        useCovariates: fom.useCovariates ?? false,
-        inversePtWeighting: fom.inversePtWeighting ?? false,
         // 대소문자 키 유지 (요청사항)
         Prior: fom.prior ?? null,
         Control: fom.control ?? null,
