@@ -1,0 +1,109 @@
+export const TEXTStrokeRisk = "\nStudy Period 1: Included data available from January 1, 2001 through December 31, 2017\nStudy Period 2: We conducted a post-hoc analysis where the study end-date was redefined as September 30, 2015.\n\nTAR 1: \"On-treatment” time at risk in the cohort for which they first qualified, starting from the day after they entered that cohort until the first of: receiving a medication associated with the other cohort, having the study outcome (see in the following sections), having a gap of more than 30 days in the supply of the cohort-defining drug (more than 30 days from the end of the days’ supply one dispensing to the next dispensing), reaching the end of insurance enrollment, or reaching the end of the study.\nFor both cohorts being compared, patients were required to have at least 1 day of continuous observation after the time-at-risk start.\n\nPS Settings 1: First was the unadjusted (crude) estimate. \nPS Settings 2: Second was the Sentinel PS replication (Sentinel PS strategy), which involved 1:1 matching on a PS based on the 31 covariates used in the Sentinel study18 with a caliper of 0.05 on the PS scale. \nPS Settings 3: Third was the large-scale regularized regression model involving PS estimation (adapted PS strategy) using predicted probability from a large-scale regularized logistic regression model, fit with a Laplace prior (LASSO) using all observed covariates, including a recent diagnosis of dementia as input and 1:10 variable ratio matching with a caliper of 0.2 of the standard deviation of the logit of PS.\n\nOutcome Model: The HRs for the outcome during the time-at-risk was estimated by applying a Cox proportional hazards model conditioned on the PS matched sets.\n"
+
+export const JSONStrokeRisk = {
+  "getDbCohortMethodDataArgs": {
+    "studyPeriods": [
+      {
+        "description": "",
+        "studyStartDate": "20010101",
+        "studyEndDate": "20171231"
+      },
+      {
+        "description": "",
+        "studyStartDate": "20010101",
+        "studyEndDate": "20150930"
+      }
+    ],
+    "firstExposureOnly": true,
+    "removeDuplicateSubjects": "keep first",
+    "restrictToCommonPeriod": false,
+    "washoutPeriod": 183,
+    "maxCohortSize": 0
+  },
+  "createStudyPopArgs": {
+    "removeSubjectsWithPriorOutcome": false,
+    "priorOutcomeLookback": 99999,
+    "timeAtRisks": [
+      {
+        "description": "",
+        "minDaysAtRisk": 1,
+        "riskWindowStart": 1,
+        "startAnchor": "cohort start",
+        "riskWindowEnd": 0,
+        "endAnchor": "cohort end"
+      }
+    ],
+    "censorAtNewRiskWindow": false
+  },
+  "psSettings": [
+    {
+      "description": "",
+      "trimByPsArgs": null,
+      "matchOnPsArgs": null,
+      "stratifyByPsArgs": null,
+      "inversePtWeighting": false
+    },
+    {
+      "description": "",
+      "trimByPsArgs": null,
+      "matchOnPsArgs": {
+        "maxRatio": 1,
+        "caliper": 0.05,
+        "caliperScale": "propensity score"
+      },
+      "stratifyByPsArgs": null,
+      "inversePtWeighting": false
+    },
+    {
+      "description": "",
+      "trimByPsArgs": null,
+      "matchOnPsArgs": {
+        "maxRatio": 10,
+        "caliper": 0.2,
+        "caliperScale": "standardized logit"
+      },
+      "stratifyByPsArgs": null,
+      "inversePtWeighting": false
+    }
+  ],
+  "createPsArgs": {
+    "maxCohortSizeForFitting": 250000,
+    "errorOnHighCorrelation": true,
+    "prior": {
+      "priorType": "laplace",
+      "useCrossValidation": true
+    },
+    "control": {
+      "tolerance": 2e-7,
+      "cvType": "auto",
+      "fold": 10,
+      "cvRepetitions": 10,
+      "noiseLevel": "silent",
+      "resetCoefficients": true,
+      "startingVariance": 0.01
+    }
+  },
+  "fitOutcomeModelArgs": {
+    "outcomeModels": [
+      {
+        "description": "",
+        "modelType": "cox",
+        "useCovariates": false
+      }
+    ],
+    "stratified": true,
+    "prior": {
+      "priorType": "laplace",
+      "useCrossValidation": true
+    },
+    "control": {
+      "tolerance": 2e-7,
+      "cvType": "auto",
+      "fold": 10,
+      "cvRepetitions": 10,
+      "noiseLevel": "quiet",
+      "resetCoefficients": true,
+      "startingVariance": 0.01
+    }
+  }
+}
