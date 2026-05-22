@@ -5,6 +5,7 @@ import {
   BaseSelection,
   CaliperScale,
   FlattenStudyDTO,
+  ModelType,
   RemoveDuplicate,
   StudyDTO,
   TrimByPsArgs,
@@ -20,7 +21,7 @@ import { loadFile, ModulePair } from "./loadFile";
 // ===== 네가 원하는 최종 Flatten 타입 =====
 export type FlattenStudyDoneDTO = {
   /////// getDbCohortMethodDataArgs ///////
-  studyPeriods: { studyStartDate: string | null; studyEndDate: string | null }[]; // yyyyMMdd
+  studyPeriods: { description?: string; studyStartDate: string | null; studyEndDate: string | null }[]; // yyyyMMdd
 
   timeAtRisks: {
     riskWindowStart: number;
@@ -40,6 +41,13 @@ export type FlattenStudyDoneDTO = {
     numberOfStrata: number | null;
     baseSelection: BaseSelection | null;
     inversePtWeighting: boolean;
+  }[];
+
+  /////// fitOutcomeModelArgs — outcomeModels per item (C5) ///////
+  outcomeModels: {
+    description: string;
+    modelType: ModelType;
+    useCovariates: boolean;
   }[];
 };
 
@@ -86,6 +94,7 @@ const pickDoneFields = (flat: FlattenStudyDTO): FlattenStudyDoneDTO => ({
   studyPeriods: flat.studyPeriods ?? [],
   timeAtRisks: flat.timeAtRisks ?? [],
   psSettings: flat.psSettings ?? [],
+  outcomeModels: flat.outcomeModels ?? [],
 });
 
 const normalizeToArray = <T>(v: T[] | T | undefined | null): T[] => {
@@ -181,6 +190,7 @@ const pickDoneFieldsPrimary = (
         },
       ]
     : [],
+  outcomeModels: [],
 });
 
 export const flattenStudyDonePrimary = (
@@ -223,6 +233,16 @@ export const toFactsDone = (flat: FlatDone): Set<string> => {
         baseSelection: p.baseSelection,
         trimByPsArgs: p.trimByPsArgs ?? null,
         inversePtWeighting: p.inversePtWeighting,
+      }),
+    );
+  }
+
+  // outcomeModels[] — per-item modelType/useCovariates (C5)
+  for (const om of flat.outcomeModels ?? []) {
+    facts.add(
+      canonicalizeObject("outcomeModels", {
+        modelType: om.modelType,
+        useCovariates: om.useCovariates,
       }),
     );
   }
@@ -296,6 +316,16 @@ const canonPsSettings = (arr: FlatDone["psSettings"]) =>
         baseSelection: p.baseSelection,
         trimByPsArgs: p.trimByPsArgs ?? null,
         inversePtWeighting: p.inversePtWeighting,
+      }),
+    ),
+  );
+
+const canonOutcomeModels = (arr: FlatDone["outcomeModels"]) =>
+  new Set(
+    (arr ?? []).map((om) =>
+      canonicalizeObject("outcomeModels", {
+        modelType: om.modelType,
+        useCovariates: om.useCovariates,
       }),
     ),
   );
@@ -391,6 +421,15 @@ export const evaluateFlatDone = (gold: FlatDone, pred: FlatDone) => {
     : null;
   const psAcc: boolean | null = psSpecified ? setEq(psSetGold, psSetPred) : null;
 
+  // outcomeModels (C5)
+  const omSetGold = canonOutcomeModels(gold.outcomeModels);
+  const omSetPred = canonOutcomeModels(pred.outcomeModels);
+  const omSpecified = omSetGold.size > 0;
+  const omCounts = omSpecified
+    ? diffMetrics(gold.outcomeModels, pred.outcomeModels, (arr) => canonOutcomeModels(arr))
+    : null;
+  const omAcc: boolean | null = omSpecified ? setEq(omSetGold, omSetPred) : null;
+
   return {
     jaccard,
     recall,
@@ -413,11 +452,13 @@ export const evaluateFlatDone = (gold: FlatDone, pred: FlatDone) => {
       studyPeriods: spAcc,
       timeAtRisks: tarAcc,
       propensityScoreAdjustment: psAcc,
+      outcomeModels: omAcc,
     },
     sectionCounts: {
       studyPeriods: spCounts,
       timeAtRisks: tarCounts,
       propensityScoreAdjustment: psCounts,
+      outcomeModels: omCounts,
     },
   };
 };
@@ -493,11 +534,13 @@ export type DoneCaseResult = {
     studyPeriods: boolean | null;
     timeAtRisks: boolean | null;
     propensityScoreAdjustment: boolean | null;
+    outcomeModels: boolean | null;
   };
   sectionCounts?: {
     studyPeriods?: any;
     timeAtRisks?: any;
     propensityScoreAdjustment?: any;
+    outcomeModels?: any;
   };
   goldJson?: any;
   predJson?: any;
@@ -610,6 +653,7 @@ export async function runEvaluateDone(): Promise<{
             studyPeriods: null,
             timeAtRisks: null,
             propensityScoreAdjustment: null,
+            outcomeModels: null,
           },
           goldJson,
           predJson,
@@ -675,6 +719,7 @@ export async function runEvaluateDone(): Promise<{
           studyPeriods: null,
           timeAtRisks: null,
           propensityScoreAdjustment: null,
+          outcomeModels: null,
         },
         error: String(err?.message ?? err),
       };
@@ -706,6 +751,7 @@ export async function runEvaluateDone(): Promise<{
     studyPeriods: sectionCounts("studyPeriods"),
     timeAtRisks: sectionCounts("timeAtRisks"),
     propensityScoreAdjustment: sectionCounts("propensityScoreAdjustment"),
+    outcomeModels: sectionCounts("outcomeModels"),
   };
 
   // 전체 field 단위 TP/FP/FN 집계

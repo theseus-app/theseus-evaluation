@@ -113,12 +113,14 @@ type PerCaseResult = {
     studyPeriods: boolean | null;
     timeAtRisks: boolean | null;
     propensityScoreAdjustment: boolean | null;
+    outcomeModels: boolean | null;
     // fitOutcomeModelArgs: boolean | null;
   };
   sectionCounts?: {
     studyPeriods?: any;
     timeAtRisks?: any;
     propensityScoreAdjustment?: any;
+    outcomeModels?: any;
     // fitOutcomeModelArgs?: any;
   };
   // 🔹 PRIMARY/DEFAULT 둘 다 받을 수 있게 any(or union)로 풀어줌
@@ -252,6 +254,7 @@ export async function runBatchEvaluate(): Promise<{
             studyPeriods: null,
             timeAtRisks: null,
             propensityScoreAdjustment: null,
+            outcomeModels: null,
             // fitOutcomeModelArgs: null
           },
           goldJson: p.goldJson,
@@ -362,6 +365,7 @@ export async function runBatchEvaluate(): Promise<{
     studyPeriods: sectionCounts("studyPeriods"),
     timeAtRisks: sectionCounts("timeAtRisks"),
     propensityScoreAdjustment: sectionCounts("propensityScoreAdjustment"),
+    outcomeModels: sectionCounts("outcomeModels"),
     // fitOutcomeModelArgs: sectionCounts("fitOutcomeModelArgs"),
   };
 
