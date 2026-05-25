@@ -1,32 +1,23 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { OpenAI } from "openai/client.js";
-import { StudyDTO } from "./flatten";
+import { getProvider, studyDtoSchema, type StudyDTO } from "theseus-core";
 import dotenv from "dotenv";
-import { MODEL_MAP } from "./text2jsonPRIMARY";
 dotenv.config();
+
 const TEMPLATE_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.5.0_annotated.txt");
-const JSON_PATH = path.resolve(process.cwd(), "public", "templates", "customAtlasTemplate_v1.5.json")
-// --- 모델 맵 ---
 
 async function readTextFile(abs: string) {
-    return fs.readFile(abs, "utf8");
-}
-
-async function readJsonFile<T = unknown>(abs: string): Promise<T> {
-    const txt = await fs.readFile(abs, "utf8");
-    return JSON.parse(txt) as T;
+  return fs.readFile(abs, "utf8");
 }
 
 export async function text2json(
-    text: string,
-    vendor: "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
-    size: "FLAGSHIP" | "LIGHT"
+  text: string,
+  vendor: "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
+  size: "FLAGSHIP" | "LIGHT",
 ): Promise<{ updatedSpec: StudyDTO | null; rawResponse: string }> {
-    const analysisSpecificationsTemplate = await readTextFile(TEMPLATE_PATH);
-    const selected = MODEL_MAP[vendor][size];
+  const analysisSpecificationsTemplate = await readTextFile(TEMPLATE_PATH);
 
-    const json_fields_descriptions = `
+  const json_fields_descriptions = `
     [“name”] : We can give the analysis a unique name.
 [“cohortDefinitions”] : We assume the cohorts have already been created in ATLAS.
 [“negativeControlConceptSet”] : Negative control outcomes are outcomes that are not believed to be caused by either the target or the comparator. Here we assume the concept set has already been created.
@@ -59,29 +50,19 @@ export async function text2json(
 [“control”][“cvRepetitions”] : Number of repetitions of cross validation.
 [“control”][“noiseLevel”] : Noise level for Cyclops screen output.
 [“control”][“resetCoefficients”] : Reset all coefficients to 0 between model fits under cross-validation.
-[“control”][“startingVariance”] : Starting variance for auto-search cross-validation (-1 mean use estimate based on data).`
+[“control”][“startingVariance”] : Starting variance for auto-search cross-validation (-1 mean use estimate based on data).`;
 
-
-    const currentAnalysisSpecObj = await readJsonFile<StudyDTO>(JSON_PATH);
-    const currentAnalysisSpecifications = JSON.stringify(currentAnalysisSpecObj, null, 4);
-
-
-    const prompt = `<Instruction>
-From the provided <Text>, extract the key information and update the <Current Analysis Specifications> JSON to configure a population-level estimation study using the OMOP-CDM.
+  const prompt = `<Instruction>
+From the provided <Text>, extract the key information to configure a population-level estimation study using the OMOP-CDM.
 Leave any settings at their default values if they are not specified in the <Text>.
 Refer to the fields and value types provided in the <Analysis Specifications Template> and do not add any additional fields.
-For each fields, refer to <JSON Fields Descriptions> to ensure accurate mapping of the relevant information from <Text> to the corresponding JSON structure.
-Additional sensitivity analyses beyond the primary analysis may have also been conducted. If the text describes multiple settings for each field (e.g., more than one timeAtRisk window), generate a separate JSON object for each setting within its corresponding array. Fields that can contain multiple objects are annotated in the <Analysis Specifications Template>.
-Following the <Output Style> format, output the updated analysis specifications JSON and provide a description of how the new settings are applied to the specification. 
+For each field, refer to <JSON Fields Descriptions> to ensure accurate mapping of the relevant information from <Text> to the corresponding JSON structure.
+Additional sensitivity analyses beyond the primary analysis may have also been conducted. If the text describes multiple settings for a field (e.g., more than one timeAtRisk window), produce a separate entry for each setting within its corresponding array.
 </Instruction>
 
 <Text>
 ${text}
 </Text>
-
-<Current Analysis Specifications>
-${currentAnalysisSpecifications}
-</Current Analysis Specifications>
 
 <JSON Fields Descriptions>
 ${json_fields_descriptions}
@@ -89,270 +70,12 @@ ${json_fields_descriptions}
 
 <Analysis Specifications Template>
 ${analysisSpecificationsTemplate}
-</Analysis Specifications Template>
+</Analysis Specifications Template>`;
 
-<Output Style>
-\`\`\`json
-analysis specifications 
-\`\`\`
----
-Description
-</Output Style>`;
-
-    // --- vendor별 API 초기화 ---
-    let completionText = "";
-    if (vendor === "OPENAI") {
-        const openai = new OpenAI({ apiKey: selected.key });
-        const res = await openai.chat.completions.create({
-            model: selected.name,
-            temperature: 0,
-            messages: [
-                { role: "user", content: prompt }],
-        });
-        completionText = res.choices[0]?.message?.content ?? "";
-    } else if (vendor === "GEMINI") {
-        const maxRetries = 10;
-        const baseDelayMs = 60000; // 60초
-
-        let lastErrText = "";
-        for (let attempt = 0; attempt < maxRetries; attempt++) {
-            const resp = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${selected.name}:generateContent?key=${selected.key}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [
-                            {
-                                parts: [
-                                    { text: `${prompt}` }
-                                ]
-                            }
-                        ],
-                        generationConfig: {
-                            temperature: 0,
-                            maxOutputTokens: 65536
-                        }
-                    }),
-                }
-            );
-
-            if (resp.ok) {
-                const data = await resp.json();
-
-                // finishReason 체크 (MAX_TOKENS, SAFETY 등)
-                const finishReason = data.candidates?.[0]?.finishReason;
-                if (finishReason && finishReason !== "STOP") {
-                    console.warn(`[WARN] Gemini finishReason: ${finishReason}`);
-                }
-
-                // Gemini가 여러 part로 응답할 수 있으므로 모든 part를 합침
-                const parts = data.candidates?.[0]?.content?.parts ?? [];
-                completionText = parts.map((p: any) => p.text ?? "").join("");
-                break;
-            }
-
-            lastErrText = await resp.text();
-            const shouldRetry = resp.status === 503 || resp.status === 429;
-            const isLast = attempt === maxRetries - 1;
-            if (!shouldRetry || isLast) {
-                console.error("Gemini API Error:", resp.status, lastErrText);
-                throw new Error(`Gemini API failed: ${resp.status} ${lastErrText}`);
-            }
-
-            const delay = baseDelayMs * (attempt + 1);
-            console.warn(`Gemini overloaded (${resp.status}). Retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${maxRetries})`);
-            await sleep(delay);
-        }
-    }
-    else if (vendor === "CLAUDE") {
-        const resp = await fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "x-api-key": selected.key,
-                "anthropic-version": "2023-06-01",
-            },
-            body: JSON.stringify({
-                model: selected.name,
-                temperature: 0,
-                max_tokens: 4000,
-                messages: [
-                    { role: "user", content: prompt }  // system 제거
-                ],
-            }),
-        });
-
-        // 에러 체크 추가
-        if (!resp.ok) {
-            const errorText = await resp.text();
-            console.error("Claude API Error:", resp.status, errorText);
-            throw new Error(`Claude API failed: ${resp.status} ${errorText}`);
-        }
-
-        const data = await resp.json();
-        // console.log("Claude Response:", JSON.stringify(data, null, 2));  // 디버깅용
-        completionText = data.content?.[0]?.text ?? "";
-
-    } else if (vendor === "DEEPSEEK") {
-        const maxRetries = 10;
-        const baseDelayMs = 60000; // 60초
-
-        let lastErrText = "";
-        for (let attempt = 0; attempt < maxRetries; attempt++) {
-            const resp = await fetch("https://api.deepseek.com/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${selected.key}`,
-                },
-                body: JSON.stringify({
-                    model: selected.name,
-                    temperature: 0,
-                    messages: [
-                        { role: "user", content: prompt },
-                    ],
-                    response_format: { type: "json_object" },
-                    stream: false,
-                }),
-            });
-
-            if (resp.ok) {
-                const data = await resp.json();
-
-                // 응답 구조 확인
-                if (!data.choices || !data.choices[0]) {
-                    console.error("Unexpected DeepSeek response structure:", data);
-                    throw new Error("Invalid DeepSeek response structure");
-                }
-
-                completionText = data.choices[0]?.message?.content ?? "";
-                break;
-            }
-
-            lastErrText = await resp.text();
-            const shouldRetry = resp.status === 503 || resp.status === 429 || resp.status === 500 || resp.status === 502;
-            const isLast = attempt === maxRetries - 1;
-            if (!shouldRetry || isLast) {
-                console.error("DeepSeek API Error:", resp.status, lastErrText);
-                throw new Error(`DeepSeek API failed: ${resp.status} ${lastErrText}`);
-            }
-
-            const delay = baseDelayMs * (attempt + 1);
-            console.warn(`DeepSeek error (${resp.status}). Retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${maxRetries})`);
-            await sleep(delay);
-        }
-    }
-
-
-    const content = completionText.trim();
-    const m = content.match(/([\s\S]*?)\n?---\n?([\s\S]*)/);
-    const updatedSpecRaw = m ? m[1] : content;
-    const description = m ? (m[2]?.trim() ?? "") : "";
-
-    return { updatedSpec: safeParseJsonFromText(updatedSpecRaw), rawResponse: completionText };
-}
-
-/** ---------- helpers: parse / pretty ---------- */
-/** 코드펜스 제거 (```json ... ```), 앞뒤 공백 트림 */
-function stripCodeFences(text: string): string {
-    return text
-        .replace(/^\s*```[\w-]*\s*/i, "")
-        .replace(/\s*```+\s*$/i, "")
-        .trim();
-}
-
-/** 텍스트에서 첫 번째 JSON(객체/배열) 블록만 추출 */
-function extractFirstJson(text: string): string | null {
-    const s = stripCodeFences(text);
-
-    // 1) 첫 여는 괄호 위치 찾기
-    let start = -1;
-    for (let i = 0; i < s.length; i++) {
-        const ch = s[i];
-        if (ch === "{" || ch === "[") {
-            start = i;
-            break;
-        }
-    }
-    if (start === -1) return null;
-
-    // 2) 문자열/이스케이프를 고려한 괄호 매칭
-    let depth = 0;
-    let inStr = false;
-    let esc = false;
-    const open = s[start];
-
-    for (let i = start; i < s.length; i++) {
-        const ch = s[i];
-
-        if (inStr) {
-            if (esc) {
-                esc = false;
-            } else if (ch === "\\") {
-                esc = true;
-            } else if (ch === '"') {
-                inStr = false;
-            }
-            continue;
-        }
-
-        if (ch === '"') {
-            inStr = true;
-        } else if (ch === "{" || ch === "[") {
-            depth++;
-        } else if (ch === "}" || ch === "]") {
-            depth--;
-            if (depth === 0) {
-                // 열었던 종류와 닫힘 종류가 맞는지(느슨히 체크)
-                const isObjectJson = open === "{" && ch === "}";
-                const isArrayJson = open === "[" && ch === "]";
-                if (isObjectJson || isArrayJson) {
-                    return s.slice(start, i + 1);
-                }
-            }
-        }
-    }
-    return null;
-}
-
-/** 느슨한 파서: 텍스트에서 JSON만 뽑아 안전 파싱 */
-function safeParseJsonFromText(text: string): any {
-    if (!text) return null;
-
-    // 1차: 괄호 매칭으로 추출
-    const candidate = extractFirstJson(text);
-    if (candidate) {
-        try {
-            return JSON.parse(candidate);
-        } catch {
-            // 계속 진행
-        }
-    }
-
-    // 2차: 첫 '{'부터 잘라서 시도 (백업)
-    const braceIdx = text.indexOf("{");
-    if (braceIdx !== -1) {
-        try {
-            return JSON.parse(text.slice(braceIdx));
-        } catch {
-            // noop
-        }
-    }
-
-    // 3차: 첫 '['부터 잘라서 시도 (배열 루트인 경우)
-    const bracketIdx = text.indexOf("[");
-    if (bracketIdx !== -1) {
-        try {
-            return JSON.parse(text.slice(bracketIdx));
-        } catch {
-            // noop
-        }
-    }
-
-    return null;
-}
-
-function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  try {
+    const updatedSpec = await getProvider(vendor, size).generateStructured(studyDtoSchema, { prompt });
+    return { updatedSpec, rawResponse: JSON.stringify(updatedSpec) };
+  } catch (err) {
+    return { updatedSpec: null, rawResponse: String(err instanceof Error ? err.message : err) };
+  }
 }
