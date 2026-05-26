@@ -133,7 +133,7 @@ export async function getRScripts() {
       };
       dto.negativeControlConceptSet = { id: 1888110, name: "negative" };
 
-      const script = await json2strategus(JSON.stringify(dto, null, 2), { vendor:vendor as any , size:size as any });
+      const script = await json2strategus(JSON.stringify(dto, null, 2));
 
       await fs.writeFile(outPath, script, "utf8");
 
