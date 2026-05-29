@@ -19,6 +19,7 @@ export async function loadFile(type: string = "DEFAULT"): Promise<ModulePair[]> 
     const folderMap: Record<string, string> = {
         DEFAULT: "default",
         PRIMARY: "primary",
+        PRIMARY_AUGMENTED: "primary_augmented",
         METHOD: "method",
         PDF: "pdf",
     };

@@ -39,22 +39,22 @@ const canonicalizeObject = (field: string, obj: Record<string, unknown>): string
   return `${field}:{${body}}`;
 };
 
+// 시작·종료일이 모두 빈 studyPeriod 는 "기간 제한 없음"으로, 빈 배열([]) 과 동치.
+// 골드 [{빈 객체}] 와 예측 [] 가 카디널리티(1 vs 0)로 어긋나 오답 처리되던 것을 정정한다.
+const isEmptyStudyPeriod = (sp: {
+  studyStartDate?: string | null;
+  studyEndDate?: string | null;
+}) => !sp?.studyStartDate && !sp?.studyEndDate;
+
 // 1-depth facts로 변환 (완전일치 규칙 반영)
 export const toFacts = (flat: Flat): Set<string> => {
   const facts = new Set<string>();
 
-  // 스칼라
-  facts.add(`maxCohortSize=${normVal(flat.maxCohortSize)}`);
-  facts.add(`restrictToCommonPeriod=${normVal(flat.restrictToCommonPeriod)}`);
-  facts.add(`firstExposureOnly=${normVal(flat.firstExposureOnly)}`);
-  facts.add(`washoutPeriod=${normVal(flat.washoutPeriod)}`);
-  facts.add(`removeDuplicateSubjects=${normVal(flat.removeDuplicateSubjects)}`);
-  facts.add(`censorAtNewRiskWindow=${normVal(flat.censorAtNewRiskWindow)}`);
-  facts.add(`removeSubjectsWithPriorOutcome=${normVal(flat.removeSubjectsWithPriorOutcome)}`);
-  facts.add(`priorOutcomeLookback=${normVal(flat.priorOutcomeLookback)}`);
-
+  // 평가 대상 = 4개 섹션만: studyPeriods / timeAtRisks / psSettings / outcomeModels.
+  // 스칼라(washoutPeriod 등) · createPsArgs · description 은 평가에서 제외.
   // 배열 항목: 완전일치 항목으로 비교
   for (const sp of flat.studyPeriods ?? []) {
+    if (isEmptyStudyPeriod(sp)) continue; // 빈 기간 = 기간 없음 → fact 생성 안 함
     facts.add(
       canonicalizeObject("studyPeriods", {
         studyStartDate: sp.studyStartDate,
@@ -99,21 +99,6 @@ export const toFacts = (flat: Flat): Set<string> => {
     );
   }
 
-  // createPsArgs: 단일 복합 항목
-  facts.add(
-    canonicalizeObject("createPsArgs", {
-      maxCohortSizeForFitting: flat.createPsArgs?.maxCohortSizeForFitting ?? null,
-      errorOnHighCorrelation: flat.createPsArgs?.errorOnHighCorrelation ?? null,
-      Prior: flat.createPsArgs?.Prior ?? null,
-      Control: flat.createPsArgs?.Control ?? null,
-    })
-  );
-
-  // // fitOutcomeModelArgs 복합 항목은 섹션 정확도 계산에서 직접 비교,
-  // // 여기서는 기존처럼 Prior/Control만 문자열로 포함(전체 지표용)
-  // facts.add(`fitOutcomeModel.Prior=${normVal(flat.Prior ?? null)}`);
-  // facts.add(`fitOutcomeModel.Control=${normVal(flat.Control ?? null)}`);
-
   return facts;
 };
 
@@ -154,12 +139,14 @@ const setEq = (A: Set<string>, B: Set<string>) =>
 
 const canonStudyPeriods = (arr: Flat["studyPeriods"]) =>
   new Set(
-    (arr ?? []).map((sp) =>
-      canonicalizeObject("studyPeriods", {
-        studyStartDate: sp.studyStartDate,
-        studyEndDate: sp.studyEndDate,
-      })
-    )
+    (arr ?? [])
+      .filter((sp) => !isEmptyStudyPeriod(sp)) // 빈 기간 제거 → [{빈 객체}] ≡ []
+      .map((sp) =>
+        canonicalizeObject("studyPeriods", {
+          studyStartDate: sp.studyStartDate,
+          studyEndDate: sp.studyEndDate,
+        })
+      )
   );
 
 const canonTimeAtRisks = (arr: Flat["timeAtRisks"]) =>
@@ -199,21 +186,6 @@ const canonOutcomeModels = (arr: Flat["outcomeModels"]) =>
       })
     )
   );
-
-const pickCreatePsArgs = (f: Flat) => ({
-  maxCohortSizeForFitting: f.createPsArgs?.maxCohortSizeForFitting ?? null,
-  errorOnHighCorrelation: f.createPsArgs?.errorOnHighCorrelation ?? null,
-  Prior: f.createPsArgs?.Prior ?? null,
-  Control: f.createPsArgs?.Control ?? null,
-});
-const DEFAULT_CREATE_PS_ARGS = {
-  maxCohortSizeForFitting: 0,
-  errorOnHighCorrelation: false,
-  Prior: null,
-  Control: null,
-};
-const isSpecifiedCreatePsArgs = (g: Flat) =>
-  stableStringify(pickCreatePsArgs(g)) !== stableStringify(DEFAULT_CREATE_PS_ARGS);
 
 // outcomeModels[] — per-item (C5); replaces old flat modelType/useCovariates/inversePtWeighting
 const isSpecifiedOutcomeModels = (g: Flat) =>
@@ -303,21 +275,12 @@ export const evaluateFlat = (A: Flat, B: Flat) => {
     ? setEq(canonTimeAtRisks(A.timeAtRisks), canonTimeAtRisks(B.timeAtRisks))
     : null;
 
-  // propensityScoreAdjustment
+  // propensityScoreAdjustment — psSettings 만 (createPsArgs 제외)
   const psSpecified = (A.psSettings?.length ?? 0) > 0;
-  const cpsSpecified = isSpecifiedCreatePsArgs(A);
-  const psaSpecified = psSpecified || cpsSpecified;
-
-  const psEq = psSpecified
+  const psaAcc: boolean | null = psSpecified
     ? setEq(canonPsSettings(A.psSettings), canonPsSettings(B.psSettings))
-    : true;
-
-  const cpsEq = cpsSpecified
-    ? stableStringify(pickCreatePsArgs(A)) === stableStringify(pickCreatePsArgs(B))
-    : true;
-
-  const psaAcc: boolean | null = psaSpecified ? psEq && cpsEq : null;
-  const psaCounts = psaSpecified
+    : null;
+  const psaCounts = psSpecified
     ? diffMetrics(A.psSettings, B.psSettings, (arr) => canonPsSettings(arr))
     : null;
 

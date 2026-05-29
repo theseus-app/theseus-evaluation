@@ -6,21 +6,12 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import { loadFile, ModulePair } from "./loadFile";
 
-// 🔹 DEFAULT/METHOD/PDF용
+// 모든 텍스트 타입(DEFAULT/METHOD/PRIMARY/PRIMARY_AUGMENTED)과 PDF 모두 신 구조 StudyDTO
 import { StudyDTO, FlattenStudyDTO, flattenStudy } from "./flatten";
-// 🔹 PRIMARY용 (flatten.ts에 같이 export 해둔다고 가정)
-import {
-  StudyDTOPRIMARY,
-  FlattenStudyDTOPRIMARY,
-  flattenStudyPRIMARY,
-} from "./flattenPrimary";
-
 import { evaluateFlat } from "./evaluate";
-import { evaluateFlatPRIMARY } from "./evaluatePrimary";
 
 import { text2json } from "./text2json";
 import { text2jsonPDF } from "./text2jsonPDF";
-import { text2jsonPRIMARY } from "./text2jsonPRIMARY";
 
 const MAX_ATTEMPTS_PER_CASE = 3;
 
@@ -52,7 +43,7 @@ function parseArgs() {
 
   const supportedVendors = ["OPENAI", "GEMINI", "DEEPSEEK", "CLAUDE"];
   const supportedSizes = ["FLAGSHIP", "LIGHT"];
-  const supportedTypes = ["DEFAULT", "PRIMARY", "METHOD", "PDF"];
+  const supportedTypes = ["DEFAULT", "PRIMARY", "PRIMARY_AUGMENTED", "METHOD", "PDF"];
   if (
     !supportedVendors.includes(vendor) ||
     !supportedSizes.includes(size) ||
@@ -135,7 +126,6 @@ export async function runBatchEvaluate(): Promise<{
 }> {
   const { vendor, size, type } = parseArgs();
   const isPdfType = type === "PDF";
-  const isPrimaryType = type === "PRIMARY";
 
   // 1) goldJson + studyText 로드 (여러 케이스)
   const pairs: ModulePair[] = await loadFile(type);
@@ -185,19 +175,8 @@ export async function runBatchEvaluate(): Promise<{
               size as "FLAGSHIP" | "LIGHT",
             );
             updatedSpec = res.updatedSpec ?? null;
-          } else if (isPrimaryType) {
-            // 🔹 PRIMARY 타입 → text2jsonPRIMARY
-            if (!p.studyText) {
-              throw new Error(`Missing study text for case ${p.name}`);
-            }
-            const { updatedSpec: spec } = await text2jsonPRIMARY(
-              p.studyText,
-              vendor as "OPENAI" | "GEMINI" | "DEEPSEEK" | "CLAUDE",
-              size as "FLAGSHIP" | "LIGHT",
-            );
-            updatedSpec = spec ?? null;
           } else {
-            // 🔹 DEFAULT / METHOD
+            // 🔹 DEFAULT / METHOD / PRIMARY / PRIMARY_AUGMENTED (모두 신 구조)
             if (!p.studyText) {
               throw new Error(`Missing study text for case ${p.name}`);
             }
@@ -275,23 +254,10 @@ export async function runBatchEvaluate(): Promise<{
       // --------------------------------
       // 2-2) flatten: gold / pred 평탄화
       // --------------------------------
-      let evalRes: any;
-
-      if (isPrimaryType) {
-        // 🔹 PRIMARY 플로우
-        const flatGoldPRIMARY: FlattenStudyDTOPRIMARY = flattenStudyPRIMARY(
-          p.goldJson as StudyDTOPRIMARY,
-        );
-        const flatPredPRIMARY: FlattenStudyDTOPRIMARY = flattenStudyPRIMARY(
-          predJson as StudyDTOPRIMARY,
-        );
-        evalRes = evaluateFlatPRIMARY(flatGoldPRIMARY, flatPredPRIMARY);
-      } else {
-        // 🔹 기존 플로우 (DEFAULT / METHOD / PDF)
-        const flatGold: FlattenStudyDTO = flattenStudy(p.goldJson as StudyDTO);
-        const flatPred: FlattenStudyDTO = flattenStudy(predJson as StudyDTO);
-        evalRes = evaluateFlat(flatGold, flatPred);
-      }
+      // 🔹 모든 타입(DEFAULT / METHOD / PDF / PRIMARY / PRIMARY_AUGMENTED) 신 구조 평가
+      const flatGold: FlattenStudyDTO = flattenStudy(p.goldJson as StudyDTO);
+      const flatPred: FlattenStudyDTO = flattenStudy(predJson as StudyDTO);
+      const evalRes: any = evaluateFlat(flatGold, flatPred);
 
       // --------------------------------
       // 2-3) 결과 저장 (results/<파일이름>.json)
