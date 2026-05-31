@@ -139,7 +139,7 @@ export async function runBatchEvaluate(): Promise<{
     process.cwd(),
     "public",
     "results",
-    isTestDataset() ? "test" : "",
+    isTestDataset() ? "non-ohdsi" : "ohdsi",
     type.toLowerCase(),
     `${vendor.toLowerCase()}_${size.toLowerCase()}`,
   );

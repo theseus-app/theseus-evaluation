@@ -572,13 +572,13 @@ export async function runEvaluateDone(): Promise<{
   const folderName = folderMap[type];
   const lowerVendor = vendor.toLowerCase();
   const lowerSize = size.toLowerCase();
-  const testSegment = isTestDataset() ? "test" : "";
+  const datasetSegment = isTestDataset() ? "non-ohdsi" : "ohdsi";
 
   const sourceDir = path.resolve(
     process.cwd(),
     "public",
     "results",
-    testSegment,
+    datasetSegment,
     folderName,
     `${lowerVendor}_${lowerSize}`,
   );
@@ -587,7 +587,7 @@ export async function runEvaluateDone(): Promise<{
     "public",
     "results",
     "done",
-    testSegment,
+    datasetSegment,
     folderName,
     `${lowerVendor}_${lowerSize}`,
   );

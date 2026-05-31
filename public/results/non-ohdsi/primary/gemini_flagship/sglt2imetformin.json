@@ -1,0 +1,266 @@
+{
+  "name": "SGLT2iMetformin",
+  "fileName": "sglt2imetformin.json",
+  "createdAt": "2026-05-29T16:08:43.533Z",
+  "metrics": {
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
+  },
+  "counts": {
+    "gold": 4,
+    "pred": 4,
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
+  },
+  "details": {
+    "bothJson": [
+      "studyPeriods:{studyEndDate=20200331|studyStartDate=20130401}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=2|numberOfStrata=null|trimByPsArgs=null}",
+      "outcomeModels:{modelType=cox|useCovariates=false}"
+    ],
+    "predJsonOnly": [],
+    "goldJsonOnly": []
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true,
+    "outcomeModels": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "outcomeModels": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "",
+          "studyStartDate": "20130401",
+          "studyEndDate": "20200331"
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 2,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
+        },
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "SGLT-2i vs Metformin",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "SGLT-2i"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Metformin"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Study outcome"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative Controls"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "Primary",
+          "studyStartDate": "20130401",
+          "studyEndDate": "20200331"
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "On-treatment",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "1:2 matching",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 2,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
+        },
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "Primary",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

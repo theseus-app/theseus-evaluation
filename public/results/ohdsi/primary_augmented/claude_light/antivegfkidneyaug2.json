@@ -1,0 +1,272 @@
+{
+  "name": "AntiVEGFKidneyAug2",
+  "fileName": "antivegfkidneyaug2.json",
+  "createdAt": "2026-05-29T15:30:40.624Z",
+  "metrics": {
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
+  },
+  "counts": {
+    "gold": 4,
+    "pred": 4,
+    "intersection": 3,
+    "union": 5,
+    "both": 3,
+    "predOnly": 1,
+    "goldOnly": 1
+  },
+  "details": {
+    "bothJson": [
+      "studyPeriods:{studyEndDate=null|studyStartDate=20100101}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
+      "outcomeModels:{modelType=logistic|useCovariates=false}"
+    ],
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=30|startAnchor=cohort start}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=365|riskWindowStart=31|startAnchor=cohort start}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": true,
+    "outcomeModels": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "outcomeModels": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "",
+          "studyStartDate": "20100101",
+          "studyEndDate": ""
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 31,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": null,
+        "stratifyByPsArgs": {
+          "numberOfStrata": 5,
+          "baseSelection": "all"
+        },
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "",
+          "modelType": "logistic",
+          "useCovariates": false
+        }
+      ],
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "Anti-VEGF and Kidney Failure Study",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "<UNKNOWN>"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "<UNKNOWN>"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Kidney Failure"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "<UNKNOWN>"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "All baseline covariates"
+        }
+      ],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "Primary analysis",
+          "studyStartDate": "20100101",
+          "studyEndDate": null
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "30-day blank period after third anti-VEGF exposure, then 365 days",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 30,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 365,
+          "endAnchor": "cohort start"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "Propensity score stratification with L1-regularization",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": null,
+        "stratifyByPsArgs": {
+          "numberOfStrata": 5,
+          "baseSelection": "all"
+        },
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "Primary logistic regression model",
+          "modelType": "logistic",
+          "useCovariates": false
+        }
+      ],
+      "stratified": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}

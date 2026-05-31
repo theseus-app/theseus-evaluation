@@ -1,0 +1,291 @@
+{
+  "name": "SemaglutideandNAION",
+  "fileName": "semaglutideandnaion.json",
+  "createdAt": "2026-05-29T15:27:51.147Z",
+  "metrics": {
+    "jaccard": 0.42857142857142855,
+    "recall": 0.6,
+    "precision": 0.6
+  },
+  "counts": {
+    "gold": 5,
+    "pred": 5,
+    "intersection": 3,
+    "union": 7,
+    "both": 3,
+    "predOnly": 2,
+    "goldOnly": 2
+  },
+  "details": {
+    "bothJson": [
+      "studyPeriods:{studyEndDate=20231231|studyStartDate=20171201}",
+      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "outcomeModels:{modelType=cox|useCovariates=false}"
+    ],
+    "predJsonOnly": [
+      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=3|trimByPsArgs=null}"
+    ],
+    "goldJsonOnly": [
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}"
+    ]
+  },
+  "sectionAccuracy": {
+    "studyPeriods": true,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": false,
+    "outcomeModels": true
+  },
+  "sectionCounts": {
+    "studyPeriods": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "timeAtRisks": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 0,
+      "predOnlyCount": 2,
+      "goldOnlyCount": 2,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
+    },
+    "outcomeModels": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    }
+  },
+  "goldJson": {
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "",
+          "studyStartDate": "20171201",
+          "studyEndDate": "20231231"
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 1,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
+        },
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      },
+      {
+        "description": "",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": null,
+        "stratifyByPsArgs": {
+          "numberOfStrata": 5,
+          "baseSelection": "all"
+        },
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  },
+  "predJson": {
+    "name": "T2D GLP-1RA/SGLT2/DPP4/sulfonylurea vs comparator PS-matched Cox study of NAION",
+    "cohortDefinitions": {
+      "targetCohort": {
+        "id": null,
+        "name": "Target T2D medication cohort"
+      },
+      "comparatorCohort": {
+        "id": null,
+        "name": "Comparator T2D medication cohort"
+      },
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "NAION"
+        }
+      ]
+    },
+    "negativeControlConceptSet": {
+      "id": null,
+      "name": "Negative control concept set"
+    },
+    "covariateSelection": {
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
+    },
+    "getDbCohortMethodDataArgs": {
+      "studyPeriods": [
+        {
+          "description": "primary",
+          "studyStartDate": "20171201",
+          "studyEndDate": "20231231"
+        }
+      ],
+      "firstExposureOnly": false,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
+      "maxCohortSize": 0
+    },
+    "createStudyPopArgs": {
+      "removeSubjectsWithPriorOutcome": true,
+      "priorOutcomeLookback": 99999,
+      "timeAtRisks": [
+        {
+          "description": "TAR 1",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 1,
+          "startAnchor": "cohort start",
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
+        }
+      ],
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "PS 1",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 1,
+          "caliper": 0,
+          "caliperScale": "propensity score"
+        },
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      },
+      {
+        "description": "PS 2",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": null,
+        "stratifyByPsArgs": {
+          "numberOfStrata": 3,
+          "baseSelection": "all"
+        },
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    },
+    "fitOutcomeModelArgs": {
+      "outcomeModels": [
+        {
+          "description": "primary",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
+    }
+  }
+}
