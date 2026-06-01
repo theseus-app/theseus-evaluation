@@ -21,7 +21,7 @@ export const JSONIVIronAnaphylaxis = {
       },
       {
         "description": "",
-        "studyStartDate": "20140101",
+        "studyStartDate": "20150101",
         "studyEndDate": "20181231"
       }
     ],

@@ -32,7 +32,7 @@ export const JSONDOACsandWarfarinAug1 = {
         "minDaysAtRisk": 1,
         "riskWindowStart": 1,
         "startAnchor": "cohort start",
-        "riskWindowEnd": 99999,
+        "riskWindowEnd": 30,
         "endAnchor": "cohort start"
       }
     ],

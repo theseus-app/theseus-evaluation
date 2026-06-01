@@ -14,7 +14,7 @@ export const JSONDPP4iPulmonaryTB = {
       {
         "description": "",
         "studyStartDate": "20070101",
-        "studyEndDate": "20191231"
+        "studyEndDate": "20201231"
       }
     ],
     "firstExposureOnly": false,
