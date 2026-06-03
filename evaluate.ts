@@ -1,6 +1,7 @@
 // evaluate.ts
 
 import { FlattenStudyDTO } from "./flatten";
+import { canonEquivalence, applyAcceptToPredFlat } from "./acceptableAnswers";
 
 type Flat = FlattenStudyDTO;
 
@@ -70,7 +71,6 @@ export const toFacts = (flat: Flat): Set<string> => {
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
-        minDaysAtRisk: t.minDaysAtRisk,
       })
     );
   }
@@ -117,22 +117,16 @@ const factKey = (f: string): string => {
 // --- 섹션 비교 헬퍼들 ---
 
 //riskwindow 기간 normalize
-const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 9999 ? 99999 : n;
-};
+const normalizeRiskWindowEnd = (n: number | null | undefined): number | null =>
+  canonEquivalence("riskWindowEnd", n ?? null) as number | null;
 
 // riskWindowStart: 0과 1을 동치로 취급
-const normalizeRiskWindowStart = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 0 ? 1 : n;
-};
+const normalizeRiskWindowStart = (n: number | null | undefined): number | null =>
+  canonEquivalence("riskWindowStart", n ?? null) as number | null;
 
 // 2) maxRatio: 0 (no max) 와 100 을 동치로 취급
-const normalizeMaxRatio = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 100 ? 0 : n;
-};
+const normalizeMaxRatio = (n: number | null | undefined): number | null =>
+  canonEquivalence("maxRatio", n ?? null) as number | null;
 
 const setEq = (A: Set<string>, B: Set<string>) =>
   A.size === B.size && [...A].every((x) => B.has(x));
@@ -157,7 +151,6 @@ const canonTimeAtRisks = (arr: Flat["timeAtRisks"]) =>
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
-        minDaysAtRisk: t.minDaysAtRisk,
       })
     )
   );
@@ -192,7 +185,9 @@ const isSpecifiedOutcomeModels = (g: Flat) =>
   (g.outcomeModels?.length ?? 0) > 0;
 
 // gold 스코프 키만으로 Jaccard/Recall/Precision + 섹션별 정확도
-export const evaluateFlat = (A: Flat, B: Flat) => {
+export const evaluateFlat = (A: Flat, Braw: Flat, caseName?: string) => {
+  // 복수정답 accept: pred를 gold 기준으로 snap (gold는 불변). caseName 없으면 미적용.
+  const B = caseName ? applyAcceptToPredFlat(caseName, A, Braw) : Braw;
   const AF = toFacts(A);
   const BF = toFacts(B);
 
