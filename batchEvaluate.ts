@@ -257,7 +257,7 @@ export async function runBatchEvaluate(): Promise<{
       // 🔹 모든 타입(DEFAULT / METHOD / PDF / PRIMARY / PRIMARY_AUGMENTED) 신 구조 평가
       const flatGold: FlattenStudyDTO = flattenStudy(p.goldJson as StudyDTO);
       const flatPred: FlattenStudyDTO = flattenStudy(predJson as StudyDTO);
-      const evalRes: any = evaluateFlat(flatGold, flatPred);
+      const evalRes: any = evaluateFlat(flatGold, flatPred, p.name);
 
       // --------------------------------
       // 2-3) 결과 저장 (results/<파일이름>.json)
