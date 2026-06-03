@@ -14,15 +14,16 @@ const sizes = ["flagship", "light"];
 type SecKey = "studyPeriods" | "timeAtRisks" | "propensityScoreAdjustment" | "outcomeModels";
 const SECTIONS: SecKey[] = ["studyPeriods", "timeAtRisks", "propensityScoreAdjustment", "outcomeModels"];
 
+// NOTE: method/pdf gold는 구식(legacy) cmAnalysis 구조(중첩 propensityScoreAdjustment.psSettings,
+// 단수 fitOutcomeModelArgs.modelType, priorOutcomeLookBack)라 통합 flattenStudy/evaluateFlat로
+// 채점하면 gold fact가 붕괴해 점수가 망가진다(예: 0.92->0.00). 이 통합 파이프라인은 신규 구조
+// (default/primary/primary_augmented)만 지원하므로 method/pdf는 제외한다(기존 점수 보존).
 const DIRS: { ohdsi: boolean; type: string; path: string }[] = [
   { ohdsi: true,  type: "DEFAULT",           path: "public/results/ohdsi/default" },
   { ohdsi: true,  type: "PRIMARY",           path: "public/results/ohdsi/primary" },
   { ohdsi: true,  type: "PRIMARY_AUGMENTED", path: "public/results/ohdsi/primary_augmented" },
-  { ohdsi: true,  type: "METHOD",            path: "public/results/ohdsi/method" },
-  { ohdsi: true,  type: "PDF",               path: "public/results/ohdsi/pdf" },
   { ohdsi: false, type: "DEFAULT",           path: "public/results/non-ohdsi/default" },
   { ohdsi: false, type: "PRIMARY",           path: "public/results/non-ohdsi/primary" },
-  { ohdsi: false, type: "METHOD",            path: "public/results/non-ohdsi/method" },
 ];
 
 function sectionAgg(results: any[], key: SecKey) {
