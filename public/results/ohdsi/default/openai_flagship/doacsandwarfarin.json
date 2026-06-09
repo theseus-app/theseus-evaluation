@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2026-05-29T15:29:26.655Z",
+  "createdAt": "2026-06-08T06:06:51.998Z",
   "metrics": {
     "jaccard": 0.8571428571428571,
     "recall": 0.8571428571428571,
@@ -186,7 +186,7 @@
     }
   },
   "predJson": {
-    "name": "Anticoagulant comparative effectiveness study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -224,7 +224,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Overall study period from initial dabigatran approval to study end",
           "studyStartDate": "20101019",
           "studyEndDate": "20181231"
         }
@@ -240,7 +240,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: primary on-treatment; start 1 day after index, end at inferred persistent exposure end, observation end, or study end",
+          "description": "Primary on-treatment: from 1 day after anticoagulant index date to end of inferred persistent exposure, last observation day, or study end, whichever came first; DOACs allow no more than 3-day gaps plus 5 days appended, warfarin allows no more than 7-day gaps plus 5 days appended",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -248,7 +248,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: sensitivity on-treatment; start 1 day after index, end at inferred persistent exposure end using 30-day permissible gap, observation end, or study end",
+          "description": "Sensitivity on-treatment: from 1 day after anticoagulant index date to end of inferred persistent exposure, last observation day, or study end, whichever came first; final exposure record allowed no more than 30-day gaps with no days appended for DOACs and warfarin",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -256,7 +256,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 3: intent-to-treat; start 1 day after index, follow until observation end or study end regardless of subsequent dispensing",
+          "description": "Intent-to-treat sensitivity: from 1 day after anticoagulant index date until last observation day or study end, whichever came first, regardless of subsequent dispensing records",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -268,7 +268,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: primary 1:1 propensity score matching",
+        "description": "Primary propensity score strategy: 1:1 matching of target to comparator patients",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -279,7 +279,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: sensitivity variable-ratio propensity score matching up to 1:100",
+        "description": "Sensitivity propensity score strategy: variable-ratio matching of target to comparator patients up to 1:100",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -310,7 +310,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazards model for time to first outcome occurrence",
+          "description": "Cox proportional hazards model for time to first outcome occurrence for the target relative to comparator cohort in pairwise comparisons",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2026-05-29T15:32:44.419Z",
+  "createdAt": "2026-06-08T05:23:25.367Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,26 +155,26 @@
     }
   },
   "predJson": {
-    "name": "Risk of NAION among T2D Medications",
+    "name": "NAION risk among T2D patients taking semaglutide versus comparator antidiabetic medications",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide (GLP-1RA)"
+        "name": "Semaglutide"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dulaglutide (GLP-1RA)"
+        "name": "Dulaglutide"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "NAION (Non-arteritic anterior ischemic optic neuropathy)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "December 1, 2017 - December 31, 2023",
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment",
+          "description": "From medication initiation until end of continuous drug exposure (on-treatment, 30-day gap)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 matching",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model estimating HR of NAION",
           "modelType": "cox",
           "useCovariates": false
         }

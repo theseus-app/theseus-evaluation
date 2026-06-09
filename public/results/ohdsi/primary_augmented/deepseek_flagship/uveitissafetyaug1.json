@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafetyAug1",
   "fileName": "uveitissafetyaug1.json",
-  "createdAt": "2026-05-29T16:22:12.081Z",
+  "createdAt": "2026-06-08T06:34:17.742Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,26 +155,26 @@
     }
   },
   "predJson": {
-    "name": "Primary Analysis",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": ""
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "First ever NIU occurrence"
+          "name": ""
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period 2000-2020",
           "studyStartDate": "20000101",
           "studyEndDate": "20201231"
         }
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "PS matching 1:1",
+        "description": "1:1 matching, caliper 0.2 SD logit",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression conditioned on matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

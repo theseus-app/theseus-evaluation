@@ -1,38 +1,35 @@
 {
   "name": "RapidCycleJanssenAug1",
   "fileName": "rapidcyclejanssenaug1.json",
-  "createdAt": "2026-05-29T15:30:20.966Z",
+  "createdAt": "2026-06-08T05:22:22.288Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20211231|studyStartDate=20210301}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=42|riskWindowStart=15|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,13 +52,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -168,11 +165,16 @@
         "id": null,
         "name": "Comparator cohort"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Outcome of interest"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative control concept set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -181,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "COVID-19 vaccination study period",
           "studyStartDate": "20210301",
           "studyEndDate": "20211231"
         }
@@ -193,12 +195,12 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "delayed at-risk period",
-          "minDaysAtRisk": 28,
+          "description": "Delayed at-risk period following vaccination with blank period first 14 days",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 15,
           "startAnchor": "cohort start",
           "riskWindowEnd": 42,
@@ -209,12 +211,12 @@
     },
     "psSettings": [
       {
-        "description": "1:1 PS matching",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -240,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Comparative cohort logistic regression model",
           "modelType": "logistic",
           "useCovariates": false
         }

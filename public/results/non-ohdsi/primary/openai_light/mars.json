@@ -1,7 +1,7 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-05-29T15:32:31.821Z",
+  "createdAt": "2026-06-08T05:21:48.628Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -23,7 +23,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=73|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}"
@@ -158,30 +158,45 @@
     }
   },
   "predJson": {
-    "name": "Prospective ICU cohort study in the Netherlands",
+    "name": "Prospective cohort study in Dutch adult ICUs (2011-2013)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Treated patients"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Controls"
+        "name": ""
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
       "name": ""
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Prospective cohort study period",
           "studyStartDate": "20110101",
           "studyEndDate": "20131231"
         }
@@ -197,9 +212,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Follow-up starts after 72-h exposure period and ends 90 days after ICU admission",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 73,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start"
@@ -209,7 +224,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Greedy 1:1 propensity score matching with 0.2 SD logit caliper",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -240,7 +255,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox model with robust variance estimator for matched pairs",
           "modelType": "cox",
           "useCovariates": false
         }

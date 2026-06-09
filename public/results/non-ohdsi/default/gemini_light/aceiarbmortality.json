@@ -1,58 +1,55 @@
 {
   "name": "ACEiARBMortality",
   "fileName": "aceiarbmortality.json",
-  "createdAt": "2026-05-29T15:30:11.248Z",
+  "createdAt": "2026-06-08T06:10:39.277Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
-    "timeAtRisks": false,
+    "studyPeriods": true,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
       "bothCount": 0,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0,
+      "precision": null,
       "recall": null,
       "f1": null,
-      "accuracy": 0
+      "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
@@ -165,7 +162,7 @@
     }
   },
   "predJson": {
-    "name": "ACE inhibitors vs ARBs mortality study",
+    "name": "ACE inhibitors versus ARBs all-cause mortality study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": 1,
@@ -184,7 +181,7 @@
     },
     "negativeControlConceptSet": {
       "id": 0,
-      "name": "None specified"
+      "name": "None"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -193,9 +190,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": "19000101",
-          "studyEndDate": "21000101"
+          "description": "Primary analysis period",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -209,19 +206,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "5-year intention-to-treat",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 1825,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS Matching",
+        "description": "Propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -232,7 +229,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS IPTW",
+        "description": "Propensity score IPTW",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -259,12 +256,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox regression",
+          "description": "Cox proportional hazard regression",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

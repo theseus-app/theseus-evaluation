@@ -1,20 +1,20 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-05-29T15:31:51.289Z",
+  "createdAt": "2026-06-08T05:22:04.534Z",
   "metrics": {
-    "jaccard": 0.7777777777777778,
-    "recall": 0.875,
-    "precision": 0.875
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 8,
     "pred": 8,
-    "intersection": 7,
-    "union": 9,
-    "both": 7,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 8,
+    "union": 8,
+    "both": 8,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -24,19 +24,16 @@
       "studyPeriods:{studyEndDate=20200331|studyStartDate=20180101}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=2|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=2|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=2|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -59,13 +56,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -185,7 +182,7 @@
     }
   },
   "predJson": {
-    "name": "SGLT-2i vs metformin time-block PS-matched cohort study",
+    "name": "Population-level estimation study of SGLT-2i vs metformin initiators",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -195,7 +192,12 @@
         "id": null,
         "name": "metformin initiators"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "study outcome"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -239,7 +241,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Follow-up from day after cohort entry until outcome, death, discontinuation, disenrollment, or end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -247,8 +249,8 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2",
-          "minDaysAtRisk": 365,
+          "description": "Intention-to-treat analysis with 365-day carry-forward of initial exposure",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -259,12 +261,12 @@
     },
     "psSettings": [
       {
-        "description": "PS matching",
+        "description": "1:2 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -290,7 +292,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome regression",
+          "description": "Proportional hazards model without further adjustment",
           "modelType": "cox",
           "useCovariates": false
         }

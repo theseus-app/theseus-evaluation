@@ -1,7 +1,7 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2026-05-29T15:28:48.910Z",
+  "createdAt": "2026-06-08T05:22:31.353Z",
   "metrics": {
     "jaccard": 0.8571428571428571,
     "recall": 0.8571428571428571,
@@ -182,26 +182,26 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study on oral anticoagulants",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -210,7 +210,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study period",
+          "description": "Study Period 1-2",
           "studyStartDate": "20100101",
           "studyEndDate": "20191231"
         }
@@ -226,19 +226,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment",
+          "description": "On-treatment (TAR 1)",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
         },
         {
-          "description": "ITT",
+          "description": "Intention-to-treat (TAR 2)",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 999999,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort start"
         }
       ],
@@ -246,7 +246,7 @@
     },
     "psSettings": [
       {
-        "description": "Stratification 5 strata",
+        "description": "Stratification (PS Settings 1)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -256,7 +256,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Variable-ratio matching",
+        "description": "Variable-ratio matching (PS Settings 2)",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -287,12 +287,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary (stratification)",
-          "modelType": "cox",
-          "useCovariates": false
-        },
-        {
-          "description": "Sensitivity (matching)",
+          "description": "Cox proportional hazards regression conditioned on propensity score strata",
           "modelType": "cox",
           "useCovariates": false
         }

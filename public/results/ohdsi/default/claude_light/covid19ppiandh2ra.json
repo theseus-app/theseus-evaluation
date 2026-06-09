@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:27:34.087Z",
+  "createdAt": "2026-06-08T05:21:56.089Z",
   "metrics": {
     "jaccard": 0.7142857142857143,
     "recall": 0.8333333333333334,
@@ -205,7 +205,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Study Period 1: HIRA COVID-19 testing data",
           "studyStartDate": "20200101",
           "studyEndDate": "20200515"
         }
@@ -221,9 +221,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: Patients censored if no longer observable",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -233,14 +233,14 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: Unadjusted",
+        "description": "PS Settings 1: Propensity score unadjusted analysis",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: One-to-four exact PSM with greedy nearest",
+        "description": "PS Settings 2: One-to-four exact PSM with greedy nearest methods",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 4,
@@ -251,7 +251,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3: Stratification with five strata",
+        "description": "PS Settings 3: Propensity score stratification with five strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -281,12 +281,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazards",
+          "description": "Outcome Model 1: Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

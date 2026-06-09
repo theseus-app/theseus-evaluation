@@ -1,7 +1,7 @@
 {
   "name": "RanitidineCancerAug1",
   "fileName": "ranitidinecanceraug1.json",
-  "createdAt": "2026-05-29T15:32:12.299Z",
+  "createdAt": "2026-06-08T05:23:21.415Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from 1 January 2005 to 31 December 2018",
           "studyStartDate": "20050101",
           "studyEndDate": "20181231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "during treatment",
+          "description": "During treatment - from 1 day after treatment initiation until end of continuous exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,10 +211,10 @@
     },
     "psSettings": [
       {
-        "description": "variable-ratio PS matching",
+        "description": "Variable-ratio propensity score matching with caliper of 0.2 SDs of the logit of the PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression model to estimate rate ratios",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": true,
-      "prior": null,
-      "control": null
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2026-05-29T15:28:35.769Z",
+  "createdAt": "2026-06-08T05:23:10.626Z",
   "metrics": {
     "jaccard": 0.8333333333333334,
     "recall": 0.8333333333333334,
@@ -230,7 +230,7 @@
     }
   },
   "predJson": {
-    "name": "PCI Post-Intervention Study",
+    "name": "Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -258,12 +258,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis",
+          "description": "Study Period 1",
           "studyStartDate": "20111101",
           "studyEndDate": "20190331"
         },
         {
-          "description": "Sensitivity analysis - common period across databases",
+          "description": "Study Period 2",
           "studyStartDate": "20130301",
           "studyEndDate": "20161231"
         }
@@ -279,7 +279,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 - Primary (censored at observation end, drug discontinuation/switch allowed within 1 year)",
+          "description": "TAR 1: Primary analysis - censored at end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -287,7 +287,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2 - 5-year fixed duration",
+          "description": "TAR 2: 5-year period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -295,7 +295,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 3 - On-treatment (7-day gap allowed)",
+          "description": "TAR 3: On-treatment period with 7-day gap",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -303,7 +303,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 4 - Primary with 28-day blanking period",
+          "description": "TAR 4: Primary analysis with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -311,7 +311,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 5 - 5-year with 28-day blanking period",
+          "description": "TAR 5: 5-year period with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -319,7 +319,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 6 - On-treatment with 28-day blanking period",
+          "description": "TAR 6: On-treatment period with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -331,7 +331,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1 - One-to-one greedy matching",
+        "description": "PS Settings 1: One-to-one greedy matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -342,7 +342,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS 2 - Variable-ratio matching (max ratio 10)",
+        "description": "PS Settings 2: Variable-ratio matching with maximum ratio of 10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -353,7 +353,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS 3 - Stratification by propensity score deciles",
+        "description": "PS Settings 3: Propensity score stratification using deciles",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -383,12 +383,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards model",
+          "description": "Cox proportional hazard regression",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

@@ -1,7 +1,7 @@
 {
   "name": "AntiVEGFKidneyAug2",
   "fileName": "antivegfkidneyaug2.json",
-  "createdAt": "2026-05-29T15:29:12.860Z",
+  "createdAt": "2026-06-08T05:21:25.895Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,20 +154,20 @@
     }
   },
   "predJson": {
-    "name": "Kidney failure after anti-VEGF exposure study",
+    "name": "Kidney failure risk after anti-VEGF exposure",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Anti-VEGF exposure target cohort"
+        "name": "anti-VEGF exposure"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Anti-VEGF exposure comparator cohort"
+        "name": "comparator exposure cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Kidney failure"
+          "name": "kidney failure"
         }
       ]
     },
@@ -182,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period",
           "studyStartDate": "20100101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,8 +198,8 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "30-day blank period to 365 days after third anti-VEGF exposure",
-          "minDaysAtRisk": 335,
+          "description": "30-day blank period following third anti-VEGF exposure until 365 days after that exposure",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 31,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Large-scale propensity score stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,7 +240,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression model for kidney failure while on treatment",
           "modelType": "logistic",
           "useCovariates": false
         }

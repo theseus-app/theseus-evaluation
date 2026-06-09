@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-05-29T16:36:15.970Z",
+  "createdAt": "2026-06-08T06:19:08.690Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -182,26 +182,26 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "Comparative effectiveness of SGLT2 inhibitors vs metformin",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "SGLT-2i initiators"
+        "name": "SGLT2 inhibitors"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Metformin initiators"
+        "name": "metformin"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Unspecified Outcome"
+          "name": "Outcome of interest"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -210,22 +210,22 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "T1, April 2013 - December 2014",
+          "description": "T1, April 2013 through December 2014",
           "studyStartDate": "20130401",
           "studyEndDate": "20141231"
         },
         {
-          "description": "T2, January 2015 - June 2016",
+          "description": "T2, January 2015 through June 2016",
           "studyStartDate": "20150101",
           "studyEndDate": "20160630"
         },
         {
-          "description": "T3, July 2016 - December 2017",
+          "description": "T3, July 2016 through December 2017",
           "studyStartDate": "20160701",
           "studyEndDate": "20171231"
         },
         {
-          "description": "T4, January 2018 - March 2020",
+          "description": "T4, January 2018 through March 2020",
           "studyStartDate": "20180101",
           "studyEndDate": "20200331"
         }
@@ -241,7 +241,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: on-treatment",
+          "description": "TAR 1: on-treatment (until discontinuation or end of period)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -261,7 +261,7 @@
     },
     "psSettings": [
       {
-        "description": "1:2 matching",
+        "description": "1:2 matching by propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -292,12 +292,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox without covariates",
+          "description": "Proportional hazards model without further adjustment",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

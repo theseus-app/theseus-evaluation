@@ -1,40 +1,39 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:28:07.919Z",
+  "createdAt": "2026-06-08T05:22:14.805Z",
   "metrics": {
-    "jaccard": 0.42857142857142855,
-    "recall": 0.6,
-    "precision": 0.6
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
     "gold": 5,
     "pred": 5,
-    "intersection": 3,
-    "union": 7,
-    "both": 3,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 4,
+    "union": 6,
+    "both": 4,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -57,13 +56,13 @@
       "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -179,11 +178,11 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU population-level estimation study",
+    "name": "Remicade NIU study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade treatment"
+        "name": "Remicade treatment cohort"
       },
       "comparatorCohort": {
         "id": null,
@@ -207,7 +206,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "",
           "studyStartDate": "",
           "studyEndDate": ""
         }
@@ -223,7 +222,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "On-treatment TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -231,7 +230,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2",
+          "description": "ITT TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -243,7 +242,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1",
+        "description": "Primary PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -254,12 +253,12 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2",
+        "description": "Secondary 1:1 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -285,7 +284,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional-hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

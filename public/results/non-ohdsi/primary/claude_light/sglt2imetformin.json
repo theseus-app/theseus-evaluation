@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-05-29T15:36:37.784Z",
+  "createdAt": "2026-06-08T05:22:52.907Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,11 +155,11 @@
     }
   },
   "predJson": {
-    "name": "SGLT2i vs Metformin Population-Level Estimation Study",
+    "name": "SGLT-2i vs Metformin Comparative Effectiveness Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "SGLT2i Initiators (canagliflozin, empagliflozin, or dapagliflozin)"
+        "name": "SGLT-2i Initiators (canagliflozin, empagliflozin, or dapagliflozin)"
       },
       "comparatorCohort": {
         "id": null,
@@ -177,25 +177,20 @@
       "name": "<UNKNOWN>"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All baseline covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis period",
+          "description": "SGLT-2i launch to end of study period",
           "studyStartDate": "20130401",
           "studyEndDate": "20200331"
         }
       ],
       "firstExposureOnly": true,
-      "removeDuplicateSubjects": "keep first",
-      "restrictToCommonPeriod": true,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
       "maxCohortSize": 0
     },
@@ -204,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment follow-up",
+          "description": "On-treatment follow-up from day after cohort entry until outcome, death, treatment discontinuation, disenrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -212,11 +207,11 @@
           "endAnchor": "cohort end"
         }
       ],
-      "censorAtNewRiskWindow": true
+      "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "1:2 Propensity Score Matching",
+        "description": "1:2 matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -247,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary Cox proportional hazards model",
+          "description": "Proportional hazards model without further adjustment",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
-      "prior": null,
-      "control": null
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "StrokeRiskAug1",
   "fileName": "strokeriskaug1.json",
-  "createdAt": "2026-05-29T15:37:40.243Z",
+  "createdAt": "2026-06-08T06:09:10.014Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -174,16 +174,21 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Recent diagnosis of dementia"
+        }
+      ],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "January 1, 2005 through December 31, 2015",
           "studyStartDate": "20050101",
           "studyEndDate": "20151231"
         }
@@ -211,7 +216,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 matching, caliper 0.2 standardized logit",
+        "description": "1:1 matching with a caliper of 0.2 of the standard deviation of the logit of PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,7 +247,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression model conditioned on the PS matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }

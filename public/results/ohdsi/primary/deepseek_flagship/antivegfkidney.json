@@ -1,7 +1,7 @@
 {
   "name": "AntiVEGFKidney",
   "fileName": "antivegfkidney.json",
-  "createdAt": "2026-05-29T15:45:27.095Z",
+  "createdAt": "2026-06-08T05:22:15.581Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -158,11 +158,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Anti-VEGF exposed"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": ""
       },
       "outcomeCohort": [
         {
@@ -173,7 +173,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -198,9 +198,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "After third anti-VEGF exposure until end of continuous drug exposure or end of study period",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -241,14 +241,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "Cox for kidney failure while on treatment",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

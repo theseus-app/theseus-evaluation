@@ -1,7 +1,7 @@
 {
   "name": "DabigatranRivaroxabanAF",
   "fileName": "dabigatranrivaroxabanaf.json",
-  "createdAt": "2026-05-29T15:43:08.621Z",
+  "createdAt": "2026-06-08T05:22:13.348Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -23,7 +23,7 @@
       "outcomeModels:{modelType=cox|useCovariates=true}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
@@ -154,26 +154,21 @@
     }
   },
   "predJson": {
-    "name": "Rivaroxaban vs Dabigatran in Medicare beneficiaries",
+    "name": "Rivaroxaban vs Dabigatran in Medicare Beneficiaries",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Rivaroxaban new users (standard dose)"
+        "name": "Rivaroxaban new users (standard dosage)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dabigatran new users (standard dose)"
+        "name": "Dabigatran new users (standard dosage)"
       },
-      "outcomeCohort": [
-        {
-          "id": null,
-          "name": "Outcome"
-        }
-      ]
+      "outcomeCohort": []
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -182,7 +177,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "April 01, 2012 to December 31, 2013",
           "studyStartDate": "20120401",
           "studyEndDate": "20131231"
         }
@@ -198,11 +193,11 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment",
+          "description": "Follow-up to death, loss to follow-up, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort end"
         }
       ],
@@ -210,7 +205,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "Inverse probability of treatment weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -237,7 +232,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model with treatment indicator and baseline confounders as covariates",
           "modelType": "cox",
           "useCovariates": true
         }

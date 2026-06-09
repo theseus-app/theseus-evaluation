@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2026-05-29T15:33:17.319Z",
+  "createdAt": "2026-06-08T06:10:33.214Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -267,12 +267,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Study Period 1: November 2011 to March 2019",
           "studyStartDate": "20111101",
           "studyEndDate": "20190331"
         },
         {
-          "description": "Study Period 2 - identical study period across databases",
+          "description": "Study Period 2: identical study period applied to all databases, March 2013 to December 2016",
           "studyStartDate": "20130301",
           "studyEndDate": "20161231"
         }
@@ -288,7 +288,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 - primary 1-year period, censored at end of observation",
+          "description": "Primary analysis: 1-year time at risk, remaining in analysis if allocated drug was discontinued or switched within the first year; censored when no longer observed",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -296,7 +296,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 2 - 5-year period",
+          "description": "Sensitivity analysis: 5-year time at risk",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -304,7 +304,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 3 - on-treatment period",
+          "description": "Sensitivity analysis: on-treatment period from 1 day after index date until end of persistent exposure, allowing a 7-day gap, or end of patient record",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -312,7 +312,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 4 - primary 1-year period with 28-day blanking period",
+          "description": "Sensitivity analysis with 28-day blanking period: 1-year time at risk excluding outcomes in the first 28 days after PCI",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -320,7 +320,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 5 - 5-year period with 28-day blanking period",
+          "description": "Sensitivity analysis with 28-day blanking period: 5-year time at risk excluding outcomes in the first 28 days after PCI",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -328,7 +328,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 6 - on-treatment period with 28-day blanking period",
+          "description": "Sensitivity analysis with 28-day blanking period: on-treatment time at risk excluding outcomes in the first 28 days after PCI",
           "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
@@ -340,7 +340,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1 - one-to-one propensity score matching",
+        "description": "One-to-one greedy propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -351,7 +351,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2 - variable-ratio propensity score matching, maximum ratio 10",
+        "description": "Variable-ratio propensity score matching with maximum ratio of 10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -362,7 +362,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3 - propensity score stratification using deciles",
+        "description": "Propensity score stratification using deciles of the propensity score distribution",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -392,7 +392,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1 - Cox proportional hazards regression",
+          "description": "Cox proportional hazards regression model to estimate the association of exposures with outcomes",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,37 +1,34 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-05-29T15:36:17.849Z",
+  "createdAt": "2026-06-08T05:22:29.915Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20131231|studyStartDate=20110101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=72|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -158,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "ICU Prospective Cohort Study (2011-2013)",
+    "name": "ICU Study 2011-2013",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -186,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from January 2011 to December 2013",
           "studyStartDate": "20110101",
           "studyEndDate": "20131231"
         }
@@ -202,9 +199,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Follow-up period starting 72 hours after exposure and ending 90 days after ICU admission",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 72,
+          "riskWindowStart": 3,
           "startAnchor": "cohort start",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start"
@@ -214,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Greedy matching with 1:1 ratio and caliper of 0.2 standard deviations on propensity score logit",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -245,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox model with robust variance estimator for matched pairs",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

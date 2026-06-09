@@ -1,7 +1,7 @@
 {
   "name": "IUDEHREAug1",
   "fileName": "iudehreaug1.json",
-  "createdAt": "2026-05-29T15:31:48.309Z",
+  "createdAt": "2026-06-08T05:22:51.322Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,15 +155,15 @@
     }
   },
   "predJson": {
-    "name": "IUD and Cervical Neoplasm Risk Study",
+    "name": "IUD and Cervical Neoplasm Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD Users"
+        "name": "Cu IUD"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS Users"
+        "name": "LNG-IUS"
       },
       "outcomeCohort": [
         {
@@ -174,7 +174,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "<UNKNOWN>"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,12 +183,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "IUD placement study period",
           "studyStartDate": "20050101",
           "studyEndDate": "20181231"
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -211,10 +211,10 @@
     },
     "psSettings": [
       {
-        "description": "Variable-ratio matching on propensity score",
+        "description": "Propensity score matching with variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -242,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression for relative risk",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

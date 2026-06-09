@@ -1,37 +1,34 @@
 {
   "name": "COVID19FamotidineAug2",
   "fileName": "covid19famotidineaug2.json",
-  "createdAt": "2026-05-29T15:31:18.275Z",
+  "createdAt": "2026-06-08T05:22:15.519Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=null|studyStartDate=20200201}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -158,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "<UNKNOWN>",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -186,9 +183,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from February 1, 2020 to end of available observation",
           "studyStartDate": "20200201",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -202,19 +199,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat: 1 day after admission until first outcome, loss to follow-up, or end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "variable-ratio PS matching",
+        "description": "Variable-ratio propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -236,7 +233,7 @@
         "tolerance": 2e-7,
         "cvType": "auto",
         "fold": 10,
-        "cvRepetitions": 10,
+        "cvRepetitions": 1,
         "noiseLevel": "silent",
         "resetCoefficients": true,
         "startingVariance": 0.01
@@ -245,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "conditional logistic regression",
+          "description": "Conditional logistic regression with PS adjustment",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 1,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

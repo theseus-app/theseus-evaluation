@@ -1,37 +1,34 @@
 {
   "name": "SemaglutideandNAIONAug2",
   "fileName": "semaglutideandnaionaug2.json",
-  "createdAt": "2026-05-29T15:37:30.445Z",
+  "createdAt": "2026-06-08T06:08:57.265Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=null|studyStartDate=20171201}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=10|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=31|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -157,26 +154,26 @@
     }
   },
   "predJson": {
-    "name": "NAION risk among T2D medications",
+    "name": "NAION Risk Among T2D Medication Initiators",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Semaglutide"
+        "name": "Semaglutide (GLP-1RA) initiators with T2D"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Dulaglutide"
+        "name": "Dulaglutide (GLP-1RA) initiators with T2D"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "NAION (non-arteritic anterior ischemic optic neuropathy)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -185,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "December 1, 2017 to end of available observation",
           "studyStartDate": "20171201",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -201,19 +198,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment, 30-day blank period",
+          "description": "30-day blank period following medication initiation until end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "Stratify into 10 strata",
+        "description": "Stratification into 10 strata using propensity scores",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,7 +240,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression estimating OR of NAION while on treatment",
           "modelType": "logistic",
           "useCovariates": false
         }

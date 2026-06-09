@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:34:30.193Z",
+  "createdAt": "2026-06-08T06:11:52.516Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -175,33 +175,49 @@
     }
   },
   "predJson": {
-    "name": "Remicade vs Comparator for NIU",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 1,
-        "name": "Remicade"
+        "id": null,
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
-        "id": 2,
-        "name": "Comparator"
+        "id": null,
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
-          "id": 3,
-          "name": "NIU occurrence"
+          "id": null,
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
-      "id": 4,
-      "name": "Negative Controls"
+      "id": null,
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -213,7 +229,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR",
+          "description": "on-treatment",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -221,7 +237,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "ITT TAR",
+          "description": "ITT",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -233,7 +249,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary 1:10 matching",
+        "description": "Primary PS adjustment",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -244,7 +260,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Secondary 1:1 matching",
+        "description": "Secondary analysis with 1:1 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -275,7 +291,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox PH Model",
+          "description": "Cox proportional-hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

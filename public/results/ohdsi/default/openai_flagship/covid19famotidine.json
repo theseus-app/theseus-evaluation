@@ -1,7 +1,7 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2026-05-29T15:28:42.552Z",
+  "createdAt": "2026-06-08T06:06:07.313Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -166,7 +166,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -188,8 +188,18 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -210,7 +220,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: intention-to-treat, from 1 day after admission through 30 days after admission",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -222,7 +232,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 5-strata propensity score stratification",
+        "description": "PS Settings 1: main analysis stratified into 5 propensity score strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -232,7 +242,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: 1:1 propensity score matching sensitivity analysis",
+        "description": "PS Settings 2: sensitivity analysis using 1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -263,7 +273,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: conditional Cox proportional hazards model",
+          "description": "Outcome Model 1: conditional Cox proportional hazards model estimating hazard ratios with treatment as the sole explanatory variable",
           "modelType": "cox",
           "useCovariates": false
         }

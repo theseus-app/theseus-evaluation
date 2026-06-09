@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrelAug2",
   "fileName": "ticagrelorclopidogrelaug2.json",
-  "createdAt": "2026-05-29T15:30:48.397Z",
+  "createdAt": "2026-06-08T05:22:47.648Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -23,7 +23,7 @@
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
@@ -167,7 +167,12 @@
         "id": null,
         "name": ""
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -180,7 +185,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from November 2011 to end of available observation; study end truncated to March 2019 for primary analysis",
           "studyStartDate": "20111101",
           "studyEndDate": "20190331"
         }
@@ -196,11 +201,11 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Primary analysis: on-treatment follow-up; patients censored when no longer observed, while remaining in analysis if they discontinued allocated drug or switched drug until end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort end"
         }
       ],
@@ -208,7 +213,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Propensity score stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -238,7 +243,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression",
           "modelType": "logistic",
           "useCovariates": false
         }

@@ -1,34 +1,37 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:49:44.625Z",
+  "createdAt": "2026-06-08T05:24:46.755Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 4,
-    "union": 4,
-    "both": 4,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 3,
+    "union": 5,
+    "both": 3,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -43,13 +46,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -154,7 +157,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 HIRA Study",
+    "name": "HIRA COVID-19 Cohort Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -182,7 +185,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary",
+          "description": "HIRA COVID-19 testing data collection period",
           "studyStartDate": "20200101",
           "studyEndDate": "20200515"
         }
@@ -198,19 +201,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Intent-to-treat",
+          "description": "",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "Stratification",
+        "description": "Propensity score stratification with 5 strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,12 +243,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox",
+          "description": "Cox proportional hazards model for time to first outcome",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

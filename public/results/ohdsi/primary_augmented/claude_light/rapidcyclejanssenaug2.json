@@ -1,37 +1,34 @@
 {
   "name": "RapidCycleJanssenAug2",
   "fileName": "rapidcyclejanssenaug2.json",
-  "createdAt": "2026-05-29T15:32:30.136Z",
+  "createdAt": "2026-06-08T05:23:43.245Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20211231|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -157,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Population-Level Estimation Study",
+    "name": "COVID-19 Vaccine Exposure Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -185,8 +182,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
+          "description": "COVID-19 vaccine exposure cohort study period",
+          "studyStartDate": "",
           "studyEndDate": "20211231"
         }
       ],
@@ -201,19 +198,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Starting 1 day after vaccination until end of lifetime",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "stratification on propensity score",
+        "description": "Stratification into 5 strata on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,7 +240,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression model for rate ratio estimation",
           "modelType": "poisson",
           "useCovariates": false
         }

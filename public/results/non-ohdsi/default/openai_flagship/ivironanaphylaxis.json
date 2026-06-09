@@ -1,7 +1,7 @@
 {
   "name": "IVIronAnaphylaxis",
   "fileName": "ivironanaphylaxis.json",
-  "createdAt": "2026-05-29T15:54:36.064Z",
+  "createdAt": "2026-06-08T06:08:36.786Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -157,15 +157,15 @@
     }
   },
   "predJson": {
-    "name": "Anaphylaxis after first IV iron administration by formulation",
+    "name": "IV iron formulations and anaphylaxis",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Older adults receiving first administration of an IV iron formulation"
+        "name": "Older adults receiving first administration of IV iron formulations"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Older adults receiving first administration of a comparator IV iron formulation"
+        "name": "Individual IV iron formulations"
       },
       "outcomeCohort": [
         {
@@ -179,28 +179,18 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "Concept Name 1"
-        }
-      ],
-      "conceptsToExclude": [
-        {
-          "id": null,
-          "name": "Concept Name 3"
-        }
-      ]
+      "conceptsToInclude": [],
+      "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary study period: July 2013 through December 2018",
+          "description": "Study Period 1: first IV iron administration between July 2013 and December 2018",
           "studyStartDate": "20130701",
           "studyEndDate": "20181231"
         },
         {
-          "description": "Sensitivity study period: after 2014 following withdrawal of high-molecular-weight iron dextran",
+          "description": "Study Period 2: restricted to after 2014, following withdrawal of high-molecular-weight iron dextran",
           "studyStartDate": "20150101",
           "studyEndDate": "20181231"
         }
@@ -216,7 +206,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Anaphylaxis within 1 day of IV iron administration",
+          "description": "Anaphylaxis occurring within 1 day of IV iron administration",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -228,7 +218,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW propensity score adjustment across IV iron formulations",
+        "description": "Propensity score-based inverse probability of treatment weighting to account for imbalances across IV iron formulations",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -255,7 +245,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "IPTW-weighted logistic regression estimating adjusted odds ratios for anaphylaxis",
+          "description": "IPTW-weighted logistic regression modeling anaphylaxis as the outcome",
           "modelType": "logistic",
           "useCovariates": false
         }

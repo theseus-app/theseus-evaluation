@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAIONAug2",
   "fileName": "semaglutideandnaionaug2.json",
-  "createdAt": "2026-05-29T15:47:41.583Z",
+  "createdAt": "2026-06-08T06:12:17.251Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,37 +154,47 @@
     }
   },
   "predJson": {
-    "name": "T2D medication comparison and NAION study",
+    "name": "T2D medications and NAION study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target T2D medication cohort: semaglutide, dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
+        "name": "Adults 18 years and older with type 2 diabetes taking semaglutide, dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator T2D medication cohort: semaglutide, dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
+        "name": "Comparator T2D medication cohort for each target-comparator exposure comparison"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "Nonarteritic anterior ischemic optic neuropathy (NAION)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary study period",
+          "description": "Study period from December 1, 2017 to end of available observation",
           "studyStartDate": "20171201",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,9 +208,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "30-day blank period after medication initiation through end of study period",
+          "description": "Time at risk begins after a 30-day blank period following medication initiation and continues until end of available observation",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 30,
+          "riskWindowStart": 31,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start"
@@ -210,7 +220,7 @@
     },
     "psSettings": [
       {
-        "description": "Propensity score stratification into 10 strata",
+        "description": "Propensity score stratification into 10 strata for each target-comparator exposure comparison",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,7 +250,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary logistic regression outcome model",
+          "description": "Logistic regression estimating the odds ratio of NAION",
           "modelType": "logistic",
           "useCovariates": false
         }

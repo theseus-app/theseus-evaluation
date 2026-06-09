@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:31:45.261Z",
+  "createdAt": "2026-06-08T05:22:12.062Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -23,7 +23,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
@@ -157,7 +157,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Population-Level Estimation Study",
+    "name": "COVID-19 Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -185,7 +185,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "1 January to 15 May 2020",
           "studyStartDate": "20200101",
           "studyEndDate": "20200515"
         }
@@ -201,11 +201,11 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Censored when no longer observable",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
+          "riskWindowEnd": 99999,
           "endAnchor": "cohort end"
         }
       ],
@@ -213,7 +213,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Propensity score stratification with five strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,7 +243,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards regression for time to first outcome",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,20 +1,20 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2026-05-29T15:36:44.610Z",
+  "createdAt": "2026-06-08T05:30:14.778Z",
   "metrics": {
-    "jaccard": 0.8,
-    "recall": 0.8888888888888888,
-    "precision": 0.8888888888888888
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 9,
     "pred": 9,
-    "intersection": 8,
-    "union": 10,
-    "both": 8,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 9,
+    "union": 9,
+    "both": 9,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -23,21 +23,18 @@
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=10|trimByPsArgs=null}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -60,13 +57,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 3,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.75,
-      "recall": 0.75,
-      "f1": 0.75,
-      "accuracy": 0.6
+      "bothCount": 4,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -215,26 +212,26 @@
     }
   },
   "predJson": {
-    "name": "Unnamed Study",
+    "name": "CohortMethod Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": ""
+        "name": "Target Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": ""
+        "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": ""
+          "name": "Outcome Cohort"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -243,9 +240,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Full study period",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -259,7 +256,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT (until end of data)",
+          "description": "ITT: follow until end of data",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -275,7 +272,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "On-treatment",
+          "description": "on-treatment: follow from 1 day after index until treatment completion (30-day gap)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -283,7 +280,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "On-treatment with 1-year lag",
+          "description": "on-treatment with 1-year lag",
           "minDaysAtRisk": 1,
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
@@ -295,7 +292,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 PS matching",
+        "description": "1:1 PS matching with caliper of 0.2 SD on logit scale",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -306,18 +303,18 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Variable-ratio PS matching",
+        "description": "variable-ratio PS matching with max ratio 1:10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
-          "caliper": 0,
+          "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS stratification",
+        "description": "PS stratification into deciles",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -327,7 +324,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Unadjusted",
+        "description": "unadjusted",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -354,14 +351,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazard model",
+          "description": "Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

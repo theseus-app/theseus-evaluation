@@ -1,7 +1,7 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2026-05-29T15:37:41.719Z",
+  "createdAt": "2026-06-08T05:31:01.722Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -191,26 +191,21 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target COVID-19 Vaccine Exposure"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": ""
       },
-      "outcomeCohort": [
-        {
-          "id": null,
-          "name": "Outcome"
-        }
-      ]
+      "outcomeCohort": []
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -219,9 +214,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary",
+          "description": "Study Period 1",
           "studyStartDate": "20210101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": true,
@@ -231,11 +226,11 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1-14 days",
+          "description": "1-14 days",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -243,7 +238,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-28 days",
+          "description": "1-28 days",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -251,7 +246,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-42 days",
+          "description": "1-42 days",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -259,7 +254,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-90 days",
+          "description": "1-90 days",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -267,8 +262,8 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 0-2 days (anaphylaxis)",
-          "minDaysAtRisk": 0,
+          "description": "0-2 days (anaphylaxis)",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 2,
@@ -279,10 +274,10 @@
     },
     "psSettings": [
       {
-        "description": "Primary PS",
+        "description": "variable ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -310,12 +305,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "Cox model",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

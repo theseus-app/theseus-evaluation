@@ -1,38 +1,35 @@
 {
   "name": "SemaglutideandNAIONAug1",
   "fileName": "semaglutideandnaionaug1.json",
-  "createdAt": "2026-05-29T15:30:28.532Z",
+  "createdAt": "2026-06-08T05:22:29.288Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20221231|studyStartDate=20190101}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=30|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,13 +52,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -158,20 +155,20 @@
     }
   },
   "predJson": {
-    "name": "NAION risk among T2D treatments",
+    "name": "NAION risk with T2D medications",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "T2D treatment cohort (semaglutide/dulaglutide/exenatide/empagliflozin/sitagliptin/glipizide)"
+        "name": "Semaglutide / dulaglutide / exenatide / empagliflozin / sitagliptin / glipizide user with T2D"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "T2D treatment cohort (semaglutide/dulaglutide/exenatide/empagliflozin/sitagliptin/glipizide)"
+        "name": "Alternative T2D medication user"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "Non-arteritic anterior ischemic optic neuropathy (NAION)"
         }
       ]
     },
@@ -186,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Adults 18 years and older with T2D taking study medications during the study period",
           "studyStartDate": "20190101",
           "studyEndDate": "20221231"
         }
@@ -202,9 +199,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment 30 days after initiation",
+          "description": "Medication initiation until 30 days after medication initiation",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 30,
           "endAnchor": "cohort start"
@@ -214,12 +211,12 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Variable-ratio propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -245,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression for NAION risk",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

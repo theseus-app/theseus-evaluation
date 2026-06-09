@@ -1,33 +1,33 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2026-05-29T15:27:30.969Z",
+  "createdAt": "2026-06-08T05:21:36.669Z",
   "metrics": {
-    "jaccard": 0.7142857142857143,
-    "recall": 0.7142857142857143,
+    "jaccard": 0.8571428571428571,
+    "recall": 0.8571428571428571,
     "precision": 1
   },
   "counts": {
     "gold": 7,
-    "pred": 5,
-    "intersection": 5,
+    "pred": 6,
+    "intersection": 6,
     "union": 7,
-    "both": 5,
+    "both": 6,
     "predOnly": 0,
-    "goldOnly": 2
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20101019}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
@@ -47,13 +47,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 2,
+      "goldOnlyCount": 1,
       "precision": 1,
-      "recall": 0.3333333333333333,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "accuracy": 0.6666666666666666
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
@@ -186,15 +186,15 @@
     }
   },
   "predJson": {
-    "name": "Dabigatran versus warfarin population-level estimation study",
+    "name": "Dabigatran/warfarin comparative study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Dabigatran cohort"
+        "name": "Dabigatran"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Warfarin cohort"
+        "name": "Warfarin"
       },
       "outcomeCohort": []
     },
@@ -209,7 +209,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Overall study period",
           "studyStartDate": "20101019",
           "studyEndDate": "20181231"
         }
@@ -225,7 +225,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Primary on-treatment TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -233,7 +233,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2",
+          "description": "Sensitivity on-treatment TAR with 30-day gap and no appended days",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -241,19 +241,19 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 3",
+          "description": "Sensitivity ITT TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Primary PS matching 1:1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -264,7 +264,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "sensitivity",
+        "description": "Sensitivity variable-ratio PS matching up to 1:100",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -295,7 +295,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": false
         }

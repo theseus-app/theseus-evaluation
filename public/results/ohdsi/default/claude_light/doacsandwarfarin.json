@@ -1,42 +1,39 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2026-05-29T15:27:41.392Z",
+  "createdAt": "2026-06-08T05:22:04.598Z",
   "metrics": {
-    "jaccard": 0.4444444444444444,
-    "recall": 0.5714285714285714,
-    "precision": 0.6666666666666666
+    "jaccard": 0.8571428571428571,
+    "recall": 0.8571428571428571,
+    "precision": 1
   },
   "counts": {
     "gold": 7,
     "pred": 6,
-    "intersection": 4,
-    "union": 9,
-    "both": 4,
-    "predOnly": 2,
-    "goldOnly": 3
+    "intersection": 6,
+    "union": 7,
+    "both": 6,
+    "predOnly": 0,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20101019}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=5|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -59,13 +56,13 @@
       "accuracy": 0.6666666666666666
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -217,7 +214,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Overall study period",
           "studyStartDate": "20101019",
           "studyEndDate": "20181231"
         }
@@ -233,7 +230,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: On-treatment (3-day gap for DOACs, 7-day gap for warfarin)",
+          "description": "Primary on-treatment analysis (3-day gap for DOACs, 7-day gap for warfarin, 5 days appended)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -241,7 +238,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: On-treatment (30-day gap for DOACs and warfarin)",
+          "description": "Sensitivity analysis on-treatment (30-day gap for DOACs and warfarin, no days appended)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -249,7 +246,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 3: Intent-to-treat",
+          "description": "Intent-to-treat analysis",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -261,22 +258,22 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 1:1 matching",
+        "description": "Primary propensity score strategy with 1:1 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
-          "caliper": 0,
+          "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: Variable ratio matching (1:100)",
+        "description": "Sensitivity propensity score strategy with variable 1:100 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
-          "caliper": 0,
+          "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
@@ -303,7 +300,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazards",
+          "description": "Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": false
         }

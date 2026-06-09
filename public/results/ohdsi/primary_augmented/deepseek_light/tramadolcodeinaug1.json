@@ -1,7 +1,7 @@
 {
   "name": "TramadolCodeinAug1",
   "fileName": "tramadolcodeinaug1.json",
-  "createdAt": "2026-05-29T15:48:49.402Z",
+  "createdAt": "2026-06-08T06:12:27.487Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population Level Estimation Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -178,7 +178,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -187,12 +187,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "",
           "studyStartDate": "20000101",
           "studyEndDate": "20181231"
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -215,7 +215,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "PS matching variable ratio 1:10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -246,14 +246,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression conditioned on PS",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

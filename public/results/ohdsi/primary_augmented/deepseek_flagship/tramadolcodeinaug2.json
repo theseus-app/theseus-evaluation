@@ -1,7 +1,7 @@
 {
   "name": "TramadolCodeinAug2",
   "fileName": "tramadolcodeinaug2.json",
-  "createdAt": "2026-05-29T16:21:22.011Z",
+  "createdAt": "2026-06-08T06:33:15.931Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -153,30 +153,30 @@
     }
   },
   "predJson": {
-    "name": "PLP Study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": ""
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome1"
+          "name": "O1"
         },
         {
           "id": null,
-          "name": "Outcome2"
+          "name": "O2"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -186,8 +186,8 @@
       "studyPeriods": [
         {
           "description": "All available observation",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -201,7 +201,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT TAR",
+          "description": "ITT",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
@@ -213,7 +213,7 @@
     },
     "psSettings": [
       {
-        "description": "PS stratification",
+        "description": "Stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,14 +243,30 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "O1",
+          "modelType": "logistic",
+          "useCovariates": false
+        },
+        {
+          "description": "O2",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

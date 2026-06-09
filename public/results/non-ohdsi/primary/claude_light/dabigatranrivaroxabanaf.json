@@ -1,34 +1,37 @@
 {
   "name": "DabigatranRivaroxabanAF",
   "fileName": "dabigatranrivaroxabanaf.json",
-  "createdAt": "2026-05-29T15:35:48.741Z",
+  "createdAt": "2026-06-08T05:21:53.435Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 4,
-    "union": 4,
-    "both": 4,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 3,
+    "union": 5,
+    "both": 3,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20131231|studyStartDate=20120401}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=true}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -43,13 +46,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -151,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "Rivaroxaban vs Dabigatran Comparative Effectiveness Study",
+    "name": "Rivaroxaban vs Dabigatran Anticoagulation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -176,7 +179,7 @@
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All baseline confounders"
+          "name": "Baseline Confounders"
         }
       ],
       "conceptsToExclude": []
@@ -184,7 +187,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Medicare beneficiaries with first prescription for Rivaroxaban or Dabigatran",
           "studyStartDate": "20120401",
           "studyEndDate": "20131231"
         }
@@ -200,19 +203,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Intent-to-treat follow-up to study end",
+          "description": "Follow-up from treatment initiation to death, loss to follow-up, or end of study",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "Inverse probability treatment weighting",
+        "description": "Inverse probability treatment weighting for baseline balance",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -239,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards with covariates",
+          "description": "Cox proportional hazards model with treatment indicator and baseline confounders",
           "modelType": "cox",
           "useCovariates": true
         }

@@ -1,35 +1,38 @@
 {
   "name": "VPAConcentrationBipolar",
   "fileName": "vpaconcentrationbipolar.json",
-  "createdAt": "2026-05-29T15:31:46.036Z",
+  "createdAt": "2026-06-08T06:13:33.477Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
     "gold": 3,
     "pred": 3,
-    "intersection": 3,
-    "union": 3,
-    "both": 3,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 2,
+    "union": 4,
+    "both": 2,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=730|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
-      "outcomeModels:{modelType=cox|useCovariates=true}"
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "outcomeModels:{modelType=cox|useCovariates=false}"
+    ],
+    "goldJsonOnly": [
+      "outcomeModels:{modelType=cox|useCovariates=true}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true,
-    "outcomeModels": true
+    "outcomeModels": false
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -60,13 +63,13 @@
       "accuracy": 1
     },
     "outcomeModels": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     }
   },
   "goldJson": {
@@ -150,7 +153,7 @@
     }
   },
   "predJson": {
-    "name": "VPA Concentration Study",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": 0,
@@ -163,13 +166,13 @@
       "outcomeCohort": [
         {
           "id": 0,
-          "name": "Mood Episode Recurrence"
+          "name": "Mood episode recurrence"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": 0,
-      "name": "Negative Control"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -178,7 +181,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Primary study period",
           "studyStartDate": "",
           "studyEndDate": ""
         }
@@ -194,7 +197,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Two years from index",
+          "description": "Follow up from index date for two years or until outcome",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -206,7 +209,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "IPTW propensity score adjustment",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -233,9 +236,9 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox regression",
+          "description": "Multivariable Cox regression",
           "modelType": "cox",
-          "useCovariates": true
+          "useCovariates": false
         }
       ],
       "stratified": false,

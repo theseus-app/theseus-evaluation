@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iNephrolithiasis",
   "fileName": "sglt2inephrolithiasis.json",
-  "createdAt": "2026-05-29T15:31:54.392Z",
+  "createdAt": "2026-06-08T05:22:08.481Z",
   "metrics": {
     "jaccard": 0.6666666666666666,
     "recall": 0.8,
@@ -160,15 +160,15 @@
     }
   },
   "predJson": {
-    "name": "Type 2 Diabetes Comparison Drugs Population-Level Estimation Study",
+    "name": "Population-level estimation study for type 2 diabetes comparison drugs",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Comparison Drug 1 (Target)"
+        "name": "Comparison drug users"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparison Drug 2 (Comparator)"
+        "name": "Comparison drug users"
       },
       "outcomeCohort": []
     },
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Adults aged 18 years or older with type 2 diabetes; first ever dispensing for one of the comparison drugs between 1 January 2014 and 30 June 2022 after at least one year of continuous enrolment",
           "studyStartDate": "20140101",
           "studyEndDate": "20220630"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Primary analysis: follow-up starts on day of first dispensing and continues until end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Stabilized inverse probability of treatment weighting for the average treatment effect in the whole population",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -219,7 +219,7 @@
       }
     ],
     "createPsArgs": {
-      "maxCohortSizeForFitting": 0,
+      "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
@@ -238,13 +238,13 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
-          "modelType": "poisson",
+          "description": "Weighted Poisson or Cox proportional hazards model accounting for competing risk of death",
+          "modelType": "cox",
           "useCovariates": false
         },
         {
-          "description": "sensitivity",
-          "modelType": "cox",
+          "description": "Weighted Poisson or Cox proportional hazards model accounting for competing risk of death",
+          "modelType": "poisson",
           "useCovariates": false
         }
       ],

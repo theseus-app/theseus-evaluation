@@ -1,63 +1,54 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2026-05-29T15:27:19.431Z",
+  "createdAt": "2026-06-08T05:21:24.976Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.8571428571428571,
-    "precision": 0.8571428571428571
+    "jaccard": 0.625,
+    "recall": 0.7142857142857143,
+    "precision": 0.8333333333333334
   },
   "counts": {
     "gold": 7,
-    "pred": 7,
-    "intersection": 6,
+    "pred": 6,
+    "intersection": 5,
     "union": 8,
-    "both": 6,
+    "both": 5,
     "predOnly": 1,
-    "goldOnly": 1
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20191231|studyStartDate=20100101}",
-      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
+      "studyPeriods:{studyEndDate=20191231|studyStartDate=20120101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
-    "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "studyPeriods": false,
+    "timeAtRisks": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 2,
+      "bothCount": 1,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     },
     "timeAtRisks": {
-      "bothCount": 2,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
-    },
-    "propensityScoreAdjustment": {
       "bothCount": 1,
       "predOnlyCount": 1,
       "goldOnlyCount": 1,
@@ -65,6 +56,15 @@
       "recall": 0.5,
       "f1": 0.5,
       "accuracy": 0.3333333333333333
+    },
+    "propensityScoreAdjustment": {
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -188,22 +188,22 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target cohort"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": ""
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Study outcome"
+          "name": ""
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative control concept set"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -212,13 +212,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study Period 1-2",
           "studyStartDate": "20100101",
-          "studyEndDate": "20191231"
-        },
-        {
-          "description": "sensitivity",
-          "studyStartDate": "20120101",
           "studyEndDate": "20191231"
         }
       ],
@@ -246,7 +241,7 @@
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
@@ -267,7 +262,7 @@
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
-          "caliper": 0,
+          "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
@@ -294,7 +289,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Outcome Model 1",
           "modelType": "cox",
           "useCovariates": false
         }

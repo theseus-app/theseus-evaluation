@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2026-05-29T15:28:53.912Z",
+  "createdAt": "2026-06-08T05:21:57.737Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -159,13 +159,18 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target cohort"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": ""
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -183,7 +188,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Included data available from January 1, 2001 through December 31, 2017",
           "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         }
@@ -199,7 +204,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment",
+          "description": "On-treatment time at risk starting the day after cohort entry until first of: other cohort medication, outcome, >30-day gap in supply, end of enrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +216,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Large-scale regularized regression PS matching with variable-ratio matching and caliper",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -227,21 +232,40 @@
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
-        "useCrossValidation": false
+        "useCrossValidation": true
       },
-      "control": null
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     },
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model conditioned on PS matched sets",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
-      "prior": null,
-      "control": null
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

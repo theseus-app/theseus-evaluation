@@ -1,13 +1,13 @@
 {
-  "createdAt": "2026-06-03T04:42:37.121Z",
+  "createdAt": "2026-06-08T06:10:27.891Z",
   "totalCases": 15,
   "fieldLevelMetrics": {
-    "wholeTP": 70,
-    "wholeFP": 6,
-    "wholeFN": 7,
-    "fieldPrecision": 0.9210526315789473,
-    "fieldSensitivity": 0.9090909090909091,
-    "fieldFPperCase": 0.4
+    "wholeTP": 68,
+    "wholeFP": 8,
+    "wholeFN": 9,
+    "fieldPrecision": 0.8947368421052632,
+    "fieldSensitivity": 0.8831168831168831,
+    "fieldFPperCase": 0.5333333333333333
   },
   "sectionAccuracySummary": {
     "studyPeriods": {
@@ -24,9 +24,9 @@
     },
     "propensityScoreAdjustment": {
       "evaluated": 15,
-      "trueCount": 14,
-      "falseCount": 1,
-      "accuracy": 0.9333333333333333
+      "trueCount": 13,
+      "falseCount": 2,
+      "accuracy": 0.8666666666666667
     },
     "outcomeModels": {
       "evaluated": 15,
@@ -39,7 +39,7 @@
     {
       "name": "ACEiARBMortality",
       "fileName": "aceiarbmortality.json",
-      "createdAt": "2026-05-29T15:51:16.113Z",
+      "createdAt": "2026-06-08T06:04:56.401Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -200,7 +200,7 @@
         }
       },
       "predJson": {
-        "name": "ACE inhibitors vs ARBs initiators and all-cause mortality",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -219,7 +219,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -244,7 +244,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: intention-to-treat 5-year follow-up",
+              "description": "Intention-to-treat 5-year time-at-risk window",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -256,7 +256,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: 1:1 nearest-neighbor propensity score matching with caliper 0.2 SD of logit PS",
+            "description": "1:1 nearest-neighbor propensity score matching with caliper width of 0.2 SD of the logit of the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -267,7 +267,7 @@
             "inversePtWeighting": false
           },
           {
-            "description": "PS Settings 2: inverse probability of treatment weighting sensitivity analysis",
+            "description": "Propensity score inverse probability of treatment weighting sensitivity analysis",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -294,7 +294,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: Cox proportional hazards model for all-cause mortality",
+              "description": "Cox proportional hazards model for all-cause mortality",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -319,35 +319,39 @@
     {
       "name": "CrohnInfliximabSONIC",
       "fileName": "crohninfliximabsonic.json",
-      "createdAt": "2026-05-29T15:51:39.330Z",
+      "createdAt": "2026-06-08T06:05:16.795Z",
       "metrics": {
-        "jaccard": 1,
-        "recall": 1,
-        "precision": 1
+        "jaccard": 0.3333333333333333,
+        "recall": 0.5,
+        "precision": 0.5
       },
       "counts": {
         "gold": 4,
         "pred": 4,
-        "intersection": 4,
-        "union": 4,
-        "both": 4,
-        "predOnly": 0,
-        "goldOnly": 0
+        "intersection": 2,
+        "union": 6,
+        "both": 2,
+        "predOnly": 2,
+        "goldOnly": 2
       },
       "details": {
         "bothJson": [
           "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=180|riskWindowStart=1|startAnchor=cohort start}",
-          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
-          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=propensity score|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}",
           "outcomeModels:{modelType=cox|useCovariates=false}"
         ],
-        "predJsonOnly": [],
-        "goldJsonOnly": []
+        "predJsonOnly": [
+          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
+        ],
+        "goldJsonOnly": [
+          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
+          "psSettings:{baseSelection=null|caliper=0.02|caliperScale=propensity score|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
+        ]
       },
       "sectionAccuracy": {
         "studyPeriods": true,
         "timeAtRisks": true,
-        "propensityScoreAdjustment": true,
+        "propensityScoreAdjustment": false,
         "outcomeModels": true
       },
       "sectionCounts": {
@@ -370,13 +374,13 @@
           "accuracy": 1
         },
         "propensityScoreAdjustment": {
-          "bothCount": 2,
-          "predOnlyCount": 0,
-          "goldOnlyCount": 0,
-          "precision": 1,
-          "recall": 1,
-          "f1": 1,
-          "accuracy": 1
+          "bothCount": 0,
+          "predOnlyCount": 2,
+          "goldOnlyCount": 2,
+          "precision": 0,
+          "recall": 0,
+          "f1": null,
+          "accuracy": 0
         },
         "outcomeModels": {
           "bothCount": 1,
@@ -506,15 +510,25 @@
           "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
               "description": "",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -528,7 +542,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Follow-up started the day after cohort entry and ended at 180 days of follow-up",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -540,23 +554,23 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1",
+            "description": "1:1 propensity score matching within a caliper of 0.02",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
               "caliper": 0.02,
-              "caliperScale": "propensity score"
+              "caliperScale": "standardized logit"
             },
             "stratifyByPsArgs": null,
             "inversePtWeighting": false
           },
           {
-            "description": "PS Settings 2",
+            "description": "Variable-ratio propensity score matching up to 1:4 within a caliper of 0.02",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 4,
               "caliper": 0.02,
-              "caliperScale": "propensity score"
+              "caliperScale": "standardized logit"
             },
             "stratifyByPsArgs": null,
             "inversePtWeighting": false
@@ -582,7 +596,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1",
+              "description": "Cox proportional hazards regression model to estimate hazard ratios",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -607,7 +621,7 @@
     {
       "name": "CystectomyTrimodality",
       "fileName": "cystectomytrimodality.json",
-      "createdAt": "2026-05-29T15:52:02.941Z",
+      "createdAt": "2026-06-08T06:05:36.766Z",
       "metrics": {
         "jaccard": 0.4,
         "recall": 0.5714285714285714,
@@ -809,7 +823,7 @@
         }
       },
       "predJson": {
-        "name": "Trimodality Therapy vs Radical Cystectomy Overall Survival Study",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -863,7 +877,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: intention-to-treat",
+              "description": "Intention-to-treat analysis",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -875,7 +889,7 @@
         },
         "psSettings": [
           {
-            "description": "PSM 3:1 nearest-neighbour matching",
+            "description": "Propensity score matching: 3:1 nearest-neighbour matching with caliper of 0.25 times the standard deviation of the propensity score logit",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 3,
@@ -886,14 +900,14 @@
             "inversePtWeighting": false
           },
           {
-            "description": "IPTW using propensity-score weights",
+            "description": "Inverse probability of treatment weighting using stabilised weights calculated from the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
             "inversePtWeighting": true
           },
           {
-            "description": "PSM 1:1 nearest-neighbour matching",
+            "description": "Sensitivity analysis: propensity score matching with 1:1 matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -904,7 +918,7 @@
             "inversePtWeighting": false
           },
           {
-            "description": "PSM 1:2 nearest-neighbour matching",
+            "description": "Sensitivity analysis: propensity score matching with 1:2 matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 2,
@@ -915,7 +929,7 @@
             "inversePtWeighting": false
           },
           {
-            "description": "PSM 1:4 nearest-neighbour matching",
+            "description": "Sensitivity analysis: propensity score matching with 1:4 matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 4,
@@ -946,12 +960,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Doubly robust multivariable Cox proportional hazards model",
+              "description": "Doubly robust multivariable Cox proportional hazards model incorporating covariates used in propensity score calculation",
               "modelType": "cox",
               "useCovariates": true
             }
           ],
-          "stratified": true,
+          "stratified": false,
           "prior": {
             "priorType": "laplace",
             "useCrossValidation": true
@@ -971,7 +985,7 @@
     {
       "name": "DPP4iPulmonaryTB",
       "fileName": "dpp4ipulmonarytb.json",
-      "createdAt": "2026-05-29T15:52:36.785Z",
+      "createdAt": "2026-06-08T06:05:53.813Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1125,15 +1139,15 @@
         }
       },
       "predJson": {
-        "name": "DPP-4 inhibitors vs non-DPP-4 inhibitors and pulmonary TB",
+        "name": "DPP-4 inhibitors vs non-DPP-4 inhibitors and pulmonary tuberculosis",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "DPP-4 inhibitor initiators"
+            "name": "DPP-4 inhibitor users"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Non-DPP-4 inhibitor initiators"
+            "name": "Non-DPP-4 inhibitor users"
           },
           "outcomeCohort": [
             {
@@ -1144,16 +1158,26 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1",
+              "description": "Taiwan NHIRD data from 2007 to 2019; follow-up censored at end of study period on December 31, 2020",
               "studyStartDate": "20070101",
               "studyEndDate": "20201231"
             }
@@ -1169,7 +1193,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Follow-up from index date/treatment initiation until pulmonary TB, death, or end of study period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -1181,7 +1205,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: 1:1 propensity score matching",
+            "description": "1:1 propensity score matching of DPP-4 inhibitor initiators to contemporaneous non-DPP-4 inhibitor initiators",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -1212,7 +1236,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1",
+              "description": "Time-to-event analysis comparing DPP-4 inhibitor users with non-users using Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -1237,7 +1261,7 @@
     {
       "name": "DabigatranRivaroxabanAF",
       "fileName": "dabigatranrivaroxabanaf.json",
-      "createdAt": "2026-05-29T15:53:09.706Z",
+      "createdAt": "2026-06-08T06:07:06.879Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1432,45 +1456,60 @@
         }
       },
       "predJson": {
-        "name": "Rivaroxaban vs Dabigatran Medicare emulated trials",
+        "name": "Rivaroxaban versus Dabigatran in Medicare beneficiaries",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Rivaroxaban standard dosage initiators"
+            "name": "Medicare beneficiaries with first prescription for standard-dose Rivaroxaban"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Dabigatran standard dosage initiators"
+            "name": "Medicare beneficiaries with first prescription for standard-dose Dabigatran"
           },
-          "outcomeCohort": []
+          "outcomeCohort": [
+            {
+              "id": null,
+              "name": "Outcome Cohort Name"
+            }
+          ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1: overall recruitment period",
+              "description": "Study Period 1: first prescription between April 01, 2012 and December 31, 2013",
               "studyStartDate": "20120401",
               "studyEndDate": "20131231"
             },
             {
-              "description": "Study Period 2: trial 1 recruitment period",
+              "description": "Study Period 2: recruitment between April 01, 2012 and December 31, 2012",
               "studyStartDate": "20120401",
               "studyEndDate": "20121231"
             },
             {
-              "description": "Study Period 3: trial 2 recruitment period",
+              "description": "Study Period 3: recruitment between November 01, 2012 and May 31, 2013",
               "studyStartDate": "20121101",
               "studyEndDate": "20130531"
             },
             {
-              "description": "Study Period 4: trial 3 recruitment period",
+              "description": "Study Period 4: recruitment between June 01, 2013 and December 31, 2013",
               "studyStartDate": "20130601",
               "studyEndDate": "20131231"
             }
@@ -1486,7 +1525,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: follow-up until death, loss to follow-up, or study end",
+              "description": "Follow-up to death, loss to follow-up, or end of study on December 31, 2013",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1494,27 +1533,27 @@
               "endAnchor": "cohort start"
             },
             {
-              "description": "TAR 2: maximum follow-up of 21 months",
+              "description": "Maximum follow-up of 21 months",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 630,
+              "riskWindowEnd": 638,
               "endAnchor": "cohort start"
             },
             {
-              "description": "TAR 3: maximum follow-up of 14 months",
+              "description": "Maximum follow-up of 14 months",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 420,
+              "riskWindowEnd": 425,
               "endAnchor": "cohort start"
             },
             {
-              "description": "TAR 4: maximum follow-up of 7 months",
+              "description": "Maximum follow-up of 7 months",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 210,
+              "riskWindowEnd": 213,
               "endAnchor": "cohort start"
             }
           ],
@@ -1522,7 +1561,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1: propensity score with inverse probability treatment weighting",
+            "description": "Propensity score adjustment using inverse probability of treatment weighting",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -1549,7 +1588,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: weighted Cox proportional hazards model adjusted for baseline confounders",
+              "description": "Weighted Cox proportional hazards model including treatment indicator and baseline confounders",
               "modelType": "cox",
               "useCovariates": true
             }
@@ -1574,7 +1613,7 @@
     {
       "name": "DenosumabDialysis",
       "fileName": "denosumabdialysis.json",
-      "createdAt": "2026-05-29T15:53:30.964Z",
+      "createdAt": "2026-06-08T06:07:29.099Z",
       "metrics": {
         "jaccard": 0.8333333333333334,
         "recall": 0.8333333333333334,
@@ -1740,7 +1779,7 @@
         }
       },
       "predJson": {
-        "name": "DeSC Healthcare Claims Population-Level Estimation Study",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -1768,7 +1807,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1",
+              "description": "Commercial administrative claims database from DeSC Healthcare covering April 2014 to October 2022",
               "studyStartDate": "20140401",
               "studyEndDate": "20221031"
             }
@@ -1784,7 +1823,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: Follow-up until outcome, disenrollment, 3 years after start of follow-up, or administrative end of study period",
+              "description": "Initial treatment approach: follow-up until first occurrence of study outcome, disenrollment, 3 years after start of follow-up, or administrative end of study period, whichever occurred first",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1792,7 +1831,7 @@
               "endAnchor": "cohort start"
             },
             {
-              "description": "TAR 2: Sensitivity analysis censored at death",
+              "description": "Sensitivity analysis: follow-up censored at death",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1804,7 +1843,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: Inverse probability of treatment weighting for average treatment effect in the whole population",
+            "description": "Inverse probability of treatment weighting (IPTW) for average treatment effect in the whole population",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -1831,12 +1870,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: Hazard ratios estimated using Cox proportional hazards models",
+              "description": "Hazard ratios estimated using Cox proportional hazards models",
               "modelType": "cox",
               "useCovariates": false
             },
             {
-              "description": "Outcome Model 2: Incidence rate differences estimated using Poisson regression models",
+              "description": "Incidence rate differences estimated using Poisson regression models",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -1861,7 +1900,7 @@
     {
       "name": "EVAROpenAAA",
       "fileName": "evaropenaaa.json",
-      "createdAt": "2026-05-29T15:53:51.212Z",
+      "createdAt": "2026-06-08T06:07:45.278Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2050,7 +2089,7 @@
           "studyPeriods": [
             {
               "description": "Study Period 1",
-              "studyStartDate": null,
+              "studyStartDate": "",
               "studyEndDate": "20190630"
             }
           ],
@@ -2065,7 +2104,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "TAR 1: follow-up to death, loss to follow-up, or end of study",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -2077,7 +2116,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1",
+            "description": "PS Settings 1: propensity score analysis for treatment using logistic regression with inverse probability of treatment weighting",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -2104,7 +2143,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1",
+              "description": "Outcome Model 1: Cox regression analysis for survival with IPW weighting",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2129,7 +2168,7 @@
     {
       "name": "HCCPalliativeCare",
       "fileName": "hccpalliativecare.json",
-      "createdAt": "2026-05-29T15:54:12.116Z",
+      "createdAt": "2026-06-08T06:08:03.193Z",
       "metrics": {
         "jaccard": 0.5,
         "recall": 0.6666666666666666,
@@ -2294,7 +2333,7 @@
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Death"
+              "name": "Outcome Cohort Name"
             }
           ]
         },
@@ -2303,15 +2342,25 @@
           "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Potential prognostic factors and confounders"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
               "description": "",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -2325,7 +2374,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: from HCC diagnosis until death",
+              "description": "Follow-up from HCC diagnosis until death",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -2337,7 +2386,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: inverse probability treatment weighting",
+            "description": "Inverse probability treatment weighting to account for selection bias, confounding by indication, and confounding by contraindication",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -2364,7 +2413,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: Cox proportional hazards model with prognostic factors and confounders",
+              "description": "Treatment-specific Cox proportional hazards regression including prognostic factors and confounders",
               "modelType": "cox",
               "useCovariates": true
             }
@@ -2389,7 +2438,7 @@
     {
       "name": "IVIronAnaphylaxis",
       "fileName": "ivironanaphylaxis.json",
-      "createdAt": "2026-05-29T15:54:36.064Z",
+      "createdAt": "2026-06-08T06:08:36.786Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2545,15 +2594,15 @@
         }
       },
       "predJson": {
-        "name": "Anaphylaxis after first IV iron administration by formulation",
+        "name": "IV iron formulations and anaphylaxis",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Older adults receiving first administration of an IV iron formulation"
+            "name": "Older adults receiving first administration of IV iron formulations"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Older adults receiving first administration of a comparator IV iron formulation"
+            "name": "Individual IV iron formulations"
           },
           "outcomeCohort": [
             {
@@ -2567,28 +2616,18 @@
           "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [
-            {
-              "id": null,
-              "name": "Concept Name 1"
-            }
-          ],
-          "conceptsToExclude": [
-            {
-              "id": null,
-              "name": "Concept Name 3"
-            }
-          ]
+          "conceptsToInclude": [],
+          "conceptsToExclude": []
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Primary study period: July 2013 through December 2018",
+              "description": "Study Period 1: first IV iron administration between July 2013 and December 2018",
               "studyStartDate": "20130701",
               "studyEndDate": "20181231"
             },
             {
-              "description": "Sensitivity study period: after 2014 following withdrawal of high-molecular-weight iron dextran",
+              "description": "Study Period 2: restricted to after 2014, following withdrawal of high-molecular-weight iron dextran",
               "studyStartDate": "20150101",
               "studyEndDate": "20181231"
             }
@@ -2604,7 +2643,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "Anaphylaxis within 1 day of IV iron administration",
+              "description": "Anaphylaxis occurring within 1 day of IV iron administration",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -2616,7 +2655,7 @@
         },
         "psSettings": [
           {
-            "description": "IPTW propensity score adjustment across IV iron formulations",
+            "description": "Propensity score-based inverse probability of treatment weighting to account for imbalances across IV iron formulations",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -2643,7 +2682,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "IPTW-weighted logistic regression estimating adjusted odds ratios for anaphylaxis",
+              "description": "IPTW-weighted logistic regression modeling anaphylaxis as the outcome",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -2668,7 +2707,7 @@
     {
       "name": "MARS",
       "fileName": "mars.json",
-      "createdAt": "2026-05-29T15:54:59.762Z",
+      "createdAt": "2026-06-08T06:08:54.914Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2830,7 +2869,7 @@
         }
       },
       "predJson": {
-        "name": "Prospective ICU cohort study Netherlands 2011-2013",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -2852,13 +2891,23 @@
           "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1",
+              "description": "Prospective cohort study conducted in two tertiary academic center adult ICUs in the Netherlands between January 2011 and December 2013",
               "studyStartDate": "20110101",
               "studyEndDate": "20131231"
             }
@@ -2874,7 +2923,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Follow-up started after the 72-hour exposure period and ended 90 days after ICU admission",
               "minDaysAtRisk": 1,
               "riskWindowStart": 3,
               "startAnchor": "cohort start",
@@ -2886,7 +2935,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: 1:1 greedy propensity score matching",
+            "description": "Propensity score greedy matching with a caliper width of 0.2 times the standard deviation of the propensity score logit; treated patients matched to controls 1:1",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -2897,7 +2946,7 @@
             "inversePtWeighting": false
           },
           {
-            "description": "PS Settings 2: inverse probability of treatment weighting",
+            "description": "Inverse probability of treatment weighting; weights above 10 were capped at 10",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -2924,7 +2973,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: Cox model for hazard ratios in matched samples",
+              "description": "Cox model used to estimate hazard ratios and standard errors for matched samples, with robust variance estimator to account for matched pairs",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2949,7 +2998,7 @@
     {
       "name": "PPIMortality",
       "fileName": "ppimortality.json",
-      "createdAt": "2026-05-29T15:56:01.585Z",
+      "createdAt": "2026-06-08T06:09:15.879Z",
       "metrics": {
         "jaccard": 0.42857142857142855,
         "recall": 0.6,
@@ -3109,7 +3158,7 @@
         }
       },
       "predJson": {
-        "name": "New use of PPIs and causes of death among new users of acid suppression drugs",
+        "name": "New use of PPIs and causes of death",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -3128,16 +3177,26 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1: new users selected between 1 July 2002 and 30 June 2004",
+              "description": "New users of acid suppression drugs between 1 July 2002 and 30 June 2004",
               "studyStartDate": "20020701",
               "studyEndDate": "20040630"
             }
@@ -3153,7 +3212,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: intention-to-treat design with follow-up up to 10 years",
+              "description": "Intention-to-treat follow-up for up to 10 years after new use of acid suppressant drugs",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3165,7 +3224,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: inverse probability of treatment weighting based on propensity scores",
+            "description": "Inverse probability of treatment weighting based on propensity scores",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -3192,12 +3251,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: logistic regression weighted by inverse treatment probability weights",
+              "description": "Logistic regression weighted by inverse treatment probability weights to compute residual between observed and predicted treatment assignment probability",
               "modelType": "logistic",
               "useCovariates": false
             },
             {
-              "description": "Outcome Model 2: inverse treatment probability weighted cause-specific Cox survival analysis",
+              "description": "Inverse treatment probability weighted cause-specific Cox survival analysis using residual as an independent variable for unmeasured confounding",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -3222,7 +3281,7 @@
     {
       "name": "RosuvastatinHematuria",
       "fileName": "rosuvastatinhematuria.json",
-      "createdAt": "2026-05-29T15:56:23.797Z",
+      "createdAt": "2026-06-08T06:09:35.458Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3377,11 +3436,11 @@
         }
       },
       "predJson": {
-        "name": "Rosuvastatin IPTW study",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Rosuvastatin"
+            "name": "Target Cohort Name"
           },
           "comparatorCohort": {
             "id": null,
@@ -3431,7 +3490,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: from medication initiation to outcome, KFRT, death, last encounter, or end of follow-up",
+              "description": "Time at risk began at medication initiation (baseline, T0) and ended at the first occurrence of a study outcome, KFRT, or end of study follow-up, whichever came first.",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -3443,7 +3502,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: IPTW for average treatment effect",
+            "description": "Inverse probability of treatment weighting (IPTW) to achieve balance in baseline characteristics and estimate average treatment effect of rosuvastatin.",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -3470,12 +3529,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: stratified Cox proportional hazards model estimating IPTW hazard ratio",
+              "description": "Stratified Cox proportional hazards regression to estimate a single IPTW hazard ratio for the entire study population.",
               "modelType": "cox",
               "useCovariates": false
             },
             {
-              "description": "Outcome Model 2: Poisson regression estimating incidence rate difference",
+              "description": "Poisson regression to estimate the incidence rate difference.",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -3500,7 +3559,7 @@
     {
       "name": "SGLT2iMetformin",
       "fileName": "sglt2imetformin.json",
-      "createdAt": "2026-05-29T15:56:46.923Z",
+      "createdAt": "2026-06-08T06:09:53.995Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3681,7 +3740,7 @@
         }
       },
       "predJson": {
-        "name": "SGLT-2i versus metformin population-level estimation study",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -3694,7 +3753,7 @@
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Study outcome"
+              "name": "Outcome Cohort Name"
             }
           ]
         },
@@ -3750,7 +3809,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: On-treatment follow-up starting day after cohort entry",
+              "description": "TAR 1: Follow-up from the day after cohort entry until outcome, death, treatment discontinuation, disenrollment, or end of study period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3758,7 +3817,7 @@
               "endAnchor": "cohort end"
             },
             {
-              "description": "TAR 2: Intention-to-treat follow-up carrying initial exposure forward for 365 days",
+              "description": "TAR 2: Intention-to-treat follow-up carrying forward initial exposure for 365 days without considering treatment discontinuation or comparator initiation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3770,7 +3829,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1: 1:2 propensity score matching",
+            "description": "PS Settings 1: 1:2 propensity score matching of SGLT-2i initiators to metformin initiators",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 2,
@@ -3801,12 +3860,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: Proportional hazards model without further adjustment",
+              "description": "Outcome Model 1: Proportional hazards model estimating hazard ratios without further adjustment",
               "modelType": "cox",
               "useCovariates": false
             }
           ],
-          "stratified": true,
+          "stratified": false,
           "prior": {
             "priorType": "laplace",
             "useCrossValidation": true
@@ -3826,7 +3885,7 @@
     {
       "name": "SGLT2iNephrolithiasis",
       "fileName": "sglt2inephrolithiasis.json",
-      "createdAt": "2026-05-29T15:57:12.034Z",
+      "createdAt": "2026-06-08T06:10:11.618Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3982,15 +4041,15 @@
         }
       },
       "predJson": {
-        "name": "Type 2 diabetes comparison drugs study",
+        "name": "Population-level estimation study of comparison drugs in adults with type 2 diabetes",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Adults with type 2 diabetes with first dispensing of target comparison drug"
+            "name": "Target Cohort Name"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Adults with type 2 diabetes with first dispensing of comparator drug"
+            "name": "Comparator Cohort Name"
           },
           "outcomeCohort": [
             {
@@ -4020,7 +4079,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Study Period 1",
+              "description": "First dispensing between 1 January 2014 and 30 June 2022",
               "studyStartDate": "20140101",
               "studyEndDate": "20220630"
             }
@@ -4036,7 +4095,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Primary analysis: follow-up from day of first dispensing until end of study period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -4048,7 +4107,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1",
+            "description": "Stabilized inverse probability of treatment weighting for the average treatment effect in the whole population",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -4075,12 +4134,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1 - weighted Poisson",
+              "description": "Weighted Poisson model to estimate rate ratios",
               "modelType": "poisson",
               "useCovariates": false
             },
             {
-              "description": "Outcome Model 2 - weighted Cox proportional hazards",
+              "description": "Weighted Cox proportional hazards model to estimate hazard ratios",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -4105,7 +4164,7 @@
     {
       "name": "VPAConcentrationBipolar",
       "fileName": "vpaconcentrationbipolar.json",
-      "createdAt": "2026-05-29T15:57:33.697Z",
+      "createdAt": "2026-06-08T06:10:27.888Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -4254,7 +4313,7 @@
         }
       },
       "predJson": {
-        "name": "Serum VPA Concentrations and Mood Episode Recurrence Study",
+        "name": "Study Name",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -4276,15 +4335,25 @@
           "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
-          "conceptsToExclude": []
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Concept Name 1"
+            }
+          ],
+          "conceptsToExclude": [
+            {
+              "id": null,
+              "name": "Concept Name 3"
+            }
+          ]
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -4298,7 +4367,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1: index date through 2 years",
+              "description": "Follow-up from index date for two years or until outcome event",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -4310,7 +4379,7 @@
         },
         "psSettings": [
           {
-            "description": "PS Settings 1: IPTW with propensity score",
+            "description": "Inverse probability of treatment weighting using propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -4337,7 +4406,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Outcome Model 1: multivariable Cox regression adjusted for baseline covariates",
+              "description": "Multivariable Cox regression adjusted for all baseline covariates",
               "modelType": "cox",
               "useCovariates": true
             }

@@ -1,7 +1,7 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-05-29T15:50:29.621Z",
+  "createdAt": "2026-06-08T05:22:15.330Z",
   "metrics": {
     "jaccard": 0.4,
     "recall": 0.5714285714285714,
@@ -203,33 +203,39 @@
     }
   },
   "predJson": {
-    "name": "Trimodality vs Cystectomy Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "trimodality therapy"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "radical cystectomy"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Overall Survival"
+          "name": "overall survival"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -241,7 +247,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Intention-to-treat",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -253,7 +259,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: PSM 3:1",
+        "description": "PSM 3:1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 3,
@@ -264,14 +270,14 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: IPTW",
+        "description": "IPTW stabilised weights",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": true
       },
       {
-        "description": "PS Settings 3: PSM 1:1",
+        "description": "PSM 1:1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -282,7 +288,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 4: PSM 1:2",
+        "description": "PSM 1:2",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -293,7 +299,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 5: PSM 1:4",
+        "description": "PSM 1:4",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 4,
@@ -324,7 +330,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Doubly robust Cox with covariates",
           "modelType": "cox",
           "useCovariates": true
         }

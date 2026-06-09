@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2026-05-29T15:27:40.545Z",
+  "createdAt": "2026-06-08T06:06:02.562Z",
   "metrics": {
     "jaccard": 0.6666666666666666,
     "recall": 0.8,
@@ -24,7 +24,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=3|trimByPsArgs=null}"
+      "psSettings:{baseSelection=all|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=3|trimByPsArgs=null}"
     ],
     "goldJsonOnly": [
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}"
@@ -172,23 +172,23 @@
     "name": "T2D Medication NAION Study",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 0,
+        "id": 1,
         "name": "T2D Medications"
       },
       "comparatorCohort": {
-        "id": 0,
+        "id": 2,
         "name": "T2D Medications"
       },
       "outcomeCohort": [
         {
-          "id": 0,
+          "id": 3,
           "name": "NAION"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": 0,
-      "name": "Negative Control"
+      "name": "None"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -197,7 +197,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Primary study period",
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
         }
@@ -213,7 +213,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Time-at-risk from initiation until end of continuous exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -225,7 +225,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -236,9 +236,13 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS 2",
+        "description": "Stratified propensity score-matched Cox proportional hazards models",
         "trimByPsArgs": null,
-        "matchOnPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 1,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
+        },
         "stratifyByPsArgs": {
           "numberOfStrata": 3,
           "baseSelection": "all"
@@ -266,7 +270,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazards model for NAION",
           "modelType": "cox",
           "useCovariates": false
         }

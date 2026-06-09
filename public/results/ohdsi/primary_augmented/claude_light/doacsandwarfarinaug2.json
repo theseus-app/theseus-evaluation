@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarinAug2",
   "fileName": "doacsandwarfarinaug2.json",
-  "createdAt": "2026-05-29T15:31:41.842Z",
+  "createdAt": "2026-06-08T05:22:44.068Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -182,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Overall study period",
           "studyStartDate": "20101019",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,7 +198,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat time-at-risk period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 3,
           "startAnchor": "cohort start",
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "primary PS stratification",
+        "description": "Primary propensity score stratification strategy",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,14 +240,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary logistic regression",
+          "description": "Logistic regression model for first outcome occurrence",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

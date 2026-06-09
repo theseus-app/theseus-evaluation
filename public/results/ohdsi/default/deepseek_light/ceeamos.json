@@ -1,7 +1,7 @@
 {
   "name": "CEEAMOS",
   "fileName": "ceeamos.json",
-  "createdAt": "2026-05-29T15:28:03.333Z",
+  "createdAt": "2026-06-08T05:21:50.681Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -163,33 +163,39 @@
     }
   },
   "predJson": {
-    "name": "Primary Analysis",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Unknown"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "Study period",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -201,17 +207,17 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "As-treated",
+          "description": "As-treated (AT) approach",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
         },
         {
-          "description": "Intention-to-treat",
+          "description": "Intention-to-treat (ITT) approach",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
           "endAnchor": "cohort start"
@@ -221,7 +227,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Variable-ratio PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -252,12 +258,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazard model",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

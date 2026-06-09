@@ -1,7 +1,7 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-05-29T15:31:16.122Z",
+  "createdAt": "2026-06-08T05:21:25.565Z",
   "metrics": {
     "jaccard": 0.4,
     "recall": 0.5714285714285714,
@@ -203,7 +203,7 @@
     }
   },
   "predJson": {
-    "name": "Intention-to-treat PS-matched and IPTW survival analysis",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -226,9 +226,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -242,7 +242,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Intention-to-treat",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -254,7 +254,7 @@
     },
     "psSettings": [
       {
-        "description": "PSM primary",
+        "description": "Primary PSM: 3:1 nearest-neighbour matching with replacement, caliper 0.25 SD of logit PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 3,
@@ -265,14 +265,14 @@
         "inversePtWeighting": false
       },
       {
-        "description": "IPTW",
+        "description": "Primary IPTW: stabilized inverse probability of treatment weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": true
       },
       {
-        "description": "PSM sensitivity 1:1",
+        "description": "Sensitivity PSM: 1:1 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -283,7 +283,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PSM sensitivity 1:2",
+        "description": "Sensitivity PSM: 1:2 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -294,7 +294,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PSM sensitivity 1:4",
+        "description": "Sensitivity PSM: 1:4 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 4,
@@ -325,7 +325,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Doubly robust multivariable Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": true
         }

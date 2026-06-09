@@ -1,7 +1,7 @@
 {
   "name": "HCCPalliativeCare",
   "fileName": "hccpalliativecare.json",
-  "createdAt": "2026-05-29T15:32:24.876Z",
+  "createdAt": "2026-06-08T05:21:41.969Z",
   "metrics": {
     "jaccard": 0.5,
     "recall": 0.6666666666666666,
@@ -153,7 +153,7 @@
     }
   },
   "predJson": {
-    "name": "HCC population-level estimation study",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -163,7 +163,12 @@
         "id": null,
         "name": "Comparator cohort"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Death"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -174,7 +179,13 @@
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "Follow-up from HCC diagnosis until death",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -186,9 +197,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "from HCC diagnosis until death",
+          "description": "From HCC diagnosis until death",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -198,7 +209,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "Inverse probability treatment weighting (IPTW)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -225,7 +236,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "treatment-specific Cox proportional hazards regression",
+          "description": "Treatment-specific Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": true
         }

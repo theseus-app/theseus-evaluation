@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafetyAug1",
   "fileName": "uveitissafetyaug1.json",
-  "createdAt": "2026-05-29T15:33:27.106Z",
+  "createdAt": "2026-06-08T05:24:54.630Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -159,11 +159,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade (Target)"
+        "name": "Remicade"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator"
       },
       "outcomeCohort": [
         {
@@ -174,7 +174,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from 1 January 2000 to 31 December 2020",
           "studyStartDate": "20000101",
           "studyEndDate": "20201231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat: day after index until 30 days after index",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "primary PS adjustment with 1:1 matching",
+        "description": "Primary PS adjustment: 1:1 matching with greedy algorithm",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -223,7 +223,7 @@
       }
     ],
     "createPsArgs": {
-      "maxCohortSizeForFitting": 0,
+      "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary Poisson model conditioned on PS-matched sets",
+          "description": "Poisson regression conditioned on PS-matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "IVIronAnaphylaxis",
   "fileName": "ivironanaphylaxis.json",
-  "createdAt": "2026-05-29T15:57:39.361Z",
+  "createdAt": "2026-06-08T05:23:38.600Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,11 +155,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target IV Iron"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator IV Iron"
       },
       "outcomeCohort": [
         {
@@ -179,14 +179,14 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "July 2013 to December 2018",
           "studyStartDate": "20130701",
           "studyEndDate": "20181231"
         }
       ],
       "firstExposureOnly": true,
-      "removeDuplicateSubjects": "keep all",
-      "restrictToCommonPeriod": false,
+      "removeDuplicateSubjects": "keep first",
+      "restrictToCommonPeriod": true,
       "washoutPeriod": 365,
       "maxCohortSize": 0
     },
@@ -195,8 +195,8 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
-          "minDaysAtRisk": 0,
+          "description": "1-day risk window",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1,
@@ -207,7 +207,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "IPTW",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -234,7 +234,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression with IPTW",
           "modelType": "logistic",
           "useCovariates": false
         }

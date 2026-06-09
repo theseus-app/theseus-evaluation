@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2026-05-29T15:37:43.688Z",
+  "createdAt": "2026-06-08T05:23:05.395Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "CuIUD vs LNG-IUS Cervical Neoplasms",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -174,7 +174,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Not specified"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,9 +183,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Primary study period",
           "studyStartDate": "20030101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Primary analysis",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Primary analysis",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Primary analysis",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

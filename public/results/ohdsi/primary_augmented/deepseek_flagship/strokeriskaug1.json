@@ -1,7 +1,7 @@
 {
   "name": "StrokeRiskAug1",
   "fileName": "strokeriskaug1.json",
-  "createdAt": "2026-05-29T16:16:22.508Z",
+  "createdAt": "2026-06-08T06:27:37.852Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study Period",
           "studyStartDate": "20050101",
           "studyEndDate": "20151231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT TAR",
+          "description": "ITT: from day after cohort entry to end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1:1 matching",
+        "description": "1:1 matching on PS with caliper 0.2 SD of logit PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,25 +242,14 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "Poisson regression conditioned on PS matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": {
-        "priorType": "laplace",
-        "useCrossValidation": true
-      },
-      "control": {
-        "tolerance": 2e-7,
-        "cvType": "auto",
-        "fold": 10,
-        "cvRepetitions": 10,
-        "noiseLevel": "quiet",
-        "resetCoefficients": true,
-        "startingVariance": 0.01
-      }
+      "prior": null,
+      "control": null
     }
   }
 }

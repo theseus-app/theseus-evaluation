@@ -1,37 +1,34 @@
 {
   "name": "UveitisSafetyAug2",
   "fileName": "uveitissafetyaug2.json",
-  "createdAt": "2026-05-29T15:31:03.172Z",
+  "createdAt": "2026-06-08T05:23:13.739Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20201231|studyStartDate=null}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -157,20 +154,20 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU population-level estimation study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade treatment cohort"
+        "name": "Remicade treatment"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": "Comparator group"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "First ever NIU occurrence"
+          "name": "NIU occurrence"
         }
       ]
     },
@@ -185,8 +182,8 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
+          "description": "Study period until 31 December 2020",
+          "studyStartDate": "",
           "studyEndDate": "20201231"
         }
       ],
@@ -197,23 +194,23 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat time-at-risk: day after index until end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Primary PS adjustment strategy: 5 propensity score strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,7 +240,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression model conditioned on PS strata",
           "modelType": "logistic",
           "useCovariates": false
         }

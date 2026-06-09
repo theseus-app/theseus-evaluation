@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:30:26.513Z",
+  "createdAt": "2026-06-08T05:23:09.617Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,15 +154,15 @@
     }
   },
   "predJson": {
-    "name": "Remicade vs Comparator - NIU Outcome Study",
+    "name": "Remicade NIU Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade (Target)"
+        "name": "Remicade"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator"
       },
       "outcomeCohort": [
         {
@@ -173,7 +173,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -182,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis period",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "Full study period",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,7 +198,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR",
+          "description": "On-treatment: day after index until end of persistent exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary PS matching strategy",
+        "description": "1:10 variable ratio matching with greedy algorithm",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -232,7 +232,7 @@
         "tolerance": 2e-7,
         "cvType": "auto",
         "fold": 10,
-        "cvRepetitions": 10,
+        "cvRepetitions": 1,
         "noiseLevel": "silent",
         "resetCoefficients": true,
         "startingVariance": 0.01
@@ -241,14 +241,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary Cox PH model",
+          "description": "Cox proportional-hazards model conditioned on PS-matched sets",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

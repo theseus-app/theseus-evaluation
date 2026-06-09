@@ -1,41 +1,42 @@
 {
   "name": "PPIMortality",
   "fileName": "ppimortality.json",
-  "createdAt": "2026-05-29T16:34:31.930Z",
+  "createdAt": "2026-06-08T06:16:13.777Z",
   "metrics": {
-    "jaccard": 0.42857142857142855,
-    "recall": 0.6,
-    "precision": 0.6
+    "jaccard": 0.125,
+    "recall": 0.2,
+    "precision": 0.25
   },
   "counts": {
     "gold": 5,
-    "pred": 5,
-    "intersection": 3,
-    "union": 7,
-    "both": 3,
-    "predOnly": 2,
-    "goldOnly": 2
+    "pred": 4,
+    "intersection": 1,
+    "union": 8,
+    "both": 1,
+    "predOnly": 3,
+    "goldOnly": 4
   },
   "details": {
     "bothJson": [
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
-      "outcomeModels:{modelType=logistic|useCovariates=false}",
-      "outcomeModels:{modelType=cox|useCovariates=false}"
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}"
     ],
     "predJsonOnly": [
-      "studyPeriods:{studyEndDate=null|studyStartDate=20020701}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=3650|riskWindowStart=1|startAnchor=cohort start}"
+      "studyPeriods:{studyEndDate=20040630|studyStartDate=20020701}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=3650|riskWindowStart=1|startAnchor=cohort start}",
+      "outcomeModels:{modelType=cox|useCovariates=true}"
     ],
     "goldJsonOnly": [
       "studyPeriods:{studyEndDate=20140630|studyStartDate=20020701}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "outcomeModels:{modelType=logistic|useCovariates=false}",
+      "outcomeModels:{modelType=cox|useCovariates=false}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true,
-    "outcomeModels": true
+    "outcomeModels": false
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -66,13 +67,13 @@
       "accuracy": 1
     },
     "outcomeModels": {
-      "bothCount": 2,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 2,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     }
   },
   "goldJson": {
@@ -161,26 +162,26 @@
     }
   },
   "predJson": {
-    "name": "PPI new user study",
+    "name": "Study on new use of PPIs and causes of death",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of PPIs"
+        "name": "proton pump inhibitors"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "New users of other acid suppression drugs"
+        "name": "other acid suppression drugs"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Causes of death"
+          "name": "causes of death"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Not specified"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -191,10 +192,10 @@
         {
           "description": "Study Period 1",
           "studyStartDate": "20020701",
-          "studyEndDate": null
+          "studyEndDate": "20040630"
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -205,7 +206,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: Intention-to-treat",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -217,7 +218,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Inverse treatment probability weights",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -244,14 +245,9 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: logistic regression to compute residual weighted by IPTW",
-          "modelType": "logistic",
-          "useCovariates": false
-        },
-        {
-          "description": "Outcome Model 2: cause-specific Cox survival analysis with residual as independent variable",
+          "description": "Cause-specific Cox regression with residual as IV",
           "modelType": "cox",
-          "useCovariates": false
+          "useCovariates": true
         }
       ],
       "stratified": false,

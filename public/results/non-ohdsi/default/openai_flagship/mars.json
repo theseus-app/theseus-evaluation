@@ -1,7 +1,7 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-05-29T15:54:59.762Z",
+  "createdAt": "2026-06-08T06:08:54.914Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -163,7 +163,7 @@
     }
   },
   "predJson": {
-    "name": "Prospective ICU cohort study Netherlands 2011-2013",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -185,13 +185,23 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Prospective cohort study conducted in two tertiary academic center adult ICUs in the Netherlands between January 2011 and December 2013",
           "studyStartDate": "20110101",
           "studyEndDate": "20131231"
         }
@@ -207,7 +217,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Follow-up started after the 72-hour exposure period and ended 90 days after ICU admission",
           "minDaysAtRisk": 1,
           "riskWindowStart": 3,
           "startAnchor": "cohort start",
@@ -219,7 +229,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 1:1 greedy propensity score matching",
+        "description": "Propensity score greedy matching with a caliper width of 0.2 times the standard deviation of the propensity score logit; treated patients matched to controls 1:1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -230,7 +240,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: inverse probability of treatment weighting",
+        "description": "Inverse probability of treatment weighting; weights above 10 were capped at 10",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -257,7 +267,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox model for hazard ratios in matched samples",
+          "description": "Cox model used to estimate hazard ratios and standard errors for matched samples, with robust variance estimator to account for matched pairs",
           "modelType": "cox",
           "useCovariates": false
         }

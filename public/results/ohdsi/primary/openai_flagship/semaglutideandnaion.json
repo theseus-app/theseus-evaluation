@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2026-05-29T15:37:45.444Z",
+  "createdAt": "2026-06-08T05:24:59.476Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,35 +155,45 @@
     }
   },
   "predJson": {
-    "name": "T2D Medication Exposure and NAION Population-Level Estimation Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Adults 18 years and older with T2D initiating semaglutide, dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide"
+        "name": "Semaglutide initiators with type 2 diabetes, age 18 years or older"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Adults 18 years and older with T2D initiating comparator T2D medication"
+        "name": "Comparator type 2 diabetes medication initiators: dulaglutide, exenatide, empagliflozin, sitagliptin, or glipizide, age 18 years or older"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "Nonarteritic anterior ischemic optic neuropathy (NAION)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from December 1, 2017 to December 31, 2023",
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
         }
@@ -199,7 +209,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment from medication initiation to end of continuous drug exposure",
+          "description": "On-treatment time at risk from medication initiation through end of continuous drug exposure, allowing gaps of up to 30 days, or end of continuous observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -211,7 +221,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 propensity score matching",
+        "description": "1:1 propensity score matching for each target-comparator exposure comparison",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,7 +252,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards model estimating HR of NAION",
+          "description": "Cox proportional hazards model estimating hazard ratio of NAION from cohort entry to outcome",
           "modelType": "cox",
           "useCovariates": false
         }

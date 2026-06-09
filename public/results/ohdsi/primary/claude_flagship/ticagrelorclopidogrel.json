@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2026-05-29T15:33:04.200Z",
+  "createdAt": "2026-06-08T05:23:47.726Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -23,7 +23,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}"
@@ -158,26 +158,26 @@
     }
   },
   "predJson": {
-    "name": "Study Name",
+    "name": "Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort Name"
+        "name": "Target Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort Name"
+        "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort Name"
+          "name": "Outcome Cohort"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set Name"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -186,7 +186,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "November 2011 to March 2019",
           "studyStartDate": "20111101",
           "studyEndDate": "20190331"
         }
@@ -202,19 +202,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Intent-to-treat, censored at end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "One-to-one greedy matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -245,7 +245,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazard regression model",
           "modelType": "cox",
           "useCovariates": false
         }

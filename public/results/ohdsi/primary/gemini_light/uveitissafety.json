@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:28:38.135Z",
+  "createdAt": "2026-06-08T06:08:06.882Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU Study",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": 0,
@@ -182,7 +182,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Default study period",
           "studyStartDate": "",
           "studyEndDate": ""
         }
@@ -198,7 +198,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment",
+          "description": "On-treatment TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Primary PS adjustment strategy",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -241,14 +241,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox PH regression",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

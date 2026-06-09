@@ -1,39 +1,40 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:32:20.070Z",
+  "createdAt": "2026-06-08T05:26:10.428Z",
   "metrics": {
-    "jaccard": 0.7142857142857143,
-    "recall": 0.8333333333333334,
-    "precision": 0.8333333333333334
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
     "gold": 6,
     "pred": 6,
-    "intersection": 5,
-    "union": 7,
-    "both": 5,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 8,
+    "both": 4,
+    "predOnly": 2,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
     ],
     "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": false,
     "outcomeModels": true
   },
@@ -48,13 +49,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 2,
@@ -177,7 +178,7 @@
     }
   },
   "predJson": {
-    "name": "HIRA COVID-19 testing study",
+    "name": "HIRA COVID-19 Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -216,19 +217,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: Patients were censored if they were no longer observable in the database.",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "propensity score unadjusted",
+        "description": "propensity score unadjusted analysis",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -276,7 +277,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazards regression models were used to model the time to the first outcome occurrence for the target relative to the comparator cohort in pairwise comparisons",
           "modelType": "cox",
           "useCovariates": false
         }

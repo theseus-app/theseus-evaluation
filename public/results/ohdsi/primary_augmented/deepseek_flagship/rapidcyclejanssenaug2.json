@@ -1,46 +1,47 @@
 {
   "name": "RapidCycleJanssenAug2",
   "fileName": "rapidcyclejanssenaug2.json",
-  "createdAt": "2026-05-29T16:13:50.738Z",
+  "createdAt": "2026-06-08T06:24:52.712Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
+    "jaccard": 0.75,
+    "recall": 0.75,
     "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 4,
-    "intersection": 4,
+    "pred": 3,
+    "intersection": 3,
     "union": 4,
-    "both": 4,
+    "both": 3,
     "predOnly": 0,
-    "goldOnly": 0
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=20211231|studyStartDate=null}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": []
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20211231|studyStartDate=null}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
+      "bothCount": 0,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "goldOnlyCount": 1,
+      "precision": null,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -154,26 +155,26 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine PLE",
+    "name": "COVID-19 Vaccine Cohort Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Vaccine"
+        "name": "Vaccinated Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome"
+          "name": "Outcome of Interest"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -182,9 +183,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "",
           "studyStartDate": "",
-          "studyEndDate": "20211231"
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT lifetime",
+          "description": "Starting 1 day after vaccination until end of lifetime",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -210,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "Stratify 5 strata",
+        "description": "Stratification into 5 strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,7 +241,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression",
           "modelType": "poisson",
           "useCovariates": false
         }

@@ -1,13 +1,13 @@
 {
-  "createdAt": "2026-06-03T04:42:37.074Z",
+  "createdAt": "2026-06-08T06:10:26.044Z",
   "totalCases": 30,
   "fieldLevelMetrics": {
-    "wholeTP": 111,
-    "wholeFP": 4,
-    "wholeFN": 4,
-    "fieldPrecision": 0.9652173913043478,
-    "fieldSensitivity": 0.9652173913043478,
-    "fieldFPperCase": 0.13333333333333333
+    "wholeTP": 114,
+    "wholeFP": 1,
+    "wholeFN": 1,
+    "fieldPrecision": 0.991304347826087,
+    "fieldSensitivity": 0.991304347826087,
+    "fieldFPperCase": 0.03333333333333333
   },
   "sectionAccuracySummary": {
     "studyPeriods": {
@@ -18,9 +18,9 @@
     },
     "timeAtRisks": {
       "evaluated": 30,
-      "trueCount": 26,
-      "falseCount": 4,
-      "accuracy": 0.8666666666666667
+      "trueCount": 29,
+      "falseCount": 1,
+      "accuracy": 0.9666666666666667
     },
     "propensityScoreAdjustment": {
       "evaluated": 30,
@@ -39,7 +39,7 @@
     {
       "name": "AntiVEGFKidneyAug1",
       "fileName": "antivegfkidneyaug1.json",
-      "createdAt": "2026-05-29T15:33:36.385Z",
+      "createdAt": "2026-06-08T06:04:48.856Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -193,15 +193,15 @@
         }
       },
       "predJson": {
-        "name": "Anti-VEGF and Risk of Kidney Failure",
+        "name": "Anti-VEGF and Kidney Failure Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort"
+            "name": "Target anti-VEGF exposure cohort"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort"
+            "name": "Comparator exposure cohort"
           },
           "outcomeCohort": [
             {
@@ -212,7 +212,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Outcomes"
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -221,7 +221,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2010 to 31 December 2020",
               "studyStartDate": "20100101",
               "studyEndDate": "20201231"
             }
@@ -237,7 +237,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment (1 to 30 days after third anti-VEGF exposure)",
+              "description": "On-treatment, 1 to 30 days after third anti-VEGF exposure",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -249,7 +249,7 @@
         },
         "psSettings": [
           {
-            "description": "Variable-ratio matching (1:10)",
+            "description": "Variable-ratio PS matching up to 1:10",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 10,
@@ -280,7 +280,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Poisson regression for risk of kidney failure while on treatment",
+              "description": "Poisson regression for kidney failure while on treatment",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -305,7 +305,7 @@
     {
       "name": "AntiVEGFKidneyAug2",
       "fileName": "antivegfkidneyaug2.json",
-      "createdAt": "2026-05-29T15:33:47.838Z",
+      "createdAt": "2026-06-08T06:05:02.249Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -458,15 +458,15 @@
         }
       },
       "predJson": {
-        "name": "Anti-VEGF and Kidney Failure Comparative Study",
+        "name": "Anti-VEGF and Kidney Failure Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort"
+            "name": "Target anti-VEGF Cohort"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort"
+            "name": "Comparator anti-VEGF Cohort"
           },
           "outcomeCohort": [
             {
@@ -477,7 +477,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Outcomes"
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -486,9 +486,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2010 until end of available observation",
               "studyStartDate": "20100101",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -502,7 +502,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment, 30-day blank period until 365 days after third exposure",
+              "description": "30-day blank period following third anti-VEGF exposure until 365 days after that exposure",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
@@ -514,7 +514,7 @@
         },
         "psSettings": [
           {
-            "description": "Large-scale PS stratification",
+            "description": "Large-scale propensity score stratification",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -544,7 +544,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Logistic regression, on-treatment",
+              "description": "Logistic regression for risk of kidney failure while on treatment",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -569,7 +569,7 @@
     {
       "name": "CEEAMOSAug1",
       "fileName": "ceeamosaug1.json",
-      "createdAt": "2026-05-29T15:33:57.321Z",
+      "createdAt": "2026-06-08T06:05:13.394Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -751,7 +751,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "January 2009 to December 2019",
               "studyStartDate": "20090101",
               "studyEndDate": "20191231"
             }
@@ -767,7 +767,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Time-to-first event, followed up to earliest of last observation or endpoint occurrence",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -779,7 +779,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "1:1 PS matching with caliper 0.2",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -810,7 +810,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression to estimate rate ratios (RRs) and 95% CIs",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -835,7 +835,7 @@
     {
       "name": "CEEAMOSAug2",
       "fileName": "ceeamosaug2.json",
-      "createdAt": "2026-05-29T15:34:18.067Z",
+      "createdAt": "2026-06-08T06:05:24.297Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1016,9 +1016,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Study period from January 2009 to end of available observation",
               "studyStartDate": "20090101",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -1032,7 +1032,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Day 31 to earliest of endpoint, 365 days follow-up, or last observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 31,
               "startAnchor": "cohort start",
@@ -1044,7 +1044,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Propensity score stratification with 5 strata",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -1074,7 +1074,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression model to estimate odds ratios",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -1099,7 +1099,7 @@
     {
       "name": "CORAZONAug1",
       "fileName": "corazonaug1.json",
-      "createdAt": "2026-05-29T15:34:27.838Z",
+      "createdAt": "2026-06-08T06:05:35.760Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1281,7 +1281,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2012 to 31 December 2018",
               "studyStartDate": "20120101",
               "studyEndDate": "20181231"
             }
@@ -1297,7 +1297,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: from index date until outcome, end of observation, death, or end of study period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1309,7 +1309,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 PS matching",
+            "description": "1:1 propensity score matching to estimate average treatment effect",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -1340,7 +1340,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression conditioned on propensity score adjustment to estimate rate ratio",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -1365,7 +1365,7 @@
     {
       "name": "CORAZONAug2",
       "fileName": "corazonaug2.json",
-      "createdAt": "2026-05-29T15:34:37.468Z",
+      "createdAt": "2026-06-08T06:05:47.659Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1515,7 +1515,7 @@
         }
       },
       "predJson": {
-        "name": "Study Name",
+        "name": "Population-Level Estimation Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -1543,8 +1543,8 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
+              "description": "Start of available observation to 31 December 2019",
+              "studyStartDate": "",
               "studyEndDate": "20191231"
             }
           ],
@@ -1559,7 +1559,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "30-day blank period from index until outcome, death, or 365 days after index",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
@@ -1571,7 +1571,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Inverse probability of treatment weighting (ATE)",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -1598,7 +1598,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression conditioned on propensity score adjustment estimating odds ratio",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -1623,7 +1623,7 @@
     {
       "name": "COVID19FamotidineAug1",
       "fileName": "covid19famotidineaug1.json",
-      "createdAt": "2026-05-29T15:34:47.767Z",
+      "createdAt": "2026-06-08T06:06:00.006Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1777,7 +1777,7 @@
         }
       },
       "predJson": {
-        "name": "On-treatment Comparative Study (March-June 2020)",
+        "name": "Comparative Study of Treatments",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -1796,7 +1796,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Outcomes"
+          "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -1805,7 +1805,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "March 1, 2020 to June 30, 2020",
               "studyStartDate": "20200301",
               "studyEndDate": "20200630"
             }
@@ -1821,7 +1821,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment, 1 day after admission until end of exposure",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1833,7 +1833,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 PS matching",
+            "description": "1:1 matching on the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -1864,7 +1864,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Conditional Poisson regression with treatment as sole explanatory variable",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -1889,7 +1889,7 @@
     {
       "name": "COVID19FamotidineAug2",
       "fileName": "covid19famotidineaug2.json",
-      "createdAt": "2026-05-29T15:34:57.535Z",
+      "createdAt": "2026-06-08T06:06:11.635Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2047,22 +2047,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort Name"
+            "name": "Target Cohort"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort Name"
+            "name": "Comparator Cohort"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort Name"
+              "name": "Outcome Cohort"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set Name"
+          "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -2071,9 +2071,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "From February 1, 2020 until end of available observation",
               "studyStartDate": "20200201",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -2087,7 +2087,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: 1 day after admission until outcome, loss to follow up, or end of available observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -2099,7 +2099,7 @@
         },
         "psSettings": [
           {
-            "description": "variable-ratio PS matching",
+            "description": "Variable-ratio PS matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -2130,7 +2130,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Conditional logistic regression estimating odds ratios with treatment as the sole explanatory variable",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -2155,7 +2155,7 @@
     {
       "name": "COVID19PPIandH2RAAug1",
       "fileName": "covid19ppiandh2raaug1.json",
-      "createdAt": "2026-05-29T15:35:07.567Z",
+      "createdAt": "2026-06-08T06:06:23.399Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2313,22 +2313,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort Name"
+            "name": "Target Cohort"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort Name"
+            "name": "Comparator Cohort"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort Name"
+              "name": "Outcome Cohort"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set Name"
+          "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -2337,7 +2337,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 February to 30 June 2020",
               "studyStartDate": "20200201",
               "studyEndDate": "20200630"
             }
@@ -2353,7 +2353,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment: censored at treatment discontinuation or loss of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -2365,7 +2365,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 matching",
+            "description": "Propensity score 1:1 matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -2396,7 +2396,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression model for time to first outcome occurrence",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -2421,7 +2421,7 @@
     {
       "name": "COVID19PPIandH2RAAug2",
       "fileName": "covid19ppiandh2raaug2.json",
-      "createdAt": "2026-05-29T15:35:16.994Z",
+      "createdAt": "2026-06-08T06:06:35.334Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2574,7 +2574,7 @@
         }
       },
       "predJson": {
-        "name": "COVID-19 PCR Testing Population-Level Estimation Study",
+        "name": "COVID-19 Population-Level Estimation Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -2602,9 +2602,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "All available HIRA COVID-19 testing data",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -2618,7 +2618,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "30-day blank period, followed until 365 days after cohort entry or loss of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
@@ -2630,7 +2630,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Variable-ratio propensity score matching with a maximum ratio of 1:10",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 10,
@@ -2661,7 +2661,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression model for first outcome occurrence, target relative to comparator",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -2686,7 +2686,7 @@
     {
       "name": "DOACsandWarfarinAug1",
       "fileName": "doacsandwarfarinaug1.json",
-      "createdAt": "2026-05-29T15:35:26.817Z",
+      "createdAt": "2026-06-08T06:06:50.009Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2844,22 +2844,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort"
+            "name": "Target Cohort Name"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort"
+            "name": "Comparator Cohort Name"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort"
+              "name": "Outcome Cohort Name"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set"
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -2868,7 +2868,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Overall study period",
               "studyStartDate": "20120101",
               "studyEndDate": "20171231"
             }
@@ -2884,7 +2884,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: 1 day to 30 days after index",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -2896,7 +2896,7 @@
         },
         "psSettings": [
           {
-            "description": "variable-ratio matching",
+            "description": "Variable-ratio matching of target to comparator",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -2927,12 +2927,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression for first outcome occurrence",
               "modelType": "poisson",
               "useCovariates": false
             }
           ],
-          "stratified": false,
+          "stratified": true,
           "prior": {
             "priorType": "laplace",
             "useCrossValidation": true
@@ -2952,7 +2952,7 @@
     {
       "name": "DOACsandWarfarinAug2",
       "fileName": "doacsandwarfarinaug2.json",
-      "createdAt": "2026-05-29T15:35:36.755Z",
+      "createdAt": "2026-06-08T06:07:01.038Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3105,26 +3105,26 @@
         }
       },
       "predJson": {
-        "name": "Anticoagulant Population-Level Estimation Study",
+        "name": "Anticoagulant Comparative Safety Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort Name"
+            "name": "Target Cohort"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort Name"
+            "name": "Comparator Cohort"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort Name"
+              "name": "Outcome Cohort"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set Name"
+          "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -3133,9 +3133,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Overall study period",
               "studyStartDate": "20101019",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -3149,7 +3149,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: 3 days to 365 days after index",
               "minDaysAtRisk": 1,
               "riskWindowStart": 3,
               "startAnchor": "cohort start",
@@ -3161,7 +3161,7 @@
         },
         "psSettings": [
           {
-            "description": "PS stratification",
+            "description": "Stratify by propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -3191,7 +3191,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression for first outcome occurrence",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -3216,7 +3216,7 @@
     {
       "name": "IUDEHREAug1",
       "fileName": "iudehreaug1.json",
-      "createdAt": "2026-05-29T15:35:58.151Z",
+      "createdAt": "2026-06-08T06:07:13.886Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3370,7 +3370,7 @@
         }
       },
       "predJson": {
-        "name": "Cu IUD vs LNG-IUS and risk of cervical neoplasms",
+        "name": "Cervical neoplasms between Cu IUD and LNG-IUS",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -3389,7 +3389,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set Name"
+          "name": ""
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -3398,7 +3398,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "IUD placements on or after Jan 1, 2005 and on or before Dec 31, 2018",
               "studyStartDate": "20050101",
               "studyEndDate": "20181231"
             }
@@ -3414,7 +3414,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "30 days after IUD placement until removal of the IUD",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
@@ -3426,7 +3426,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Variable-ratio matching on the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -3457,7 +3457,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression for relative risk of cervical neoplasms",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -3482,7 +3482,7 @@
     {
       "name": "IUDEHREAug2",
       "fileName": "iudehreaug2.json",
-      "createdAt": "2026-05-29T15:36:07.829Z",
+      "createdAt": "2026-06-08T06:07:24.791Z",
       "metrics": {
         "jaccard": 0.6,
         "recall": 0.75,
@@ -3504,7 +3504,7 @@
           "outcomeModels:{modelType=logistic|useCovariates=false}"
         ],
         "predJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=30|startAnchor=cohort start}"
+          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=30|startAnchor=cohort start}"
         ],
         "goldJsonOnly": [
           "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=30|startAnchor=cohort start}"
@@ -3638,7 +3638,7 @@
         }
       },
       "predJson": {
-        "name": "Cu IUD vs LNG-IUS and risk of cervical neoplasms",
+        "name": "Cu IUD versus LNG-IUS and the risk of cervical neoplasms",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -3666,9 +3666,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "On or after January 1, 1998",
               "studyStartDate": "19980101",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -3682,11 +3682,11 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "30 days after IUD placement until end of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 0,
+              "riskWindowEnd": 99999,
               "endAnchor": "cohort end"
             }
           ],
@@ -3694,7 +3694,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Stratify by propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -3724,7 +3724,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression for cervical neoplasms",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -3749,7 +3749,7 @@
     {
       "name": "LEGENDT2DMAug1",
       "fileName": "legendt2dmaug1.json",
-      "createdAt": "2026-05-29T15:36:17.749Z",
+      "createdAt": "2026-06-08T06:07:36.043Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3903,7 +3903,7 @@
         }
       },
       "predJson": {
-        "name": "LEGEND-T2DM Population-Level Estimation Study",
+        "name": "LEGEND-T2DM",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -3931,7 +3931,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "2000 to 2020",
               "studyStartDate": "20000101",
               "studyEndDate": "20201231"
             }
@@ -3947,7 +3947,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: from treatment initiation to 1 year after treatment initiation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3990,12 +3990,12 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression to estimate RRs",
               "modelType": "poisson",
               "useCovariates": false
             }
           ],
-          "stratified": false,
+          "stratified": true,
           "prior": {
             "priorType": "laplace",
             "useCrossValidation": true
@@ -4015,36 +4015,33 @@
     {
       "name": "LEGENDT2DMAug2",
       "fileName": "legendt2dmaug2.json",
-      "createdAt": "2026-05-29T15:36:30.757Z",
+      "createdAt": "2026-06-08T06:07:47.355Z",
       "metrics": {
-        "jaccard": 0.5,
-        "recall": 0.6666666666666666,
-        "precision": 0.6666666666666666
+        "jaccard": 1,
+        "recall": 1,
+        "precision": 1
       },
       "counts": {
         "gold": 3,
         "pred": 3,
-        "intersection": 2,
-        "union": 4,
-        "both": 2,
-        "predOnly": 1,
-        "goldOnly": 1
+        "intersection": 3,
+        "union": 3,
+        "both": 3,
+        "predOnly": 0,
+        "goldOnly": 0
       },
       "details": {
         "bothJson": [
+          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}",
           "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
           "outcomeModels:{modelType=logistic|useCovariates=false}"
         ],
-        "predJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-        ],
-        "goldJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-        ]
+        "predJsonOnly": [],
+        "goldJsonOnly": []
       },
       "sectionAccuracy": {
         "studyPeriods": true,
-        "timeAtRisks": false,
+        "timeAtRisks": true,
         "propensityScoreAdjustment": true,
         "outcomeModels": true
       },
@@ -4059,13 +4056,13 @@
           "accuracy": null
         },
         "timeAtRisks": {
-          "bothCount": 0,
-          "predOnlyCount": 1,
-          "goldOnlyCount": 1,
-          "precision": 0,
-          "recall": 0,
-          "f1": null,
-          "accuracy": 0
+          "bothCount": 1,
+          "predOnlyCount": 0,
+          "goldOnlyCount": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1
         },
         "propensityScoreAdjustment": {
           "bothCount": 1,
@@ -4199,9 +4196,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "all available data",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "All available data",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -4215,19 +4212,19 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: day 31 after treatment initiation to end of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 31,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 9999,
-              "endAnchor": "cohort end"
+              "riskWindowEnd": 99999,
+              "endAnchor": "cohort start"
             }
           ],
           "censorAtNewRiskWindow": false
         },
         "psSettings": [
           {
-            "description": "variable-ratio matching",
+            "description": "Variable-ratio matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -4258,7 +4255,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "logistic regression conditional on PS stratification or variable-ratio matching",
+              "description": "Logistic regression conditional on variable-ratio matching",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -4283,7 +4280,7 @@
     {
       "name": "RanitidineCancerAug1",
       "fileName": "ranitidinecanceraug1.json",
-      "createdAt": "2026-05-29T15:36:40.451Z",
+      "createdAt": "2026-06-08T06:07:58.753Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -4465,7 +4462,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2005 to 31 December 2018",
               "studyStartDate": "20050101",
               "studyEndDate": "20181231"
             }
@@ -4481,7 +4478,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "During treatment, from 1 day after treatment initiation until end of continuous exposure",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -4493,7 +4490,7 @@
         },
         "psSettings": [
           {
-            "description": "Variable-ratio PS matching",
+            "description": "Variable-ratio PS matching with caliper of 0.2 SD on standardized logit scale",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -4524,7 +4521,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression to estimate rate ratios and 95% CIs",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -4549,7 +4546,7 @@
     {
       "name": "RanitidineCancerAug2",
       "fileName": "ranitidinecanceraug2.json",
-      "createdAt": "2026-05-29T15:36:49.982Z",
+      "createdAt": "2026-06-08T06:08:10.361Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -4726,9 +4723,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "all available observation",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "All available observation in each database",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -4742,7 +4739,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "31 to 365 days after cohort entry (30-day blank period)",
+              "description": "Day 31 to day 365 after cohort entry following a 30-day blank period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 31,
               "startAnchor": "cohort start",
@@ -4754,7 +4751,7 @@
         },
         "psSettings": [
           {
-            "description": "IPTW",
+            "description": "Inverse probability of treatment weighting based on the PS",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": null,
@@ -4781,7 +4778,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression to estimate odds ratios",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -4806,7 +4803,7 @@
     {
       "name": "RapidCycleJanssenAug1",
       "fileName": "rapidcyclejanssenaug1.json",
-      "createdAt": "2026-05-29T15:36:59.596Z",
+      "createdAt": "2026-06-08T06:08:21.730Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -4960,11 +4957,11 @@
         }
       },
       "predJson": {
-        "name": "COVID-19 Vaccine Comparative Cohort Study",
+        "name": "COVID-19 Vaccine Population-Level Estimation Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort Name"
+            "name": "COVID-19 vaccine exposure cohort"
           },
           "comparatorCohort": {
             "id": null,
@@ -4988,7 +4985,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "March 1, 2021 to December 31, 2021",
               "studyStartDate": "20210301",
               "studyEndDate": "20211231"
             }
@@ -5004,7 +5001,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Delayed at-risk period 15-42 days after vaccination, with first 14 days as blank period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 15,
               "startAnchor": "cohort start",
@@ -5016,7 +5013,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "1:1 matching on the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -5047,7 +5044,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression model to estimate the odds ratio",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -5072,7 +5069,7 @@
     {
       "name": "RapidCycleJanssenAug2",
       "fileName": "rapidcyclejanssenaug2.json",
-      "createdAt": "2026-05-29T15:37:09.426Z",
+      "createdAt": "2026-06-08T06:08:32.989Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -5229,22 +5226,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort"
+            "name": "Target Cohort Name"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort"
+            "name": "Comparator Cohort Name"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort"
+              "name": "Outcome Cohort Name"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set"
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -5253,8 +5250,8 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
+              "description": "On or before December 31st, 2021",
+              "studyStartDate": "",
               "studyEndDate": "20211231"
             }
           ],
@@ -5269,7 +5266,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "1 day after vaccination until end of lifetime",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -5281,7 +5278,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Stratification into 5 strata on the propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -5311,7 +5308,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression model to estimate the rate ratio",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -5336,7 +5333,7 @@
     {
       "name": "SemaglutideandNAIONAug1",
       "fileName": "semaglutideandnaionaug1.json",
-      "createdAt": "2026-05-29T15:37:19.373Z",
+      "createdAt": "2026-06-08T06:08:44.515Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -5490,7 +5487,7 @@
         }
       },
       "predJson": {
-        "name": "NAION risk among T2D medications",
+        "name": "Risk of NAION with T2D Medications",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -5503,13 +5500,13 @@
           "outcomeCohort": [
             {
               "id": null,
-              "name": "NAION"
+              "name": "NAION (Non-Arteritic Anterior Ischemic Optic Neuropathy)"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -5518,7 +5515,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "January 1, 2019 - December 31, 2022",
               "studyStartDate": "20190101",
               "studyEndDate": "20221231"
             }
@@ -5534,7 +5531,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "Medication initiation until 30 days after medication initiation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -5546,7 +5543,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Variable-ratio matching with propensity scores",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -5577,7 +5574,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression estimating RR of NAION from cohort entry to outcome while on treatment",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -5602,37 +5599,34 @@
     {
       "name": "SemaglutideandNAIONAug2",
       "fileName": "semaglutideandnaionaug2.json",
-      "createdAt": "2026-05-29T15:37:30.445Z",
+      "createdAt": "2026-06-08T06:08:57.265Z",
       "metrics": {
-        "jaccard": 0.6,
-        "recall": 0.75,
-        "precision": 0.75
+        "jaccard": 1,
+        "recall": 1,
+        "precision": 1
       },
       "counts": {
         "gold": 4,
         "pred": 4,
-        "intersection": 3,
-        "union": 5,
-        "both": 3,
-        "predOnly": 1,
-        "goldOnly": 1
+        "intersection": 4,
+        "union": 4,
+        "both": 4,
+        "predOnly": 0,
+        "goldOnly": 0
       },
       "details": {
         "bothJson": [
           "studyPeriods:{studyEndDate=null|studyStartDate=20171201}",
+          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}",
           "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=10|trimByPsArgs=null}",
           "outcomeModels:{modelType=logistic|useCovariates=false}"
         ],
-        "predJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=31|startAnchor=cohort start}"
-        ],
-        "goldJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-        ]
+        "predJsonOnly": [],
+        "goldJsonOnly": []
       },
       "sectionAccuracy": {
         "studyPeriods": true,
-        "timeAtRisks": false,
+        "timeAtRisks": true,
         "propensityScoreAdjustment": true,
         "outcomeModels": true
       },
@@ -5647,13 +5641,13 @@
           "accuracy": 1
         },
         "timeAtRisks": {
-          "bothCount": 0,
-          "predOnlyCount": 1,
-          "goldOnlyCount": 1,
-          "precision": 0,
-          "recall": 0,
-          "f1": null,
-          "accuracy": 0
+          "bothCount": 1,
+          "predOnlyCount": 0,
+          "goldOnlyCount": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1
         },
         "propensityScoreAdjustment": {
           "bothCount": 1,
@@ -5758,26 +5752,26 @@
         }
       },
       "predJson": {
-        "name": "NAION risk among T2D medications",
+        "name": "NAION Risk Among T2D Medication Initiators",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Semaglutide"
+            "name": "Semaglutide (GLP-1RA) initiators with T2D"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Dulaglutide"
+            "name": "Dulaglutide (GLP-1RA) initiators with T2D"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "NAION"
+              "name": "NAION (non-arteritic anterior ischemic optic neuropathy)"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Outcomes"
+          "name": ""
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -5786,9 +5780,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "December 1, 2017 to end of available observation",
               "studyStartDate": "20171201",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -5802,19 +5796,19 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment, 30-day blank period",
+              "description": "30-day blank period following medication initiation until end of study period",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 0,
-              "endAnchor": "cohort end"
+              "riskWindowEnd": 99999,
+              "endAnchor": "cohort start"
             }
           ],
           "censorAtNewRiskWindow": false
         },
         "psSettings": [
           {
-            "description": "Stratify into 10 strata",
+            "description": "Stratification into 10 strata using propensity scores",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -5844,7 +5838,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression estimating OR of NAION while on treatment",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -5869,7 +5863,7 @@
     {
       "name": "StrokeRiskAug1",
       "fileName": "strokeriskaug1.json",
-      "createdAt": "2026-05-29T15:37:40.243Z",
+      "createdAt": "2026-06-08T06:09:10.014Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -6042,16 +6036,21 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "Recent diagnosis of dementia"
+            }
+          ],
           "conceptsToExclude": []
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "January 1, 2005 through December 31, 2015",
               "studyStartDate": "20050101",
               "studyEndDate": "20151231"
             }
@@ -6079,7 +6078,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 matching, caliper 0.2 standardized logit",
+            "description": "1:1 matching with a caliper of 0.2 of the standard deviation of the logit of PS",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -6110,7 +6109,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression model conditioned on the PS matched sets",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -6135,7 +6134,7 @@
     {
       "name": "StrokeRiskAug2",
       "fileName": "strokeriskaug2.json",
-      "createdAt": "2026-05-29T15:37:50.517Z",
+      "createdAt": "2026-06-08T06:09:20.678Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -6309,15 +6308,20 @@
           "name": "Negative Control Concept Set"
         },
         "covariateSelection": {
-          "conceptsToInclude": [],
+          "conceptsToInclude": [
+            {
+              "id": null,
+              "name": "recent diagnosis of dementia"
+            }
+          ],
           "conceptsToExclude": []
         },
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "All available data",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -6373,7 +6377,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression conditioned on PS strata",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -6398,7 +6402,7 @@
     {
       "name": "TicagrelorClopidogrelAug1",
       "fileName": "ticagrelorclopidogrelaug1.json",
-      "createdAt": "2026-05-29T15:38:00.457Z",
+      "createdAt": "2026-06-08T06:09:31.620Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -6556,22 +6560,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
-            "name": "Target Cohort"
+            "name": "Target Cohort Name"
           },
           "comparatorCohort": {
             "id": null,
-            "name": "Comparator Cohort"
+            "name": "Comparator Cohort Name"
           },
           "outcomeCohort": [
             {
               "id": null,
-              "name": "Outcome Cohort"
+              "name": "Outcome Cohort Name"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": "Negative Control Concept Set"
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -6580,7 +6584,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "March 2013 to December 2016",
               "studyStartDate": "20130301",
               "studyEndDate": "20161231"
             }
@@ -6596,7 +6600,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment: censored at drug discontinuation or switch",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -6608,7 +6612,7 @@
         },
         "psSettings": [
           {
-            "description": "Variable-ratio matching",
+            "description": "Variable-ratio matching on propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 100,
@@ -6639,7 +6643,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression model",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -6664,37 +6668,34 @@
     {
       "name": "TicagrelorClopidogrelAug2",
       "fileName": "ticagrelorclopidogrelaug2.json",
-      "createdAt": "2026-05-29T15:38:20.840Z",
+      "createdAt": "2026-06-08T06:09:43.036Z",
       "metrics": {
-        "jaccard": 0.6,
-        "recall": 0.75,
-        "precision": 0.75
+        "jaccard": 1,
+        "recall": 1,
+        "precision": 1
       },
       "counts": {
         "gold": 4,
         "pred": 4,
-        "intersection": 3,
-        "union": 5,
-        "both": 3,
-        "predOnly": 1,
-        "goldOnly": 1
+        "intersection": 4,
+        "union": 4,
+        "both": 4,
+        "predOnly": 0,
+        "goldOnly": 0
       },
       "details": {
         "bothJson": [
           "studyPeriods:{studyEndDate=null|studyStartDate=20111101}",
+          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
           "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
           "outcomeModels:{modelType=logistic|useCovariates=false}"
         ],
-        "predJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-        ],
-        "goldJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-        ]
+        "predJsonOnly": [],
+        "goldJsonOnly": []
       },
       "sectionAccuracy": {
         "studyPeriods": true,
-        "timeAtRisks": false,
+        "timeAtRisks": true,
         "propensityScoreAdjustment": true,
         "outcomeModels": true
       },
@@ -6709,13 +6710,13 @@
           "accuracy": 1
         },
         "timeAtRisks": {
-          "bothCount": 0,
-          "predOnlyCount": 1,
-          "goldOnlyCount": 1,
-          "precision": 0,
-          "recall": 0,
-          "f1": null,
-          "accuracy": 0
+          "bothCount": 1,
+          "predOnlyCount": 0,
+          "goldOnlyCount": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1
         },
         "propensityScoreAdjustment": {
           "bothCount": 1,
@@ -6848,9 +6849,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "From November 2011 to end of available observation",
               "studyStartDate": "20111101",
-              "studyEndDate": null
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -6864,19 +6865,19 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "On-treatment with continued follow-up until end of study period; censored at loss of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 0,
-              "endAnchor": "cohort end"
+              "riskWindowEnd": 99999,
+              "endAnchor": "cohort start"
             }
           ],
           "censorAtNewRiskWindow": false
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Stratified by propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -6906,7 +6907,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression model",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -6931,7 +6932,7 @@
     {
       "name": "TramadolCodeinAug1",
       "fileName": "tramadolcodeinaug1.json",
-      "createdAt": "2026-05-29T15:38:41.477Z",
+      "createdAt": "2026-06-08T06:09:54.023Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -7117,7 +7118,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2000 to 31 December 2018",
               "studyStartDate": "20000101",
               "studyEndDate": "20181231"
             }
@@ -7133,7 +7134,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "ITT",
+              "description": "ITT: index date of first exposure to 30 days after first exposure",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -7145,7 +7146,7 @@
         },
         "psSettings": [
           {
-            "description": "Variable-ratio matching",
+            "description": "Variable ratio matching, max ratio 1:10, caliper 0.2 standardized logit",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 10,
@@ -7176,7 +7177,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression conditioned on PS",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -7201,7 +7202,7 @@
     {
       "name": "TramadolCodeinAug2",
       "fileName": "tramadolcodeinaug2.json",
-      "createdAt": "2026-05-29T15:38:53.077Z",
+      "createdAt": "2026-06-08T06:10:04.569Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -7353,7 +7354,7 @@
         }
       },
       "predJson": {
-        "name": "Comparative study of target vs comparator for O1 or O2",
+        "name": "Population-Level Estimation Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -7385,9 +7386,9 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
-              "studyEndDate": null
+              "description": "All available observation",
+              "studyStartDate": "",
+              "studyEndDate": ""
             }
           ],
           "firstExposureOnly": false,
@@ -7443,7 +7444,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression conditioned on PS",
               "modelType": "logistic",
               "useCovariates": false
             }
@@ -7468,7 +7469,7 @@
     {
       "name": "UveitisSafetyAug1",
       "fileName": "uveitissafetyaug1.json",
-      "createdAt": "2026-05-29T15:39:15.096Z",
+      "createdAt": "2026-06-08T06:10:15.274Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -7641,7 +7642,7 @@
         },
         "negativeControlConceptSet": {
           "id": null,
-          "name": ""
+          "name": "Negative Control Concept Set Name"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -7650,7 +7651,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "1 January 2000 to 31 December 2020",
               "studyStartDate": "20000101",
               "studyEndDate": "20201231"
             }
@@ -7666,7 +7667,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "intention-to-treat: day after index until 30 days after index",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -7678,7 +7679,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 matching",
+            "description": "1:1 greedy matching with caliper 0.2 on standardized logit scale",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -7709,7 +7710,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Poisson regression conditioned on PS-matched sets, first ever NIU occurrence",
               "modelType": "poisson",
               "useCovariates": false
             }
@@ -7734,7 +7735,7 @@
     {
       "name": "UveitisSafetyAug2",
       "fileName": "uveitissafetyaug2.json",
-      "createdAt": "2026-05-29T15:39:24.895Z",
+      "createdAt": "2026-06-08T06:10:26.042Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -7887,7 +7888,7 @@
         }
       },
       "predJson": {
-        "name": "Remicade and NIU population-level estimation study",
+        "name": "Remicade and risk of NIU",
         "cohortDefinitions": {
           "targetCohort": {
             "id": null,
@@ -7915,8 +7916,8 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
-              "studyStartDate": null,
+              "description": "Study period until 31 December 2020",
+              "studyStartDate": "",
               "studyEndDate": "20201231"
             }
           ],
@@ -7931,7 +7932,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "intention-to-treat",
+              "description": "Intention-to-treat: day after index until end of observation",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -7943,7 +7944,7 @@
         },
         "psSettings": [
           {
-            "description": "PS stratification 5 strata",
+            "description": "Stratify by PS using 5 strata",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -7973,7 +7974,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Logistic regression conditioned on PS strata, first ever NIU occurrence",
               "modelType": "logistic",
               "useCovariates": false
             }

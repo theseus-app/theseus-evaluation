@@ -1,7 +1,7 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2026-05-29T15:30:13.162Z",
+  "createdAt": "2026-06-08T05:24:12.196Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -229,7 +229,7 @@
     }
   },
   "predJson": {
-    "name": "PCI Drug Comparative Effectiveness Study",
+    "name": "Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -257,12 +257,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1 - primary",
+          "description": "Study Period 1",
           "studyStartDate": "20111101",
           "studyEndDate": "20190331"
         },
         {
-          "description": "Study Period 2 - identical period across all databases",
+          "description": "Study Period 2 - identical study period across all databases",
           "studyStartDate": "20130301",
           "studyEndDate": "20161231"
         }
@@ -278,7 +278,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 - censored at loss to follow-up, ITT (1 year) with switching/discontinuation allowed",
+          "description": "TAR 1 - intent-to-treat, 1 year, censored at loss of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -294,7 +294,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 3 - on-treatment period (7-day gap allowed)",
+          "description": "TAR 3 - on-treatment period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -302,7 +302,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 4 - blanking period (28 days) with ITT (1 year)",
+          "description": "TAR 4 - 1 year with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 28,
           "startAnchor": "cohort start",
@@ -310,7 +310,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 5 - blanking period (28 days) with 5-year period",
+          "description": "TAR 5 - 5-year period with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 28,
           "startAnchor": "cohort start",
@@ -318,7 +318,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 6 - blanking period (28 days) with on-treatment period",
+          "description": "TAR 6 - on-treatment period with 28-day blanking period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 28,
           "startAnchor": "cohort start",
@@ -330,7 +330,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1 - one-to-one greedy matching",
+        "description": "PS Settings 1 - one-to-one greedy matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -341,7 +341,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2 - variable-ratio matching (max ratio 10)",
+        "description": "PS Settings 2 - variable-ratio matching with maximum ratio of 10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -352,7 +352,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3 - stratification using deciles",
+        "description": "PS Settings 3 - stratification using deciles of the propensity score distribution",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -382,7 +382,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazard regression model",
+          "description": "Outcome Model 1 - Cox proportional hazard regression",
           "modelType": "cox",
           "useCovariates": false
         }

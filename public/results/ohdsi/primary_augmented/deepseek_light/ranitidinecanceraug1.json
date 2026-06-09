@@ -1,7 +1,7 @@
 {
   "name": "RanitidineCancerAug1",
   "fileName": "ranitidinecanceraug1.json",
-  "createdAt": "2026-05-29T15:45:23.199Z",
+  "createdAt": "2026-06-08T06:09:26.463Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,26 +155,26 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period",
           "studyStartDate": "20050101",
           "studyEndDate": "20181231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "during treatment",
+          "description": "During treatment",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,10 +211,10 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

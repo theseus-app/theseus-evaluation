@@ -1,7 +1,7 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2026-05-29T15:28:41.933Z",
+  "createdAt": "2026-06-08T05:23:18.330Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -163,7 +163,7 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "<UNKNOWN>",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -195,7 +195,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Full study period",
           "studyStartDate": null,
           "studyEndDate": null
         }
@@ -211,7 +211,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-Treatment (OT)",
+          "description": "On-treatment (OT) TAR: from index date to end of treatment with 30-day gap allowance",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -219,7 +219,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "Intent-To-Treat (ITT)",
+          "description": "Intent-to-treat (ITT) TAR: from index date until death, database exit, or outcome",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -231,7 +231,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1: 1:1 Matching with Caliper",
+        "description": "PS matching with 1:1 ratio, greedy algorithm, caliper 0.2 on standardized logit scale",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -262,14 +262,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox Proportional Hazards Model",
+          "description": "Cox proportional hazards model conditioned on propensity scores",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
-      "prior": null,
-      "control": null
+      "stratified": false,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

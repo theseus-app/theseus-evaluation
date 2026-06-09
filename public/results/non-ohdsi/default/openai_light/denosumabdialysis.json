@@ -1,39 +1,36 @@
 {
   "name": "DenosumabDialysis",
   "fileName": "denosumabdialysis.json",
-  "createdAt": "2026-05-29T15:31:27.138Z",
+  "createdAt": "2026-06-08T05:21:38.200Z",
   "metrics": {
-    "jaccard": 0.7142857142857143,
-    "recall": 0.8333333333333334,
-    "precision": 0.8333333333333334
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 6,
     "pred": 6,
-    "intersection": 5,
-    "union": 7,
-    "both": 5,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 6,
+    "union": 6,
+    "both": 6,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20221031|studyStartDate=20140401}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1095|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -48,13 +45,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.5,
-      "recall": 0.5,
-      "f1": 0.5,
-      "accuracy": 0.3333333333333333
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -169,15 +166,15 @@
     }
   },
   "predJson": {
-    "name": "DeSC Healthcare claims database study",
+    "name": "Population-level estimation study using OMOP-CDM",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target cohort"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": ""
       },
       "outcomeCohort": []
     },
@@ -192,7 +189,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Commercial administrative claims database from DeSC Healthcare",
           "studyStartDate": "20140401",
           "studyEndDate": "20221031"
         }
@@ -208,7 +205,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Initial treatment approach until first occurrence of study outcome, disenrollment, 3 years after start of follow-up, or administrative end of study period, whichever occurred first",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -216,19 +213,19 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 2",
+          "description": "Sensitivity analysis censoring follow-up at death",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Inverse probability of treatment weighting (IPTW)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -255,12 +252,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Hazard ratios estimated using Cox proportional hazards models",
           "modelType": "cox",
           "useCovariates": false
         },
         {
-          "description": "Outcome Model 2",
+          "description": "Incidence rate differences estimated using Poisson regression models",
           "modelType": "poisson",
           "useCovariates": false
         }

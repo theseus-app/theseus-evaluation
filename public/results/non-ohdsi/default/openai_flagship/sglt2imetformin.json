@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-05-29T15:56:46.923Z",
+  "createdAt": "2026-06-08T06:09:53.995Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -182,7 +182,7 @@
     }
   },
   "predJson": {
-    "name": "SGLT-2i versus metformin population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -195,7 +195,7 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Study outcome"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
@@ -251,7 +251,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: On-treatment follow-up starting day after cohort entry",
+          "description": "TAR 1: Follow-up from the day after cohort entry until outcome, death, treatment discontinuation, disenrollment, or end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -259,7 +259,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: Intention-to-treat follow-up carrying initial exposure forward for 365 days",
+          "description": "TAR 2: Intention-to-treat follow-up carrying forward initial exposure for 365 days without considering treatment discontinuation or comparator initiation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -271,7 +271,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1: 1:2 propensity score matching",
+        "description": "PS Settings 1: 1:2 propensity score matching of SGLT-2i initiators to metformin initiators",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -302,12 +302,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Proportional hazards model without further adjustment",
+          "description": "Outcome Model 1: Proportional hazards model estimating hazard ratios without further adjustment",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

@@ -1,39 +1,35 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2026-05-29T15:28:33.635Z",
+  "createdAt": "2026-06-08T05:21:39.506Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.5,
-    "precision": 0.5
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 2,
-    "union": 6,
-    "both": 2,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=null|studyStartDate=20030101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=30|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=5475|riskWindowStart=30|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
-    "propensityScoreAdjustment": false,
+    "timeAtRisks": true,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -47,22 +43,22 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -159,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Cu IUD vs LNG-IUS cervical neoplasms study",
+    "name": "Study of Cu IUD vs LNG-IUS and cervical neoplasms",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -187,9 +183,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study window restricted to IUD placements on or after January 1, 2003",
           "studyStartDate": "20030101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -203,11 +199,11 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "30 days to 15 years after IUD placement",
           "minDaysAtRisk": 30,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
+          "riskWindowEnd": 5475,
           "endAnchor": "cohort start"
         }
       ],
@@ -215,12 +211,12 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "Propensity score matching, 1:1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -246,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

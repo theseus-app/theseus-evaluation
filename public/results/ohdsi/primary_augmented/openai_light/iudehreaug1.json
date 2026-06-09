@@ -1,38 +1,35 @@
 {
   "name": "IUDEHREAug1",
   "fileName": "iudehreaug1.json",
-  "createdAt": "2026-05-29T15:29:59.343Z",
+  "createdAt": "2026-06-08T05:22:03.442Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20050101}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=30|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,13 +52,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -158,15 +155,15 @@
     }
   },
   "predJson": {
-    "name": "IUD placement cervical neoplasms study",
+    "name": "IUD placement study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Cu IUD"
+        "name": "Cu IUD cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "LNG-IUS"
+        "name": "LNG-IUS cohort"
       },
       "outcomeCohort": [
         {
@@ -186,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study window restricted to IUD placements from Jan 1, 2005 to Dec 31, 2018",
           "studyStartDate": "20050101",
           "studyEndDate": "20181231"
         }
@@ -202,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Time at risk from 30 days after IUD placement until removal of the IUD",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
@@ -214,12 +211,12 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Propensity score matching with variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
@@ -245,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression for relative risk of cervical neoplasms",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

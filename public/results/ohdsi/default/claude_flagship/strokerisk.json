@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2026-05-29T15:29:49.526Z",
+  "createdAt": "2026-06-08T05:23:55.462Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -181,7 +181,7 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -209,12 +209,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Study Period 1: January 1, 2001 through December 31, 2017",
           "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         },
         {
-          "description": "Study Period 2 - post-hoc analysis",
+          "description": "Study Period 2: post-hoc analysis with study end-date redefined as September 30, 2015",
           "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
@@ -230,7 +230,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 - On-treatment",
+          "description": "On-treatment: from the day after cohort entry until first of switching, outcome, >30 day gap in supply, end of enrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -242,14 +242,14 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1 - Unadjusted (crude)",
+        "description": "PS Settings 1: Unadjusted (crude) estimate",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2 - Sentinel PS replication",
+        "description": "PS Settings 2: Sentinel PS replication, 1:1 matching on PS based on 31 covariates with caliper 0.05 on PS scale",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -260,7 +260,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3 - Adapted large-scale regularized PS strategy",
+        "description": "PS Settings 3: Large-scale regularized regression adapted PS strategy, 1:10 variable ratio matching with caliper 0.2 of the standard deviation of the logit of PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -291,7 +291,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards conditioned on PS matched sets",
+          "description": "Cox proportional hazards model conditioned on the PS matched sets",
           "modelType": "cox",
           "useCovariates": false
         }

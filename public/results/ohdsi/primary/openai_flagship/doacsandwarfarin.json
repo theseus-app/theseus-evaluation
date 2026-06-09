@@ -1,7 +1,7 @@
 {
   "name": "DOACsandWarfarin",
   "fileName": "doacsandwarfarin.json",
-  "createdAt": "2026-05-29T15:36:11.977Z",
+  "createdAt": "2026-06-08T05:23:07.760Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -158,7 +158,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study of anticoagulants",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -196,7 +196,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Overall study period",
           "studyStartDate": "20101019",
           "studyEndDate": "20181231"
         }
@@ -212,7 +212,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary on-treatment",
+          "description": "Primary on-treatment time-at-risk from 1 day after anticoagulant index date to end of inferred persistent exposure, last observation, or study end",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -224,7 +224,7 @@
     },
     "psSettings": [
       {
-        "description": "primary 1:1 PS matching",
+        "description": "Primary propensity score strategy: 1:1 target-to-comparator matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -255,14 +255,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model for time to first outcome occurrence",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

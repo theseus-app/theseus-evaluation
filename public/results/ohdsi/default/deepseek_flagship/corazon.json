@@ -1,20 +1,20 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2026-05-29T15:30:20.072Z",
+  "createdAt": "2026-06-08T05:24:24.090Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.75,
+    "recall": 0.8571428571428571,
+    "precision": 0.8571428571428571
   },
   "counts": {
     "gold": 7,
     "pred": 7,
-    "intersection": 7,
-    "union": 7,
-    "both": 7,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 6,
+    "union": 8,
+    "both": 6,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
@@ -23,16 +23,19 @@
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}"
+    ],
+    "goldJsonOnly": [
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": true,
+    "propensityScoreAdjustment": false,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,13 +58,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 2,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 1,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -181,26 +184,21 @@
     }
   },
   "predJson": {
-    "name": "OAC Comparison Study",
+    "name": "Unnamed Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": ""
       },
-      "outcomeCohort": [
-        {
-          "id": null,
-          "name": "Outcome"
-        }
-      ]
+      "outcomeCohort": []
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -214,7 +212,7 @@
           "studyEndDate": "20191231"
         },
         {
-          "description": "2012-2019 (France LPD)",
+          "description": "2012-2019 (LPD France)",
           "studyStartDate": "20120101",
           "studyEndDate": "20191231"
         }
@@ -230,7 +228,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment",
+          "description": "On-treatment",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -238,7 +236,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -250,7 +248,7 @@
     },
     "psSettings": [
       {
-        "description": "Stratify by PS (5 strata)",
+        "description": "Stratification (5 strata)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -260,10 +258,10 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Variable ratio matching",
+        "description": "Variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 1,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -291,7 +289,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox stratified by PS",
+          "description": "Cox stratified by PS strata",
           "modelType": "cox",
           "useCovariates": false
         }

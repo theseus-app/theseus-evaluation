@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iNephrolithiasis",
   "fileName": "sglt2inephrolithiasis.json",
-  "createdAt": "2026-05-29T15:32:45.031Z",
+  "createdAt": "2026-06-08T05:22:03.745Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -154,17 +154,22 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study in adults with type 2 diabetes",
+    "name": "Type 2 diabetes comparison drug trials",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target comparison drug cohort"
+        "name": "One of the comparison drugs"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator drug cohort"
+        "name": "Another comparison drug"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Death"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -177,7 +182,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Adults with type 2 diabetes, first ever dispensing for one of the comparison drugs between 1 Jan 2014 and 30 Jun 2022, after at least 1 year of continuous enrolment",
           "studyStartDate": "20140101",
           "studyEndDate": "20220630"
         }
@@ -189,13 +194,13 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "primary",
+          "description": "Primary analysis: follow-up from first dispensing until end of study period",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -205,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW primary",
+        "description": "Stabilized inverse probability of treatment weighting for the average treatment effect in the whole population",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -213,7 +218,7 @@
       }
     ],
     "createPsArgs": {
-      "maxCohortSizeForFitting": 0,
+      "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
@@ -232,7 +237,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Weighted Poisson outcome model accounting for competing risk of death",
           "modelType": "poisson",
           "useCovariates": false
         }

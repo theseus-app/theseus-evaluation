@@ -1,7 +1,7 @@
 {
   "name": "RosuvastatinHematuria",
   "fileName": "rosuvastatinhematuria.json",
-  "createdAt": "2026-05-29T15:30:54.436Z",
+  "createdAt": "2026-06-08T06:11:54.005Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -162,30 +162,36 @@
     "name": "Rosuvastatin Study",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 0,
+        "id": 1,
         "name": "Rosuvastatin"
       },
       "comparatorCohort": {
-        "id": 0,
+        "id": 2,
         "name": "Comparator"
       },
       "outcomeCohort": [
         {
-          "id": 0,
+          "id": 3,
           "name": "KFRT"
         }
       ]
     },
     "negativeControlConceptSet": {
-      "id": 0,
-      "name": "Negative Control"
+      "id": 4,
+      "name": "Negative Controls"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "Primary Study Period",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -197,7 +203,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Time at risk from initiation to outcome, KFRT, or end of follow-up",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -209,7 +215,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "IPTW for rosuvastatin",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -236,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Stratified Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": false
         },
         {
-          "description": "Outcome Model 2",
+          "description": "Poisson regression for incidence rate difference",
           "modelType": "poisson",
           "useCovariates": false
         }

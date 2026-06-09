@@ -1,7 +1,7 @@
 {
   "name": "AntiVEGFKidneyAug1",
   "fileName": "antivegfkidneyaug1.json",
-  "createdAt": "2026-05-29T15:58:21.170Z",
+  "createdAt": "2026-06-08T06:05:36.847Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Kidney failure after anti-VEGF",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -168,7 +168,7 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Kidney failure"
+          "name": ""
         }
       ]
     },
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period",
           "studyStartDate": "20100101",
           "studyEndDate": "20201231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "30 days post-exposure",
+          "description": "Time at risk for kidney failure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -242,14 +242,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Poisson regression",
+          "description": "Poisson regression for kidney failure risk",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": false,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

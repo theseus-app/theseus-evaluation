@@ -1,20 +1,20 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2026-05-29T15:27:46.889Z",
+  "createdAt": "2026-06-08T05:21:54.010Z",
   "metrics": {
-    "jaccard": 0.7777777777777778,
-    "recall": 0.875,
-    "precision": 0.875
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 8,
     "pred": 8,
-    "intersection": 7,
-    "union": 9,
-    "both": 7,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 8,
+    "union": 8,
+    "both": 8,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
@@ -24,19 +24,16 @@
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=42|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=2|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ],
-    "goldJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -59,13 +56,13 @@
       "accuracy": 1
     },
     "propensityScoreAdjustment": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -194,7 +191,7 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 Vaccine Comparative Cohort Study",
+    "name": "COVID-19 vaccine comparative cohort study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -204,7 +201,16 @@
         "id": null,
         "name": "Comparator cohort"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Specified outcomes of interest"
+        },
+        {
+          "id": null,
+          "name": "Anaphylaxis"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -217,9 +223,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study Period 1",
           "studyStartDate": "20210101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": true,
@@ -229,7 +235,7 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
@@ -265,7 +271,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "anaphylaxis",
+          "description": "TAR 5 (anaphylaxis)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -277,19 +283,19 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "PS Settings 1",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       }
     ],
     "createPsArgs": {
-      "maxCohortSizeForFitting": 0,
+      "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
@@ -308,12 +314,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Outcome Model 1",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

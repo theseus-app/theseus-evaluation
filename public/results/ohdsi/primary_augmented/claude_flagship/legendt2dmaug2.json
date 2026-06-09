@@ -1,36 +1,33 @@
 {
   "name": "LEGENDT2DMAug2",
   "fileName": "legendt2dmaug2.json",
-  "createdAt": "2026-05-29T15:36:30.757Z",
+  "createdAt": "2026-06-08T06:07:47.355Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 3,
     "pred": 3,
-    "intersection": 2,
-    "union": 4,
-    "both": 2,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 3,
+    "union": 3,
+    "both": 3,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=31|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -45,13 +42,13 @@
       "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -185,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "all available data",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "All available data",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -201,19 +198,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat: day 31 after treatment initiation to end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 31,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 9999,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "variable-ratio matching",
+        "description": "Variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -244,7 +241,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "logistic regression conditional on PS stratification or variable-ratio matching",
+          "description": "Logistic regression conditional on variable-ratio matching",
           "modelType": "logistic",
           "useCovariates": false
         }

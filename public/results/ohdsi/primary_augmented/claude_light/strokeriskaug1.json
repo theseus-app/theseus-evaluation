@@ -1,37 +1,34 @@
 {
   "name": "StrokeRiskAug1",
   "fileName": "strokeriskaug1.json",
-  "createdAt": "2026-05-29T15:32:51.808Z",
+  "createdAt": "2026-06-08T05:24:06.486Z",
   "metrics": {
-    "jaccard": 0.6,
-    "recall": 0.75,
-    "precision": 0.75
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 3,
-    "union": 5,
-    "both": 3,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 4,
+    "union": 4,
+    "both": 4,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20151231|studyStartDate=20050101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -46,13 +43,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -158,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "<UNKNOWN>",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -183,7 +180,7 @@
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All observed covariates including recent diagnosis of dementia"
+          "name": "recent diagnosis of dementia"
         }
       ],
       "conceptsToExclude": []
@@ -191,7 +188,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis period",
+          "description": "Study period from January 1, 2005 through December 31, 2015",
           "studyStartDate": "20050101",
           "studyEndDate": "20151231"
         }
@@ -207,19 +204,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Intention-to-treat",
+          "description": "Intention-to-treat time at risk starting from the day after cohort entry until first of: outcome, end of insurance enrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "1:1 matching with PS caliper",
+        "description": "Large-scale regularized regression model with 1:1 matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -250,7 +247,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Poisson regression conditioned on PS matched sets",
+          "description": "Poisson regression model conditioned on propensity score matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }

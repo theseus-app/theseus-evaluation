@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAIONAug1",
   "fileName": "semaglutideandnaionaug1.json",
-  "createdAt": "2026-05-29T15:32:37.137Z",
+  "createdAt": "2026-06-08T05:23:51.040Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -174,28 +174,23 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "<UNKNOWN>"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All Baseline Covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary Study Period",
+          "description": "Study period for T2D medication users",
           "studyStartDate": "20190101",
           "studyEndDate": "20221231"
         }
       ],
       "firstExposureOnly": true,
-      "removeDuplicateSubjects": "keep first",
-      "restrictToCommonPeriod": true,
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
       "maxCohortSize": 0
     },
@@ -204,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-Treatment: Medication Initiation to 30 Days",
+          "description": "Time-at-risk from medication initiation to 30 days after initiation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -216,10 +211,10 @@
     },
     "psSettings": [
       {
-        "description": "Variable-Ratio Matching on Propensity Score",
+        "description": "Variable-ratio matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -247,12 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary: Poisson Regression",
+          "description": "Poisson regression model for relative risk of NAION",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

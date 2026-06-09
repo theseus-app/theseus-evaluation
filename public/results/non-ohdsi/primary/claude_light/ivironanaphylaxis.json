@@ -1,46 +1,49 @@
 {
   "name": "IVIronAnaphylaxis",
   "fileName": "ivironanaphylaxis.json",
-  "createdAt": "2026-05-29T15:36:12.068Z",
+  "createdAt": "2026-06-08T05:22:22.426Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.6,
+    "recall": 0.75,
+    "precision": 0.75
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 4,
-    "union": 4,
-    "both": 4,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 3,
+    "union": 5,
+    "both": 3,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130701}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130700}"
+    ],
+    "goldJsonOnly": [
+      "studyPeriods:{studyEndDate=20181231|studyStartDate=20130701}"
+    ]
   },
   "sectionAccuracy": {
-    "studyPeriods": true,
+    "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "timeAtRisks": {
       "bothCount": 1,
@@ -151,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "IV Iron Formulations and Anaphylaxis Risk Study",
+    "name": "IV Iron Formulations and Anaphylaxis Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -170,7 +173,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -179,14 +182,14 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis period",
-          "studyStartDate": "20130701",
+          "description": "IV Iron Study Period",
+          "studyStartDate": "20130700",
           "studyEndDate": "20181231"
         }
       ],
       "firstExposureOnly": true,
       "removeDuplicateSubjects": "keep all",
-      "restrictToCommonPeriod": true,
+      "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
       "maxCohortSize": 0
     },
@@ -195,7 +198,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "1 day post-administration",
+          "description": "Anaphylaxis within 1 day of IV iron administration",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -207,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW for multinomial propensity score",
+        "description": "Multinomial IPTW for IV iron formulation comparison",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -234,7 +237,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "IPTW-weighted logistic regression",
+          "description": "IPTW-weighted logistic regression for anaphylaxis",
           "modelType": "logistic",
           "useCovariates": false
         }

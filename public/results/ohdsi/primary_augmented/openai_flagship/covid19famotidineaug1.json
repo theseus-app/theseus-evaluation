@@ -1,7 +1,7 @@
 {
   "name": "COVID19FamotidineAug1",
   "fileName": "covid19famotidineaug1.json",
-  "createdAt": "2026-05-29T15:42:12.326Z",
+  "createdAt": "2026-06-08T06:06:55.200Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -177,13 +177,23 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period from March 1, 2020 to June 30, 2020",
           "studyStartDate": "20200301",
           "studyEndDate": "20200630"
         }
@@ -199,7 +209,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment TAR starting 1 day after admission",
+          "description": "On-treatment time at risk starting 1 day after admission and ending at end of exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +221,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary 1:1 PS matching",
+        "description": "Main analysis: 1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,14 +252,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Conditional Poisson regression for rate ratios",
+          "description": "Conditional Poisson regression model estimating rate ratios with treatment as the sole explanatory variable",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

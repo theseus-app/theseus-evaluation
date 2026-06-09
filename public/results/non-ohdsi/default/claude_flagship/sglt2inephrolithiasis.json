@@ -1,38 +1,35 @@
 {
   "name": "SGLT2iNephrolithiasis",
   "fileName": "sglt2inephrolithiasis.json",
-  "createdAt": "2026-05-29T15:42:08.891Z",
+  "createdAt": "2026-06-08T05:24:05.390Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.8,
-    "precision": 0.8
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 5,
     "pred": 5,
-    "intersection": 4,
-    "union": 6,
-    "both": 4,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 5,
+    "union": 5,
+    "both": 5,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20220630|studyStartDate=20140101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -47,13 +44,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -160,7 +157,7 @@
     }
   },
   "predJson": {
-    "name": "Type 2 Diabetes Drug Comparison Study",
+    "name": "Type 2 Diabetes Comparison Drugs Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -204,19 +201,19 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "TAR 1: from first dispensing until end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS Settings 1",
+        "description": "PS Settings 1: stabilized IPTW for the average treatment effect in the whole population",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -243,12 +240,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Outcome Model 1: weighted Poisson model for rate ratios, accounting for competing risk of death",
           "modelType": "poisson",
           "useCovariates": false
         },
         {
-          "description": "Outcome Model 2",
+          "description": "Outcome Model 2: weighted Cox proportional hazards model for hazard ratios, accounting for competing risk of death",
           "modelType": "cox",
           "useCovariates": false
         }

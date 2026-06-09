@@ -1,7 +1,7 @@
 {
   "name": "StrokeRiskAug2",
   "fileName": "strokeriskaug2.json",
-  "createdAt": "2026-05-29T16:17:23.002Z",
+  "createdAt": "2026-06-08T06:28:43.002Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -153,20 +153,20 @@
     }
   },
   "predJson": {
-    "name": "Primary Analysis",
+    "name": "Unnamed Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": ""
+        "name": "Target Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": ""
+        "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": ""
+          "name": "Outcome Cohort"
         }
       ]
     },
@@ -175,7 +175,12 @@
       "name": ""
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "recent diagnosis of dementia"
+        }
+      ],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
@@ -186,18 +191,18 @@
           "studyEndDate": ""
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
-      "washoutPeriod": 0,
+      "washoutPeriod": 365,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": false,
+      "removeSubjectsWithPriorOutcome": true,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT: 31 days to 365 days",
+          "description": "Intention-to-treat: start 31 days after cohort entry, end at first of 365 days, outcome, disenrollment, or study end",
           "minDaysAtRisk": 1,
           "riskWindowStart": 31,
           "startAnchor": "cohort start",
@@ -209,7 +214,7 @@
     },
     "psSettings": [
       {
-        "description": "PS stratification by deciles",
+        "description": "PS stratification using deciles",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -239,14 +244,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "Logistic regression conditioned on PS strata",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

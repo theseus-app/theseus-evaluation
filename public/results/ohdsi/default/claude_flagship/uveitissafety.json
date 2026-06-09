@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:30:53.670Z",
+  "createdAt": "2026-06-08T05:24:36.292Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -175,11 +175,11 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU Study",
+    "name": "Remicade (infliximab) and risk of non-infectious uveitis (NIU)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade"
+        "name": "Remicade (infliximab) exposure"
       },
       "comparatorCohort": {
         "id": null,
@@ -188,13 +188,13 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NIU"
+          "name": "Non-infectious uveitis (NIU)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -203,9 +203,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -219,7 +219,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 - on-treatment",
+          "description": "On-treatment: day after index until end of persistent exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -227,7 +227,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2 - ITT",
+          "description": "ITT: day after index until end of observation",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -239,7 +239,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1 - 1:10 variable ratio matching",
+        "description": "Primary: 1:10 variable ratio greedy matching, caliper 0.2 standardized logit",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -250,7 +250,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2 - 1:1 matching",
+        "description": "Secondary: 1:1 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -281,7 +281,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox PH conditioned on PS-matched sets",
+          "description": "Cox PH model conditioned on PS-matched sets, time to first NIU",
           "modelType": "cox",
           "useCovariates": false
         }

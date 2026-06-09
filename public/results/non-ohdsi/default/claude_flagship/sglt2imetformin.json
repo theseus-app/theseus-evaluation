@@ -1,7 +1,7 @@
 {
   "name": "SGLT2iMetformin",
   "fileName": "sglt2imetformin.json",
-  "createdAt": "2026-05-29T15:41:58.788Z",
+  "createdAt": "2026-06-08T05:23:53.709Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -182,7 +182,7 @@
     }
   },
   "predJson": {
-    "name": "SGLT-2i vs Metformin Population-Level Estimation Study",
+    "name": "SGLT-2i vs Metformin Comparative Effectiveness Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -192,11 +192,16 @@
         "id": null,
         "name": "Metformin initiators"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Study outcome"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -236,7 +241,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "On-treatment: from day after cohort entry until discontinuation, death, disenrollment, or end of study period",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -244,7 +249,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2",
+          "description": "Intention-to-treat: 365 days carrying forward initial exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -256,7 +261,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "1:2 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 2,
@@ -287,12 +292,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Proportional hazards model without further adjustment, time block-specific PS-matched cohorts aggregated",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

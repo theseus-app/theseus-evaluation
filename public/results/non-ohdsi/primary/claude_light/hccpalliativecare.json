@@ -1,36 +1,33 @@
 {
   "name": "HCCPalliativeCare",
   "fileName": "hccpalliativecare.json",
-  "createdAt": "2026-05-29T15:36:05.946Z",
+  "createdAt": "2026-06-08T05:22:14.418Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 3,
     "pred": 3,
-    "intersection": 2,
-    "union": 4,
-    "both": 2,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 3,
+    "union": 3,
+    "both": 3,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=true}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -45,13 +42,13 @@
       "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -153,7 +150,7 @@
     }
   },
   "predJson": {
-    "name": "<UNKNOWN>",
+    "name": "HCC Treatment Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -166,7 +163,7 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "<UNKNOWN>"
+          "name": "Death"
         }
       ]
     },
@@ -178,7 +175,7 @@
       "conceptsToInclude": [
         {
           "id": null,
-          "name": "All baseline covariates"
+          "name": "All potential prognostic factors and confounders"
         }
       ],
       "conceptsToExclude": []
@@ -186,9 +183,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "Full study period",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -207,14 +204,14 @@
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "Inverse probability treatment weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -241,7 +238,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Treatment-specific Cox model with all prognostic factors and confounders",
+          "description": "Treatment-specific Cox proportional hazard regression",
           "modelType": "cox",
           "useCovariates": true
         }

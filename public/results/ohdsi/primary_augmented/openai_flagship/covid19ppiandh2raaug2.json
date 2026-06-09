@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RAAug2",
   "fileName": "covid19ppiandh2raaug2.json",
-  "createdAt": "2026-05-29T15:43:24.781Z",
+  "createdAt": "2026-06-08T06:07:53.516Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "HIRA COVID-19 PCR Testing Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -176,15 +176,25 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "All available HIRA COVID-19 PCR testing data",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "All data available from HIRA on COVID-19 testing by reverse transcriptase polymerase chain reaction method",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,7 +208,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "30-day blank period through 365 days after cohort entry",
+          "description": "Follow-up after a 30-day blank period until 365 days after cohort entry or until no longer observable",
           "minDaysAtRisk": 1,
           "riskWindowStart": 31,
           "startAnchor": "cohort start",
@@ -210,7 +220,7 @@
     },
     "psSettings": [
       {
-        "description": "Variable-ratio propensity score matching up to 1:10",
+        "description": "Variable-ratio propensity score matching with maximum ratio of 1:10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -241,12 +251,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Logistic regression for first outcome occurrence",
+          "description": "Logistic regression model for first outcome occurrence in target relative to comparator cohort",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

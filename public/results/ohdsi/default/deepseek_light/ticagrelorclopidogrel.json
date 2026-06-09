@@ -1,23 +1,25 @@
 {
   "name": "TicagrelorClopidogrel",
   "fileName": "ticagrelorclopidogrel.json",
-  "createdAt": "2026-05-29T15:34:45.283Z",
+  "createdAt": "2026-06-08T05:26:57.423Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.8333333333333334,
+    "recall": 0.8333333333333334,
+    "precision": 1
   },
   "counts": {
     "gold": 12,
-    "pred": 12,
-    "intersection": 8,
-    "union": 16,
-    "both": 8,
-    "predOnly": 4,
-    "goldOnly": 4
+    "pred": 10,
+    "intersection": 10,
+    "union": 12,
+    "both": 10,
+    "predOnly": 0,
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
+      "studyPeriods:{studyEndDate=20190331|studyStartDate=20111101}",
+      "studyPeriods:{studyEndDate=20161231|studyStartDate=20130301}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1825|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1825|riskWindowStart=29|startAnchor=cohort start}",
@@ -27,43 +29,36 @@
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=10|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "studyPeriods:{studyEndDate=20190301|studyStartDate=20111101}",
-      "studyPeriods:{studyEndDate=20161201|studyStartDate=20130301}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=29|startAnchor=cohort start}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=20190331|studyStartDate=20111101}",
-      "studyPeriods:{studyEndDate=20161231|studyStartDate=20130301}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=29|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
-    "studyPeriods": false,
+    "studyPeriods": true,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
-      "bothCount": 0,
-      "predOnlyCount": 2,
-      "goldOnlyCount": 2,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 2,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "timeAtRisks": {
       "bothCount": 4,
-      "predOnlyCount": 2,
+      "predOnlyCount": 0,
       "goldOnlyCount": 2,
-      "precision": 0.6666666666666666,
+      "precision": 1,
       "recall": 0.6666666666666666,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 0.8,
+      "accuracy": 0.6666666666666666
     },
     "propensityScoreAdjustment": {
       "bothCount": 3,
@@ -235,26 +230,26 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Population-level estimation study from text",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort"
+          "name": "Outcome cohort"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": "Negative controls"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -263,14 +258,14 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Primary study period",
           "studyStartDate": "20111101",
-          "studyEndDate": "20190301"
+          "studyEndDate": "20190331"
         },
         {
-          "description": "Study Period 2",
+          "description": "Additional analysis period",
           "studyStartDate": "20130301",
-          "studyEndDate": "20161201"
+          "studyEndDate": "20161231"
         }
       ],
       "firstExposureOnly": false,
@@ -284,23 +279,23 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Primary analysis",
+          "description": "Primary analysis (ITT)",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         },
         {
-          "description": "5-year ITT",
+          "description": "5-year period",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
           "endAnchor": "cohort start"
         },
         {
-          "description": "On-treatment",
+          "description": "On-treatment period (7-day gap)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -309,23 +304,23 @@
         },
         {
           "description": "Primary analysis with 28-day blanking",
-          "minDaysAtRisk": 29,
-          "riskWindowStart": 29,
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 28,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         },
         {
-          "description": "5-year ITT with 28-day blanking",
-          "minDaysAtRisk": 29,
-          "riskWindowStart": 29,
+          "description": "5-year period with 28-day blanking",
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 28,
           "startAnchor": "cohort start",
           "riskWindowEnd": 1825,
           "endAnchor": "cohort start"
         },
         {
-          "description": "On-treatment with 28-day blanking",
-          "minDaysAtRisk": 29,
+          "description": "On-treatment period with 28-day blanking",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 29,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
@@ -336,7 +331,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 Greedy matching",
+        "description": "1:1 greedy matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -347,7 +342,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Variable-ratio matching (max 10)",
+        "description": "Variable-ratio matching (max ratio 10)",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -358,7 +353,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Stratification by deciles",
+        "description": "PS stratification (deciles)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -388,12 +383,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary outcome model",
+          "description": "Cox proportional hazards",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

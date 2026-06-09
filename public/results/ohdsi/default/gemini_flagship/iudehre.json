@@ -1,7 +1,7 @@
 {
   "name": "IUDEHRE",
   "fileName": "iudehre.json",
-  "createdAt": "2026-05-29T15:30:18.754Z",
+  "createdAt": "2026-06-08T06:07:55.117Z",
   "metrics": {
     "jaccard": 0.7142857142857143,
     "recall": 0.8333333333333334,
@@ -25,7 +25,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=5475|riskWindowStart=365|startAnchor=cohort start}"
@@ -178,7 +178,7 @@
     }
   },
   "predJson": {
-    "name": "IUD and Cervical Neoplasms Study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": 1,
@@ -197,11 +197,21 @@
     },
     "negativeControlConceptSet": {
       "id": 4,
-      "name": "Negative Controls"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": 5,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": 6,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -234,15 +244,15 @@
           "minDaysAtRisk": 1,
           "riskWindowStart": 365,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 99999,
-          "endAnchor": "cohort start"
+          "riskWindowEnd": 0,
+          "endAnchor": "cohort end"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS 1: Stratification",
+        "description": "PS Setting 1: Stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -252,7 +262,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS 2: 1:1 Matching",
+        "description": "PS Setting 2: 1:1 matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,

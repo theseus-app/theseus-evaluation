@@ -1,19 +1,19 @@
 {
   "name": "LEGENDT2DM",
   "fileName": "legendt2dm.json",
-  "createdAt": "2026-05-29T15:38:00.458Z",
+  "createdAt": "2026-06-08T05:23:18.223Z",
   "metrics": {
-    "jaccard": 0.8,
+    "jaccard": 1,
     "recall": 1,
-    "precision": 0.8
+    "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 5,
+    "pred": 4,
     "intersection": 4,
-    "union": 5,
+    "union": 4,
     "both": 4,
-    "predOnly": 1,
+    "predOnly": 0,
     "goldOnly": 0
   },
   "details": {
@@ -23,15 +23,13 @@
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=0|numberOfStrata=null|trimByPsArgs=null}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,12 +53,12 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -156,26 +154,26 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM Population-Level Estimation",
+    "name": "LEGEND-T2DM Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Outcome Cohort"
+          "name": "Outcome Cohort Name"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -184,7 +182,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Primary study period",
           "studyStartDate": "19920101",
           "studyEndDate": "20211231"
         }
@@ -200,9 +198,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "on-treatment",
+          "description": "On-treatment",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -212,24 +210,13 @@
     },
     "psSettings": [
       {
-        "description": "stratification",
+        "description": "Primary PS stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
           "numberOfStrata": 5,
           "baseSelection": "all"
         },
-        "inversePtWeighting": false
-      },
-      {
-        "description": "variable-ratio matching",
-        "trimByPsArgs": null,
-        "matchOnPsArgs": {
-          "maxRatio": 100,
-          "caliper": 0.2,
-          "caliperScale": "standardized logit"
-        },
-        "stratifyByPsArgs": null,
         "inversePtWeighting": false
       }
     ],
@@ -253,7 +240,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
+          "description": "Primary outcome model",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2026-05-29T15:29:37.804Z",
+  "createdAt": "2026-06-08T05:23:40.524Z",
   "metrics": {
     "jaccard": 0.8,
     "recall": 0.8,
@@ -167,7 +167,7 @@
     }
   },
   "predJson": {
-    "name": "T2D Medications and Risk of NAION",
+    "name": "Risk of NAION among T2D patients taking GLP-1RA, SGLT2 inhibitor, DPP4 inhibitor, or sulfonylurea",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -180,13 +180,13 @@
       "outcomeCohort": [
         {
           "id": null,
-          "name": "NAION"
+          "name": "NAION (non-arteritic anterior ischemic optic neuropathy)"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -195,7 +195,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "December 1, 2017 to December 31, 2023",
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
         }
@@ -211,7 +211,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1 (on-treatment)",
+          "description": "From medication initiation until end of continuous drug exposure (on-treatment)",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -223,18 +223,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 1:1 PS matching",
-        "trimByPsArgs": null,
-        "matchOnPsArgs": {
-          "maxRatio": 1,
-          "caliper": 0.2,
-          "caliperScale": "standardized logit"
-        },
-        "stratifyByPsArgs": null,
-        "inversePtWeighting": false
-      },
-      {
-        "description": "PS Settings 2: PS-matched, stratified by calendar time",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -265,7 +254,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox PH model for NAION",
+          "description": "Cox proportional hazards model estimating HR of NAION",
           "modelType": "cox",
           "useCovariates": false
         }

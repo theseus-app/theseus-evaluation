@@ -1,7 +1,7 @@
 {
   "name": "RapidCycleJanssen",
   "fileName": "rapidcyclejanssen.json",
-  "createdAt": "2026-05-29T15:28:12.124Z",
+  "createdAt": "2026-06-08T05:22:42.099Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -195,22 +195,26 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "<UNKNOWN>"
+        "name": "COVID-19 Vaccine Exposure Cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "<UNKNOWN>"
+        "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "<UNKNOWN>"
+          "name": "Outcome of Interest"
+        },
+        {
+          "id": null,
+          "name": "Anaphylaxis"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "<UNKNOWN>"
+      "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -219,9 +223,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Study Period 1: COVID-19 vaccine exposure starting January 1st, 2021",
           "studyStartDate": "20210101",
-          "studyEndDate": null
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": true,
@@ -235,7 +239,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1-14 days",
+          "description": "TAR 1: 1-14 days post-vaccination",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -243,7 +247,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-28 days",
+          "description": "TAR 2: 1-28 days post-vaccination",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -251,7 +255,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-42 days",
+          "description": "TAR 3: 1-42 days post-vaccination",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -259,7 +263,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 1-90 days",
+          "description": "TAR 4: 1-90 days post-vaccination",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -267,7 +271,7 @@
           "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 0-2 days (anaphylaxis)",
+          "description": "TAR 5: 0-2 days post-vaccination for anaphylaxis",
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
@@ -279,7 +283,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1: Variable ratio matching",
+        "description": "PS Settings 1: Variable ratio matching on propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 100,
@@ -310,7 +314,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazards",
+          "description": "Outcome Model 1: Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

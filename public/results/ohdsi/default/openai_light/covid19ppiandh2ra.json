@@ -1,7 +1,7 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:27:27.019Z",
+  "createdAt": "2026-06-08T05:21:32.954Z",
   "metrics": {
     "jaccard": 0.5,
     "recall": 0.6666666666666666,
@@ -25,7 +25,7 @@
     ],
     "predJsonOnly": [
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
+      "psSettings:{baseSelection=null|caliper=0|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
@@ -178,21 +178,26 @@
     }
   },
   "predJson": {
-    "name": "COVID-19 testing reverse transcriptase polymerase chain reaction study",
+    "name": "HIRA COVID-19 testing study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": "COVID-19 tested patients"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator cohort"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Outcome cohort"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative control concept set"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -225,29 +230,29 @@
           "endAnchor": "cohort end"
         }
       ],
-      "censorAtNewRiskWindow": false
+      "censorAtNewRiskWindow": true
     },
     "psSettings": [
       {
-        "description": "PS Settings 1",
+        "description": "PS Settings 1: propensity score unadjusted analysis",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2",
+        "description": "PS Settings 2: one-to-four exact PSM with greedy nearest methods",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 4,
           "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3",
+        "description": "PS Settings 3: propensity score stratification with five strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {

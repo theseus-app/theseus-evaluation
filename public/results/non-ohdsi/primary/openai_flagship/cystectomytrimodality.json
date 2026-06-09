@@ -1,7 +1,7 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-05-29T15:58:42.250Z",
+  "createdAt": "2026-06-08T06:05:30.663Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -173,11 +173,21 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
@@ -198,7 +208,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "Intention-to-treat",
+          "description": "Intention-to-treat analysis",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -210,7 +220,7 @@
     },
     "psSettings": [
       {
-        "description": "Propensity score matching 3:1 nearest-neighbour with caliper 0.25 SD of logit PS",
+        "description": "Propensity score matching with 3:1 nearest-neighbour matching and caliper of 0.25 SD of the propensity score logit",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 3,
@@ -241,12 +251,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Doubly robust multivariable Cox proportional hazards model",
+          "description": "Doubly robust multivariable Cox proportional hazards model incorporating propensity score covariates",
           "modelType": "cox",
           "useCovariates": true
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2026-05-29T15:54:50.104Z",
+  "createdAt": "2026-06-08T05:29:40.315Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Primary Analysis",
+    "name": "Unspecified",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -177,13 +177,18 @@
       "name": ""
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "recent diagnosis of dementia"
+        }
+      ],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary",
+          "description": "Main study period",
           "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         }
@@ -211,7 +216,7 @@
     },
     "psSettings": [
       {
-        "description": "1:10 matching",
+        "description": "PS matching with 1:10 variable ratio",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -248,8 +253,19 @@
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "CystectomyTrimodality",
   "fileName": "cystectomytrimodality.json",
-  "createdAt": "2026-05-29T15:32:09.088Z",
+  "createdAt": "2026-06-08T05:21:26.378Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "Intention-to-treat PS-matched Cox analysis",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -164,7 +164,12 @@
         "id": null,
         "name": "Radical cystectomy patients"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Overall survival"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -175,7 +180,13 @@
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
-      "studyPeriods": [],
+      "studyPeriods": [
+        {
+          "description": "Primary analysis",
+          "studyStartDate": "",
+          "studyEndDate": ""
+        }
+      ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
@@ -183,7 +194,7 @@
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "removeSubjectsWithPriorOutcome": true,
+      "removeSubjectsWithPriorOutcome": false,
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
@@ -199,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary PS matching",
+        "description": "Nearest-neighbour propensity score matching with replacement, 3:1 ratio, caliper 0.25 SD of logit PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 3,
@@ -230,7 +241,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary doubly robust Cox model",
+          "description": "Doubly robust multivariable Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": true
         }

@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:34:15.228Z",
+  "createdAt": "2026-06-08T06:11:10.425Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -175,7 +175,7 @@
     }
   },
   "predJson": {
-    "name": "Remicade NIU population-level estimation study",
+    "name": "Remicade and NIU population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -183,7 +183,7 @@
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator group"
+        "name": "Comparator Cohort Name"
       },
       "outcomeCohort": [
         {
@@ -194,18 +194,28 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Concept Name 1"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
           "description": "",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -219,7 +229,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment time-at-risk: day after index until end of inferred persistent exposure",
+          "description": "On-treatment TAR: day after index until the end of inferred persistent exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -227,7 +237,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "Intent-to-treat time-at-risk: day after index until end of observation time",
+          "description": "ITT TAR: day after index until the end of observation time, not censored at discontinuation or other drug exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -239,7 +249,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary PS matching: 1:10 variable ratio matching with 0.2 SD caliper on logit PS scale",
+        "description": "Primary PS adjustment: 1:10 variable-ratio PS matching with caliper of 0.2 SD on the logit PS scale",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -250,7 +260,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Secondary PS matching: 1:1 matching",
+        "description": "Secondary PS adjustment: 1:1 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -281,14 +291,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards model for time to first NIU occurrence",
+          "description": "Cox proportional hazards model for time to first ever NIU occurrence relative to comparator group",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "PPIMortality",
   "fileName": "ppimortality.json",
-  "createdAt": "2026-05-29T15:32:35.127Z",
+  "createdAt": "2026-06-08T05:21:54.005Z",
   "metrics": {
     "jaccard": 0.3333333333333333,
     "recall": 0.5,
@@ -155,17 +155,22 @@
     }
   },
   "predJson": {
-    "name": "New use of acid suppression drugs and causes of death study",
+    "name": "New use of acid suppression drugs and causes of death",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "New users of acid suppression drugs / PPIs"
+        "name": "New users of proton pump inhibitors (PPIs)"
       },
       "comparatorCohort": {
         "id": null,
         "name": "New users of acid suppression drugs"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Causes of death"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -178,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "New users of acid suppression drugs",
           "studyStartDate": "20020701",
           "studyEndDate": "20040630"
         }
@@ -194,9 +199,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention to treat design",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 3650,
           "endAnchor": "cohort start"
@@ -206,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW based on propensity scores",
+        "description": "Inverse treatment probability weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -233,7 +238,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Logistic regression weighted by inverse treatment probability weights",
           "modelType": "logistic",
           "useCovariates": false
         }

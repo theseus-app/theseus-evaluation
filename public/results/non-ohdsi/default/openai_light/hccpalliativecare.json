@@ -1,7 +1,7 @@
 {
   "name": "HCCPalliativeCare",
   "fileName": "hccpalliativecare.json",
-  "createdAt": "2026-05-29T15:31:33.569Z",
+  "createdAt": "2026-06-08T05:21:44.195Z",
   "metrics": {
     "jaccard": 0.5,
     "recall": 0.6666666666666666,
@@ -153,21 +153,26 @@
     }
   },
   "predJson": {
-    "name": "HCC diagnosis to death study",
+    "name": "Population-level estimation study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "HCC diagnosis"
+        "name": "HCC diagnosis cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator"
+        "name": "Comparator cohort"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Death"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -176,9 +181,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "HCC diagnosis to death follow-up",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -192,7 +197,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Follow-up from HCC diagnosis until death",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -204,7 +209,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "IPTW",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -231,7 +236,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Treatment-specific Cox proportional hazards model for censoring mechanism",
           "modelType": "cox",
           "useCovariates": true
         }

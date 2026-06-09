@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2026-05-29T15:32:54.293Z",
+  "createdAt": "2026-06-08T05:23:36.534Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "On-treatment Comparative Cohort Study",
+    "name": "Population-Level Estimation Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -174,7 +174,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,13 +183,13 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "January 1, 2001 through December 31, 2017",
           "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         }
       ],
       "firstExposureOnly": false,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
       "maxCohortSize": 0
@@ -211,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "1:10 variable-ratio matching",
+        "description": "1:10 variable ratio matching with a caliper of 0.2 of the standard deviation of the logit of PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -242,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox proportional hazards model conditioned on the PS matched sets",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,7 +1,7 @@
 {
   "name": "SemaglutideandNAION",
   "fileName": "semaglutideandnaion.json",
-  "createdAt": "2026-05-29T15:38:55.097Z",
+  "createdAt": "2026-06-08T05:32:03.171Z",
   "metrics": {
     "jaccard": 0.8,
     "recall": 0.8,
@@ -167,7 +167,7 @@
     }
   },
   "predJson": {
-    "name": "Semaglutide vs Dulaglutide - NAION",
+    "name": "T2D Medication NAION Risk Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -186,7 +186,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Controls"
+      "name": ""
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -195,7 +195,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "December 1, 2017 to December 31, 2023",
           "studyStartDate": "20171201",
           "studyEndDate": "20231231"
         }
@@ -211,9 +211,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "From medication initiation to end of continuous exposure",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -223,7 +223,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -254,12 +254,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazards model stratified by calendar time",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": false,
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

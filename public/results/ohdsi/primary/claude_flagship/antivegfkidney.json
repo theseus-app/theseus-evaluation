@@ -1,7 +1,7 @@
 {
   "name": "AntiVEGFKidney",
   "fileName": "antivegfkidney.json",
-  "createdAt": "2026-05-29T15:31:05.350Z",
+  "createdAt": "2026-06-08T05:21:27.950Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,15 +154,15 @@
     }
   },
   "predJson": {
-    "name": "Anti-VEGF and Kidney Failure Risk Study",
+    "name": "Anti-VEGF and risk of kidney failure",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort Name"
+        "name": "Target anti-VEGF exposure cohort"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort Name"
+        "name": "Comparator anti-VEGF exposure cohort"
       },
       "outcomeCohort": [
         {
@@ -182,9 +182,9 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
@@ -198,9 +198,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment, starting after third anti-VEGF exposure",
+          "description": "At-risk after third anti-VEGF exposure until end of continuous drug exposure or end of study period",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -210,7 +210,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 propensity score matching",
+        "description": "1:1 large-scale propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -241,7 +241,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "On-treatment Cox model",
+          "description": "Cox proportional hazards model for kidney failure while on treatment",
           "modelType": "cox",
           "useCovariates": false
         }

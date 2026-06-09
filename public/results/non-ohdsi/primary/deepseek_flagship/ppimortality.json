@@ -1,40 +1,41 @@
 {
   "name": "PPIMortality",
   "fileName": "ppimortality.json",
-  "createdAt": "2026-05-29T16:47:08.425Z",
+  "createdAt": "2026-06-08T06:14:37.726Z",
   "metrics": {
-    "jaccard": 0.3333333333333333,
-    "recall": 0.5,
-    "precision": 0.5
+    "jaccard": 0.14285714285714285,
+    "recall": 0.25,
+    "precision": 0.25
   },
   "counts": {
     "gold": 4,
     "pred": 4,
-    "intersection": 2,
-    "union": 6,
-    "both": 2,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 1,
+    "union": 7,
+    "both": 1,
+    "predOnly": 3,
+    "goldOnly": 3
   },
   "details": {
     "bothJson": [
-      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
-      "outcomeModels:{modelType=logistic|useCovariates=false}"
+      "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}"
     ],
     "predJsonOnly": [
       "studyPeriods:{studyEndDate=20040630|studyStartDate=20020701}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=3650|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=3650|riskWindowStart=1|startAnchor=cohort start}",
+      "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "goldJsonOnly": [
       "studyPeriods:{studyEndDate=20140630|studyStartDate=20020701}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "outcomeModels:{modelType=logistic|useCovariates=false}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
     "timeAtRisks": false,
     "propensityScoreAdjustment": true,
-    "outcomeModels": true
+    "outcomeModels": false
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -65,13 +66,13 @@
       "accuracy": 1
     },
     "outcomeModels": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     }
   },
   "goldJson": {
@@ -155,15 +156,15 @@
     }
   },
   "predJson": {
-    "name": "PPI new users and causes of death",
+    "name": "Association between PPIs and mortality using IPTW",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "PPI new users"
+        "name": "New users of proton pump inhibitors (PPIs)"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator new users"
+        "name": "New users of other acid suppression drugs"
       },
       "outcomeCohort": [
         {
@@ -174,7 +175,7 @@
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative controls"
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +184,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Enrollment period",
+          "description": "new user enrollment period",
           "studyStartDate": "20020701",
           "studyEndDate": "20040630"
         }
@@ -199,7 +200,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT up to 10 years",
+          "description": "ITT follow-up up to 10 years",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +212,7 @@
     },
     "psSettings": [
       {
-        "description": "IPTW",
+        "description": "IPTW using high-dimensional PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -238,8 +239,8 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary",
-          "modelType": "logistic",
+          "description": "Cox model with IPTW",
+          "modelType": "cox",
           "useCovariates": false
         }
       ],

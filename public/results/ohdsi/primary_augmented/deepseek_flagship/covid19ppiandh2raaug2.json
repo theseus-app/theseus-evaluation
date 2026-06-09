@@ -1,33 +1,36 @@
 {
   "name": "COVID19PPIandH2RAAug2",
   "fileName": "covid19ppiandh2raaug2.json",
-  "createdAt": "2026-05-29T16:05:30.915Z",
+  "createdAt": "2026-06-08T06:14:00.373Z",
   "metrics": {
-    "jaccard": 1,
-    "recall": 1,
-    "precision": 1
+    "jaccard": 0.5,
+    "recall": 0.6666666666666666,
+    "precision": 0.6666666666666666
   },
   "counts": {
     "gold": 3,
     "pred": 3,
-    "intersection": 3,
-    "union": 3,
-    "both": 3,
-    "predOnly": 0,
-    "goldOnly": 0
+    "intersection": 2,
+    "union": 4,
+    "both": 2,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=31|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [],
-    "goldJsonOnly": []
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=1|startAnchor=cohort start}"
+    ],
+    "goldJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=365|riskWindowStart=31|startAnchor=cohort start}"
+    ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": true,
+    "timeAtRisks": false,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -42,13 +45,13 @@
       "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 0,
-      "goldOnlyCount": 0,
-      "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "bothCount": 0,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0,
+      "recall": 0,
+      "f1": null,
+      "accuracy": 0
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -154,7 +157,7 @@
     }
   },
   "predJson": {
-    "name": "HIRA COVID-19 Comparison Study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -182,15 +185,15 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "All available HIRA data",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "All data available from HIRA on COVID-19 testing",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
-      "washoutPeriod": 365,
+      "washoutPeriod": 30,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -198,9 +201,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Followed until 365 days after cohort entry",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 30,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
           "endAnchor": "cohort start"
@@ -210,7 +213,7 @@
     },
     "psSettings": [
       {
-        "description": "Variable-ratio matching 1:10",
+        "description": "Variable-ratio propensity score matching 1:10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -241,7 +244,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Logistic regression",
+          "description": "Logistic regression for first outcome occurrence",
           "modelType": "logistic",
           "useCovariates": false
         }

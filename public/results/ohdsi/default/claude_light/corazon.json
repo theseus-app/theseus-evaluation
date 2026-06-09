@@ -1,7 +1,7 @@
 {
   "name": "CORAZON",
   "fileName": "corazon.json",
-  "createdAt": "2026-05-29T15:27:21.753Z",
+  "createdAt": "2026-06-08T05:21:40.305Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -219,7 +219,7 @@
           "studyEndDate": "20191231"
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -238,7 +238,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: Intention-to-treat approach (no censoring on discontinuation/switch)",
+          "description": "TAR 2: Intention-to-treat approach without censoring at discontinuation or switch",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -260,10 +260,10 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: Variable-ratio matching",
+        "description": "PS Settings 2: Propensity score matching with variable-matching ratio",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 100,
+          "maxRatio": 0,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -291,7 +291,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazards regression conditioned on PS strata",
+          "description": "Outcome Model 1: Cox proportional hazards regression conditioned on propensity score strata",
           "modelType": "cox",
           "useCovariates": false
         }

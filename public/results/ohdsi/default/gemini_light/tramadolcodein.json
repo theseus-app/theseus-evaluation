@@ -1,35 +1,34 @@
 {
   "name": "TramadolCodein",
   "fileName": "tramadolcodein.json",
-  "createdAt": "2026-05-29T15:27:50.943Z",
+  "createdAt": "2026-06-08T06:06:17.733Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.75,
+    "jaccard": 1,
+    "recall": 1,
     "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 3,
-    "intersection": 3,
+    "pred": 4,
+    "intersection": 4,
     "union": 4,
-    "both": 3,
+    "both": 4,
     "predOnly": 0,
-    "goldOnly": 1
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -44,13 +43,13 @@
       "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 1,
+      "bothCount": 2,
       "predOnlyCount": 0,
-      "goldOnlyCount": 1,
+      "goldOnlyCount": 0,
       "precision": 1,
-      "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -168,11 +167,11 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": 0,
-        "name": "Target Cohort"
+        "name": "Target"
       },
       "comparatorCohort": {
         "id": 0,
-        "name": "Comparator Cohort"
+        "name": "Comparator"
       },
       "outcomeCohort": [
         {
@@ -187,7 +186,7 @@
     },
     "negativeControlConceptSet": {
       "id": 0,
-      "name": "Negative Control Concept Set"
+      "name": "Negative Control"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -196,7 +195,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "default",
+          "description": "Default",
           "studyStartDate": "",
           "studyEndDate": ""
         }
@@ -214,7 +213,7 @@
         {
           "description": "OT TAR",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -224,15 +223,15 @@
           "minDaysAtRisk": 1,
           "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end"
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort start"
         }
       ],
       "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "PS Matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -263,7 +262,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

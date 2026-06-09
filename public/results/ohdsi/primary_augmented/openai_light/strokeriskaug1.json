@@ -1,7 +1,7 @@
 {
   "name": "StrokeRiskAug1",
   "fileName": "strokeriskaug1.json",
-  "createdAt": "2026-05-29T15:30:36.819Z",
+  "createdAt": "2026-06-08T05:22:38.165Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -158,21 +158,26 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target cohort"
+        "name": "Target Cohort Name"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": "Comparator Cohort Name"
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": "Outcome Cohort Name"
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
       "conceptsToInclude": [
@@ -186,7 +191,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Included data available from January 1, 2005 through December 31, 2015",
           "studyStartDate": "20050101",
           "studyEndDate": "20151231"
         }
@@ -202,7 +207,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "intention-to-treat time at risk starting the day after cohort entry until outcome, end of insurance enrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -214,7 +219,7 @@
     },
     "psSettings": [
       {
-        "description": "primary",
+        "description": "large-scale regularized regression model with 1:1 matching and caliper of 0.2 standardized logit PS",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -245,14 +250,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression model conditioned on the PS matched sets",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

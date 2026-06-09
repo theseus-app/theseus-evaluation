@@ -1,7 +1,7 @@
 {
   "name": "StrokeRisk",
   "fileName": "strokerisk.json",
-  "createdAt": "2026-05-29T15:28:26.567Z",
+  "createdAt": "2026-06-08T05:22:59.869Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -207,6 +207,10 @@
         {
           "id": null,
           "name": "All observed covariates"
+        },
+        {
+          "id": null,
+          "name": "Recent diagnosis of dementia"
         }
       ],
       "conceptsToExclude": []
@@ -214,12 +218,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary analysis",
+          "description": "Study Period 1",
           "studyStartDate": "20010101",
           "studyEndDate": "20171231"
         },
         {
-          "description": "Post-hoc sensitivity analysis",
+          "description": "Study Period 2 - Post-hoc analysis",
           "studyStartDate": "20010101",
           "studyEndDate": "20150930"
         }
@@ -227,7 +231,7 @@
       "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
-      "washoutPeriod": 365,
+      "washoutPeriod": 0,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -235,7 +239,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "On-treatment",
+          "description": "On-treatment time at risk",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -243,7 +247,7 @@
           "endAnchor": "cohort end"
         }
       ],
-      "censorAtNewRiskWindow": true
+      "censorAtNewRiskWindow": false
     },
     "psSettings": [
       {
@@ -265,7 +269,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "Large-scale regularized regression model (adapted PS strategy)",
+        "description": "Large-scale regularized regression model with adapted PS strategy",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -296,14 +300,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards model",
+          "description": "Cox proportional hazards model conditioned on PS matched sets",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

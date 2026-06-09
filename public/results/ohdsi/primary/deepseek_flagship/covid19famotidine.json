@@ -1,7 +1,7 @@
 {
   "name": "COVID19Famotidine",
   "fileName": "covid19famotidine.json",
-  "createdAt": "2026-05-29T15:48:52.486Z",
+  "createdAt": "2026-06-08T05:23:55.140Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -154,22 +154,17 @@
     }
   },
   "predJson": {
-    "name": "Unnamed Study",
+    "name": "",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target Cohort"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": ""
       },
-      "outcomeCohort": [
-        {
-          "id": null,
-          "name": "Outcome of interest"
-        }
-      ]
+      "outcomeCohort": []
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -182,7 +177,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study period",
           "studyStartDate": "20200201",
           "studyEndDate": "20200530"
         }
@@ -198,7 +193,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT: from 1 day after admission to 30 days",
+          "description": "ITT: 1 to 30 days after admission",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -210,7 +205,7 @@
     },
     "psSettings": [
       {
-        "description": "Main analysis: stratification into 5 strata",
+        "description": "Main analysis: stratified into 5 PS strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -240,14 +235,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Conditional Cox PH by PS strata",
+          "description": "Conditional Cox regression",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

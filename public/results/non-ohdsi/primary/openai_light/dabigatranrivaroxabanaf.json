@@ -1,7 +1,7 @@
 {
   "name": "DabigatranRivaroxabanAF",
   "fileName": "dabigatranrivaroxabanaf.json",
-  "createdAt": "2026-05-29T15:32:16.252Z",
+  "createdAt": "2026-06-08T05:21:32.772Z",
   "metrics": {
     "jaccard": 0.6,
     "recall": 0.75,
@@ -154,7 +154,7 @@
     }
   },
   "predJson": {
-    "name": "Rivaroxaban vs Dabigatran population-level estimation study",
+    "name": "Rivaroxaban vs Dabigatran Medicare emulated trial",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -177,7 +177,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "First prescription for either Rivaroxaban or Dabigatran with standard dosages between April 01, 2012 and December 31, 2013",
           "studyStartDate": "20120401",
           "studyEndDate": "20131231"
         }
@@ -194,8 +194,8 @@
       "timeAtRisks": [
         {
           "description": "Follow-up until death, loss to follow-up, or end of study",
-          "minDaysAtRisk": 0,
-          "riskWindowStart": 0,
+          "minDaysAtRisk": 1,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
           "endAnchor": "cohort end"
@@ -205,7 +205,7 @@
     },
     "psSettings": [
       {
-        "description": "Primary PS/IPTW weighting",
+        "description": "Propensity score with inverse probability treatment weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -232,7 +232,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Primary Cox model",
+          "description": "Cox proportional hazards model with treatment indicator and all baseline confounders as covariates",
           "modelType": "cox",
           "useCovariates": true
         }

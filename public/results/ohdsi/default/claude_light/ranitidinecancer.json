@@ -1,23 +1,25 @@
 {
   "name": "RanitidineCancer",
   "fileName": "ranitidinecancer.json",
-  "createdAt": "2026-05-29T15:28:04.782Z",
+  "createdAt": "2026-06-08T05:22:32.733Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.8,
+    "recall": 0.8888888888888888,
+    "precision": 0.8888888888888888
   },
   "counts": {
     "gold": 9,
     "pred": 9,
-    "intersection": 6,
-    "union": 12,
-    "both": 6,
-    "predOnly": 3,
-    "goldOnly": 3
+    "intersection": 8,
+    "union": 10,
+    "both": 8,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
@@ -26,13 +28,9 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=366|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=366|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=365|startAnchor=cohort start}",
       "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=365|startAnchor=cohort start}"
     ]
   },
@@ -53,13 +51,13 @@
       "accuracy": null
     },
     "timeAtRisks": {
-      "bothCount": 1,
-      "predOnlyCount": 3,
-      "goldOnlyCount": 3,
-      "precision": 0.25,
-      "recall": 0.25,
-      "f1": 0.25,
-      "accuracy": 0.14285714285714285
+      "bothCount": 3,
+      "predOnlyCount": 1,
+      "goldOnlyCount": 1,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "accuracy": 0.6
     },
     "propensityScoreAdjustment": {
       "bothCount": 4,
@@ -217,7 +215,7 @@
     }
   },
   "predJson": {
-    "name": "Population-Level Estimation Study",
+    "name": "<UNKNOWN>",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -245,7 +243,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "<UNKNOWN>",
           "studyStartDate": null,
           "studyEndDate": null
         }
@@ -261,23 +259,23 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: intention-to-treat (ITT), followed until end of data availability",
+          "description": "TAR 1: intention-to-treat (ITT), which followed patients until the end of data availability",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 2: ITT with 1-year lag",
+          "description": "TAR 2: ITT with a 1-year lag",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 366,
+          "riskWindowStart": 365,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort end"
+          "endAnchor": "cohort start"
         },
         {
-          "description": "TAR 3: during treatment, 1 day after index until treatment completion, allowing 30-day gap",
+          "description": "TAR 3: during treatment, which followed people from 1 day after the index date until the completion of the treatment, allowing up to a 30-day gap between prescriptions",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -285,7 +283,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 4: during treatment with 1-year lag",
+          "description": "TAR 4: during treatment with a 1-year lag",
           "minDaysAtRisk": 1,
           "riskWindowStart": 366,
           "startAnchor": "cohort start",
@@ -297,7 +295,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 1:1 PS matching with caliper 0.2 SDs, L1 regularized logistic regression with 10-fold CV",
+        "description": "PS Settings 1: Comparator cohorts were constructed by performing 1:1 PS matching with a caliper of 0.2 SDs of the logit of the PS. Database-specific PSs were estimated using L1 regularized logistic regression tuned by 10-fold cross-validation.",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -308,7 +306,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: variable-ratio PS matching with maximum ratio 1:10",
+        "description": "PS Settings 2: variable-ratio PS matching with a maximum ratio of 1:10",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -356,12 +354,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox proportional hazard model",
+          "description": "Outcome Model 1: Cox proportional hazard models were fitted to estimate the hazard ratios (HRs) and 95% CIs according to exposure using the CohortMethod21 R package for each data source.",
           "modelType": "cox",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

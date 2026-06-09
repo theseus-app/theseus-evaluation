@@ -1,41 +1,40 @@
 {
   "name": "COVID19PPIandH2RA",
   "fileName": "covid19ppiandh2ra.json",
-  "createdAt": "2026-05-29T15:27:18.923Z",
+  "createdAt": "2026-06-08T06:05:21.091Z",
   "metrics": {
-    "jaccard": 0.5,
-    "recall": 0.6666666666666666,
-    "precision": 0.6666666666666666
+    "jaccard": 0.7142857142857143,
+    "recall": 0.8333333333333334,
+    "precision": 0.8333333333333334
   },
   "counts": {
     "gold": 6,
     "pred": 6,
-    "intersection": 4,
-    "union": 8,
-    "both": 4,
-    "predOnly": 2,
-    "goldOnly": 2
+    "intersection": 5,
+    "union": 7,
+    "both": 5,
+    "predOnly": 1,
+    "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20200515|studyStartDate=20200101}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}",
       "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0|caliperScale=propensity score|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
     ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=4|numberOfStrata=null|trimByPsArgs=null}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -58,13 +57,13 @@
       "accuracy": 0
     },
     "propensityScoreAdjustment": {
-      "bothCount": 2,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0.6666666666666666,
-      "recall": 0.6666666666666666,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "bothCount": 3,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -178,25 +177,25 @@
     }
   },
   "predJson": {
-    "name": "HIRA COVID-19 Study",
+    "name": "COVID-19 Testing Study",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 0,
+        "id": 1,
         "name": "Target Cohort"
       },
       "comparatorCohort": {
-        "id": 0,
+        "id": 2,
         "name": "Comparator Cohort"
       },
       "outcomeCohort": [
         {
-          "id": 0,
+          "id": 3,
           "name": "Outcome Cohort"
         }
       ]
     },
     "negativeControlConceptSet": {
-      "id": 0,
+      "id": 4,
       "name": "Negative Control Concept Set"
     },
     "covariateSelection": {
@@ -206,7 +205,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "HIRA COVID-19 testing study period",
           "studyStartDate": "20200101",
           "studyEndDate": "20200515"
         }
@@ -222,7 +221,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Primary TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -234,25 +233,25 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: propensity score unadjusted analysis",
+        "description": "propensity score unadjusted analysis",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: one-to-four exact PSM with greedy nearest methods",
+        "description": "one-to-four exact PSM with greedy nearest methods",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 4,
-          "caliper": 0,
-          "caliperScale": "propensity score"
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 3: propensity score stratification with five strata",
+        "description": "propensity score stratification with five strata",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -282,7 +281,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "Cox proportional hazards regression",
           "modelType": "cox",
           "useCovariates": false
         }

@@ -1,7 +1,7 @@
 {
   "name": "TramadolCodeinAug2",
   "fileName": "tramadolcodeinaug2.json",
-  "createdAt": "2026-05-29T15:33:20.888Z",
+  "createdAt": "2026-06-08T05:24:46.930Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -185,7 +185,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "All available observation",
+          "description": "All available observation in each database",
           "studyStartDate": null,
           "studyEndDate": null
         }
@@ -193,7 +193,7 @@
       "firstExposureOnly": true,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
-      "washoutPeriod": 365,
+      "washoutPeriod": 0,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
@@ -201,7 +201,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "ITT TAR: 30 days after index to 365 days after index",
+          "description": "ITT TAR from 30 days after index date to 365 days after first exposure",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
@@ -213,7 +213,7 @@
     },
     "psSettings": [
       {
-        "description": "Stratification on propensity score",
+        "description": "Propensity score stratification",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": {
@@ -243,14 +243,25 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Logistic regression conditioned on propensity score strata",
+          "description": "Logistic regression model conditioned on propensity score strata",
           "modelType": "logistic",
           "useCovariates": false
         }
       ],
       "stratified": true,
-      "prior": null,
-      "control": null
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 1,
+        "noiseLevel": "quiet",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
+      }
     }
   }
 }

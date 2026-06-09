@@ -1,7 +1,7 @@
 {
   "name": "UveitisSafety",
   "fileName": "uveitissafety.json",
-  "createdAt": "2026-05-29T15:28:49.110Z",
+  "createdAt": "2026-06-08T05:23:27.411Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -175,45 +175,40 @@
     }
   },
   "predJson": {
-    "name": "Remicade vs Comparator - NIU Outcome Study",
+    "name": "Remicade NIU Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Remicade (Target)"
+        "name": "Remicade"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator Cohort"
+        "name": "Comparator"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Non-Infectious Uveitis (NIU)"
+          "name": "NIU"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": "Negative Control Outcomes"
+      "name": "<UNKNOWN>"
     },
     "covariateSelection": {
-      "conceptsToInclude": [
-        {
-          "id": null,
-          "name": "All Baseline Covariates"
-        }
-      ],
+      "conceptsToInclude": [],
       "conceptsToExclude": []
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Primary Analysis Period",
-          "studyStartDate": null,
-          "studyEndDate": null
+          "description": "Full study period",
+          "studyStartDate": "",
+          "studyEndDate": ""
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -224,7 +219,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: On-Treatment",
+          "description": "On-treatment TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -232,7 +227,7 @@
           "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: Intent-to-Treat",
+          "description": "ITT TAR",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -244,7 +239,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1: 1:10 Variable Ratio Matching",
+        "description": "1:10 PS matching with caliper 0.2 on logit scale",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 10,
@@ -255,7 +250,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "PS Settings 2: 1:1 Matching",
+        "description": "1:1 PS matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -286,7 +281,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1: Cox PH Regression",
+          "description": "Cox proportional-hazards model conditioned on PS-matched sets",
           "modelType": "cox",
           "useCovariates": false
         }

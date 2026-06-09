@@ -1,13 +1,13 @@
 {
-  "createdAt": "2026-06-03T04:42:36.977Z",
+  "createdAt": "2026-06-08T06:08:06.884Z",
   "totalCases": 15,
   "fieldLevelMetrics": {
-    "wholeTP": 50,
-    "wholeFP": 5,
-    "wholeFN": 5,
-    "fieldPrecision": 0.9090909090909091,
-    "fieldSensitivity": 0.9090909090909091,
-    "fieldFPperCase": 0.3333333333333333
+    "wholeTP": 52,
+    "wholeFP": 3,
+    "wholeFN": 3,
+    "fieldPrecision": 0.9454545454545454,
+    "fieldSensitivity": 0.9454545454545454,
+    "fieldFPperCase": 0.2
   },
   "sectionAccuracySummary": {
     "studyPeriods": {
@@ -18,15 +18,15 @@
     },
     "timeAtRisks": {
       "evaluated": 15,
-      "trueCount": 11,
-      "falseCount": 4,
-      "accuracy": 0.7333333333333333
+      "trueCount": 12,
+      "falseCount": 3,
+      "accuracy": 0.8
     },
     "propensityScoreAdjustment": {
       "evaluated": 15,
-      "trueCount": 14,
-      "falseCount": 1,
-      "accuracy": 0.9333333333333333
+      "trueCount": 15,
+      "falseCount": 0,
+      "accuracy": 1
     },
     "outcomeModels": {
       "evaluated": 15,
@@ -39,7 +39,7 @@
     {
       "name": "AntiVEGFKidney",
       "fileName": "antivegfkidney.json",
-      "createdAt": "2026-05-29T15:27:58.657Z",
+      "createdAt": "2026-06-08T06:06:34.175Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -192,7 +192,7 @@
         }
       },
       "predJson": {
-        "name": "Anti-VEGF and Kidney Failure Study",
+        "name": "Population-level estimation study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": 0,
@@ -205,7 +205,7 @@
           "outcomeCohort": [
             {
               "id": 0,
-              "name": "Kidney Failure"
+              "name": "Kidney failure"
             }
           ]
         },
@@ -220,7 +220,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Primary",
+              "description": "Primary study period",
               "studyStartDate": "",
               "studyEndDate": ""
             }
@@ -236,9 +236,9 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment TAR",
+              "description": "At-risk from third anti-VEGF exposure until end of continuous exposure",
               "minDaysAtRisk": 1,
-              "riskWindowStart": 1,
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end"
@@ -248,7 +248,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 PS Matching",
+            "description": "1:1 propensity score matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -279,7 +279,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Cox proportional hazards model for kidney failure",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -304,37 +304,34 @@
     {
       "name": "CEEAMOS",
       "fileName": "ceeamos.json",
-      "createdAt": "2026-05-29T15:28:01.439Z",
+      "createdAt": "2026-06-08T06:06:47.379Z",
       "metrics": {
-        "jaccard": 0.5,
-        "recall": 0.6666666666666666,
-        "precision": 0.6666666666666666
+        "jaccard": 1,
+        "recall": 1,
+        "precision": 1
       },
       "counts": {
         "gold": 3,
         "pred": 3,
-        "intersection": 2,
-        "union": 4,
-        "both": 2,
-        "predOnly": 1,
-        "goldOnly": 1
+        "intersection": 3,
+        "union": 3,
+        "both": 3,
+        "predOnly": 0,
+        "goldOnly": 0
       },
       "details": {
         "bothJson": [
           "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
           "outcomeModels:{modelType=cox|useCovariates=false}"
         ],
-        "predJsonOnly": [
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=propensity score|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}"
-        ],
-        "goldJsonOnly": [
-          "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}"
-        ]
+        "predJsonOnly": [],
+        "goldJsonOnly": []
       },
       "sectionAccuracy": {
         "studyPeriods": true,
         "timeAtRisks": true,
-        "propensityScoreAdjustment": false,
+        "propensityScoreAdjustment": true,
         "outcomeModels": true
       },
       "sectionCounts": {
@@ -357,13 +354,13 @@
           "accuracy": 1
         },
         "propensityScoreAdjustment": {
-          "bothCount": 0,
-          "predOnlyCount": 1,
-          "goldOnlyCount": 1,
-          "precision": 0,
-          "recall": 0,
-          "f1": null,
-          "accuracy": 0
+          "bothCount": 1,
+          "predOnlyCount": 0,
+          "goldOnlyCount": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1
         },
         "outcomeModels": {
           "bothCount": 1,
@@ -488,7 +485,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "",
               "studyEndDate": ""
             }
@@ -504,9 +501,9 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "As-treated",
+              "description": "As-treated time-to-first event",
               "minDaysAtRisk": 1,
-              "riskWindowStart": 1,
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end"
@@ -521,7 +518,7 @@
             "matchOnPsArgs": {
               "maxRatio": 10,
               "caliper": 0.2,
-              "caliperScale": "propensity score"
+              "caliperScale": "standardized logit"
             },
             "stratifyByPsArgs": null,
             "inversePtWeighting": false
@@ -547,7 +544,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Cox proportional hazard model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -572,7 +569,7 @@
     {
       "name": "CORAZON",
       "fileName": "corazon.json",
-      "createdAt": "2026-05-29T15:28:04.097Z",
+      "createdAt": "2026-06-08T06:06:57.862Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -753,7 +750,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "20100101",
               "studyEndDate": "20191231"
             }
@@ -769,9 +766,9 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "on-treatment",
+              "description": "On-treatment approach",
               "minDaysAtRisk": 1,
-              "riskWindowStart": 1,
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end"
@@ -781,7 +778,7 @@
         },
         "psSettings": [
           {
-            "description": "Stratification",
+            "description": "Stratification by propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -811,7 +808,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazards regression",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -836,7 +833,7 @@
     {
       "name": "COVID19Famotidine",
       "fileName": "covid19famotidine.json",
-      "createdAt": "2026-05-29T15:28:06.879Z",
+      "createdAt": "2026-06-08T06:07:01.040Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1017,7 +1014,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Main study period",
               "studyStartDate": "20200201",
               "studyEndDate": "20200530"
             }
@@ -1033,7 +1030,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "Intention-to-treat",
+              "description": "Intention-to-treat 30 days",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1045,7 +1042,7 @@
         },
         "psSettings": [
           {
-            "description": "Main analysis",
+            "description": "Stratification into 5 PS strata",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -1075,7 +1072,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Conditional Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -1100,7 +1097,7 @@
     {
       "name": "COVID19PPIandH2RA",
       "fileName": "covid19ppiandh2ra.json",
-      "createdAt": "2026-05-29T15:28:09.673Z",
+      "createdAt": "2026-06-08T06:07:04.450Z",
       "metrics": {
         "jaccard": 0.6,
         "recall": 0.75,
@@ -1256,7 +1253,7 @@
         }
       },
       "predJson": {
-        "name": "HIRA COVID-19 Study",
+        "name": "COVID-19 HIRA Study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": 0,
@@ -1284,7 +1281,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Primary",
+              "description": "HIRA COVID-19 study period",
               "studyStartDate": "20200101",
               "studyEndDate": "20200515"
             }
@@ -1300,7 +1297,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR",
+              "description": "Default time at risk",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1312,7 +1309,7 @@
         },
         "psSettings": [
           {
-            "description": "Propensity score stratification",
+            "description": "Propensity score stratification with five strata",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -1342,7 +1339,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Cox proportional hazards regression",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -1367,7 +1364,7 @@
     {
       "name": "DOACsandWarfarin",
       "fileName": "doacsandwarfarin.json",
-      "createdAt": "2026-05-29T15:28:12.452Z",
+      "createdAt": "2026-06-08T06:07:07.796Z",
       "metrics": {
         "jaccard": 0.6,
         "recall": 0.75,
@@ -1527,18 +1524,23 @@
         "name": "Dabigatran Study",
         "cohortDefinitions": {
           "targetCohort": {
-            "id": 0,
+            "id": 1,
             "name": "Dabigatran"
           },
           "comparatorCohort": {
-            "id": 0,
+            "id": 2,
             "name": "Comparator"
           },
-          "outcomeCohort": []
+          "outcomeCohort": [
+            {
+              "id": 3,
+              "name": "Outcome"
+            }
+          ]
         },
         "negativeControlConceptSet": {
-          "id": 0,
-          "name": "Negative Controls"
+          "id": 4,
+          "name": "Negative Control"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -1547,7 +1549,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "20101019",
               "studyEndDate": "20181231"
             }
@@ -1563,7 +1565,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "primary on-treatment",
+              "description": "On-treatment time-at-risk",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -1575,7 +1577,7 @@
         },
         "psSettings": [
           {
-            "description": "primary",
+            "description": "Primary PS matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -1606,7 +1608,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -1631,7 +1633,7 @@
     {
       "name": "IUDEHRE",
       "fileName": "iudehre.json",
-      "createdAt": "2026-05-29T15:28:15.284Z",
+      "createdAt": "2026-06-08T06:07:16.833Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -1788,23 +1790,23 @@
         "name": "IUD Placement Study",
         "cohortDefinitions": {
           "targetCohort": {
-            "id": 0,
+            "id": 1,
             "name": "Cu IUD"
           },
           "comparatorCohort": {
-            "id": 0,
+            "id": 2,
             "name": "LNG-IUS"
           },
           "outcomeCohort": [
             {
-              "id": 0,
+              "id": 3,
               "name": "cervical neoplasms"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": 0,
-          "name": "Negative Control"
+          "name": "None"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -1813,7 +1815,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Study window restricted to IUD placements on or after January 1, 2003",
               "studyStartDate": "20030101",
               "studyEndDate": ""
             }
@@ -1829,7 +1831,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1",
+              "description": "30 days to 15 years after IUD placement",
               "minDaysAtRisk": 1,
               "riskWindowStart": 30,
               "startAnchor": "cohort start",
@@ -1841,7 +1843,7 @@
         },
         "psSettings": [
           {
-            "description": "PS 1",
+            "description": "Propensity score matching 1:1",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -1872,7 +1874,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -1897,7 +1899,7 @@
     {
       "name": "LEGENDT2DM",
       "fileName": "legendt2dm.json",
-      "createdAt": "2026-05-29T15:28:18.116Z",
+      "createdAt": "2026-06-08T06:07:27.555Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2078,7 +2080,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Primary",
+              "description": "LEGEND-T2DM study period",
               "studyStartDate": "19920101",
               "studyEndDate": "20211231"
             }
@@ -2094,9 +2096,9 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment time-at-risk",
               "minDaysAtRisk": 1,
-              "riskWindowStart": 1,
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end"
@@ -2106,7 +2108,7 @@
         },
         "psSettings": [
           {
-            "description": "Stratification",
+            "description": "Stratification by propensity score",
             "trimByPsArgs": null,
             "matchOnPsArgs": null,
             "stratifyByPsArgs": {
@@ -2136,7 +2138,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2161,36 +2163,33 @@
     {
       "name": "RanitidineCancer",
       "fileName": "ranitidinecancer.json",
-      "createdAt": "2026-05-29T15:28:20.952Z",
+      "createdAt": "2026-06-08T06:07:31.100Z",
       "metrics": {
-        "jaccard": 0.5,
-        "recall": 0.6666666666666666,
-        "precision": 0.6666666666666666
+        "jaccard": 1,
+        "recall": 1,
+        "precision": 1
       },
       "counts": {
         "gold": 3,
         "pred": 3,
-        "intersection": 2,
-        "union": 4,
-        "both": 2,
-        "predOnly": 1,
-        "goldOnly": 1
+        "intersection": 3,
+        "union": 3,
+        "both": 3,
+        "predOnly": 0,
+        "goldOnly": 0
       },
       "details": {
         "bothJson": [
+          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
           "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
           "outcomeModels:{modelType=cox|useCovariates=false}"
         ],
-        "predJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-        ],
-        "goldJsonOnly": [
-          "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
-        ]
+        "predJsonOnly": [],
+        "goldJsonOnly": []
       },
       "sectionAccuracy": {
         "studyPeriods": true,
-        "timeAtRisks": false,
+        "timeAtRisks": true,
         "propensityScoreAdjustment": true,
         "outcomeModels": true
       },
@@ -2205,13 +2204,13 @@
           "accuracy": null
         },
         "timeAtRisks": {
-          "bothCount": 0,
-          "predOnlyCount": 1,
-          "goldOnlyCount": 1,
-          "precision": 0,
-          "recall": 0,
-          "f1": null,
-          "accuracy": 0
+          "bothCount": 1,
+          "predOnlyCount": 0,
+          "goldOnlyCount": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1
         },
         "propensityScoreAdjustment": {
           "bothCount": 1,
@@ -2345,7 +2344,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary analysis",
               "studyStartDate": "",
               "studyEndDate": ""
             }
@@ -2361,19 +2360,19 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "ITT",
+              "description": "intention-to-treat (ITT)",
               "minDaysAtRisk": 1,
-              "riskWindowStart": 1,
+              "riskWindowStart": 0,
               "startAnchor": "cohort start",
-              "riskWindowEnd": 0,
-              "endAnchor": "cohort end"
+              "riskWindowEnd": 99999,
+              "endAnchor": "cohort start"
             }
           ],
           "censorAtNewRiskWindow": false
         },
         "psSettings": [
           {
-            "description": "1:1 PS matching",
+            "description": "1:1 PS matching with a caliper of 0.2 SDs of the logit",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -2404,7 +2403,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazard model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2429,7 +2428,7 @@
     {
       "name": "RapidCycleJanssen",
       "fileName": "rapidcyclejanssen.json",
-      "createdAt": "2026-05-29T15:28:23.810Z",
+      "createdAt": "2026-06-08T06:07:34.215Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2587,22 +2586,22 @@
         "cohortDefinitions": {
           "targetCohort": {
             "id": 0,
-            "name": "Target Cohort"
+            "name": "COVID-19 vaccine exposure cohort"
           },
           "comparatorCohort": {
             "id": 0,
-            "name": "Comparator Cohort"
+            "name": "Comparator cohort"
           },
           "outcomeCohort": [
             {
               "id": 0,
-              "name": "Outcome Cohort"
+              "name": "Outcomes of interest"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": 0,
-          "name": "Negative Control Concept Set"
+          "name": "Negative control concepts"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -2611,7 +2610,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "Primary",
+              "description": "Primary study period",
               "studyStartDate": "20210101",
               "studyEndDate": ""
             }
@@ -2627,7 +2626,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "TAR 1-14 days",
+              "description": "At-risk period 1-14 days",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -2670,7 +2669,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2695,7 +2694,7 @@
     {
       "name": "SemaglutideandNAION",
       "fileName": "semaglutideandnaion.json",
-      "createdAt": "2026-05-29T15:28:26.568Z",
+      "createdAt": "2026-06-08T06:07:45.711Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -2852,23 +2851,23 @@
         "name": "T2D Medication NAION Study",
         "cohortDefinitions": {
           "targetCohort": {
-            "id": 0,
-            "name": "T2D Medications"
+            "id": 1,
+            "name": "T2D patients on GLP-1RA or SGLT2i"
           },
           "comparatorCohort": {
-            "id": 0,
-            "name": "T2D Medications"
+            "id": 2,
+            "name": "T2D patients on DPP4i or Sulfonylurea"
           },
           "outcomeCohort": [
             {
-              "id": 0,
+              "id": 3,
               "name": "NAION"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": 0,
-          "name": "Negative Control"
+          "name": "None"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -2877,7 +2876,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Main study period",
               "studyStartDate": "20171201",
               "studyEndDate": "20231231"
             }
@@ -2893,7 +2892,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment risk window",
               "minDaysAtRisk": 1,
               "riskWindowStart": 0,
               "startAnchor": "cohort start",
@@ -2905,7 +2904,7 @@
         },
         "psSettings": [
           {
-            "description": "1:1 Matching",
+            "description": "1:1 propensity score matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -2936,7 +2935,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Cox PH",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -2961,7 +2960,7 @@
     {
       "name": "StrokeRisk",
       "fileName": "strokerisk.json",
-      "createdAt": "2026-05-29T15:28:29.449Z",
+      "createdAt": "2026-06-08T06:07:48.958Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3143,7 +3142,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "20010101",
               "studyEndDate": "20171231"
             }
@@ -3151,7 +3150,7 @@
           "firstExposureOnly": false,
           "removeDuplicateSubjects": "keep all",
           "restrictToCommonPeriod": false,
-          "washoutPeriod": 0,
+          "washoutPeriod": 365,
           "maxCohortSize": 0
         },
         "createStudyPopArgs": {
@@ -3159,7 +3158,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "On-treatment",
+              "description": "On-treatment time at risk",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3171,7 +3170,7 @@
         },
         "psSettings": [
           {
-            "description": "Adapted PS strategy",
+            "description": "1:10 variable ratio matching with caliper",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 10,
@@ -3202,7 +3201,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -3227,7 +3226,7 @@
     {
       "name": "TicagrelorClopidogrel",
       "fileName": "ticagrelorclopidogrel.json",
-      "createdAt": "2026-05-29T15:28:32.300Z",
+      "createdAt": "2026-06-08T06:07:51.993Z",
       "metrics": {
         "jaccard": 0.6,
         "recall": 0.75,
@@ -3412,7 +3411,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "20111101",
               "studyEndDate": "20190331"
             }
@@ -3428,7 +3427,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "primary",
+              "description": "Primary analysis time at risk",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3440,7 +3439,7 @@
         },
         "psSettings": [
           {
-            "description": "primary",
+            "description": "One-to-one greedy matching",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -3471,7 +3470,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox proportional hazard regression",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -3496,7 +3495,7 @@
     {
       "name": "TramadolCodein",
       "fileName": "tramadolcodein.json",
-      "createdAt": "2026-05-29T15:28:35.193Z",
+      "createdAt": "2026-06-08T06:08:01.246Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3652,27 +3651,27 @@
         "name": "Population-level estimation study",
         "cohortDefinitions": {
           "targetCohort": {
-            "id": 0,
+            "id": 1,
             "name": "Target Cohort"
           },
           "comparatorCohort": {
-            "id": 0,
+            "id": 2,
             "name": "Comparator Cohort"
           },
           "outcomeCohort": [
             {
-              "id": 0,
+              "id": 3,
               "name": "O1"
             },
             {
-              "id": 0,
+              "id": 4,
               "name": "O2"
             }
           ]
         },
         "negativeControlConceptSet": {
           "id": 0,
-          "name": "Negative Control Concept Set"
+          "name": "None"
         },
         "covariateSelection": {
           "conceptsToInclude": [],
@@ -3681,7 +3680,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Primary study period",
               "studyStartDate": "",
               "studyEndDate": ""
             }
@@ -3709,7 +3708,7 @@
         },
         "psSettings": [
           {
-            "description": "Primary PS matching",
+            "description": "1:1 matching on PS",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 1,
@@ -3740,7 +3739,7 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "Primary Cox model",
+              "description": "Cox proportional hazards model",
               "modelType": "cox",
               "useCovariates": false
             }
@@ -3765,7 +3764,7 @@
     {
       "name": "UveitisSafety",
       "fileName": "uveitissafety.json",
-      "createdAt": "2026-05-29T15:28:38.135Z",
+      "createdAt": "2026-06-08T06:08:06.882Z",
       "metrics": {
         "jaccard": 1,
         "recall": 1,
@@ -3918,7 +3917,7 @@
         }
       },
       "predJson": {
-        "name": "Remicade NIU Study",
+        "name": "Population-level estimation study",
         "cohortDefinitions": {
           "targetCohort": {
             "id": 0,
@@ -3946,7 +3945,7 @@
         "getDbCohortMethodDataArgs": {
           "studyPeriods": [
             {
-              "description": "primary",
+              "description": "Default study period",
               "studyStartDate": "",
               "studyEndDate": ""
             }
@@ -3962,7 +3961,7 @@
           "priorOutcomeLookback": 99999,
           "timeAtRisks": [
             {
-              "description": "on-treatment",
+              "description": "On-treatment TAR",
               "minDaysAtRisk": 1,
               "riskWindowStart": 1,
               "startAnchor": "cohort start",
@@ -3974,7 +3973,7 @@
         },
         "psSettings": [
           {
-            "description": "primary",
+            "description": "Primary PS adjustment strategy",
             "trimByPsArgs": null,
             "matchOnPsArgs": {
               "maxRatio": 10,
@@ -4005,14 +4004,25 @@
         "fitOutcomeModelArgs": {
           "outcomeModels": [
             {
-              "description": "primary",
+              "description": "Cox PH regression",
               "modelType": "cox",
               "useCovariates": false
             }
           ],
           "stratified": true,
-          "prior": null,
-          "control": null
+          "prior": {
+            "priorType": "laplace",
+            "useCrossValidation": true
+          },
+          "control": {
+            "tolerance": 2e-7,
+            "cvType": "auto",
+            "fold": 10,
+            "cvRepetitions": 10,
+            "noiseLevel": "quiet",
+            "resetCoefficients": true,
+            "startingVariance": 0.01
+          }
         }
       }
     }

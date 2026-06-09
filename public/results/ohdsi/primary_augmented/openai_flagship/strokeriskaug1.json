@@ -1,7 +1,7 @@
 {
   "name": "StrokeRiskAug1",
   "fileName": "strokeriskaug1.json",
-  "createdAt": "2026-05-29T15:48:00.469Z",
+  "createdAt": "2026-06-08T06:12:53.040Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "Population-level estimation study",
+    "name": "Study Name",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -177,13 +177,23 @@
       "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Recent diagnosis of dementia"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Included data available from January 1, 2005 through December 31, 2015",
           "studyStartDate": "20050101",
           "studyEndDate": "20151231"
         }
@@ -199,7 +209,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat time at risk starting the day after cohort entry until outcome, end of insurance enrollment, or end of study",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -211,7 +221,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 PS matching with standardized logit caliper",
+        "description": "Adapted propensity score strategy with 1:1 matching using a caliper of 0.2 standard deviations of the logit of the propensity score",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,7 +252,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Poisson regression",
+          "description": "Poisson regression model estimating relative risk during the time at risk",
           "modelType": "poisson",
           "useCovariates": false
         }

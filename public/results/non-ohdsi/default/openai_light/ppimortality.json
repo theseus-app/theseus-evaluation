@@ -1,40 +1,40 @@
 {
   "name": "PPIMortality",
   "fileName": "ppimortality.json",
-  "createdAt": "2026-05-29T15:31:44.304Z",
+  "createdAt": "2026-06-08T05:21:57.213Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.8,
-    "precision": 0.8
+    "jaccard": 0.5,
+    "recall": 0.6,
+    "precision": 0.75
   },
   "counts": {
     "gold": 5,
-    "pred": 5,
-    "intersection": 4,
+    "pred": 4,
+    "intersection": 3,
     "union": 6,
-    "both": 4,
+    "both": 3,
     "predOnly": 1,
-    "goldOnly": 1
+    "goldOnly": 2
   },
   "details": {
     "bothJson": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
-      "outcomeModels:{modelType=logistic|useCovariates=false}",
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
       "studyPeriods:{studyEndDate=20040630|studyStartDate=20020701}"
     ],
     "goldJsonOnly": [
-      "studyPeriods:{studyEndDate=20140630|studyStartDate=20020701}"
+      "studyPeriods:{studyEndDate=20140630|studyStartDate=20020701}",
+      "outcomeModels:{modelType=logistic|useCovariates=false}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": false,
     "timeAtRisks": true,
     "propensityScoreAdjustment": true,
-    "outcomeModels": true
+    "outcomeModels": false
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -65,13 +65,13 @@
       "accuracy": 1
     },
     "outcomeModels": {
-      "bothCount": 2,
+      "bothCount": 1,
       "predOnlyCount": 0,
-      "goldOnlyCount": 0,
+      "goldOnlyCount": 1,
       "precision": 1,
-      "recall": 1,
-      "f1": 1,
-      "accuracy": 1
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.5
     }
   },
   "goldJson": {
@@ -160,22 +160,17 @@
     }
   },
   "predJson": {
-    "name": "PPI new-user acid suppression study",
+    "name": "New use of PPIs and causes of death among new users of acid suppression drugs",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "new users of proton pump inhibitors (PPIs)"
+        "name": "New users of PPIs"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "new users of acid suppression drugs"
+        "name": "New users of acid suppression drugs"
       },
-      "outcomeCohort": [
-        {
-          "id": null,
-          "name": "causes of death"
-        }
-      ]
+      "outcomeCohort": []
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -188,12 +183,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "New users of acid suppression drugs between 1 July 2002 and 30 June 2004",
           "studyStartDate": "20020701",
           "studyEndDate": "20040630"
         }
       ],
-      "firstExposureOnly": false,
+      "firstExposureOnly": true,
       "removeDuplicateSubjects": "keep all",
       "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
@@ -204,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Intention to treat design for new use of acid suppressant drugs",
           "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
@@ -216,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Inverse treatment probability weighting",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -243,12 +238,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
-          "modelType": "logistic",
-          "useCovariates": false
-        },
-        {
-          "description": "Outcome Model 2",
+          "description": "Inverse treatment probability weighted cause specific Cox survival analyses",
           "modelType": "cox",
           "useCovariates": false
         }

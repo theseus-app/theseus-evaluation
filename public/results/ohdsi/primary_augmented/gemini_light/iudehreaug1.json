@@ -1,7 +1,7 @@
 {
   "name": "IUDEHREAug1",
   "fileName": "iudehreaug1.json",
-  "createdAt": "2026-05-29T15:29:18.713Z",
+  "createdAt": "2026-06-08T06:09:10.452Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -155,26 +155,26 @@
     }
   },
   "predJson": {
-    "name": "IUD Placement Study",
+    "name": "Population-level estimation study of IUD placements and cervical neoplasms",
     "cohortDefinitions": {
       "targetCohort": {
-        "id": 0,
+        "id": 1,
         "name": "Cu IUD"
       },
       "comparatorCohort": {
-        "id": 0,
+        "id": 2,
         "name": "LNG-IUS"
       },
       "outcomeCohort": [
         {
-          "id": 0,
+          "id": 3,
           "name": "cervical neoplasms"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": 0,
-      "name": "Negative Control"
+      "name": "None"
     },
     "covariateSelection": {
       "conceptsToInclude": [],
@@ -183,7 +183,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Study window for IUD placements",
           "studyStartDate": "20050101",
           "studyEndDate": "20181231"
         }
@@ -199,7 +199,7 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "30 days after IUD placement until removal",
           "minDaysAtRisk": 1,
           "riskWindowStart": 30,
           "startAnchor": "cohort start",
@@ -211,10 +211,10 @@
     },
     "psSettings": [
       {
-        "description": "PS 1",
+        "description": "Propensity score matching with variable-ratio matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
-          "maxRatio": 0,
+          "maxRatio": 100,
           "caliper": 0.2,
           "caliperScale": "standardized logit"
         },
@@ -242,7 +242,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Poisson regression for cervical neoplasms",
           "modelType": "poisson",
           "useCovariates": false
         }

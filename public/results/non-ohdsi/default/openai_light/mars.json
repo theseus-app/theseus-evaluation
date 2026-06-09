@@ -1,7 +1,7 @@
 {
   "name": "MARS",
   "fileName": "mars.json",
-  "createdAt": "2026-05-29T15:31:40.658Z",
+  "createdAt": "2026-06-08T05:21:53.178Z",
   "metrics": {
     "jaccard": 0.6666666666666666,
     "recall": 0.8,
@@ -24,7 +24,7 @@
       "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
     "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=1|startAnchor=cohort end}"
     ],
     "goldJsonOnly": [
       "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=90|riskWindowStart=3|startAnchor=cohort start}"
@@ -166,17 +166,22 @@
     }
   },
   "predJson": {
-    "name": "Prospective cohort study in Dutch adult ICUs (2011-2013)",
+    "name": "Prospective cohort study in Dutch tertiary academic adult ICUs (2011-2013)",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Target cohort"
+        "name": ""
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator cohort"
+        "name": ""
       },
-      "outcomeCohort": []
+      "outcomeCohort": [
+        {
+          "id": null,
+          "name": ""
+        }
+      ]
     },
     "negativeControlConceptSet": {
       "id": null,
@@ -189,7 +194,7 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Prospective cohort study in two tertiary academic center adult ICUs in the Netherlands",
           "studyStartDate": "20110101",
           "studyEndDate": "20131231"
         }
@@ -205,10 +210,10 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Follow-up starts after 72-h exposure period and ends 90 days after ICU admission",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
-          "startAnchor": "cohort start",
+          "riskWindowStart": 0,
+          "startAnchor": "cohort end",
           "riskWindowEnd": 90,
           "endAnchor": "cohort start"
         }
@@ -217,7 +222,7 @@
     },
     "psSettings": [
       {
-        "description": "PS matching",
+        "description": "PS matching with greedy 1:1 matching and caliper width 0.2 SD of PS logit",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -228,7 +233,7 @@
         "inversePtWeighting": false
       },
       {
-        "description": "IPTW",
+        "description": "IPTW with truncation of weights above 10",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -255,7 +260,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "primary",
+          "description": "Cox model with robust variance estimator for matched pairs",
           "modelType": "cox",
           "useCovariates": false
         }

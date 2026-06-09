@@ -1,38 +1,35 @@
 {
   "name": "IVIronAnaphylaxis",
   "fileName": "ivironanaphylaxis.json",
-  "createdAt": "2026-05-29T15:31:36.941Z",
+  "createdAt": "2026-06-08T05:21:47.964Z",
   "metrics": {
-    "jaccard": 0.6666666666666666,
-    "recall": 0.8,
-    "precision": 0.8
+    "jaccard": 1,
+    "recall": 1,
+    "precision": 1
   },
   "counts": {
     "gold": 5,
     "pred": 5,
-    "intersection": 4,
-    "union": 6,
-    "both": 4,
-    "predOnly": 1,
-    "goldOnly": 1
+    "intersection": 5,
+    "union": 5,
+    "both": 5,
+    "predOnly": 0,
+    "goldOnly": 0
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20130701}",
       "studyPeriods:{studyEndDate=20181231|studyStartDate=20150101}",
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1|riskWindowStart=1|startAnchor=cohort start}",
       "psSettings:{baseSelection=null|caliper=null|caliperScale=null|inversePtWeighting=true|maxRatio=null|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=logistic|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}"
-    ],
-    "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=1|riskWindowStart=1|startAnchor=cohort start}"
-    ]
+    "predJsonOnly": [],
+    "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
-    "timeAtRisks": false,
+    "timeAtRisks": true,
     "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
@@ -47,13 +44,13 @@
       "accuracy": 1
     },
     "timeAtRisks": {
-      "bothCount": 0,
-      "predOnlyCount": 1,
-      "goldOnlyCount": 1,
-      "precision": 0,
-      "recall": 0,
-      "f1": null,
-      "accuracy": 0
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
@@ -160,15 +157,15 @@
     }
   },
   "predJson": {
-    "name": "IV iron formulations and anaphylaxis population-level estimation study",
+    "name": "Anaphylaxis risk after intravenous iron administration",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "Older adults receiving first administration of IV iron"
+        "name": "Older adults receiving ferric carboxymaltose"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Comparator IV iron formulation"
+        "name": "Older adults receiving other IV iron formulations"
       },
       "outcomeCohort": [
         {
@@ -188,12 +185,12 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "Study Period 1",
+          "description": "Primary analysis",
           "studyStartDate": "20130701",
           "studyEndDate": "20181231"
         },
         {
-          "description": "Study Period 2",
+          "description": "Sensitivity analysis restricting to after 2014",
           "studyStartDate": "20150101",
           "studyEndDate": "20181231"
         }
@@ -209,11 +206,11 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1",
+          "description": "Anaphylaxis within 1 day of IV iron administration",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 1,
+          "riskWindowStart": 0,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
+          "riskWindowEnd": 1,
           "endAnchor": "cohort start"
         }
       ],
@@ -221,7 +218,7 @@
     },
     "psSettings": [
       {
-        "description": "PS Settings 1",
+        "description": "Multinomial propensity score–based inverse probability of treatment weighting (IPTW)",
         "trimByPsArgs": null,
         "matchOnPsArgs": null,
         "stratifyByPsArgs": null,
@@ -229,7 +226,7 @@
       }
     ],
     "createPsArgs": {
-      "maxCohortSizeForFitting": 0,
+      "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "prior": {
         "priorType": "laplace",
@@ -248,7 +245,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Outcome Model 1",
+          "description": "IPTW-weighted logistic regression for anaphylaxis",
           "modelType": "logistic",
           "useCovariates": false
         }

@@ -1,7 +1,7 @@
 {
   "name": "DPP4iPulmonaryTB",
   "fileName": "dpp4ipulmonarytb.json",
-  "createdAt": "2026-05-29T15:59:01.485Z",
+  "createdAt": "2026-06-08T06:05:47.519Z",
   "metrics": {
     "jaccard": 1,
     "recall": 1,
@@ -159,31 +159,41 @@
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
-        "name": "DPP-4 inhibitor users"
+        "name": "DPP-4 inhibitor initiators"
       },
       "comparatorCohort": {
         "id": null,
-        "name": "Non-DPP-4 inhibitor users"
+        "name": "Non-DPP-4 inhibitor initiators"
       },
       "outcomeCohort": [
         {
           "id": null,
-          "name": "Pulmonary tuberculosis"
+          "name": "Pulmonary TB"
         }
       ]
     },
     "negativeControlConceptSet": {
       "id": null,
-      "name": ""
+      "name": "Negative Control Concept Set Name"
     },
     "covariateSelection": {
-      "conceptsToInclude": [],
-      "conceptsToExclude": []
+      "conceptsToInclude": [
+        {
+          "id": null,
+          "name": "Baseline characteristics"
+        }
+      ],
+      "conceptsToExclude": [
+        {
+          "id": null,
+          "name": "Concept Name 3"
+        }
+      ]
     },
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "Taiwan NHIRD study period with follow-up through end of study",
           "studyStartDate": "20070101",
           "studyEndDate": "20201231"
         }
@@ -211,7 +221,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 propensity score matching",
+        "description": "1:1 propensity score matching of DPP-4 inhibitor initiators to contemporaneous non-DPP-4 inhibitor initiators",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -242,7 +252,7 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Cox proportional hazards model",
+          "description": "Time-to-event analysis using Cox proportional hazards model",
           "modelType": "cox",
           "useCovariates": false
         }

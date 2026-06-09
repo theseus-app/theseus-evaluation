@@ -1,19 +1,19 @@
 {
   "name": "LEGENDT2DMAug1",
   "fileName": "legendt2dmaug1.json",
-  "createdAt": "2026-05-29T15:32:00.811Z",
+  "createdAt": "2026-06-08T05:23:06.504Z",
   "metrics": {
-    "jaccard": 0.8,
+    "jaccard": 1,
     "recall": 1,
-    "precision": 0.8
+    "precision": 1
   },
   "counts": {
     "gold": 4,
-    "pred": 5,
+    "pred": 4,
     "intersection": 4,
-    "union": 5,
+    "union": 4,
     "both": 4,
-    "predOnly": 1,
+    "predOnly": 0,
     "goldOnly": 0
   },
   "details": {
@@ -23,15 +23,13 @@
       "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=1|numberOfStrata=null|trimByPsArgs=null}",
       "outcomeModels:{modelType=poisson|useCovariates=false}"
     ],
-    "predJsonOnly": [
-      "psSettings:{baseSelection=all|caliper=null|caliperScale=null|inversePtWeighting=false|maxRatio=null|numberOfStrata=5|trimByPsArgs=null}"
-    ],
+    "predJsonOnly": [],
     "goldJsonOnly": []
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": true,
-    "propensityScoreAdjustment": false,
+    "propensityScoreAdjustment": true,
     "outcomeModels": true
   },
   "sectionCounts": {
@@ -55,12 +53,12 @@
     },
     "propensityScoreAdjustment": {
       "bothCount": 1,
-      "predOnlyCount": 1,
+      "predOnlyCount": 0,
       "goldOnlyCount": 0,
-      "precision": 0.5,
+      "precision": 1,
       "recall": 1,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 1,
+      "accuracy": 1
     },
     "outcomeModels": {
       "bothCount": 1,
@@ -157,7 +155,7 @@
     }
   },
   "predJson": {
-    "name": "LEGEND-T2DM Population-Level Estimation Study",
+    "name": "LEGEND-T2DM Study",
     "cohortDefinitions": {
       "targetCohort": {
         "id": null,
@@ -185,14 +183,14 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
-          "description": "primary",
+          "description": "LEGEND-T2DM study period",
           "studyStartDate": "20000101",
           "studyEndDate": "20201231"
         }
       ],
-      "firstExposureOnly": true,
+      "firstExposureOnly": false,
       "removeDuplicateSubjects": "keep all",
-      "restrictToCommonPeriod": true,
+      "restrictToCommonPeriod": false,
       "washoutPeriod": 365,
       "maxCohortSize": 0
     },
@@ -201,9 +199,9 @@
       "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "intention-to-treat",
+          "description": "Intention-to-treat: 1 year after treatment initiation",
           "minDaysAtRisk": 1,
-          "riskWindowStart": 0,
+          "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 365,
           "endAnchor": "cohort start"
@@ -213,7 +211,7 @@
     },
     "psSettings": [
       {
-        "description": "1:1 matching",
+        "description": "1:1 propensity score matching",
         "trimByPsArgs": null,
         "matchOnPsArgs": {
           "maxRatio": 1,
@@ -221,16 +219,6 @@
           "caliperScale": "standardized logit"
         },
         "stratifyByPsArgs": null,
-        "inversePtWeighting": false
-      },
-      {
-        "description": "PS stratification",
-        "trimByPsArgs": null,
-        "matchOnPsArgs": null,
-        "stratifyByPsArgs": {
-          "numberOfStrata": 5,
-          "baseSelection": "all"
-        },
         "inversePtWeighting": false
       }
     ],
@@ -254,17 +242,12 @@
     "fitOutcomeModelArgs": {
       "outcomeModels": [
         {
-          "description": "Poisson regression with PS stratification",
-          "modelType": "poisson",
-          "useCovariates": false
-        },
-        {
-          "description": "Poisson regression with PS matching",
+          "description": "Poisson regression model conditional on PS matching",
           "modelType": "poisson",
           "useCovariates": false
         }
       ],
-      "stratified": true,
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true
