@@ -40,63 +40,76 @@ const canonicalizeObject = (field: string, obj: Record<string, unknown>): string
   return `${field}:{${body}}`;
 };
 
-// 시작·종료일이 모두 빈 studyPeriod 는 "기간 제한 없음"으로, 빈 배열([]) 과 동치.
-// 골드 [{빈 객체}] 와 예측 [] 가 카디널리티(1 vs 0)로 어긋나 오답 처리되던 것을 정정한다.
-const isEmptyStudyPeriod = (sp: {
-  studyStartDate?: string | null;
-  studyEndDate?: string | null;
-}) => !sp?.studyStartDate && !sp?.studyEndDate;
-
 // 1-depth facts로 변환 (완전일치 규칙 반영)
 export const toFacts = (flat: Flat): Set<string> => {
   const facts = new Set<string>();
 
   // 평가 대상 = 4개 섹션만: studyPeriods / timeAtRisks / psSettings / outcomeModels.
   // 스칼라(washoutPeriod 등) · createPsArgs · description 은 평가에서 제외.
-  // 배열 항목: 완전일치 항목으로 비교
-  for (const sp of flat.studyPeriods ?? []) {
-    if (isEmptyStudyPeriod(sp)) continue; // 빈 기간 = 기간 없음 → fact 생성 안 함
-    facts.add(
-      canonicalizeObject("studyPeriods", {
-        studyStartDate: sp.studyStartDate,
-        studyEndDate: sp.studyEndDate,
-      })
-    );
+  // 배열 항목: 완전일치 항목으로 비교.
+  // 빈 배열([])도 채점에 포함: 비어있으면 sentinel fact를 emit한다.
+  //  gold 빈 + pred 빈     → sentinel끼리 매칭 → TP (정답)
+  //  gold 빈 + pred 값있음 → gold sentinel은 FN, pred 값은 FP (오답)
+  const EMPTY = (field: string) => canonicalizeObject(field, { __empty__: true });
+
+  if ((flat.studyPeriods ?? []).length === 0) {
+    facts.add(EMPTY("studyPeriods"));
+  } else {
+    for (const sp of flat.studyPeriods ?? []) {
+      facts.add(
+        canonicalizeObject("studyPeriods", {
+          studyStartDate: sp.studyStartDate,
+          studyEndDate: sp.studyEndDate,
+        })
+      );
+    }
   }
 
-  for (const t of flat.timeAtRisks ?? []) {
-    facts.add(
-      canonicalizeObject("timeAtRisks", {
-        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
-        startAnchor: t.startAnchor,
-        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
-        endAnchor: t.endAnchor,
-      })
-    );
+  if ((flat.timeAtRisks ?? []).length === 0) {
+    facts.add(EMPTY("timeAtRisks"));
+  } else {
+    for (const t of flat.timeAtRisks ?? []) {
+      facts.add(
+        canonicalizeObject("timeAtRisks", {
+          riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
+          startAnchor: t.startAnchor,
+          riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+          endAnchor: t.endAnchor,
+        })
+      );
+    }
   }
 
-  for (const p of flat.psSettings ?? []) {
-    facts.add(
-      canonicalizeObject("psSettings", {
-        maxRatio: normalizeMaxRatio(p.maxRatio),
-        caliper: p.caliper,
-        caliperScale: p.caliperScale,
-        numberOfStrata: p.numberOfStrata,
-        baseSelection: p.baseSelection,
-        trimByPsArgs: p.trimByPsArgs ?? null,
-        inversePtWeighting: p.inversePtWeighting,
-      })
-    );
+  if ((flat.psSettings ?? []).length === 0) {
+    facts.add(EMPTY("psSettings"));
+  } else {
+    for (const p of flat.psSettings ?? []) {
+      facts.add(
+        canonicalizeObject("psSettings", {
+          maxRatio: normalizeMaxRatio(p.maxRatio),
+          caliper: p.caliper,
+          caliperScale: p.caliperScale,
+          numberOfStrata: p.numberOfStrata,
+          baseSelection: p.baseSelection,
+          trimByPsArgs: p.trimByPsArgs ?? null,
+          inversePtWeighting: p.inversePtWeighting,
+        })
+      );
+    }
   }
 
   // outcomeModels[] — per-item modelType/useCovariates (C5)
-  for (const om of flat.outcomeModels ?? []) {
-    facts.add(
-      canonicalizeObject("outcomeModels", {
-        modelType: om.modelType,
-        useCovariates: om.useCovariates,
-      })
-    );
+  if ((flat.outcomeModels ?? []).length === 0) {
+    facts.add(EMPTY("outcomeModels"));
+  } else {
+    for (const om of flat.outcomeModels ?? []) {
+      facts.add(
+        canonicalizeObject("outcomeModels", {
+          modelType: om.modelType,
+          useCovariates: om.useCovariates,
+        })
+      );
+    }
   }
 
   return facts;
@@ -133,14 +146,12 @@ const setEq = (A: Set<string>, B: Set<string>) =>
 
 const canonStudyPeriods = (arr: Flat["studyPeriods"]) =>
   new Set(
-    (arr ?? [])
-      .filter((sp) => !isEmptyStudyPeriod(sp)) // 빈 기간 제거 → [{빈 객체}] ≡ []
-      .map((sp) =>
-        canonicalizeObject("studyPeriods", {
-          studyStartDate: sp.studyStartDate,
-          studyEndDate: sp.studyEndDate,
-        })
-      )
+    (arr ?? []).map((sp) =>
+      canonicalizeObject("studyPeriods", {
+        studyStartDate: sp.studyStartDate,
+        studyEndDate: sp.studyEndDate,
+      })
+    )
   );
 
 const canonTimeAtRisks = (arr: Flat["timeAtRisks"]) =>
@@ -252,41 +263,34 @@ export const evaluateFlat = (A: Flat, Braw: Flat, caseName?: string) => {
 
   // --- 섹션별 정확도 및 메트릭 계산 ---
 
-  // studyPeriods
-  const spSpecified = (A.studyPeriods?.length ?? 0) > 0;
-  const spCounts = spSpecified
-    ? diffMetrics(A.studyPeriods, B.studyPeriods, (arr) => canonStudyPeriods(arr))
-    : null;
-  const spAcc: boolean | null = spSpecified
-    ? setEq(canonStudyPeriods(A.studyPeriods), canonStudyPeriods(B.studyPeriods))
-    : null;
+  // studyPeriods — gold가 비어있어도(null/[]) 항상 채점.
+  // gold 빈 + pred 빈 → 정답(true), gold 빈 + pred가 기간 생성 → 오답(false)
+  const spCounts = diffMetrics(A.studyPeriods, B.studyPeriods, (arr) => canonStudyPeriods(arr));
+  const spAcc: boolean | null = setEq(
+    canonStudyPeriods(A.studyPeriods),
+    canonStudyPeriods(B.studyPeriods)
+  );
 
-  // timeAtRisks
-  const tarSpecified = (A.timeAtRisks?.length ?? 0) > 0;
-  const tarCounts = tarSpecified
-    ? diffMetrics(A.timeAtRisks, B.timeAtRisks, (arr) => canonTimeAtRisks(arr))
-    : null;
-  const tarAcc: boolean | null = tarSpecified
-    ? setEq(canonTimeAtRisks(A.timeAtRisks), canonTimeAtRisks(B.timeAtRisks))
-    : null;
+  // timeAtRisks — 빈 항목([])도 항상 채점 (studyPeriods와 동일 규칙)
+  const tarCounts = diffMetrics(A.timeAtRisks, B.timeAtRisks, (arr) => canonTimeAtRisks(arr));
+  const tarAcc: boolean | null = setEq(
+    canonTimeAtRisks(A.timeAtRisks),
+    canonTimeAtRisks(B.timeAtRisks)
+  );
 
-  // propensityScoreAdjustment — psSettings 만 (createPsArgs 제외)
-  const psSpecified = (A.psSettings?.length ?? 0) > 0;
-  const psaAcc: boolean | null = psSpecified
-    ? setEq(canonPsSettings(A.psSettings), canonPsSettings(B.psSettings))
-    : null;
-  const psaCounts = psSpecified
-    ? diffMetrics(A.psSettings, B.psSettings, (arr) => canonPsSettings(arr))
-    : null;
+  // propensityScoreAdjustment — psSettings 만 (createPsArgs 제외) — 빈 항목도 항상 채점
+  const psaAcc: boolean | null = setEq(
+    canonPsSettings(A.psSettings),
+    canonPsSettings(B.psSettings)
+  );
+  const psaCounts = diffMetrics(A.psSettings, B.psSettings, (arr) => canonPsSettings(arr));
 
-  // outcomeModels[] (C5)
-  const omSpecified = isSpecifiedOutcomeModels(A);
-  const omCounts = omSpecified
-    ? diffMetrics(A.outcomeModels, B.outcomeModels, (arr) => canonOutcomeModels(arr))
-    : null;
-  const omAcc: boolean | null = omSpecified
-    ? setEq(canonOutcomeModels(A.outcomeModels), canonOutcomeModels(B.outcomeModels))
-    : null;
+  // outcomeModels[] (C5) — 빈 항목도 항상 채점
+  const omCounts = diffMetrics(A.outcomeModels, B.outcomeModels, (arr) => canonOutcomeModels(arr));
+  const omAcc: boolean | null = setEq(
+    canonOutcomeModels(A.outcomeModels),
+    canonOutcomeModels(B.outcomeModels)
+  );
 
   // --- 결과 리턴 ---
   return {

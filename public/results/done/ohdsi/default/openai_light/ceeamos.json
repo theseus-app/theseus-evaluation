@@ -1,36 +1,40 @@
 {
   "name": "CEEAMOS",
   "fileName": "ceeamos.json",
-  "createdAt": "2026-01-27T13:18:08.280Z",
+  "createdAt": "2026-06-09T18:38:00.824Z",
   "metrics": {
-    "jaccard": 0.75,
-    "recall": 0.75,
-    "precision": 1
+    "jaccard": 0.6666666666666666,
+    "recall": 0.8,
+    "precision": 0.8
   },
   "counts": {
-    "gold": 4,
-    "pred": 3,
-    "intersection": 3,
-    "union": 4,
-    "both": 3,
-    "predOnly": 0,
+    "gold": 5,
+    "pred": 5,
+    "intersection": 4,
+    "union": 6,
+    "both": 4,
+    "predOnly": 1,
     "goldOnly": 1
   },
   "details": {
     "bothJson": [
       "studyPeriods:{studyEndDate=null|studyStartDate=null}",
-      "timeAtRisks:{endAnchor=cohort end|minDaysAtRisk=1|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
-      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|maxRatio=10|numberOfStrata=null}"
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=0|riskWindowStart=1|startAnchor=cohort start}",
+      "psSettings:{baseSelection=null|caliper=0.2|caliperScale=standardized logit|inversePtWeighting=false|maxRatio=10|numberOfStrata=null|trimByPsArgs=null}",
+      "outcomeModels:{modelType=cox|useCovariates=false}"
     ],
-    "predJsonOnly": [],
+    "predJsonOnly": [
+      "timeAtRisks:{endAnchor=cohort end|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+    ],
     "goldJsonOnly": [
-      "timeAtRisks:{endAnchor=cohort start|minDaysAtRisk=1|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
+      "timeAtRisks:{endAnchor=cohort start|riskWindowEnd=99999|riskWindowStart=1|startAnchor=cohort start}"
     ]
   },
   "sectionAccuracy": {
     "studyPeriods": true,
     "timeAtRisks": false,
-    "propensityScoreAdjustment": true
+    "propensityScoreAdjustment": true,
+    "outcomeModels": true
   },
   "sectionCounts": {
     "studyPeriods": {
@@ -44,14 +48,23 @@
     },
     "timeAtRisks": {
       "bothCount": 1,
-      "predOnlyCount": 0,
+      "predOnlyCount": 1,
       "goldOnlyCount": 1,
-      "precision": 1,
+      "precision": 0.5,
       "recall": 0.5,
-      "f1": 0.6666666666666666,
-      "accuracy": 0.5
+      "f1": 0.5,
+      "accuracy": 0.3333333333333333
     },
     "propensityScoreAdjustment": {
+      "bothCount": 1,
+      "predOnlyCount": 0,
+      "goldOnlyCount": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "accuracy": 1
+    },
+    "outcomeModels": {
       "bothCount": 1,
       "predOnlyCount": 0,
       "goldOnlyCount": 0,
@@ -65,71 +78,79 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
+          "description": "",
           "studyStartDate": "",
           "studyEndDate": ""
         }
       ],
-      "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 0,
-      "removeDuplicateSubjects": "keep first",
+      "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
+          "description": "",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
+          "endAnchor": "cohort end"
         },
         {
+          "description": "",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 99999,
-          "endAnchor": "cohort start",
-          "minDaysAtRisk": 1
-        }
-      ]
-    },
-    "propensityScoreAdjustment": {
-      "psSettings": [
-        {
-          "matchOnPsArgs": {
-            "maxRatio": 10,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
+          "endAnchor": "cohort start"
         }
       ],
-      "createPsArgs": {
-        "maxCohortSizeForFitting": 250000,
-        "errorOnHighCorrelation": true,
-        "prior": {
-          "priorType": "laplace",
-          "useCrossValidation": true
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 10,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
-        "control": {
-          "tolerance": 2e-7,
-          "cvType": "auto",
-          "fold": 10,
-          "cvRepetitions": 10,
-          "noiseLevel": "silent",
-          "resetCoefficients": true,
-          "startingVariance": 0.01
-        }
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
       }
     },
     "fitOutcomeModelArgs": {
-      "modelType": "cox",
-      "stratified": true,
-      "useCovariates": false,
-      "inversePtWeighting": false,
+      "outcomeModels": [
+        {
+          "description": "",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": false,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true
@@ -184,74 +205,79 @@
     "getDbCohortMethodDataArgs": {
       "studyPeriods": [
         {
+          "description": "",
           "studyStartDate": "",
           "studyEndDate": ""
         }
       ],
-      "restrictToCommonPeriod": false,
       "firstExposureOnly": false,
-      "washoutPeriod": 0,
       "removeDuplicateSubjects": "keep all",
+      "restrictToCommonPeriod": false,
+      "washoutPeriod": 365,
       "maxCohortSize": 0
     },
     "createStudyPopArgs": {
-      "censorAtNewRiskWindow": false,
       "removeSubjectsWithPriorOutcome": true,
-      "priorOutcomeLookBack": 99999,
+      "priorOutcomeLookback": 99999,
       "timeAtRisks": [
         {
-          "description": "TAR 1: As-treated (AT)",
+          "description": "TAR 1: as-treated",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
           "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
+          "endAnchor": "cohort end"
         },
         {
-          "description": "TAR 2: Intention-to-treat (ITT)",
+          "description": "TAR 2: intention-to-treat",
+          "minDaysAtRisk": 1,
           "riskWindowStart": 1,
           "startAnchor": "cohort start",
-          "riskWindowEnd": 0,
-          "endAnchor": "cohort end",
-          "minDaysAtRisk": 1
-        }
-      ]
-    },
-    "propensityScoreAdjustment": {
-      "psSettings": [
-        {
-          "description": "PS 1: Variable-ratio matching (max ratio 10, caliper 0.2)",
-          "matchOnPsArgs": {
-            "maxRatio": 10,
-            "caliper": 0.2,
-            "caliperScale": "standardized logit"
-          },
-          "stratifyByPsArgs": null
+          "riskWindowEnd": 99999,
+          "endAnchor": "cohort end"
         }
       ],
-      "createPsArgs": {
-        "maxCohortSizeForFitting": 250000,
-        "errorOnHighCorrelation": true,
-        "prior": {
-          "priorType": "laplace",
-          "useCrossValidation": true
+      "censorAtNewRiskWindow": false
+    },
+    "psSettings": [
+      {
+        "description": "PS Settings 1: variable-ratio PS matching",
+        "trimByPsArgs": null,
+        "matchOnPsArgs": {
+          "maxRatio": 10,
+          "caliper": 0.2,
+          "caliperScale": "standardized logit"
         },
-        "control": {
-          "tolerance": 2e-7,
-          "cvType": "auto",
-          "fold": 10,
-          "cvRepetitions": 10,
-          "noiseLevel": "silent",
-          "resetCoefficients": true,
-          "startingVariance": 0.01
-        }
+        "stratifyByPsArgs": null,
+        "inversePtWeighting": false
+      }
+    ],
+    "createPsArgs": {
+      "maxCohortSizeForFitting": 250000,
+      "errorOnHighCorrelation": true,
+      "prior": {
+        "priorType": "laplace",
+        "useCrossValidation": true
+      },
+      "control": {
+        "tolerance": 2e-7,
+        "cvType": "auto",
+        "fold": 10,
+        "cvRepetitions": 10,
+        "noiseLevel": "silent",
+        "resetCoefficients": true,
+        "startingVariance": 0.01
       }
     },
     "fitOutcomeModelArgs": {
-      "modelType": "cox",
-      "stratified": false,
-      "useCovariates": false,
-      "inversePtWeighting": false,
+      "outcomeModels": [
+        {
+          "description": "Outcome Model 1: Cox proportional hazard model",
+          "modelType": "cox",
+          "useCovariates": false
+        }
+      ],
+      "stratified": true,
       "prior": {
         "priorType": "laplace",
         "useCrossValidation": true

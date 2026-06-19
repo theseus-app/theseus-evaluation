@@ -40,4 +40,18 @@ t("accept on with caseName", () => {
   assert.equal(evaluateFlat(gold, pred, "DabigatranRivaroxabanAF").sectionAccuracy.timeAtRisks, true);
 });
 
+// studyPeriods: gold가 비어있어도(null/[]) 채점 진행 — 양쪽 다 비면 정답
+t("empty studyPeriods scored: gold [] + pred [] -> true", () => {
+  const gold = flat({ studyPeriods: [] });
+  const pred = flat({ studyPeriods: [] });
+  assert.equal(evaluateFlat(gold, pred).sectionAccuracy.studyPeriods, true);
+});
+
+// gold 비어있는데 pred가 기간을 만들어내면 오답
+t("empty studyPeriods scored: gold [] + pred[period] -> false", () => {
+  const gold = flat({ studyPeriods: [] });
+  const pred = flat({ studyPeriods: [{ description: "", studyStartDate: "20100101", studyEndDate: "20201231" }] });
+  assert.equal(evaluateFlat(gold, pred).sectionAccuracy.studyPeriods, false);
+});
+
 console.log(`\n${n} passed`);

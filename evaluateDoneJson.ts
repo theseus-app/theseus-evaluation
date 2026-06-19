@@ -17,6 +17,7 @@ import {
   flattenStudyPRIMARY,
 } from "./flattenPrimary";
 import { loadFile, ModulePair } from "./loadFile";
+import { applyAcceptToPredFlat, canonEquivalence } from "./acceptableAnswers";
 
 // ===== 네가 원하는 최종 Flatten 타입 =====
 export type FlattenStudyDoneDTO = {
@@ -202,49 +203,70 @@ export const flattenStudyDonePrimary = (
 export const toFactsDone = (flat: FlatDone): Set<string> => {
   const facts = new Set<string>();
 
-  for (const sp of flat.studyPeriods ?? []) {
-    facts.add(
-      canonicalizeObject("studyPeriods", {
-        studyStartDate: sp.studyStartDate,
-        studyEndDate: sp.studyEndDate,
-      }),
-    );
+  // 빈 배열([])도 채점에 포함: 비어있으면 sentinel fact를 emit한다.
+  //  gold 빈 + pred 빈     → sentinel끼리 매칭 → TP (정답)
+  //  gold 빈 + pred 값있음 → gold sentinel은 FN, pred 값은 FP (오답)
+  const EMPTY = (field: string) => canonicalizeObject(field, { __empty__: true });
+
+  if ((flat.studyPeriods ?? []).length === 0) {
+    facts.add(EMPTY("studyPeriods"));
+  } else {
+    for (const sp of flat.studyPeriods ?? []) {
+      facts.add(
+        canonicalizeObject("studyPeriods", {
+          studyStartDate: sp.studyStartDate,
+          studyEndDate: sp.studyEndDate,
+        }),
+      );
+    }
   }
 
-  for (const t of flat.timeAtRisks ?? []) {
-    facts.add(
-      canonicalizeObject("timeAtRisks", {
-        riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
-        startAnchor: t.startAnchor,
-        riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
-        endAnchor: t.endAnchor,
-        minDaysAtRisk: t.minDaysAtRisk,
-      }),
-    );
+  if ((flat.timeAtRisks ?? []).length === 0) {
+    facts.add(EMPTY("timeAtRisks"));
+  } else {
+    for (const t of flat.timeAtRisks ?? []) {
+      facts.add(
+        canonicalizeObject("timeAtRisks", {
+          riskWindowStart: normalizeRiskWindowStart(t.riskWindowStart),
+          startAnchor: t.startAnchor,
+          riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
+          endAnchor: t.endAnchor,
+          // minDaysAtRisk: 채점 제외 (evaluate.ts와 동일 — test "minDaysAtRisk ignored")
+        }),
+      );
+    }
   }
 
-  for (const p of flat.psSettings ?? []) {
-    facts.add(
-      canonicalizeObject("psSettings", {
-        maxRatio: normalizeMaxRatio(p.maxRatio),
-        caliper: p.caliper,
-        caliperScale: p.caliperScale,
-        numberOfStrata: p.numberOfStrata,
-        baseSelection: p.baseSelection,
-        trimByPsArgs: p.trimByPsArgs ?? null,
-        inversePtWeighting: p.inversePtWeighting,
-      }),
-    );
+  if ((flat.psSettings ?? []).length === 0) {
+    facts.add(EMPTY("psSettings"));
+  } else {
+    for (const p of flat.psSettings ?? []) {
+      facts.add(
+        canonicalizeObject("psSettings", {
+          maxRatio: normalizeMaxRatio(p.maxRatio),
+          caliper: p.caliper,
+          caliperScale: p.caliperScale,
+          numberOfStrata: p.numberOfStrata,
+          baseSelection: p.baseSelection,
+          trimByPsArgs: p.trimByPsArgs ?? null,
+          inversePtWeighting: p.inversePtWeighting,
+        }),
+      );
+    }
   }
 
   // outcomeModels[] — per-item modelType/useCovariates (C5)
-  for (const om of flat.outcomeModels ?? []) {
-    facts.add(
-      canonicalizeObject("outcomeModels", {
-        modelType: om.modelType,
-        useCovariates: om.useCovariates,
-      }),
-    );
+  if ((flat.outcomeModels ?? []).length === 0) {
+    facts.add(EMPTY("outcomeModels"));
+  } else {
+    for (const om of flat.outcomeModels ?? []) {
+      facts.add(
+        canonicalizeObject("outcomeModels", {
+          modelType: om.modelType,
+          useCovariates: om.useCovariates,
+        }),
+      );
+    }
   }
 
   return facts;
@@ -263,21 +285,16 @@ const factKey = (f: string): string => {
   return eqIdx === -1 ? f : f.slice(0, eqIdx);
 };
 
-const normalizeRiskWindowEnd = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 9999 ? 99999 : n;
-};
+// acceptableAnswers의 canonEquivalence 단일 소스 사용 (evaluate.ts와 동일).
+//  riskWindowEnd: 99999 ≡ 9999 ≡ 999999  /  riskWindowStart: 0 ≡ 1  /  maxRatio: 0 ≡ 100
+const normalizeRiskWindowEnd = (n: number | null | undefined): number | null =>
+  canonEquivalence("riskWindowEnd", n ?? null) as number | null;
 
-// riskWindowStart: 0과 1을 동치로 취급
-const normalizeRiskWindowStart = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 0 ? 1 : n;
-};
+const normalizeRiskWindowStart = (n: number | null | undefined): number | null =>
+  canonEquivalence("riskWindowStart", n ?? null) as number | null;
 
-const normalizeMaxRatio = (n: number | null | undefined): number | null => {
-  if (n === null || n === undefined) return null;
-  return n === 100 ? 0 : n;
-};
+const normalizeMaxRatio = (n: number | null | undefined): number | null =>
+  canonEquivalence("maxRatio", n ?? null) as number | null;
 
 const setEq = (A: Set<string>, B: Set<string>) =>
   A.size === B.size && [...A].every((x) => B.has(x));
@@ -300,7 +317,7 @@ const canonTimeAtRisks = (arr: FlatDone["timeAtRisks"]) =>
         startAnchor: t.startAnchor,
         riskWindowEnd: normalizeRiskWindowEnd(t.riskWindowEnd),
         endAnchor: t.endAnchor,
-        minDaysAtRisk: t.minDaysAtRisk,
+        // minDaysAtRisk: 채점 제외 (evaluate.ts와 동일)
       }),
     ),
   );
@@ -332,7 +349,13 @@ const canonOutcomeModels = (arr: FlatDone["outcomeModels"]) =>
 
 // ======== 메인 비교 함수 ========
 
-export const evaluateFlatDone = (gold: FlatDone, pred: FlatDone) => {
+export const evaluateFlatDone = (gold: FlatDone, predRaw: FlatDone, caseName?: string) => {
+  // 복수정답 accept: pred를 gold 기준으로 snap (gold는 불변). caseName 없으면 미적용.
+  // accept 레이어는 timeAtRisks(riskWindowStart/End)·studyPeriods(studyEndDate)만 건드리며
+  // 두 flat 타입이 해당 필드를 공유하므로 done flat에 그대로 적용 가능.
+  const pred = caseName
+    ? (applyAcceptToPredFlat(caseName, gold as any, predRaw as any) as unknown as FlatDone)
+    : predRaw;
   const AF = toFactsDone(gold);
   const BF = toFactsDone(pred);
 
@@ -394,41 +417,30 @@ export const evaluateFlatDone = (gold: FlatDone, pred: FlatDone) => {
     };
   };
 
-  // studyPeriods
+  // studyPeriods — gold가 비어있어도(null/[]) 항상 채점.
+  // gold 빈 + pred 빈 → 정답(true), gold 빈 + pred가 기간 생성 → 오답(false)
   const spSetGold = canonStudyPeriods(gold.studyPeriods);
   const spSetPred = canonStudyPeriods(pred.studyPeriods);
-  const spSpecified = spSetGold.size > 0;
-  const spCounts = spSpecified
-    ? diffMetrics(gold.studyPeriods, pred.studyPeriods, (arr) => canonStudyPeriods(arr))
-    : null;
-  const spAcc: boolean | null = spSpecified ? setEq(spSetGold, spSetPred) : null;
+  const spCounts = diffMetrics(gold.studyPeriods, pred.studyPeriods, (arr) => canonStudyPeriods(arr));
+  const spAcc: boolean | null = setEq(spSetGold, spSetPred);
 
-  // timeAtRisks
+  // timeAtRisks — 빈 항목([])도 항상 채점
   const tarSetGold = canonTimeAtRisks(gold.timeAtRisks);
   const tarSetPred = canonTimeAtRisks(pred.timeAtRisks);
-  const tarSpecified = tarSetGold.size > 0;
-  const tarCounts = tarSpecified
-    ? diffMetrics(gold.timeAtRisks, pred.timeAtRisks, (arr) => canonTimeAtRisks(arr))
-    : null;
-  const tarAcc: boolean | null = tarSpecified ? setEq(tarSetGold, tarSetPred) : null;
+  const tarCounts = diffMetrics(gold.timeAtRisks, pred.timeAtRisks, (arr) => canonTimeAtRisks(arr));
+  const tarAcc: boolean | null = setEq(tarSetGold, tarSetPred);
 
-  // propensityScoreAdjustment (psSettings만 비교)
+  // propensityScoreAdjustment (psSettings만 비교) — 빈 항목도 항상 채점
   const psSetGold = canonPsSettings(gold.psSettings);
   const psSetPred = canonPsSettings(pred.psSettings);
-  const psSpecified = psSetGold.size > 0;
-  const psCounts = psSpecified
-    ? diffMetrics(gold.psSettings, pred.psSettings, (arr) => canonPsSettings(arr))
-    : null;
-  const psAcc: boolean | null = psSpecified ? setEq(psSetGold, psSetPred) : null;
+  const psCounts = diffMetrics(gold.psSettings, pred.psSettings, (arr) => canonPsSettings(arr));
+  const psAcc: boolean | null = setEq(psSetGold, psSetPred);
 
-  // outcomeModels (C5)
+  // outcomeModels (C5) — 빈 항목도 항상 채점
   const omSetGold = canonOutcomeModels(gold.outcomeModels);
   const omSetPred = canonOutcomeModels(pred.outcomeModels);
-  const omSpecified = omSetGold.size > 0;
-  const omCounts = omSpecified
-    ? diffMetrics(gold.outcomeModels, pred.outcomeModels, (arr) => canonOutcomeModels(arr))
-    : null;
-  const omAcc: boolean | null = omSpecified ? setEq(omSetGold, omSetPred) : null;
+  const omCounts = diffMetrics(gold.outcomeModels, pred.outcomeModels, (arr) => canonOutcomeModels(arr));
+  const omAcc: boolean | null = setEq(omSetGold, omSetPred);
 
   return {
     jaccard,
@@ -670,7 +682,7 @@ export async function runEvaluateDone(): Promise<{
       const flatPred = isPrimary
         ? flattenStudyDonePrimary(predJson as StudyDTOPRIMARY)
         : flattenStudyDone(predJson as StudyDTO);
-      const evalRes = evaluateFlatDone(flatGold, flatPred);
+      const evalRes = evaluateFlatDone(flatGold, flatPred, raw.name ?? baseName);
 
       const one: DoneCaseResult = {
         name: raw.name ?? baseName,
@@ -754,6 +766,65 @@ export async function runEvaluateDone(): Promise<{
     outcomeModels: sectionCounts("outcomeModels"),
   };
 
+  // ===== 항목(섹션)별 field 단위 집계 (빈배열 sentinel 포함) =====
+  // details(fact)를 섹션 key로 그룹화 → 항목별 gold 개수(goldItems) + TP/FP/FN + precision/sensitivity.
+  // goldItems = TP+FN = 해당 항목의 gold fact 수(빈배열은 sentinel 1개로 계상).
+  const SECTION_FACT_KEYS = ["studyPeriods", "timeAtRisks", "psSettings", "outcomeModels"] as const;
+  const SECTION_LABEL: Record<string, string> = {
+    studyPeriods: "studyPeriods",
+    timeAtRisks: "timeAtRisks",
+    psSettings: "propensityScoreAdjustment",
+    outcomeModels: "outcomeModels",
+  };
+  const sectionFieldAgg = (sectionKey: string) => {
+    let tp = 0;
+    let fp = 0;
+    let fn = 0;
+    for (const c of summary) {
+      for (const f of c.details?.bothJson ?? []) if (factKey(f) === sectionKey) tp++;
+      for (const f of c.details?.predJsonOnly ?? []) if (factKey(f) === sectionKey) fp++;
+      for (const f of c.details?.goldJsonOnly ?? []) if (factKey(f) === sectionKey) fn++;
+    }
+    const goldItems = tp + fn; // 채점 대상 gold 항목 수 (빈배열 sentinel 포함)
+    const predItems = tp + fp;
+    const precision = tp + fp > 0 ? tp / (tp + fp) : null;
+    const sensitivity = tp + fn > 0 ? tp / (tp + fn) : null;
+    const f1 =
+      precision && sensitivity && precision + sensitivity > 0
+        ? (2 * precision * sensitivity) / (precision + sensitivity)
+        : null;
+    return { goldItems, predItems, tp, fp, fn, precision, sensitivity, f1 };
+  };
+  const sectionFieldMetrics: Record<string, ReturnType<typeof sectionFieldAgg>> = {};
+  for (const k of SECTION_FACT_KEYS) sectionFieldMetrics[SECTION_LABEL[k]] = sectionFieldAgg(k);
+
+  console.log(
+    `\n[SECTION FIELD METRICS] ${datasetSegment}/${folderName}/${lowerVendor}_${lowerSize}  (cases=${totalCases})`,
+  );
+  console.log(
+    "  " +
+      "section".padEnd(26) +
+      "goldItems".padStart(10) +
+      "TP".padStart(6) +
+      "FP".padStart(6) +
+      "FN".padStart(6) +
+      "P%".padStart(8) +
+      "S%".padStart(8),
+  );
+  for (const k of SECTION_FACT_KEYS) {
+    const m = sectionFieldMetrics[SECTION_LABEL[k]];
+    console.log(
+      "  " +
+        SECTION_LABEL[k].padEnd(26) +
+        String(m.goldItems).padStart(10) +
+        String(m.tp).padStart(6) +
+        String(m.fp).padStart(6) +
+        String(m.fn).padStart(6) +
+        (m.precision == null ? "n/a" : (m.precision * 100).toFixed(1)).padStart(8) +
+        (m.sensitivity == null ? "n/a" : (m.sensitivity * 100).toFixed(1)).padStart(8),
+    );
+  }
+
   // 전체 field 단위 TP/FP/FN 집계
   let wholeTP = 0;
   let wholeFP = 0;
@@ -794,6 +865,7 @@ export async function runEvaluateDone(): Promise<{
           fieldFPperCase,
         },
         sectionAccuracySummary,
+        sectionFieldMetrics,
         results: summary,
       },
       null,
