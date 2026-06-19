@@ -32,9 +32,9 @@ npx tsx evaluateDoneJson.ts --vendor=<OPENAI|GEMINI|CLAUDE|DEEPSEEK> --size=<FLA
 
 ### Core Pipeline
 1. **loadFile.ts** - Loads gold standard files (TEXT*/JSON* exports) from `public/goldStandard/<type>/`
-2. **text2json.ts / text2jsonPDF.ts / text2jsonPRIMARY.ts** - LLM API wrappers that convert study text to structured JSON
+2. **text2json.ts / text2jsonPDF.ts** - LLM API wrappers that convert study text to structured JSON (all text types DEFAULT/METHOD/PRIMARY/PRIMARY_AUGMENTED route through the unified text2json)
 3. **flatten.ts / flattenPrimary.ts** - Flatten nested StudyDTO objects for comparison
-4. **evaluate.ts / evaluatePrimary.ts** - Compare flattened gold vs predicted JSON, compute Jaccard/precision/recall
+4. **evaluate.ts** - Compare flattened gold vs predicted JSON, compute Jaccard/precision/recall
 5. **batchEvaluate.ts** - Orchestrates the full pipeline across all test cases
 
 ### Data Flow

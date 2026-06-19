@@ -12,7 +12,7 @@ Text2json evaluation runner and results repo.
 
 ## Key paths
 - Gold standard + input: `public/goldStandard` (alt dataset: `public/goldStandardTest`)
-- API wiring: `text2json.ts` (also `text2jsonPDF.ts`, `text2jsonPRIMARY.ts`)
+- API wiring: `text2json.ts` (also `text2jsonPDF.ts`)
 - Results output: `public/results` (test dataset: `public/results/test`, post-processed in `public/results/done` or `public/results/done/test`)
 
 ## Gold standard selection
